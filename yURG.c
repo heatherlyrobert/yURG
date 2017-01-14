@@ -131,6 +131,10 @@ yURG_abbr          (char a_abbr)
       /*---(set)-------------------------*/
       ++x_count;
       *(yURG_info [i].point) = 'y';
+      /*---(check mas)-------------------*/
+      if (yURG_info [i].type  == '#' && a_abbr >= 'A' && a_abbr <= 'Z') {
+         yURG_abbr (tolower (a_abbr));
+      }
    }
    /*---(check)--------------------------*/
    --rce;  if (x_count < 1  )                         return rce;

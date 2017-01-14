@@ -7,8 +7,8 @@
 
 
 /* rapidly evolving version number to aid with visual change confirmation     */
-#define YURG_VER_NUM   "0.2b"
-#define YURG_VER_TXT   "setting by abbreviation working"
+#define YURG_VER_NUM   "0.2c"
+#define YURG_VER_TXT   "added yURG_abbr logic to set normal when setting mas"
 
 
 
