@@ -1,0 +1,58 @@
+.TH yURG 3 2017-jan "linux" "heatherly custom tools manual"
+
+.SH NAME
+yURG \- library for command line urgent/debugging processing
+.SH SYNOPSIS
+.nf
+.B #include  <yURG.h>
+.sp
+.BI "char *yURG_version   (void);"
+.BI "char  yURG_parse     (int   " "a_argc" ", char *" "a_arcv[]" ");"
+.sp
+.B link with -L/usr/local/libs -lyURG or -lyURG_debug
+
+.SH SUMMARY
+yURG is a set of shared c functions to provide standard, flexible, reliable, 
+and detailed traceability in programs.  its purpose is to take a complex
+and foundational capabilty, make it more useful, and allow it to be tested,
+maintained, and documented in one place.
+
+.SH URGENT DEFINITION
+urgents are command line arguments to influence program logging, tracing, and
+debugging and which run parallel to normal ones.  normal command line
+arguments change the programs functioning.  urgents change what is written
+about the programs execution.
+
+.SH FORMAT
+urgents are formatting consistently in order for them to stand out on the
+command line.  urgents will always be prefixed with one or more "at" signs.
+
+.B short form.  
+the short form of an urgent is two characters long.  the first character is an
+"at" sign (@).  the second character is a single unique lower case letter.
+only the universal urgents, used in all programs, have short forms.
+   @a       turns on debugging for command line arguments
+   @u       turns on debugging for user interactions
+   @g       turns on debugging for graphics and drawing
+
+.B long form.  
+the long form of an urgent is five or more characters long.  it starts with
+two "at" signs (@@).  these two are followed by three or more lower case
+letters indicating a unique urgent.
+all urgents have long forms.
+   @@args   turns on debugging for command line arguments
+   @@user   turns on debugging for user interactions
+   @@graf   turns on debugging for graphics and drawing
+
+.B extra output form.  
+both short and long form urgents MAY have an option of a second, more verbose
+level of output in order to better adjust debugging volume.  if this option
+is available, the urgent is simply requested with upper case letters.
+   @A       turns on debugging for command line arguments
+   @U       turns on debugging for user interactions
+   @G       turns on debugging for graphics and drawing
+   @@ARGS   turns on debugging for command line arguments
+   @@USER   turns on debugging for user interactions
+   @@GRAF   turns on debugging for graphics and drawing
+
+

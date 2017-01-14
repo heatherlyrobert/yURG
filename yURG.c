@@ -10,8 +10,9 @@ char        s_digit     [30] = "";
 tYURG_INFO  yURG_info [MAX_URGS] = {
    /* abbr   full--------   desc------------------------------------  type */
    /*---(compound)-----------------------*/
-   {   '-' , "quiet"      , "turn all universals off"               , '-', NULL                  },
+   {   '-' , "quiet"      , "turn absolutely everything off"        , '-', NULL                  },
    {   '-' , "full"       , "turn all universals on"                , '-', NULL                  },
+   {   '-' , "FULL"       , "turn all universals and their mas on"  , '-', NULL                  },
    {   '-' , "kitchen"    , "turn all universals and special on"    , '-', NULL                  },
    {   '-' , "omniscient" , "turn absolutely everything on"         , '-', NULL                  },
    /*---(overall)------------------------*/
@@ -53,11 +54,56 @@ tYURG_INFO  yURG_info [MAX_URGS] = {
    {   'E' , "ENVI"       , "environmental processing"              , '#', &yURG_debug.envi_mas  },
    {   's' , "sort"       , "data sorting and ordering"             , 'u', &yURG_debug.sort      },
    {   'S' , "SORT"       , "data sorting and ordering"             , '#', &yURG_debug.sort_mas  },
-   /*---(specific)-----------------------*/
+   /*---(spreadsheet)--------------------*/
+   {   '-' , "loc"        , "spreadsheet location parsing and use"  , 's', &yURG_debug.loc       },
+   {   '-' , "cell"       , "spreadsheet cell creation and mtce"    , 's', &yURG_debug.cell      },
+   {   '-' , "CELL"       , "spreadsheet cell creation and mtce"    , 'M', &yURG_debug.cell_mas  },
+   /*---(calculations)-------------------*/
+   {   '-' , "rpn"        , "calculation conversion infix to rpn"   , 's', &yURG_debug.rpn       },
+   {   '-' , "RPN"        , "calculation conversion infix to rpn"   , 'M', &yURG_debug.rpn_mas   },
+   {   '-' , "calc"       , "calculation building from rpn"         , 's', &yURG_debug.calc      },
+   {   '-' , "CALC"       , "calculation building from rpn"         , 'M', &yURG_debug.calc_mas  },
+   {   '-' , "exec"       , "calculation execution"                 , 's', &yURG_debug.exec      },
+   {   '-' , "EXEC"       , "calculation execution"                 , 'M', &yURG_debug.exec_mas  },
+   /*---(dependencies)-------------------*/
+   {   '-' , "deps"       , "dependency creation and maintenance"   , 's', &yURG_debug.deps      },
+   {   '-' , "DEPS"       , "dependency creation and maintenance"   , 'M', &yURG_debug.deps_mas  },
+   /*---(visual)-------------------------*/
+   {   '-' , "visu"       , "visual selection of objects"           , 's', &yURG_debug.visu      },
+   {   '-' , "ssel"       , "visual selection of text strings"      , 's', &yURG_debug.ssel      },
+   {   '-' , "mark"       , "location and object marks"             , 's', &yURG_debug.mark      },
+   /*---(registers)----------------------*/
+   {   '-' , "regs"       , "copy and paste registers"              , 's', &yURG_debug.regs      },
+   /*---(libraries)----------------------*/
+   {   '-' , "ystr"       , "heatherly ySTR string library"         , 's', &yURG_debug.ystr      },
+   {   '-' , "YSTR"       , "heatherly ySTR string library"         , 'M', &yURG_debug.ystr_mas  },
+   {   '-' , "ykine"      , "heatherly yKINE kinematics library"    , 's', &yURG_debug.ykine     },
+   {   '-' , "YKINE"      , "heatherly yKINE kinematics library"    , 'M', &yURG_debug.ykine_mas },
    /*---(end-of-list)--------------------*/
    {   '\0', "END-OF-LIST", "end of list"                           , ' ', NULL                  },
 
 };
+
+char         /*--> count number of set urgents -----------[ ------ [ ------ ]-*/
+yURG__count        (void)
+{
+   /*---(locals)-----------+-----------+-*/
+   int         i           = 0;
+   int         c           = 0;
+   /*---(list)---------------------------*/
+   for (i = 0; i < MAX_URGS; ++i) {
+      /*---(stop at end)-----------------*/
+      if (yURG_info [i].abbr     == '\0')     break;
+      /*---(filter)----------------------*/
+      if (yURG_info [i].type     == '-')      continue;
+      if (  yURG_info [i].point  == NULL)     continue;
+      if (*(yURG_info [i].point) != 'y')      continue;
+      /*---(append)----------------------*/
+      ++c;
+   }
+   /*---(complete)-----------------------*/
+   return c;
+}
 
 char         /*--> put lower letters in a string ---------[ ------ [ ------ ]-*/
 yURG__strings      (void)
@@ -75,6 +121,7 @@ yURG__strings      (void)
       if (yURG_info [i].abbr     == '\0')     break;
       /*---(filter)----------------------*/
       if (yURG_info [i].abbr     == '-')      continue;
+      if (yURG_info [i].type     == '-')      continue;
       if (  yURG_info [i].point  == NULL)     continue;
       if (*(yURG_info [i].point) != 'y')      continue;
       /*---(append)----------------------*/
@@ -99,10 +146,10 @@ yURG_list          (void)
       /*---(filter)----------------------*/
       if (yURG_info [i].type  == '-')      continue;
       /*---(show)------------------------*/
-      printf ("%3d %c %-15.15s %-40.40s %10p %c\n", i,
+      printf ("%3d %c %-15.15s %-40.40s %c %10p %c\n", i,
             yURG_info [i].abbr , yURG_info [i].full ,
-            yURG_info [i].desc , yURG_info [i].point,
-            *(yURG_info [i].point));
+            yURG_info [i].desc , yURG_info [i].type ,
+            yURG_info [i].point, *(yURG_info [i].point));
    }
    /*---(complete)-----------------------*/
    return 0;
@@ -115,7 +162,7 @@ yURG_abbr          (char a_abbr)
    char        rce         = -10;
    int         i           = 0;
    int         x_count     = 0;
-   char       *x_valid     = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+   char       *x_valid     = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
    /*---(defense)------------------------*/
    --rce;  if (a_abbr <=  32)                         return rce;
    --rce;  if (strchr (x_valid, a_abbr) == NULL)      return rce;
@@ -134,6 +181,50 @@ yURG_abbr          (char a_abbr)
       /*---(check mas)-------------------*/
       if (yURG_info [i].type  == '#' && a_abbr >= 'A' && a_abbr <= 'Z') {
          yURG_abbr (tolower (a_abbr));
+      }
+   }
+   /*---(check)--------------------------*/
+   --rce;  if (x_count < 1  )                         return rce;
+   --rce;  if (x_count > 1  )                         return rce;
+   /*---(complete)-----------------------*/
+   return 0;
+}
+
+char         /*--> set a single urgent by name -----------[ ------ [ ------ ]-*/
+yURG_name          (char *a_name)
+{
+   /*---(locals)-----------+-----------+-*/
+   char        rce         = -10;
+   int         i           = 0;
+   int         x_len       = 0;
+   int         x_count     = 0;
+   char       *x_valid     = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+   char        x_lower     [LEN_LABEL] = "";
+   /*---(defense)------------------------*/
+   x_len = strllen (a_name, LEN_LABEL);
+   --rce;  if (x_len <  3)                            return rce;
+   --rce;  if (x_len > 15)                            return rce;
+   strlcpy (x_lower, a_name, LEN_LABEL);
+   --rce;  for (i = 0; i < x_len; ++i) {
+      if (strchr (x_valid, a_name [i]) == NULL)       return rce;
+      x_lower [i] = tolower (a_name [i]);
+   }
+   /*---(find)---------------------------*/
+   --rce;
+   for (i = 0; i < MAX_URGS; ++i) {
+      /*---(stop at end)-----------------*/
+      if (yURG_info [i].abbr  == '\0')                break;
+      /*---(filter)----------------------*/
+      if (yURG_info [i].type    == '-')               continue;
+      if (yURG_info [i].full[0] != a_name [0])        continue;
+      if (strcmp (yURG_info [i].full, a_name) != 0)   continue;
+      if (yURG_info [i].point == NULL)                return rce;
+      /*---(set)-------------------------*/
+      ++x_count;
+      *(yURG_info [i].point) = 'y';
+      /*---(check mas)-------------------*/
+      if ((yURG_info [i].type  == '#' || yURG_info [i].type  == 'M') && strcmp (x_lower, a_name) != 0) {
+         yURG_name (x_lower);
       }
    }
    /*---(check)--------------------------*/
@@ -189,24 +280,25 @@ yURG_parse         (int a_argc, char *a_argv[])
    int         x_total     = 0;
    int         x_urgs      = 0;
    int         x_bad       = 0;
+   int         x_good      = 0;
+   /*---(prepare)------------------------*/
+   yURG_mass ('-', 'E');
    /*---(process)------------------------*/
-   DEBUG_TOPS  yLOG_enter (__FUNCTION__);
    for (i = 1; i < a_argc; ++i) {
       a = a_argv[i];
       ++x_total;
       if (a[0] != '@')  continue;
-      DEBUG_ARGS  yLOG_info  ("urgent", a);
       x_len  = strlen (a);
       ++x_urgs;
       rc = 0;
       if      (x_len == 2)  rc = yURG_abbr  (a[1]);
-      /*> else if (x_len >= 5)  rc = yURG_set   (a + 2);                              <*/
+      else if (x_len >= 5)  rc = yURG_name  (a + 2);
       else    ++x_bad;
       if (rc < 0) ++x_bad;
+      else        ++x_good;
    }
    /*---(complete)-----------------------*/
-   DEBUG_TOPS  yLOG_exit  (__FUNCTION__);
-   return 0;
+   return x_good;
 }
 
 
@@ -222,6 +314,7 @@ char          unit_answer [ LEN_TEXT ];
 char*            /* [------] unit test accessor ------------------------------*/
 yURG__unit         (char *a_question, int a_num)
 {
+   int         c           = 0;
    /*---(initialize)---------------------*/
    strlcpy (unit_answer, "yURG_unit, unknown request", 100);
    /*---(string testing)-----------------*/
@@ -234,6 +327,9 @@ yURG__unit         (char *a_question, int a_num)
    } else if (strncmp(a_question, "digit"     , 20)  == 0) {
       yURG__strings ();
       snprintf (unit_answer, LEN_TEXT, "yURG digit       : [%s]", s_digit);
+   } else if (strncmp(a_question, "count"     , 20)  == 0) {
+      c = yURG__count ();
+      snprintf (unit_answer, LEN_TEXT, "yURG count       : %d"  , c);
    }
    /*---(complete)-----------------------*/
    return unit_answer;

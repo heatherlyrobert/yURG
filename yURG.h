@@ -7,8 +7,8 @@
 
 
 /* rapidly evolving version number to aid with visual change confirmation     */
-#define YURG_VER_NUM   "0.2c"
-#define YURG_VER_TXT   "added yURG_abbr logic to set normal when setting mas"
+#define YURG_VER_NUM   "0.2d"
+#define YURG_VER_TXT   "added yURG_name and yURG_parse"
 
 
 
@@ -67,18 +67,19 @@ struct cDEBUG
    char        data_mas;               /* D) complex data structure handling  */
    char        envi;                   /* e) environment processing           */
    char        envi_mas;               /* E) environment processing (mas/more)*/
-   /*---(sorting)------------------------*/
-   char        sort;
-   char        sort_mas;
+   char        sort;                   /* s) data sorting and ordering        */
+   char        sort_mas;               /* S) data sorting and ordering        */
    /*---(spreadsheet)--------------------*/
+   char        loc;
+   char        cell;
+   char        cell_mas;
+   /*---(calculations)-------------------*/
    char        rpn;
+   char        rpn_mas;
    char        calc;
    char        calc_mas;
    char        exec;
    char        exec_mas;
-   char        loc;
-   char        cell;
-   char        cell_mas;
    /*---(dependencies)-------------------*/
    char        deps;
    char        deps_mas;
@@ -93,7 +94,10 @@ struct cDEBUG
    char        sylk;
    char        gnome;
    char        dtree;          /* displays the dependency tree and exits      */
-   char        ystr;                   /* s_file : ystr functions             */
+   char        ystr;                   /* ySTR string library                 */
+   char        ystr_mas;               /* ySTR string library                 */
+   char        ykine;                  /* yKINE kinematics library            */
+   char        ykine_mas;              /* yKINE kinematics library            */
 };
 tDEBUG      yURG_debug;
 
@@ -103,6 +107,7 @@ tDEBUG      yURG_debug;
 #define     DEBUG_TOPS          if (yURG_debug.tops      == 'y')
 #define     DEBUG_SUMM          if (yURG_debug.summ      == 'y')
 #define     DEBUG_ARGS          if (yURG_debug.args      == 'y')
+#define     DEBUG_ARGS_M        if (yURG_debug.args_mas  == 'y')
 #define     DEBUG_CONF          if (yURG_debug.conf      == 'y')
 #define     DEBUG_CONF_M        if (yURG_debug.conf_mas  == 'y')
 #define     DEBUG_PROG          if (yURG_debug.prog      == 'y')
@@ -129,6 +134,8 @@ tDEBUG      yURG_debug;
 #define     DEBUG_DATA_M        if (yURG_debug.data_mas  == 'y')
 #define     DEBUG_ENVI          if (yURG_debug.envi      == 'y')
 #define     DEBUG_ENVI_M        if (yURG_debug.envi_mas  == 'y')
+#define     DEBUG_SORT          if (yURG_debug.sort      == 'y')
+#define     DEBUG_SORT_M        if (yURG_debug.sort_mas  == 'y')
 /*---(dependencies)----------------------*/
 #define     DEBUG_DEPS          if (yURG_debug.deps      == 'y')
 #define     DEBUG_DEPS_M        if (yURG_debug.deps_mas  == 'y')
@@ -152,12 +159,14 @@ tDEBUG      yURG_debug;
 #define     DEBUG_REGS          if (dyURG_ebug.regs      == 'y')
 /*---(ySTR)------------------------------*/
 #define     DEBUG_YSTR          if (yURG_debug.ystr      == 'y')
+#define     DEBUG_YKINE         if (yURG_debug.ykine     == 'y')
+#define     DEBUG_YKINE_M       if (yURG_debug.ykine_mas == 'y')
 
 
 
 char        yURG_list          (void);
 char        yURG_abbr          (char  a_abbr);
-char        yURG_set           (char  a_name);
+char        yURG_name          (char *a_name);
 char        yURG_mass          (char  a_set , char a_extra);
 char        yURG_parse         (int   a_argc, char *a_argv[]);
 

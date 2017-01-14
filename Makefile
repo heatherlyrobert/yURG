@@ -98,10 +98,10 @@ install            :
 	ldconfig
 	#---(debug version)-------------------#
 	sha1sum   lib${DEBUG}.so.1.0
-	_lib      -o ${DEBUG}
+	_lib      -S ${DEBUG}
 	ldconfig
 	sha1sum   lib${DEBUG}.a
-	_lib      -o ${DEBUG}
+	_lib      -A ${DEBUG}
 	ldconfig
 	#---(documentation)-------------------#
 	rm -f     /usr/share/man/man3/${BASE}.3.bz2
