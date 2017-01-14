@@ -7,13 +7,14 @@
 
 
 /* rapidly evolving version number to aid with visual change confirmation     */
-#define YURG_VER_NUM   "0.2a"
-#define YURG_VER_TXT   "get a skeleton library up and started"
+#define YURG_VER_NUM   "0.2b"
+#define YURG_VER_TXT   "setting by abbreviation working"
 
 
 
 #define        LEN_LABEL        20
 #define        LEN_DESC         80
+#define        LEN_STR         200
 #define        MAX_URGS        500
 
 
@@ -31,7 +32,7 @@ struct cDEBUG
    /* k = kitchen sink and turns everything, i mean everything on             */
    /* q = quiet turns all urgents off including the log itself                */
    char        tops;                   /* t) broad structure and context      */
-   char        summ;                   /* s) statistics and analytical output */
+   char        summ;                   /* r) statistics and analytical output */
    /*---(startup/shutdown)---------------*/
    char        args;                   /* a) command line args and urgents    */
    char        args_mas;               /* A) command line args and urgents    */
@@ -44,6 +45,8 @@ struct cDEBUG
    char        inpt_mas;               /* I) text/data file input   (mas/more)*/
    char        outp;                   /* o) text and data file output        */
    char        outp_mas;               /* O) text/data file output  (mas/more)*/
+   char        sqls;                   /* q) sql and database accesses        */
+   char        sqls_mas;               /* Q) sql and database accesses        */
    /*---(event handling)-----------------*/
    char        loop;                   /* l) main program event loop          */
    char        loop_mas;               /* L) main program event loop          */
@@ -66,6 +69,7 @@ struct cDEBUG
    char        envi_mas;               /* E) environment processing (mas/more)*/
    /*---(sorting)------------------------*/
    char        sort;
+   char        sort_mas;
    /*---(spreadsheet)--------------------*/
    char        rpn;
    char        calc;

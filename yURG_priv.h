@@ -24,10 +24,10 @@ struct cYURG_INFO
 };
 
 
-char*       yURG_unit          (char *a_question, int a_num);
-char        yURG_testquiet     (void);
-char        yURG_testloud      (void);
-char        yURG_testend       (void);
+char*       yURG__unit         (char *a_question, int a_num);
+char        yURG__testquiet    (void);
+char        yURG__testloud     (void);
+char        yURG__testend      (void);
 
 
 #endif
