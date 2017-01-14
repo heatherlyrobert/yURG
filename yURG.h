@@ -7,8 +7,8 @@
 
 
 /* rapidly evolving version number to aid with visual change confirmation     */
-#define YURG_VER_NUM   "0.2e"
-#define YURG_VER_TXT   "added yURG_logger and fixed testloud"
+#define YURG_VER_NUM   "0.2f"
+#define YURG_VER_TXT   "compilies within gyges now, not testing yet"
 
 
 
@@ -156,7 +156,7 @@ extern    tURG_DEBUG      yURG_debug;
 #define     DEBUG_SSEL          if (yURG_debug.ssel      == 'y')
 #define     DEBUG_MARK          if (yURG_debug.mark      == 'y')
 /*---(registers)-------------------------*/
-#define     DEBUG_REGS          if (dyURG_ebug.regs      == 'y')
+#define     DEBUG_REGS          if (yURG_debug.regs      == 'y')
 /*---(ySTR)------------------------------*/
 #define     DEBUG_YSTR          if (yURG_debug.ystr      == 'y')
 #define     DEBUG_YKINE         if (yURG_debug.ykine     == 'y')
@@ -164,8 +164,11 @@ extern    tURG_DEBUG      yURG_debug;
 
 
 
+char*       yURG_version       (void);
+char        yURG_main          (int   a_argc, char *a_argv[]);
 char        yURG_logger        (int   a_argc, char *a_argv[]);
 char        yURG_parse         (int   a_argc, char *a_argv[]);
+char        yURG_summ          (void);
 
 char        yURG_list          (void);
 char        yURG_abbr          (char  a_abbr);

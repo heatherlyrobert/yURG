@@ -93,6 +93,25 @@ tYURG_INFO  yURG_info [MAX_URGS] = {
 /*====================------------------------------------====================*/
 static void      o___UTILITY_________________o (void) {;}
 
+char        yURG_ver     [500];
+
+char*      /* ---- : return library versioning information -------------------*/
+yURG_version       (void)
+{
+   char    t [20] = "";
+#if    __TINYC__ > 0
+   strlcpy (t, "[tcc built  ]", 15);
+#elif  __GNUC__  > 0
+   strlcpy (t, "[gnu gcc    ]", 15);
+#elif  __HEPH__  > 0
+   strncpy (t, "[hephaestus ]", 15);
+#else
+   strlcpy (t, "[unknown    ]", 15);
+#endif
+   snprintf (yURG_ver, 100, "%s   %s : %s", t, YURG_VER_NUM, YURG_VER_TXT);
+   return yURG_ver;
+}
+
 char         /*--> count number of set urgents -----------[ ------ [ ------ ]-*/
 yURG__count        (void)
 {
@@ -171,6 +190,25 @@ yURG_list          (void)
    return 0;
 }
 
+char         /*--> display all urgents and status --------[ ------ [ ------ ]-*/
+yURG_summ          (void)
+{
+   /*---(locals)-----------+-----------+-*/
+   int         i           = 0;
+   /*---(list)---------------------------*/
+   DEBUG_ARGS   yLOG_note   ("summarization of urgent processing");
+   for (i = 0; i < MAX_URGS; ++i) {
+      /*---(stop at end)-----------------*/
+      if (yURG_info [i].abbr  == '\0')     break;
+      /*---(filter)----------------------*/
+      if (yURG_info [i].type  == '-')      continue;
+      /*---(show)------------------------*/
+      DEBUG_ARGS   yLOG_char   (yURG_info [i].full, *(yURG_info [i].point));
+   }
+   /*---(complete)-----------------------*/
+   return 0;
+}
+
 char         /*--> set a single urgent by abbr -----------[ ------ [ ------ ]-*/
 yURG_abbr          (char a_abbr)
 {
@@ -231,10 +269,17 @@ yURG_name          (char *a_name)
       /*---(stop at end)-----------------*/
       if (yURG_info [i].abbr  == '\0')                break;
       /*---(filter)----------------------*/
-      if (yURG_info [i].type    == '-')               continue;
       if (yURG_info [i].full[0] != a_name [0])        continue;
       if (strcmp (yURG_info [i].full, a_name) != 0)   continue;
-      if (yURG_info [i].point == NULL)                return rce;
+      /*---(compound)--------------------*/
+      if (yURG_info [i].type == '-' && yURG_info [i].point == NULL) {
+         if      (strcmp (a_name, "@@quiet"     ) == 0)   yURG_mass  ('-', 'E');
+         else if (strcmp (a_name, "@@full"      ) == 0)   yURG_mass  ('y', '-');
+         else if (strcmp (a_name, "@@FULL"      ) == 0)   yURG_mass  ('y', 'M');
+         else if (strcmp (a_name, "@@kitchen"   ) == 0)   yURG_mass  ('y', 'y');
+         else if (strcmp (a_name, "@@omniscient") == 0)   yURG_mass  ('y', 'E');
+         continue;
+      }
       /*---(set)-------------------------*/
       ++x_count;
       *(yURG_info [i].point) = 'y';
@@ -303,7 +348,6 @@ yURG_logger        (int a_argc, char *a_argv[])
    char        x_log       = '-';
    char        x_type      = '-';
    /*---(default urgents)----------------*/
-   yURG_mass      ('-', 'E');   /* turn everything off */
    yURG_debug.logger   = -1;
    strlcpy (x_prog, a_argv [0], LEN_STR);
    x_len  = strllen (x_prog, LEN_LABEL);
@@ -365,8 +409,19 @@ yURG_parse         (int a_argc, char *a_argv[])
       if (rc < 0) ++x_bad;
       else        ++x_good;
    }
+   yURG_summ   ();
    /*---(complete)-----------------------*/
    return x_good;
+}
+
+char       /*----: process the urgents/debugging -----------------------------*/
+yURG_main          (int a_argc, char *a_argv[])
+{
+   char        rc          = 0;
+   rc = yURG_mass    ('-', 'E');   /* turn everything off */
+   rc = yURG_logger  (a_argc, a_argv);
+   rc = yURG_parse   (a_argc, a_argv);
+   return 0;
 }
 
 
