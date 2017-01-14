@@ -2,15 +2,15 @@
 #ifndef YURG_priv_hguard
 #define YURG_priv_hguard loaded
 
-#include    <stdio.h>
-#include    <stdlib.h>                  /* getenv()                            */
-#include    <string.h>
+#include    <stdio.h>        /* C_ANSI : strcpy, strlen, strchr, strcmp, ...  */
+#include    <string.h>       /* C_ANSI : printf, snprintf, fgets, fopen, ...  */
+#include    <stdlib.h>       /* C_ANSI : exit                                 */
+#include    <ctype.h>        /* C_ANSI : tolower, toupper, ...                */
 
-#include    "yURG.h"
 #include    <yLOG.h>         /* CUSTOM : heatherly program logging            */
 #include    <ySTR.h>         /* CUSTOM : heatherly string handling            */
 
-
+#include    "yURG.h"
 
 
 typedef   struct  cYURG_INFO   tYURG_INFO;

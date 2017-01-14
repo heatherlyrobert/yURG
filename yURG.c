@@ -2,6 +2,8 @@
 #include    "yURG.h"
 #include    "yURG_priv.h"
 
+tURG_DEBUG      yURG_debug;
+
 char        s_lower     [30] = "";
 char        s_upper     [30] = "";
 char        s_digit     [30] = "";
@@ -84,6 +86,13 @@ tYURG_INFO  yURG_info [MAX_URGS] = {
 
 };
 
+
+
+/*====================------------------------------------====================*/
+/*===----                        utility functions                     ----===*/
+/*====================------------------------------------====================*/
+static void      o___UTILITY_________________o (void) {;}
+
 char         /*--> count number of set urgents -----------[ ------ [ ------ ]-*/
 yURG__count        (void)
 {
@@ -133,6 +142,13 @@ yURG__strings      (void)
    /*---(complete)-----------------------*/
    return 0;
 }
+
+
+
+/*====================------------------------------------====================*/
+/*===----                          normal                              ----===*/
+/*====================------------------------------------====================*/
+static void      o___NORMAL__________________o (void) {;}
 
 char         /*--> display all urgents and status --------[ ------ [ ------ ]-*/
 yURG_list          (void)
@@ -269,6 +285,58 @@ yURG_mass          (char a_set, char a_extra)
    return 0;
 }
 
+
+
+/*====================------------------------------------====================*/
+/*===----                           drivers                            ----===*/
+/*====================------------------------------------====================*/
+static void      o___DRIVERS_________________o (void) {;}
+
+char         /*--: evaluate logger needs early -----------[ leaf   [ ------ ]-*/
+yURG_logger        (int a_argc, char *a_argv[])
+{
+   /*---(locals)-----------+-----------+-*/
+   int         i           = 0;
+   char       *a           = NULL;
+   int         x_len       = 0;
+   char        x_prog      [LEN_STR] = "";
+   char        x_log       = '-';
+   char        x_type      = '-';
+   /*---(default urgents)----------------*/
+   yURG_mass      ('-', 'E');   /* turn everything off */
+   yURG_debug.logger   = -1;
+   strlcpy (x_prog, a_argv [0], LEN_STR);
+   x_len  = strllen (x_prog, LEN_LABEL);
+   /*---(test for normal version)--------*/
+   if (x_len <= 6)                                     return 0;
+   if (strcmp (a_argv[0] + x_len - 6, "_debug") == 0)  x_type = 'd';
+   if (strcmp (a_argv[0] + x_len - 5, "_unit" ) == 0)  x_type = 'u';
+   if (x_type == '-')                                  return 0;
+   /*---(process)------------------------*/
+   for (i = 1; i < a_argc; ++i) {
+      a = a_argv[i];
+      if (a[0] != '@')  continue;
+      if (strcmp (a, "@q"         ) == 0)  x_log = 'q';
+      if (strcmp (a, "@@quiet"    ) == 0)  x_log = 'q';
+      if (x_log == '-')                    x_log = 'y';
+   }
+   /*---(startup logging)----------------*/
+   if (x_type == 'd')  x_prog [x_len - 6] = '\0';
+   switch (x_log) {
+   case 'y' :
+      yURG_name ("tops");
+      yURG_debug.logger = yLOG_begin (x_prog, yLOG_SYSTEM    , yLOG_NOISE);
+      break;
+   case 'q' :
+   case '-' :
+   default  :
+      yURG_debug.logger = yLOG_begin (x_prog, yLOG_SYSTEM    , yLOG_QUIET);
+      break;
+   }
+   /*---(complete)-----------------------*/
+   return 0;
+}
+
 char       /*----: process the urgents/debugging -----------------------------*/
 yURG_parse         (int a_argc, char *a_argv[])
 {
@@ -340,18 +408,23 @@ yURG__unit         (char *a_question, int a_num)
 char       /*----: set up programgents/debugging -----------------------------*/
 yURG__testquiet     (void)
 {
+   char       *x_args [2]  = { "yURG_debug","@@quiet" };
+   yURG_logger (2, x_args);
    return 0;
 }
 
 char       /*----: set up programgents/debugging -----------------------------*/
 yURG__testloud      (void)
 {
+   char       *x_args [2]  = { "yURG_debug","@@kitchen" };
+   yURG_logger (2, x_args);
    return 0;
 }
 
 char       /*----: set up program urgents/debugging --------------------------*/
 yURG__testend       (void)
 {
+   DEBUG_TOPS   yLOG_end     ();
    return 0;
 }
 

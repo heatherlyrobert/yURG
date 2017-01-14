@@ -7,8 +7,8 @@
 
 
 /* rapidly evolving version number to aid with visual change confirmation     */
-#define YURG_VER_NUM   "0.2d"
-#define YURG_VER_TXT   "added yURG_name and yURG_parse"
+#define YURG_VER_NUM   "0.2e"
+#define YURG_VER_TXT   "added yURG_logger and fixed testloud"
 
 
 
@@ -18,12 +18,12 @@
 #define        MAX_URGS        500
 
 
-typedef     struct   cDEBUG       tDEBUG;
+typedef     struct   cURG_DEBUG       tURG_DEBUG;
 
 /*===[[ DEBUGGING SETUP ]]====================================================*/
 /* this is my latest standard format, vars, and urgents                       */
 /* v3.0b : added signal handling                                (2014-feb-01) */
-struct cDEBUG
+struct cURG_DEBUG
 {
    /*---(handle)-------------------------*/
    int         logger;                 /* log file so that we don't close it  */
@@ -99,7 +99,7 @@ struct cDEBUG
    char        ykine;                  /* yKINE kinematics library            */
    char        ykine_mas;              /* yKINE kinematics library            */
 };
-tDEBUG      yURG_debug;
+extern    tURG_DEBUG      yURG_debug;
 
 
 
@@ -164,12 +164,13 @@ tDEBUG      yURG_debug;
 
 
 
+char        yURG_logger        (int   a_argc, char *a_argv[]);
+char        yURG_parse         (int   a_argc, char *a_argv[]);
+
 char        yURG_list          (void);
 char        yURG_abbr          (char  a_abbr);
 char        yURG_name          (char *a_name);
 char        yURG_mass          (char  a_set , char a_extra);
-char        yURG_parse         (int   a_argc, char *a_argv[]);
-
 
 
 

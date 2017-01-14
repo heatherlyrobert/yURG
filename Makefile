@@ -28,7 +28,7 @@ STRIP   = @grep -v -e " DEBUG_" -e " yLOG_"
 
 
 #*---(executables)--------------------*#
-all                : ${BASE} ${DEBUG} ${UNIT}
+all                : ${DEBUG} ${BASE} ${UNIT}
 
 ${BASE}            : ${OBJS}
 	${LINK}  -shared -Wl,-soname,lib${BASE}.so.1   ${LIBS}  -o lib${BASE}.so.1.0   ${OBJS}
@@ -45,14 +45,9 @@ ${UNIT}            : ${OBJU}
 
 #*---(components)---------------------*#
 ${BASE}.o          : ${HEADS} ${BASE}.c
-	${COMP}  -fPIC  ${BASE}.c                             ${INC}
-
-${BASE}.os         : ${HEADS} ${BASE}.c
+	${COMP}  -fPIC  ${BASE}.c        -o ${BASE}.o         ${INCS}
 	${STRIP}        ${BASE}.c         > ${BASE}.cs      
-	${COMP}  -fPIC  ${BASE}.cs       -o ${BASE}.os        ${INC}
-
-${DEBUG}.o         : ${HEADS} ${BASE}.c
-	${COMP}  -fPIC ${INCS} ${BASE}.c
+	${COMP}  -fPIC  ${BASE}.cs       -o ${BASE}.os        ${INCS}
 
 ${UNIT}.o          : ${HEADS} ${BASE}.unit
 	uUNIT    ${BASE}
