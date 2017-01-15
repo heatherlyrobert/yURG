@@ -11,7 +11,7 @@ COMP    = gcc -c -std=gnu89 -x c -g -pg -Wall -Wextra
 INCS    = -I/usr/local/include 
 LINK    = gcc
 LIBDIR  = -L/usr/local/lib
-LIBS    = ${LIBDIR} -lySTR
+LIBS    = ${LIBDIR} -lySTR -lyLOG
 LIBD    = ${LIBDIR} -lySTR -lyLOG
 LIBU    = ${LIBDIR} -lySTR -lyLOG -lyUNIT -lyVAR
 #*---(file lists)---------------------*#

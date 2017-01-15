@@ -17,6 +17,7 @@ typedef   struct  cYURG_INFO   tYURG_INFO;
 struct cYURG_INFO
 {
    char        abbr;                        /* single letter name             */
+   char        fast;                        /* must evaluate with logging     */
    char        full        [LEN_LABEL];     /* full name                      */
    char        desc        [LEN_DESC ];     /* explanation                    */
    char        type;                        /* universal, mas, special        */

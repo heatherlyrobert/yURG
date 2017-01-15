@@ -7,8 +7,8 @@
 
 
 /* rapidly evolving version number to aid with visual change confirmation     */
-#define YURG_VER_NUM   "0.2f"
-#define YURG_VER_TXT   "compilies within gyges now, not testing yet"
+#define YURG_VER_NUM   "0.2g"
+#define YURG_VER_TXT   "fully works with gyges, args_mas working as well"
 
 
 
@@ -162,18 +162,20 @@ extern    tURG_DEBUG      yURG_debug;
 #define     DEBUG_YKINE         if (yURG_debug.ykine     == 'y')
 #define     DEBUG_YKINE_M       if (yURG_debug.ykine_mas == 'y')
 
+typedef     const char         cchar;
 
 
 char*       yURG_version       (void);
-char        yURG_main          (int   a_argc, char *a_argv[]);
-char        yURG_logger        (int   a_argc, char *a_argv[]);
-char        yURG_parse         (int   a_argc, char *a_argv[]);
+char        yURG_debugmode     (void);
+
+char        yURG_logger        (int    a_argc, char *a_argv[]);
+char        yURG_urgs          (int    a_argc, char *a_argv[]);
 char        yURG_summ          (void);
 
 char        yURG_list          (void);
-char        yURG_abbr          (char  a_abbr);
-char        yURG_name          (char *a_name);
-char        yURG_mass          (char  a_set , char a_extra);
+char        yURG_abbr          (cchar  a_abbr);
+char        yURG_name          (cchar *a_name);
+char        yURG_mass          (cchar  a_set , cchar a_extra);
 
 
 
