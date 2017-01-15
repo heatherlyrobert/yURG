@@ -515,17 +515,25 @@ yURG_urgs          (int a_argc, char *a_argv[])
    /*---(process)------------------------*/
    for (i = 1; i < a_argc; ++i) {
       a = a_argv[i];
+      DEBUG_ARGS   yLOG_info    ("option"    , a);
       ++x_total;
       if (a[0] != '@')  continue;
+      DEBUG_ARGS   yLOG_note    ("idenfified urgent");
       x_len  = strlen (a);
       ++x_urgs;
       rc = 0;
       if      (x_len == 2)  rc = yURG_abbr  (a[1]);
       else if (x_len >= 5)  rc = yURG_name  (a + 2);
-      else    ++x_bad;
+      else {
+         DEBUG_ARGS   yLOG_note    ("could not process");
+         ++x_bad;
+      }
+      DEBUG_ARGS   yLOG_value   ("rc"        , rc);
       if (rc < 0) ++x_bad;
       else        ++x_good;
    }
+   DEBUG_ARGS   yLOG_value   ("x_good"    , x_good);
+   DEBUG_ARGS   yLOG_value   ("x_bad"     , x_bad);
    yURG_summ   ();
    /*---(complete)-----------------------*/
    DEBUG_TOPS   yLOG_exit    (__FUNCTION__);

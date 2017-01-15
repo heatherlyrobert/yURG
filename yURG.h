@@ -7,8 +7,8 @@
 
 
 /* rapidly evolving version number to aid with visual change confirmation     */
-#define YURG_VER_NUM   "0.2g"
-#define YURG_VER_TXT   "fully works with gyges, args_mas working as well"
+#define YURG_VER_NUM   "0.2h"
+#define YURG_VER_TXT   "added some debugging to main yURG_urgs"
 
 
 
