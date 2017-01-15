@@ -57,7 +57,8 @@ tYURG_INFO  yURG_info [MAX_URGS] = {
    {   's' , '-' , "sort"       , "data sorting and ordering"             , 'u', &yURG_debug.sort      },
    {   'S' , '-' , "SORT"       , "data sorting and ordering"             , '#', &yURG_debug.sort_mas  },
    /*---(spreadsheet)--------------------*/
-   {   '-' , '-' , "loc"        , "spreadsheet location parsing and use"  , 's', &yURG_debug.loc       },
+   {   '-' , '-' , "locs"       , "spreadsheet location parsing and use"  , 's', &yURG_debug.locs      },
+   {   '-' , '-' , "LOCS"       , "spreadsheet location parsing and use"  , 'M', &yURG_debug.locs_mas  },
    {   '-' , '-' , "cell"       , "spreadsheet cell creation and mtce"    , 's', &yURG_debug.cell      },
    {   '-' , '-' , "CELL"       , "spreadsheet cell creation and mtce"    , 'M', &yURG_debug.cell_mas  },
    /*---(calculations)-------------------*/
@@ -72,10 +73,14 @@ tYURG_INFO  yURG_info [MAX_URGS] = {
    {   '-' , '-' , "DEPS"       , "dependency creation and maintenance"   , 'M', &yURG_debug.deps_mas  },
    /*---(visual)-------------------------*/
    {   '-' , '-' , "visu"       , "visual selection of objects"           , 's', &yURG_debug.visu      },
+   {   '-' , '-' , "VISU"       , "visual selection of objects"           , 'M', &yURG_debug.visu_mas  },
    {   '-' , '-' , "ssel"       , "visual selection of text strings"      , 's', &yURG_debug.ssel      },
+   {   '-' , '-' , "SSEL"       , "visual selection of text strings"      , 'M', &yURG_debug.ssel_mas  },
    {   '-' , '-' , "mark"       , "location and object marks"             , 's', &yURG_debug.mark      },
+   {   '-' , '-' , "MARK"       , "location and object marks"             , 'M', &yURG_debug.mark_mas  },
    /*---(registers)----------------------*/
    {   '-' , '-' , "regs"       , "copy and paste registers"              , 's', &yURG_debug.regs      },
+   {   '-' , '-' , "REGS"       , "copy and paste registers"              , 'M', &yURG_debug.regs_mas  },
    /*---(libraries)----------------------*/
    {   '-' , '-' , "ystr"       , "heatherly ySTR string library"         , 's', &yURG_debug.ystr      },
    {   '-' , '-' , "YSTR"       , "heatherly ySTR string library"         , 'M', &yURG_debug.ystr_mas  },
@@ -469,9 +474,9 @@ yURG_logger        (int a_argc, char *a_argv[])
       else if (strcmp (a, "@P"           ) == 0)   x_prog = 'P';
       else if (strcmp (a, "@@PROG"       ) == 0)   x_prog = 'P';
       /*---(compounds)-------------------*/
-      else if (strcmp (a, "@@full"       ) == 0) { x_args = 'a'; x_prog = 'p'; }
+      else if (strcmp (a, "@@full"       ) == 0) { if (x_args != 'A')  x_args = 'a'; if (x_prog != 'P') x_prog = 'p'; }
       else if (strcmp (a, "@@FULL"       ) == 0) { x_args = 'A'; x_prog = 'P'; }
-      else if (strcmp (a, "@@kitchen"    ) == 0) { x_args = 'a'; x_prog = 'p'; }
+      else if (strcmp (a, "@@kitchen"    ) == 0) { if (x_args != 'A')  x_args = 'a'; if (x_prog != 'P') x_prog = 'p'; }
       else if (strcmp (a, "@@omniscient" ) == 0) { x_args = 'A'; x_prog = 'P'; }
       /*> printf ("done, ready for next\n");                                          <*/
    }
@@ -494,6 +499,13 @@ yURG_logger        (int a_argc, char *a_argv[])
    if (x_args == 'A')  { yURG_debug.args = 'y'; yURG_debug.args_mas = 'y'; }
    if (x_prog == 'p')    yURG_debug.prog = 'y';
    if (x_prog == 'P')  { yURG_debug.prog = 'y'; yURG_debug.prog_mas = 'y'; }
+   DEBUG_TOPS    yLOG_enter   (__FUNCTION__);
+   DEBUG_TOPS    yLOG_note    ("@@tops turned on in yURG_logger()");
+   DEBUG_ARGS    yLOG_note    ("@@args turned on in yURG_logger()");
+   DEBUG_ARGS_M  yLOG_note    ("@@ARGS turned on in yURG_logger()");
+   DEBUG_PROG    yLOG_note    ("@@prog turned on in yURG_logger()");
+   DEBUG_PROG_M  yLOG_note    ("@@PROG turned on in yURG_logger()");
+   DEBUG_TOPS    yLOG_exit    (__FUNCTION__);
    /*---(complete)-----------------------*/
    return 0;
 }

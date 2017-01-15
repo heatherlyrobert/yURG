@@ -7,8 +7,8 @@
 
 
 /* rapidly evolving version number to aid with visual change confirmation     */
-#define YURG_VER_NUM   "0.2h"
-#define YURG_VER_TXT   "added some debugging to main yURG_urgs"
+#define YURG_VER_NUM   "0.2j"
+#define YURG_VER_TXT   "added a short log options set list in logger"
 
 
 
@@ -70,7 +70,8 @@ struct cURG_DEBUG
    char        sort;                   /* s) data sorting and ordering        */
    char        sort_mas;               /* S) data sorting and ordering        */
    /*---(spreadsheet)--------------------*/
-   char        loc;
+   char        locs;
+   char        locs_mas;
    char        cell;
    char        cell_mas;
    /*---(calculations)-------------------*/
@@ -85,10 +86,14 @@ struct cURG_DEBUG
    char        deps_mas;
    /*---(selections)---------------------*/
    char        visu;                   /* gyges_visu : visual selection       */
+   char        visu_mas;               /* gyges_visu : visual selection       */
    char        ssel;                   /* gyges_visu : source selection       */
+   char        ssel_mas;               /* gyges_visu : source selection       */
    char        mark;                   /* gyges_visu : location/object marks  */
+   char        mark_mas;               /* gyges_visu : location/object marks  */
    /*---(registers)----------------------*/
    char        regs;                   /* s_sel  : copy and paste registers   */
+   char        regs_mas;               /* s_sel  : copy and paste registers   */
    /*---(other)--------------------------*/
    char        s;
    char        sylk;
@@ -141,7 +146,8 @@ extern    tURG_DEBUG      yURG_debug;
 #define     DEBUG_DEPS_M        if (yURG_debug.deps_mas  == 'y')
 #define     DEBUG_GNOME         if (yURG_debug.gnome     == 'y')
 /*---(cells)-----------------------------*/
-#define     DEBUG_LOC           if (yURG_debug.loc       == 'y')
+#define     DEBUG_LOCS          if (yURG_debug.locs      == 'y')
+#define     DEBUG_LOCS_M        if (yURG_debug.locs_mas  == 'y')
 #define     DEBUG_CELL          if (yURG_debug.cell      == 'y')
 #define     DEBUG_CELL_M        if (yURG_debug.cell_mas  == 'y')
 /*---(formulas)--------------------------*/
@@ -153,10 +159,14 @@ extern    tURG_DEBUG      yURG_debug;
 #define     DEBUG_EXEC_M        if (yURG_debug.exec_mas  == 'y')
 /*---(visual)----------------------------*/
 #define     DEBUG_VISU          if (yURG_debug.visu      == 'y')
+#define     DEBUG_VISU_M        if (yURG_debug.visu_mas  == 'y')
 #define     DEBUG_SSEL          if (yURG_debug.ssel      == 'y')
+#define     DEBUG_SSEL_M        if (yURG_debug.ssel_mas  == 'y')
 #define     DEBUG_MARK          if (yURG_debug.mark      == 'y')
+#define     DEBUG_MARK_M        if (yURG_debug.mark_mas  == 'y')
 /*---(registers)-------------------------*/
 #define     DEBUG_REGS          if (yURG_debug.regs      == 'y')
+#define     DEBUG_REGS_M        if (yURG_debug.regs_mas  == 'y')
 /*---(ySTR)------------------------------*/
 #define     DEBUG_YSTR          if (yURG_debug.ystr      == 'y')
 #define     DEBUG_YKINE         if (yURG_debug.ykine     == 'y')
