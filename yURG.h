@@ -7,8 +7,8 @@
 
 
 /* rapidly evolving version number to aid with visual change confirmation     */
-#define YURG_VER_NUM   "0.2k"
-#define YURG_VER_TXT   "added an @@urgent inventory of available urgents"
+#define YURG_VER_NUM   "0.2l"
+#define YURG_VER_TXT   "fixed to allow showing @@urgents in non-debug mode"
 
 
 
@@ -27,6 +27,7 @@ struct cURG_DEBUG
 {
    /*---(handle)-------------------------*/
    int         logger;                 /* log file so that we don't close it  */
+   int         mode;                   /* quiet '-' vs logging 'y'            */
    /*---(overall)------------------------*/  /* abcdefghi_kl__opq_stu__x__    */
    /* f = full urgents turns on all standard urgents                          */
    /* k = kitchen sink and turns everything, i mean everything on             */

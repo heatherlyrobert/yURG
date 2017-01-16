@@ -196,7 +196,7 @@ yURG__strings      (void)
 static void      o___NORMAL__________________o (void) {;}
 
 char         /*--> display all urgents and status --------[ ------ [ ------ ]-*/
-yURG_help          (void)
+yURG_help          (char *a_progname)
 {
    /*---(locals)-----------+-----------+-*/
    int         i           = 0;
@@ -214,6 +214,11 @@ yURG_help          (void)
    char        x_header    [LEN_STR  ] = "";
    /*---(list universals)----------------*/
    printf ("yURG : urgent inventory report\n\n");
+   if (yURG_debug.mode != 'y') {
+      printf ("YOU ARE NOT RUNNING IN DEBUG MODE\n");
+      printf ("urgents are only active if debug version of program is used.\n");
+      printf ("to run %s in debug mode, use %s_debug\n\n", a_progname, a_progname);
+   }
    /*---(cycle types)--------------------*/
    for (i = 0; i < MAX_URGS; ++i) {
       /*---(filter)----------------------*/
@@ -221,7 +226,7 @@ yURG_help          (void)
       if (yURG_type [i].subtype  != '-' )                            continue;
       x_type = yURG_type [i].type;
       sprintf (x_header, "%s -------------------------", yURG_type [i].desc);
-      printf ("   %-19.19s mas ---description-----------------------\n", x_header);
+      printf ("%-19.19s mas ---description-----------------------\n", x_header);
       x_subsave  = '?';
       /*---(cycle urgents)---------------*/
       for (j = 0; j < MAX_URGS; ++j) {
@@ -248,16 +253,16 @@ yURG_help          (void)
                if (yURG_type [k].type    != x_type)                  continue;
                if (yURG_type [k].subtype != yURG_info [j].subtype)   continue;
                sprintf (x_header, "---%s---------------------------", yURG_type [k].desc);
-               printf  ("      %-30.30s\n", x_header);
+               printf  ("   %-30.30s\n", x_header);
                break;
             }
             x_subsave = yURG_info [j].subtype;
          }
          if (yURG_info [j].abbr  != '-')
-            printf ("      @%c,@@%-12.12s %c  %-40.40s\n",
+            printf ("   @%c,@@%-12.12s %c  %-40.40s\n",
                   yURG_info [j].abbr , yURG_info [j].full , x_mas, yURG_info [j].desc );
          else
-            printf ("      @@%-12.12s    %c  %-40.40s\n",
+            printf ("   @@%-12.12s    %c  %-40.40s\n",
                   yURG_info [j].full , x_mas, yURG_info [j].desc );
          /*---(totals)-------------------*/
          ++x_count;
@@ -265,13 +270,13 @@ yURG_help          (void)
          /*---(done)---------------------*/
       }
       /*---(sub-totals)------------------*/
-      printf ("      ---count = %d (%d mas)\n\n", x_count, x_countmas);
+      printf ("   ---count = %d (%d mas)\n\n", x_count, x_countmas);
       x_total     += x_count;
       x_totalmas  += x_countmas;
       x_count      = x_countmas = 0;
    }
    /*---(grand totals)-------------------*/
-   printf ("   grand total count = %d (%d mas), %d overall\n\n", x_total, x_totalmas, x_total + x_totalmas);
+   printf ("grand total count = %d (%d mas), %d overall\n\n", x_total, x_totalmas, x_total + x_totalmas);
    /*---(complete)-----------------------*/
    return 0;
 }
@@ -528,26 +533,36 @@ yURG_logger        (int a_argc, char *a_argv[])
    char       *a           = NULL;
    int         x_len       = 0;
    char        x_progname  [LEN_STR] = "";
+   char        x_basename  [LEN_STR] = "";
    char        x_log       = '-';
    char        x_type      = '-';
    char        x_args      = '-';
    char        x_prog      = '-';
    /*---(default urgents)----------------*/
+   yURG_debug.logger   =  -1;
+   yURG_debug.mode     = '-';
    yURG_mass    ('-', 'E');   /* turn everything off */
-   yURG_debug.logger   = -1;
    strlcpy (x_progname, a_argv [0], LEN_STR);
+   strlcpy (x_basename, a_argv [0], LEN_STR);
    x_len  = strllen (x_progname, LEN_LABEL);
    /*> printf ("%3d:%s\n", x_len, x_progname);                                        <* 
     *> printf ("   :%s\n",        x_progname + x_len - 6);                            <* 
     *> printf ("   :%s\n",        x_progname + x_len - 5);                            <*/
    /*---(test for normal version)--------*/
-   if (x_len <= 6)                                     return 0;
-   if (strcmp (a_argv[0] + x_len - 6, "_debug") == 0)  x_type = 'd';
-   if (strcmp (a_argv[0] + x_len - 5, "_unit" ) == 0)  x_type = 'u';
-   /*> printf ("type = %c\n", x_type);                                                <*/
-   if (x_type == '-')                                  return 0;
+   if (x_len >= 6) {
+      if (strcmp (a_argv[0] + x_len - 6, "_debug") == 0)  x_type = 'd';
+      if (strcmp (a_argv[0] + x_len - 5, "_unit" ) == 0)  x_type = 'u';
+      /*> printf ("type = %c\n", x_type);                                                <*/
+      if (x_type != '-')   yURG_debug.mode   = 'y';
+   }
    /*---(fix program name)---------------*/
-   if (x_type == 'd')  x_progname [x_len - 6] = '\0';
+   if (x_type == 'd') {
+      x_basename [x_len - 6] = '\0';
+      strlcpy (x_progname, x_basename, LEN_STR);
+   }
+   if (x_type == 'u') {
+      x_basename [x_len - 5] = '\0';
+   }
    x_len  = strllen (x_progname, LEN_LABEL);
    /*> printf ("%3d:%s\n", x_len, x_progname);                                        <*/
    /*---(process)------------------------*/
@@ -573,11 +588,12 @@ yURG_logger        (int a_argc, char *a_argv[])
       else if (strcmp (a, "@@mas"        ) == 0) { x_args = 'A'; x_prog = 'P'; }
       else if (strcmp (a, "@@kitchen"    ) == 0) { if (x_args != 'A')  x_args = 'a'; if (x_prog != 'P') x_prog = 'p'; }
       else if (strcmp (a, "@@omniscient" ) == 0) { x_args = 'A'; x_prog = 'P'; }
-      else if (strcmp (a, "@@urgents"    ) == 0) { yURG_help (); exit (0); }
+      else if (strcmp (a, "@@urgents"    ) == 0) { yURG_help (x_basename); exit (0); }
       /*> printf ("done, ready for next\n");                                          <*/
    }
    /*> printf ("log  = %c\n", x_log);                                                 <*/
    /*---(startup logging)----------------*/
+   if (yURG_debug.mode != 'y')                                  return 0;
    switch (x_log) {
    case 'y' :
       yURG_debug.logger = yLOG_begin (x_progname, yLOG_SYSTEM    , yLOG_NOISE);
@@ -618,6 +634,8 @@ yURG_urgs          (int a_argc, char *a_argv[])
    int         x_urgs      = 0;
    int         x_bad       = 0;
    int         x_good      = 0;
+   /*---(defense)------------------------*/
+   if (yURG_debug.mode != 'y')   return 0;
    /*---(header)-------------------------*/
    DEBUG_TOPS   yLOG_enter   (__FUNCTION__);
    /*---(process)------------------------*/
