@@ -7,8 +7,8 @@
 
 
 /* rapidly evolving version number to aid with visual change confirmation     */
-#define YURG_VER_NUM   "0.2l"
-#define YURG_VER_TXT   "fixed to allow showing @@urgents in non-debug mode"
+#define YURG_VER_NUM   "0.2m"
+#define YURG_VER_TXT   "updated to handle bringing golem into yURG"
 
 
 
@@ -33,7 +33,9 @@ struct cURG_DEBUG
    /* k = kitchen sink and turns everything, i mean everything on             */
    /* q = quiet turns all urgents off including the log itself                */
    char        tops;                   /* t) broad structure and context      */
+   char        tops_mas;               /* t) broad structure and context      */
    char        summ;                   /* r) statistics and analytical output */
+   char        summ_mas;               /* r) statistics and analytical output */
    /*---(startup/shutdown)---------------*/
    char        args;                   /* a) command line args and urgents    */
    char        args_mas;               /* A) command line args and urgents    */
@@ -96,6 +98,8 @@ struct cURG_DEBUG
    char        regs;                   /* s_sel  : copy and paste registers   */
    char        regs_mas;               /* s_sel  : copy and paste registers   */
    /*---(other)--------------------------*/
+   char        adjs;                   /* small, configurable adjustments     */
+   char        adjs_mas;               /* small, configurable adjustments     */
    char        s;
    char        sylk;
    char        gnome;
@@ -111,7 +115,9 @@ extern    tURG_DEBUG      yURG_debug;
 
 /*---(standard)--------------------------*/
 #define     DEBUG_TOPS          if (yURG_debug.tops      == 'y')
+#define     DEBUG_TOPS_M        if (yURG_debug.tops_mas  == 'y')
 #define     DEBUG_SUMM          if (yURG_debug.summ      == 'y')
+#define     DEBUG_SUMM_M        if (yURG_debug.summ_mas  == 'y')
 #define     DEBUG_ARGS          if (yURG_debug.args      == 'y')
 #define     DEBUG_ARGS_M        if (yURG_debug.args_mas  == 'y')
 #define     DEBUG_CONF          if (yURG_debug.conf      == 'y')
@@ -145,15 +151,14 @@ extern    tURG_DEBUG      yURG_debug;
 /*---(dependencies)----------------------*/
 #define     DEBUG_DEPS          if (yURG_debug.deps      == 'y')
 #define     DEBUG_DEPS_M        if (yURG_debug.deps_mas  == 'y')
-#define     DEBUG_GNOME         if (yURG_debug.gnome     == 'y')
 /*---(cells)-----------------------------*/
 #define     DEBUG_LOCS          if (yURG_debug.locs      == 'y')
 #define     DEBUG_LOCS_M        if (yURG_debug.locs_mas  == 'y')
 #define     DEBUG_CELL          if (yURG_debug.cell      == 'y')
 #define     DEBUG_CELL_M        if (yURG_debug.cell_mas  == 'y')
 /*---(formulas)--------------------------*/
-#define     DEBUG_S             if (yURG_debug.s         == 'y')
 #define     DEBUG_RPN           if (yURG_debug.rpn       == 'y')
+#define     DEBUG_RPN_M         if (yURG_debug.rpn_mas   == 'y')
 #define     DEBUG_CALC          if (yURG_debug.calc      == 'y')
 #define     DEBUG_CALC_M        if (yURG_debug.calc_mas  == 'y')
 #define     DEBUG_EXEC          if (yURG_debug.exec      == 'y')
@@ -170,8 +175,11 @@ extern    tURG_DEBUG      yURG_debug;
 #define     DEBUG_REGS_M        if (yURG_debug.regs_mas  == 'y')
 /*---(ySTR)------------------------------*/
 #define     DEBUG_YSTR          if (yURG_debug.ystr      == 'y')
+#define     DEBUG_YSTR_M        if (yURG_debug.ystr_mas  == 'y')
 #define     DEBUG_YKINE         if (yURG_debug.ykine     == 'y')
 #define     DEBUG_YKINE_M       if (yURG_debug.ykine_mas == 'y')
+#define     DEBUG_ADJS          if (yURG_debug.adjs      == 'y')
+#define     DEBUG_ADJS_M        if (yURG_debug.adjs_mas  == 'y')
 
 typedef     const char         cchar;
 
