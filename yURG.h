@@ -7,8 +7,8 @@
 
 
 /* rapidly evolving version number to aid with visual change confirmation     */
-#define YURG_VER_NUM   "0.2j"
-#define YURG_VER_TXT   "added a short log options set list in logger"
+#define YURG_VER_NUM   "0.2k"
+#define YURG_VER_TXT   "added an @@urgent inventory of available urgents"
 
 
 

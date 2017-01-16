@@ -8,86 +8,100 @@ char        s_lower     [30] = "";
 char        s_upper     [30] = "";
 char        s_digit     [30] = "";
 
+tYURG_TYPE  yURG_type [MAX_URGS] = {
+   {   'u' , '-' , "univeral"                },
+   {   'u' , 'o' , "overall"                 },
+   {   'u' , 's' , "startup/teardown"        },
+   {   'u' , 'd' , "data and text files"     },
+   {   'u' , 'e' , "event handling"          },
+   {   'u' , 'p' , "special processing"      },
+   {   's' , '-' , "specific"                },
+   {   'l' , '-' , "library-related"         },
+   {   '-' , '-' , "compound"                },
+   {   '\0', '\0', "end-of-list"             },
+
+};
 
 tYURG_INFO  yURG_info [MAX_URGS] = {
    /* abbr  fast  full--------   desc------------------------------------  type */
    /*---(compound)-----------------------*/
-   {   '-' , 'y' , "quiet"      , "turn absolutely everything off"        , '-', NULL                  },
-   {   '-' , 'y' , "full"       , "turn all universals on"                , '-', NULL                  },
-   {   '-' , 'y' , "FULL"       , "turn all universals and their mas on"  , '-', NULL                  },
-   {   '-' , 'y' , "kitchen"    , "turn all universals and special on"    , '-', NULL                  },
-   {   '-' , 'y' , "omniscient" , "turn absolutely everything on"         , '-', NULL                  },
+   {   '-' , 'y' , "quiet"      , "turn absolutely everything off"        , '-', '-', NULL                  },
+   {   '-' , 'y' , "full"       , "turn all universals on"                , '-', '-', NULL                  },
+   {   '-' , 'y' , "mas"        , "turn all universals and their mas on"  , '-', '-', NULL                  },
+   {   '-' , 'y' , "kitchen"    , "turn all universals and specific on"   , '-', '-', NULL                  },
+   {   '-' , 'y' , "omniscient" , "turn absolutely everything on"         , '-', '-', NULL                  },
+   {   '-' , 'y' , "urgents"    , "list all urgents available in program" , 'u', '-', NULL                  },
    /*---(overall)------------------------*/
-   {   't' , '-' , "tops"       , "broad structure and context"           , 'u', &yURG_debug.tops      },
-   {   'r' , '-' , "summ"       , "runtime statistics/analytical output"  , 'u', &yURG_debug.summ      },
+   {   't' , '-' , "tops"       , "broad structure and context"           , 'u', 'o', &yURG_debug.tops      },
+   {   'r' , '-' , "summ"       , "runtime statistics/analytical output"  , 'u', 'o', &yURG_debug.summ      },
    /*---(startup/shutdown)---------------*/
-   {   'a' , 'y' , "args"       , "command-line args and urgent handling" , 'u', &yURG_debug.args      },
-   {   'A' , 'y' , "ARGS"       , "command-line args and urgent handling" , '#', &yURG_debug.args_mas  },
-   {   'c' , '-' , "conf"       , "configuration handling"                , 'u', &yURG_debug.conf      },
-   {   'C' , '-' , "CONF"       , "configuration handling"                , '#', &yURG_debug.conf_mas  },
-   {   'p' , 'y' , "prog"       , "program setup and shutdown"            , 'u', &yURG_debug.prog      },
-   {   'P' , 'y' , "PROG"       , "program setup and shutdown"            , '#', &yURG_debug.prog_mas  },
+   {   'a' , 'y' , "args"       , "command-line args and urgent handling" , 'u', 's', &yURG_debug.args      },
+   {   'A' , 'y' , "ARGS"       , "command-line args and urgent handling" , '#', 's', &yURG_debug.args_mas  },
+   {   'c' , '-' , "conf"       , "configuration handling"                , 'u', 's', &yURG_debug.conf      },
+   {   'C' , '-' , "CONF"       , "configuration handling"                , '#', 's', &yURG_debug.conf_mas  },
+   {   'p' , 'y' , "prog"       , "program setup and shutdown"            , 'u', 's', &yURG_debug.prog      },
+   {   'P' , 'y' , "PROG"       , "program setup and shutdown"            , '#', 's', &yURG_debug.prog_mas  },
    /*---(file processing)----------------*/
-   {   'i' , '-' , "inpt"       , "text and data file input"              , 'u', &yURG_debug.inpt      },
-   {   'I' , '-' , "INPT"       , "text and data file input"              , '#', &yURG_debug.inpt_mas  },
-   {   'o' , '-' , "outp"       , "text and data file output"             , 'u', &yURG_debug.outp      },
-   {   'O' , '-' , "OUTP"       , "text and data file output"             , '#', &yURG_debug.outp_mas  },
-   {   'q' , '-' , "sqls"       , "database and sql interaction"          , 'u', &yURG_debug.sqls      },
-   {   'Q' , '-' , "SQLS"       , "database and sql interaction"          , '#', &yURG_debug.sqls_mas  },
+   {   'i' , '-' , "inpt"       , "text and data file input"              , 'u', 'd', &yURG_debug.inpt      },
+   {   'I' , '-' , "INPT"       , "text and data file input"              , '#', 'd', &yURG_debug.inpt_mas  },
+   {   'o' , '-' , "outp"       , "text and data file output"             , 'u', 'd', &yURG_debug.outp      },
+   {   'O' , '-' , "OUTP"       , "text and data file output"             , '#', 'd', &yURG_debug.outp_mas  },
+   {   'q' , '-' , "sqls"       , "database and sql interaction"          , 'u', 'd', &yURG_debug.sqls      },
+   {   'Q' , '-' , "SQLS"       , "database and sql interaction"          , '#', 'd', &yURG_debug.sqls_mas  },
    /*---(event handling)-----------------*/
-   {   'l' , '-' , "loop"       , "main program event loop"               , 'u', &yURG_debug.loop      },
-   {   'L' , '-' , "LOOP"       , "main program event loop"               , '#', &yURG_debug.loop_mas  },
-   {   'u' , '-' , "user"       , "user input and handling"               , 'u', &yURG_debug.user      },
-   {   'U' , '-' , "USER"       , "user input and handling"               , '#', &yURG_debug.user_mas  },
-   {   'z' , '-' , "apis"       , "interprocess communication"            , 'u', &yURG_debug.apis      },
-   {   'Z' , '-' , "APIS"       , "interprocess communication"            , '#', &yURG_debug.apis_mas  },
-   {   'x' , '-' , "sign"       , "o/s signal handling"                   , 'u', &yURG_debug.sign      },
-   {   'X' , '-' , "SIGN"       , "o/s signal handling"                   , '#', &yURG_debug.sign_mas  },
-   {   'b' , '-' , "scrp"       , "scripts and batch handling"            , 'u', &yURG_debug.scrp      },
-   {   'B' , '-' , "SCRP"       , "scripts and batch handling"            , '#', &yURG_debug.scrp_mas  },
-   {   'h' , '-' , "hist"       , "history, undo, redo"                   , 'u', &yURG_debug.hist      },
-   {   'H' , '-' , "HIST"       , "history, undo, redo"                   , '#', &yURG_debug.hist_mas  },
+   {   'l' , '-' , "loop"       , "main program event loop"               , 'u', 'e', &yURG_debug.loop      },
+   {   'L' , '-' , "LOOP"       , "main program event loop"               , '#', 'e', &yURG_debug.loop_mas  },
+   {   'u' , '-' , "user"       , "user input and handling"               , 'u', 'e', &yURG_debug.user      },
+   {   'U' , '-' , "USER"       , "user input and handling"               , '#', 'e', &yURG_debug.user_mas  },
+   {   'z' , '-' , "apis"       , "interprocess communication"            , 'u', 'e', &yURG_debug.apis      },
+   {   'Z' , '-' , "APIS"       , "interprocess communication"            , '#', 'e', &yURG_debug.apis_mas  },
+   {   'x' , '-' , "sign"       , "o/s signal handling"                   , 'u', 'e', &yURG_debug.sign      },
+   {   'X' , '-' , "SIGN"       , "o/s signal handling"                   , '#', 'e', &yURG_debug.sign_mas  },
+   {   'b' , '-' , "scrp"       , "scripts and batch handling"            , 'u', 'e', &yURG_debug.scrp      },
+   {   'B' , '-' , "SCRP"       , "scripts and batch handling"            , '#', 'e', &yURG_debug.scrp_mas  },
+   {   'h' , '-' , "hist"       , "history, undo, redo"                   , 'u', 'e', &yURG_debug.hist      },
+   {   'H' , '-' , "HIST"       , "history, undo, redo"                   , '#', 'e', &yURG_debug.hist_mas  },
    /*---(deeper program)-----------------*/
-   {   'g' , '-' , "graf"       , "graphics, drawing, and display"        , 'u', &yURG_debug.graf      },
-   {   'G' , '-' , "GRAF"       , "graphics, drawing, and display"        , '#', &yURG_debug.graf_mas  },
-   {   'd' , '-' , "data"       , "complex data structure handling"       , 'u', &yURG_debug.data      },
-   {   'D' , '-' , "DATA"       , "complex data structure handling"       , '#', &yURG_debug.data_mas  },
-   {   'e' , '-' , "envi"       , "environmental processing"              , 'u', &yURG_debug.envi      },
-   {   'E' , '-' , "ENVI"       , "environmental processing"              , '#', &yURG_debug.envi_mas  },
-   {   's' , '-' , "sort"       , "data sorting and ordering"             , 'u', &yURG_debug.sort      },
-   {   'S' , '-' , "SORT"       , "data sorting and ordering"             , '#', &yURG_debug.sort_mas  },
+   {   'g' , '-' , "graf"       , "graphics, drawing, and display"        , 'u', 'p', &yURG_debug.graf      },
+   {   'G' , '-' , "GRAF"       , "graphics, drawing, and display"        , '#', 'p', &yURG_debug.graf_mas  },
+   {   'd' , '-' , "data"       , "complex data structure handling"       , 'u', 'p', &yURG_debug.data      },
+   {   'D' , '-' , "DATA"       , "complex data structure handling"       , '#', 'p', &yURG_debug.data_mas  },
+   {   'e' , '-' , "envi"       , "environmental processing"              , 'u', 'p', &yURG_debug.envi      },
+   {   'E' , '-' , "ENVI"       , "environmental processing"              , '#', 'p', &yURG_debug.envi_mas  },
+   {   's' , '-' , "sort"       , "data sorting and ordering"             , 'u', 'p', &yURG_debug.sort      },
+   {   'S' , '-' , "SORT"       , "data sorting and ordering"             , '#', 'p', &yURG_debug.sort_mas  },
    /*---(spreadsheet)--------------------*/
-   {   '-' , '-' , "locs"       , "spreadsheet location parsing and use"  , 's', &yURG_debug.locs      },
-   {   '-' , '-' , "LOCS"       , "spreadsheet location parsing and use"  , 'M', &yURG_debug.locs_mas  },
-   {   '-' , '-' , "cell"       , "spreadsheet cell creation and mtce"    , 's', &yURG_debug.cell      },
-   {   '-' , '-' , "CELL"       , "spreadsheet cell creation and mtce"    , 'M', &yURG_debug.cell_mas  },
+   {   '-' , '-' , "locs"       , "spreadsheet location parsing and use"  , 's', 's', &yURG_debug.locs      },
+   {   '-' , '-' , "LOCS"       , "spreadsheet location parsing and use"  , 'M', 'M', &yURG_debug.locs_mas  },
+   {   '-' , '-' , "cell"       , "spreadsheet cell creation and mtce"    , 's', 's', &yURG_debug.cell      },
+   {   '-' , '-' , "CELL"       , "spreadsheet cell creation and mtce"    , 'M', 'M', &yURG_debug.cell_mas  },
    /*---(calculations)-------------------*/
-   {   '-' , '-' , "rpn"        , "calculation conversion infix to rpn"   , 's', &yURG_debug.rpn       },
-   {   '-' , '-' , "RPN"        , "calculation conversion infix to rpn"   , 'M', &yURG_debug.rpn_mas   },
-   {   '-' , '-' , "calc"       , "calculation building from rpn"         , 's', &yURG_debug.calc      },
-   {   '-' , '-' , "CALC"       , "calculation building from rpn"         , 'M', &yURG_debug.calc_mas  },
-   {   '-' , '-' , "exec"       , "calculation execution"                 , 's', &yURG_debug.exec      },
-   {   '-' , '-' , "EXEC"       , "calculation execution"                 , 'M', &yURG_debug.exec_mas  },
+   {   '-' , '-' , "rpn"        , "calculation conversion infix to rpn"   , 's', 's', &yURG_debug.rpn       },
+   {   '-' , '-' , "RPN"        , "calculation conversion infix to rpn"   , 'M', 'M', &yURG_debug.rpn_mas   },
+   {   '-' , '-' , "calc"       , "calculation building from rpn"         , 's', 's', &yURG_debug.calc      },
+   {   '-' , '-' , "CALC"       , "calculation building from rpn"         , 'M', 'M', &yURG_debug.calc_mas  },
+   {   '-' , '-' , "exec"       , "calculation execution"                 , 's', 's', &yURG_debug.exec      },
+   {   '-' , '-' , "EXEC"       , "calculation execution"                 , 'M', 'M', &yURG_debug.exec_mas  },
    /*---(dependencies)-------------------*/
-   {   '-' , '-' , "deps"       , "dependency creation and maintenance"   , 's', &yURG_debug.deps      },
-   {   '-' , '-' , "DEPS"       , "dependency creation and maintenance"   , 'M', &yURG_debug.deps_mas  },
+   {   '-' , '-' , "deps"       , "dependency creation and maintenance"   , 's', 's', &yURG_debug.deps      },
+   {   '-' , '-' , "DEPS"       , "dependency creation and maintenance"   , 'M', 'M', &yURG_debug.deps_mas  },
    /*---(visual)-------------------------*/
-   {   '-' , '-' , "visu"       , "visual selection of objects"           , 's', &yURG_debug.visu      },
-   {   '-' , '-' , "VISU"       , "visual selection of objects"           , 'M', &yURG_debug.visu_mas  },
-   {   '-' , '-' , "ssel"       , "visual selection of text strings"      , 's', &yURG_debug.ssel      },
-   {   '-' , '-' , "SSEL"       , "visual selection of text strings"      , 'M', &yURG_debug.ssel_mas  },
-   {   '-' , '-' , "mark"       , "location and object marks"             , 's', &yURG_debug.mark      },
-   {   '-' , '-' , "MARK"       , "location and object marks"             , 'M', &yURG_debug.mark_mas  },
+   {   '-' , '-' , "visu"       , "visual selection of objects"           , 's', 's', &yURG_debug.visu      },
+   {   '-' , '-' , "VISU"       , "visual selection of objects"           , 'M', 'M', &yURG_debug.visu_mas  },
+   {   '-' , '-' , "ssel"       , "visual selection of text strings"      , 's', 's', &yURG_debug.ssel      },
+   {   '-' , '-' , "SSEL"       , "visual selection of text strings"      , 'M', 'M', &yURG_debug.ssel_mas  },
+   {   '-' , '-' , "mark"       , "location and object marks"             , 's', 's', &yURG_debug.mark      },
+   {   '-' , '-' , "MARK"       , "location and object marks"             , 'M', 'M', &yURG_debug.mark_mas  },
    /*---(registers)----------------------*/
-   {   '-' , '-' , "regs"       , "copy and paste registers"              , 's', &yURG_debug.regs      },
-   {   '-' , '-' , "REGS"       , "copy and paste registers"              , 'M', &yURG_debug.regs_mas  },
+   {   '-' , '-' , "regs"       , "copy and paste registers"              , 's', 's', &yURG_debug.regs      },
+   {   '-' , '-' , "REGS"       , "copy and paste registers"              , 'M', 'M', &yURG_debug.regs_mas  },
    /*---(libraries)----------------------*/
-   {   '-' , '-' , "ystr"       , "heatherly ySTR string library"         , 's', &yURG_debug.ystr      },
-   {   '-' , '-' , "YSTR"       , "heatherly ySTR string library"         , 'M', &yURG_debug.ystr_mas  },
-   {   '-' , '-' , "ykine"      , "heatherly yKINE kinematics library"    , 's', &yURG_debug.ykine     },
-   {   '-' , '-' , "YKINE"      , "heatherly yKINE kinematics library"    , 'M', &yURG_debug.ykine_mas },
+   {   '-' , '-' , "ystr"       , "heatherly ySTR string library"         , 'l', 'l', &yURG_debug.ystr      },
+   {   '-' , '-' , "YSTR"       , "heatherly ySTR string library"         , 'M', 'M', &yURG_debug.ystr_mas  },
+   {   '-' , '-' , "ykine"      , "heatherly yKINE kinematics library"    , 'l', 'l', &yURG_debug.ykine     },
+   {   '-' , '-' , "YKINE"      , "heatherly yKINE kinematics library"    , 'M', 'M', &yURG_debug.ykine_mas },
    /*---(end-of-list)--------------------*/
-   {   '\0', '-' , "END-OF-LIST", "end of list"                           , ' ', NULL                  },
+   {   '\0', '-' , "END-OF-LIST", "end of list"                           , ' ', ' ', NULL                  },
 
 };
 
@@ -180,6 +194,87 @@ yURG__strings      (void)
 /*===----                          normal                              ----===*/
 /*====================------------------------------------====================*/
 static void      o___NORMAL__________________o (void) {;}
+
+char         /*--> display all urgents and status --------[ ------ [ ------ ]-*/
+yURG_help          (void)
+{
+   /*---(locals)-----------+-----------+-*/
+   int         i           = 0;
+   int         j           = 0;
+   int         k           = 0;
+   char        x_type      = ' ';
+   char        x_subsave   = ' ';
+   int         x_count     = 0;
+   int         x_countmas  = 0;
+   int         x_total     = 0;
+   int         x_totalmas  = 0;
+   char        x_upper     [LEN_LABEL] = "";
+   char        x_mas       = ' ';
+   int         x_len       = 0;
+   char        x_header    [LEN_STR  ] = "";
+   /*---(list universals)----------------*/
+   printf ("yURG : urgent inventory report\n\n");
+   /*---(cycle types)--------------------*/
+   for (i = 0; i < MAX_URGS; ++i) {
+      /*---(filter)----------------------*/
+      if (yURG_type [i].type     == '\0')                            break;
+      if (yURG_type [i].subtype  != '-' )                            continue;
+      x_type = yURG_type [i].type;
+      sprintf (x_header, "%s -------------------------", yURG_type [i].desc);
+      printf ("   %-19.19s mas ---description-----------------------\n", x_header);
+      x_subsave  = '?';
+      /*---(cycle urgents)---------------*/
+      for (j = 0; j < MAX_URGS; ++j) {
+         /*---(filter)-------------------*/
+         if (yURG_info [j].abbr  == '\0')                            break;
+         if (yURG_info [j].type  != x_type)                          continue;
+         /*---(find mas version)---------*/
+         x_mas = '-';
+         strlcpy (x_upper, yURG_info [j].full, LEN_LABEL);
+         x_len = strllen (x_upper, LEN_LABEL);
+         for (k = 0; k < x_len; ++k)  x_upper [k] = toupper (x_upper [k]);
+         for (k = 0; k < MAX_URGS; ++k) {
+            if (yURG_info [k].abbr  == '\0')                         break;
+            if (yURG_info [k].full[0] != x_upper [0])                continue;
+            if (strcmp (yURG_info [k].full, x_upper) != 0)           continue;
+            x_mas = 'y';
+            break;
+         }
+         /*---(print)--------------------*/
+         if (yURG_info [j].subtype != x_subsave && yURG_info [j].subtype != '-') {
+            for (k = 0; k < MAX_URGS; ++k) {
+               /*---(filter)----------------------*/
+               if (yURG_type [k].type    == '\0')                    break;
+               if (yURG_type [k].type    != x_type)                  continue;
+               if (yURG_type [k].subtype != yURG_info [j].subtype)   continue;
+               sprintf (x_header, "---%s---------------------------", yURG_type [k].desc);
+               printf  ("      %-30.30s\n", x_header);
+               break;
+            }
+            x_subsave = yURG_info [j].subtype;
+         }
+         if (yURG_info [j].abbr  != '-')
+            printf ("      @%c,@@%-12.12s %c  %-40.40s\n",
+                  yURG_info [j].abbr , yURG_info [j].full , x_mas, yURG_info [j].desc );
+         else
+            printf ("      @@%-12.12s    %c  %-40.40s\n",
+                  yURG_info [j].full , x_mas, yURG_info [j].desc );
+         /*---(totals)-------------------*/
+         ++x_count;
+         if (x_mas == 'y')  ++x_countmas;
+         /*---(done)---------------------*/
+      }
+      /*---(sub-totals)------------------*/
+      printf ("      ---count = %d (%d mas)\n\n", x_count, x_countmas);
+      x_total     += x_count;
+      x_totalmas  += x_countmas;
+      x_count      = x_countmas = 0;
+   }
+   /*---(grand totals)-------------------*/
+   printf ("   grand total count = %d (%d mas), %d overall\n\n", x_total, x_totalmas, x_total + x_totalmas);
+   /*---(complete)-----------------------*/
+   return 0;
+}
 
 char         /*--> display all urgents and status --------[ ------ [ ------ ]-*/
 yURG_list          (void)
@@ -345,7 +440,7 @@ yURG_name          (cchar *a_name)
          DEBUG_ARGS_M   yLOG_note    ("compound urgent");
          if      (strcmp (a_name, "quiet"     ) == 0)   yURG_mass  ('-', 'E');
          else if (strcmp (a_name, "full"      ) == 0)   yURG_mass  ('y', '-');
-         else if (strcmp (a_name, "FULL"      ) == 0)   yURG_mass  ('y', 'M');
+         else if (strcmp (a_name, "mas"       ) == 0)   yURG_mass  ('y', 'M');
          else if (strcmp (a_name, "kitchen"   ) == 0)   yURG_mass  ('y', 'y');
          else if (strcmp (a_name, "omniscient") == 0)   yURG_mass  ('y', 'E');
          ++x_count;
@@ -475,9 +570,10 @@ yURG_logger        (int a_argc, char *a_argv[])
       else if (strcmp (a, "@@PROG"       ) == 0)   x_prog = 'P';
       /*---(compounds)-------------------*/
       else if (strcmp (a, "@@full"       ) == 0) { if (x_args != 'A')  x_args = 'a'; if (x_prog != 'P') x_prog = 'p'; }
-      else if (strcmp (a, "@@FULL"       ) == 0) { x_args = 'A'; x_prog = 'P'; }
+      else if (strcmp (a, "@@mas"        ) == 0) { x_args = 'A'; x_prog = 'P'; }
       else if (strcmp (a, "@@kitchen"    ) == 0) { if (x_args != 'A')  x_args = 'a'; if (x_prog != 'P') x_prog = 'p'; }
       else if (strcmp (a, "@@omniscient" ) == 0) { x_args = 'A'; x_prog = 'P'; }
+      else if (strcmp (a, "@@urgents"    ) == 0) { yURG_help (); exit (0); }
       /*> printf ("done, ready for next\n");                                          <*/
    }
    /*> printf ("log  = %c\n", x_log);                                                 <*/

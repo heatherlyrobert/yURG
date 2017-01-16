@@ -12,6 +12,13 @@
 
 #include    "yURG.h"
 
+typedef   struct  cYURG_TYPE   tYURG_TYPE;
+struct cYURG_TYPE
+{
+   char        type;                        /* matches urgent types           */
+   char        subtype;                     /* matches urgent sub-types;      */
+   char        desc        [LEN_LABEL];     /* description of type            */
+};
 
 typedef   struct  cYURG_INFO   tYURG_INFO;
 struct cYURG_INFO
@@ -21,6 +28,7 @@ struct cYURG_INFO
    char        full        [LEN_LABEL];     /* full name                      */
    char        desc        [LEN_DESC ];     /* explanation                    */
    char        type;                        /* universal, mas, special        */
+   char        subtype;                     /* universal, mas, special        */
    char       *point;                       /* universal, mas, special        */
 };
 

@@ -7,7 +7,11 @@ yURG \- library for command line urgent/debugging processing
 .B #include  <yURG.h>
 .sp
 .BI "char *yURG_version   (void);"
-.BI "char  yURG_parse     (int   " "a_argc" ", char *" "a_arcv[]" ");"
+.BI "char  yURG_logger    (int    " "a_argc" ", char *" "a_arcv[]" ");"
+.BI "char  yURG_urgs      (int    " "a_argc" ", char *" "a_arcv[]" ");"
+.sp
+.BI "char  yURG_abbr      (cchar  " "a_abbr" ");"
+.BI "char  yURG_name      (cchar *" "a_name" ");"
 .sp
 .B link with -L/usr/local/libs -lyURG or -lyURG_debug
 
@@ -24,10 +28,10 @@ arguments change the programs functioning.  urgents change what is written
 about the programs execution.
 
 .SH FORMAT
-urgents are formatting consistently in order for them to stand out on the
-command line.  urgents will always be prefixed with one or more "at" signs.
+urgents are formatted consistently in order for them to stand out on the
+command line.  urgents will always be prefixed with one or two "at" signs.
 
-.B short form.  
+.B short form (@).  
 the short form of an urgent is two characters long.  the first character is an
 "at" sign (@).  the second character is a single unique lower case letter.
 only the universal urgents, used in all programs, have short forms.
@@ -35,7 +39,7 @@ only the universal urgents, used in all programs, have short forms.
    @u       turns on debugging for user interactions
    @g       turns on debugging for graphics and drawing
 
-.B long form.  
+.B long form (@@).  
 the long form of an urgent is five or more characters long.  it starts with
 two "at" signs (@@).  these two are followed by three or more lower case
 letters indicating a unique urgent.
@@ -55,4 +59,5 @@ is available, the urgent is simply requested with upper case letters.
    @@USER   turns on debugging for user interactions
    @@GRAF   turns on debugging for graphics and drawing
 
-
+.SH UNIVERSALS
+to see a list of universals
