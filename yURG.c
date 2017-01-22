@@ -32,7 +32,7 @@ tYURG_INFO  yURG_info [MAX_URGS] = {
    {   '-' , 'y' , "quiet"          , "turn absolutely everything off"        , '-', '-', NULL                           },
    {   '-' , 'y' , "full"           , "turn all universals on"                , '-', '-', NULL                           },
    {   '-' , 'y' , "mas"            , "turn all universals and their mas on"  , '-', '-', NULL                           },
-   {   '-' , 'y' , "kitchen"        , "turn all universals and specific on"   , '-', '-', NULL                           },
+   {   '-' , 'y' , "kitchen"        , "turn all universals/specific (no mas)" , '-', '-', NULL                           },
    {   '-' , 'y' , "omniscient"     , "turn absolutely everything on"         , '-', '-', NULL                           },
    {   '-' , 'y' , "urgents"        , "list all urgents available in program" , 'u', '-', NULL                           },
    /*---(overall)------------------------*/
@@ -40,8 +40,8 @@ tYURG_INFO  yURG_info [MAX_URGS] = {
    {   'T' , '-' , "TOPS"           , "broad structure and context"           , '#', 'o', &yURG_debug.tops_mas           },
    {   'r' , '-' , "summ"           , "runtime statistics/analytical output"  , 'u', 'o', &yURG_debug.summ               },
    {   'R' , '-' , "SUMM"           , "runtime statistics/analytical output"  , '#', 'o', &yURG_debug.summ_mas           },
-   {   'v' , '-' , "verbose"        , "provide terminal output"               , 'u', 'o', &yURG_debug.verb               },
-   {   'V' , '-' , "VERBOSE"        , "provide terminal output"               , 'u', 'o', &yURG_debug.verb_mas           },
+   {   'v' , '-' , "verbose"        , "provide alternate terminal output"     , 'u', 'o', &yURG_debug.verb               },
+   {   'V' , '-' , "VERBOSE"        , "provide alternate terminal output"     , '#', 'o', &yURG_debug.verb_mas           },
    /*---(startup/shutdown)---------------*/
    {   'a' , 'y' , "args"           , "command-line args and urgent handling" , 'u', 's', &yURG_debug.args               },
    {   'A' , 'y' , "ARGS"           , "command-line args and urgent handling" , '#', 's', &yURG_debug.args_mas           },
@@ -238,7 +238,7 @@ yURG_help          (char *a_progname)
    printf ("yURG : urgent inventory report\n\n");
    if (yURG_debug.mode != 'y') {
       printf ("YOU ARE NOT RUNNING IN DEBUG MODE\n");
-      printf ("urgents are only active if debug version of program is used.\n");
+      printf ("urgents are only active if debug version of program is used (except @v).\n");
       printf ("to run %s in debug mode, use %s_debug\n\n", a_progname, a_progname);
    }
    /*---(cycle types)--------------------*/

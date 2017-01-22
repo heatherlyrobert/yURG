@@ -7,8 +7,8 @@
 
 
 /* rapidly evolving version number to aid with visual change confirmation     */
-#define YURG_VER_NUM   "0.3a"
-#define YURG_VER_TXT   "added verbose, terminal output option"
+#define YURG_VER_NUM   "0.3b"
+#define YURG_VER_TXT   "clean up @@verbose handling to work in yFONT_make"
 
 
 
