@@ -7,8 +7,8 @@
 
 
 /* rapidly evolving version number to aid with visual change confirmation     */
-#define YURG_VER_NUM   "0.2n"
-#define YURG_VER_TXT   "library urgents required underscores in names"
+#define YURG_VER_NUM   "0.3a"
+#define YURG_VER_TXT   "added verbose, terminal output option"
 
 
 
@@ -35,7 +35,9 @@ struct cURG_DEBUG
    char        tops;                   /* t) broad structure and context      */
    char        tops_mas;               /* t) broad structure and context      */
    char        summ;                   /* r) statistics and analytical output */
-   char        summ_mas;               /* r) statistics and analytical output */
+   char        summ_mas;               /* R) statistics and analytical output */
+   char        verb;                   /* v) statistics and analytical output */
+   char        verb_mas;               /* V) tracing on terminal output       */
    /*---(startup/shutdown)---------------*/
    char        args;                   /* a) command line args and urgents    */
    char        args_mas;               /* A) command line args and urgents    */
@@ -104,20 +106,27 @@ struct cURG_DEBUG
    char        sylk;
    char        gnome;
    char        dtree;          /* displays the dependency tree and exits      */
+   /*---(safe-strings)-------------------*/
    char        ystr;                   /* ySTR string library                 */
    char        ystr_mas;               /* ySTR string library                 */
+   /*---(kinematics)---------------------*/
    char        ykine_calc;                  /* yKINE kinematics library            */
    char        ykine_calc_mas;              /* yKINE kinematics library            */
    char        ykine_data;                  /* yKINE kinematics library            */
    char        ykine_data_mas;              /* yKINE kinematics library            */
    char        ykine_scrp;                  /* yKINE kinematics library            */
    char        ykine_scrp_mas;              /* yKINE kinematics library            */
+   /*---(vi-keys)------------------------*/
    char        yvikeys_keys;                /* yVIKEYS vi-keys library        */
    char        yvikeys_keys_mas;            /* yVIKEYS vi-keys library        */
    char        yvikeys_mode;                /* yVIKEYS vi-keys library        */
    char        yvikeys_mode_mas;            /* yVIKEYS vi-keys library        */
    char        yvikeys_scale;               /* yVIKEYS vi-keys library        */
    char        yvikeys_scale_mas;           /* yVIKEYS vi-keys library        */
+   /*---(fonts)--------------------------*/
+   char        yfont;                  /* yFONT texture mapped font library   */
+   char        yfont_mas;              /* yFONT texture mapped font library   */
+   /*---(done)---------------------------*/
 };
 extern    tURG_DEBUG      yURG_debug;
 
@@ -128,6 +137,8 @@ extern    tURG_DEBUG      yURG_debug;
 #define     DEBUG_TOPS_M           if (yURG_debug.tops_mas           == 'y')
 #define     DEBUG_SUMM             if (yURG_debug.summ               == 'y')
 #define     DEBUG_SUMM_M           if (yURG_debug.summ_mas           == 'y')
+#define     URG_VERB               if (yURG_debug.verb               == 'y')
+#define     URG_VERB_M             if (yURG_debug.verb_mas           == 'y')
 #define     DEBUG_ARGS             if (yURG_debug.args               == 'y')
 #define     DEBUG_ARGS_M           if (yURG_debug.args_mas           == 'y')
 #define     DEBUG_CONF             if (yURG_debug.conf               == 'y')
@@ -188,20 +199,23 @@ extern    tURG_DEBUG      yURG_debug;
 /*---(ySTR)------------------------------*/
 #define     DEBUG_YSTR             if (yURG_debug.ystr               == 'y')
 #define     DEBUG_YSTR_M           if (yURG_debug.ystr_mas           == 'y')
-#define     DEBUG_YKINE            if (yURG_debug.ykine              == 'y')
-#define     DEBUG_YKINE_M          if (yURG_debug.ykine_mas          == 'y')
+/*---(kinematics)------------------------*/
 #define     DEBUG_YKINE_CALC       if (yURG_debug.ykine_calc         == 'y')
 #define     DEBUG_YKINE_CALC_M     if (yURG_debug.ykine_calc_mas     == 'y')
 #define     DEBUG_YKINE_DATA       if (yURG_debug.ykine_data         == 'y')
 #define     DEBUG_YKINE_DATA_M     if (yURG_debug.ykine_data_mas     == 'y')
 #define     DEBUG_YKINE_SCRP       if (yURG_debug.ykine_scrp         == 'y')
 #define     DEBUG_YKINE_SCRP_M     if (yURG_debug.ykine_scrp_mas     == 'y')
+/*---(vi-keys)---------------------------*/
 #define     DEBUG_YVIKEYS_KEYS     if (yURG_debug.yvikeys_keys       == 'y')
 #define     DEBUG_YVIKEYS_KEYS_M   if (yURG_debug.yvikeys_keys_mas   == 'y')
 #define     DEBUG_YVIKEYS_MODE     if (yURG_debug.yvikeys_mode       == 'y')
 #define     DEBUG_YVIKEYS_MODE_M   if (yURG_debug.yvikeys_mode_mas   == 'y')
 #define     DEBUG_YVIKEYS_SCALE    if (yURG_debug.yvikeys_scale      == 'y')
 #define     DEBUG_YVIKEYS_SCALE_M  if (yURG_debug.yvikeys_scale_mas  == 'y')
+/*---(yFONT)-----------------------------*/
+#define     DEBUG_YFONT            if (yURG_debug.yfont              == 'y')
+#define     DEBUG_YFONT_M          if (yURG_debug.yfont_mas          == 'y')
 
 typedef     const char         cchar;
 
