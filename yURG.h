@@ -7,8 +7,8 @@
 
 
 /* rapidly evolving version number to aid with visual change confirmation     */
-#define YURG_VER_NUM   "0.3b"
-#define YURG_VER_TXT   "clean up @@verbose handling to work in yFONT_make"
+#define YURG_VER_NUM   "0.3c"
+#define YURG_VER_TXT   "added more detailed yFONT urgents"
 
 
 
@@ -126,6 +126,9 @@ struct cURG_DEBUG
    /*---(fonts)--------------------------*/
    char        yfont;                  /* yFONT texture mapped font library   */
    char        yfont_mas;              /* yFONT texture mapped font library   */
+   char        yfont_file;             /* yFONT file creation and access      */
+   char        yfont_calc;             /* yFONT layout and vertex calculation */
+   char        yfont_map;              /* yFONT texture mapping and access    */
    /*---(done)---------------------------*/
 };
 extern    tURG_DEBUG      yURG_debug;
@@ -216,6 +219,9 @@ extern    tURG_DEBUG      yURG_debug;
 /*---(yFONT)-----------------------------*/
 #define     DEBUG_YFONT            if (yURG_debug.yfont              == 'y')
 #define     DEBUG_YFONT_M          if (yURG_debug.yfont_mas          == 'y')
+#define     DEBUG_YFONT_FILE       if (yURG_debug.yfont_file         == 'y')
+#define     DEBUG_YFONT_CALC       if (yURG_debug.yfont_calc         == 'y')
+#define     DEBUG_YFONT_MAP        if (yURG_debug.yfont_map          == 'y')
 
 typedef     const char         cchar;
 

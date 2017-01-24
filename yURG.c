@@ -122,6 +122,9 @@ tYURG_INFO  yURG_info [MAX_URGS] = {
    {   '-' , '-' , "YVIKEYS_SCALE"  , "yVIKEYS vi-keys handling library"      , 'M', 'v', &yURG_debug.yvikeys_scale_mas  },
    {   '-' , '-' , "yfont"          , "yFONT texturn mapped font library"     , 'l', 'g', &yURG_debug.yfont              },
    {   '-' , '-' , "YFONT"          , "yFONT texturn mapped font library"     , 'M', 'g', &yURG_debug.yfont_mas          },
+   {   '-' , '-' , "yfont_file"     , "yFONT file creation and access"        , 'l', 'g', &yURG_debug.yfont_file         },
+   {   '-' , '-' , "yfont_calc"     , "yFONT layout and vertex calculation"   , 'l', 'g', &yURG_debug.yfont_calc         },
+   {   '-' , '-' , "yfont_map"      , "yFONT texture mapping and access"      , 'l', 'g', &yURG_debug.yfont_map          },
    /*---(end-of-list)--------------------*/
    {   '\0', '-' , "END-OF-LIST", "end of list"                           , ' ', ' ', NULL                  },
 
