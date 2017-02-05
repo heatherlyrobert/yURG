@@ -7,8 +7,8 @@
 
 
 /* rapidly evolving version number to aid with visual change confirmation     */
-#define YURG_VER_NUM   "0.3c"
-#define YURG_VER_TXT   "added more detailed yFONT urgents"
+#define YURG_VER_NUM   "0.3d"
+#define YURG_VER_TXT   "added debugging to yCOLOR"
 
 
 
@@ -16,6 +16,9 @@
 #define        LEN_DESC         80
 #define        LEN_STR         200
 #define        MAX_URGS        500
+
+#define        YURG_ON         'y'
+#define        YURG_OFF        '-'
 
 
 typedef     struct   cURG_DEBUG       tURG_DEBUG;
@@ -129,6 +132,12 @@ struct cURG_DEBUG
    char        yfont_file;             /* yFONT file creation and access      */
    char        yfont_calc;             /* yFONT layout and vertex calculation */
    char        yfont_map;              /* yFONT texture mapping and access    */
+   /*---(textures)-----------------------*/
+   char        ygltex;                 /* yFONT opengl texture handling       */
+   char        ygltex_mas;             /* yFONT opengl texture handling       */
+   /*---(colors)-------------------------*/
+   char        ycolor;                 /* yFONT opengl color handling         */
+   char        ycolor_mas;             /* yFONT opengl color handling         */
    /*---(done)---------------------------*/
 };
 extern    tURG_DEBUG      yURG_debug;
@@ -222,6 +231,12 @@ extern    tURG_DEBUG      yURG_debug;
 #define     DEBUG_YFONT_FILE       if (yURG_debug.yfont_file         == 'y')
 #define     DEBUG_YFONT_CALC       if (yURG_debug.yfont_calc         == 'y')
 #define     DEBUG_YFONT_MAP        if (yURG_debug.yfont_map          == 'y')
+/*---(yGLTEX)----------------------------*/
+#define     DEBUG_YGLTEX           if (yURG_debug.ygltex             == 'y')
+#define     DEBUG_YGLTEX_M         if (yURG_debug.ygltex_mas         == 'y')
+/*---(yCOLOR)----------------------------*/
+#define     DEBUG_YCOLOR           if (yURG_debug.ycolor             == 'y')
+#define     DEBUG_YCOLOR_M         if (yURG_debug.ycolor_mas         == 'y')
 
 typedef     const char         cchar;
 
@@ -234,8 +249,8 @@ char        yURG_urgs          (int    a_argc, char *a_argv[]);
 char        yURG_summ          (void);
 
 char        yURG_list          (void);
-char        yURG_abbr          (cchar  a_abbr);
-char        yURG_name          (cchar *a_name);
+char        yURG_abbr          (cchar  a_abbr, cchar a_on);
+char        yURG_name          (cchar *a_name, cchar a_on);
 char        yURG_mass          (cchar  a_set , cchar a_extra);
 
 

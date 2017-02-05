@@ -99,6 +99,10 @@ install            :
 	_lib      -A ${DEBUG}
 	ldconfig
 	#---(documentation)-------------------#
+	rm -f     /usr/share/man/man0/${BASE}.0.bz2
+	cp -f     ${BASE}.0    /usr/share/man/man0/
+	bzip2     /usr/share/man/man0/${BASE}.0
+	chmod     0644  /usr/share/man/man0/${BASE}.0.bz2
 	rm -f     /usr/share/man/man3/${BASE}.3.bz2
 	cp -f     ${BASE}.3    /usr/share/man/man3/
 	bzip2     /usr/share/man/man3/${BASE}.3

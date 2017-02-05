@@ -125,6 +125,10 @@ tYURG_INFO  yURG_info [MAX_URGS] = {
    {   '-' , '-' , "yfont_file"     , "yFONT file creation and access"        , 'l', 'g', &yURG_debug.yfont_file         },
    {   '-' , '-' , "yfont_calc"     , "yFONT layout and vertex calculation"   , 'l', 'g', &yURG_debug.yfont_calc         },
    {   '-' , '-' , "yfont_map"      , "yFONT texture mapping and access"      , 'l', 'g', &yURG_debug.yfont_map          },
+   {   '-' , '-' , "ygltex"         , "yGLTEX opengl texture handling"        , 'l', 'g', &yURG_debug.ygltex             },
+   {   '-' , '-' , "YGLTEX"         , "yGLTEX opengl texture handling"        , 'M', 'g', &yURG_debug.ygltex_mas         },
+   {   '-' , '-' , "ycolor"         , "yGLTEX opengl color handling"          , 'l', 'g', &yURG_debug.ycolor             },
+   {   '-' , '-' , "YCOLOR"         , "yGLTEX opengl color handling"          , 'M', 'g', &yURG_debug.ycolor_mas         },
    /*---(end-of-list)--------------------*/
    {   '\0', '-' , "END-OF-LIST", "end of list"                           , ' ', ' ', NULL                  },
 
@@ -348,7 +352,7 @@ yURG_summ          (void)
 }
 
 char         /*--> set a single urgent by abbr -----------[ ------ [ ------ ]-*/
-yURG_abbr          (cchar a_abbr)
+yURG_abbr          (cchar a_abbr, cchar a_on)
 {
    /*---(locals)-----------+-----------+-*/
    char        rce         = -10;
@@ -391,11 +395,11 @@ yURG_abbr          (cchar a_abbr)
       /*---(set)-------------------------*/
       DEBUG_ARGS_M   yLOG_note    ("set on and increment counter");
       ++x_count;
-      *(yURG_info [i].point) = 'y';
+      *(yURG_info [i].point) = YURG_ON;
       /*---(check mas)-------------------*/
       if (yURG_info [i].type  == '#' && a_abbr >= 'A' && a_abbr <= 'Z') {
          DEBUG_ARGS_M   yLOG_note    ("attemp to set non-mas version");
-         yURG_abbr (tolower (a_abbr));
+         yURG_abbr (tolower (a_abbr), a_on);
       }
       break;
    }
@@ -417,7 +421,7 @@ yURG_abbr          (cchar a_abbr)
 }
 
 char         /*--> set a single urgent by name -----------[ ------ [ ------ ]-*/
-yURG_name          (cchar *a_name)
+yURG_name          (cchar *a_name, cchar a_on)
 {
    /*---(locals)-----------+-----------+-*/
    char        rce         = -10;
@@ -485,10 +489,10 @@ yURG_name          (cchar *a_name)
       }
       /*---(set)-------------------------*/
       ++x_count;
-      *(yURG_info [i].point) = 'y';
+      *(yURG_info [i].point) = a_on;
       /*---(check mas)-------------------*/
       if ((yURG_info [i].type  == '#' || yURG_info [i].type  == 'M') && strcmp (x_lower, a_name) != 0) {
-         yURG_name (x_lower);
+         yURG_name (x_lower, a_on);
       }
       break;
    }
@@ -643,11 +647,11 @@ yURG_logger        (int a_argc, char *a_argv[])
    }
    /*> printf ("debugger = %d\n", yURG_debug.logger);                                 <*/
    /*---(fast update)--------------------*/
-   yURG_debug.tops = 'y';
-   if (x_args == 'a')    yURG_debug.args = 'y';
-   if (x_args == 'A')  { yURG_debug.args = 'y'; yURG_debug.args_mas = 'y'; }
-   if (x_prog == 'p')    yURG_debug.prog = 'y';
-   if (x_prog == 'P')  { yURG_debug.prog = 'y'; yURG_debug.prog_mas = 'y'; }
+   yURG_debug.tops = YURG_ON;
+   if (x_args == 'a')    yURG_debug.args = YURG_ON;
+   if (x_args == 'A')    yURG_debug.args = yURG_debug.args_mas = YURG_ON;
+   if (x_prog == 'p')    yURG_debug.prog = YURG_ON;
+   if (x_prog == 'P')    yURG_debug.prog = yURG_debug.prog_mas = YURG_ON;
    DEBUG_TOPS    yLOG_enter   (__FUNCTION__);
    DEBUG_TOPS    yLOG_note    ("@@tops turned on in yURG_logger()");
    DEBUG_ARGS    yLOG_note    ("@@args turned on in yURG_logger()");
@@ -685,8 +689,8 @@ yURG_urgs          (int a_argc, char *a_argv[])
       x_len  = strlen (a);
       ++x_urgs;
       rc = 0;
-      if      (x_len == 2)  rc = yURG_abbr  (a[1]);
-      else if (x_len >= 5)  rc = yURG_name  (a + 2);
+      if      (x_len == 2)  rc = yURG_abbr  (a[1] , YURG_ON);
+      else if (x_len >= 5)  rc = yURG_name  (a + 2, YURG_ON);
       else {
          DEBUG_ARGS   yLOG_note    ("could not process");
          ++x_bad;
