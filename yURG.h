@@ -7,8 +7,8 @@
 
 
 /* rapidly evolving version number to aid with visual change confirmation     */
-#define YURG_VER_NUM   "0.3d"
-#define YURG_VER_TXT   "added debugging to yCOLOR"
+#define YURG_VER_NUM   "0.3e"
+#define YURG_VER_TXT   "added debugging to hermes, and couple new URGs"
 
 
 
@@ -77,6 +77,17 @@ struct cURG_DEBUG
    char        envi_mas;               /* E) environment processing (mas/more)*/
    char        sort;                   /* s) data sorting and ordering        */
    char        sort_mas;               /* S) data sorting and ordering        */
+   /*---(hermes)-------------------------*/
+   char        dirs;                   /* hermes locations                    */
+   char        dirs_mas;               /* hermes locations                    */
+   char        pkgs;                   /* hermes packages                     */
+   char        pkgs_mas;               /* hermes packages                     */
+   char        cmds;                   /* hermes commands                     */
+   char        cmds_mas;               /* hermes commands                     */
+   char        gentoo;                 /* hermes gentoo/portage access        */
+   char        gentoo_mas;             /* hermes gentoo/portage access        */
+   char        cache;                  /* hermes cached database              */
+   char        cache_mas;              /* hermes cached database              */
    /*---(spreadsheet)--------------------*/
    char        locs;
    char        locs_mas;
@@ -181,6 +192,17 @@ extern    tURG_DEBUG      yURG_debug;
 #define     DEBUG_ENVI_M           if (yURG_debug.envi_mas           == 'y')
 #define     DEBUG_SORT             if (yURG_debug.sort               == 'y')
 #define     DEBUG_SORT_M           if (yURG_debug.sort_mas           == 'y')
+/*---(hermes)----------------------------*/
+#define     DEBUG_DIRS             if (yURG_debug.dirs               == 'y')
+#define     DEBUG_DIRS_M           if (yURG_debug.dirs_mas           == 'y')
+#define     DEBUG_PKGS             if (yURG_debug.pkgs               == 'y')
+#define     DEBUG_PKGS_M           if (yURG_debug.pkgs_mas           == 'y')
+#define     DEBUG_CMDS             if (yURG_debug.cmds               == 'y')
+#define     DEBUG_CMDS_M           if (yURG_debug.cmds_mas           == 'y')
+#define     DEBUG_GENTOO           if (yURG_debug.gentoo             == 'y')
+#define     DEBUG_GENTOO_M         if (yURG_debug.gentoo_mas         == 'y')
+#define     DEBUG_CACHE            if (yURG_debug.cache              == 'y')
+#define     DEBUG_CACHE_M          if (yURG_debug.cache_mas          == 'y')
 /*---(dependencies)----------------------*/
 #define     DEBUG_DEPS             if (yURG_debug.deps               == 'y')
 #define     DEBUG_DEPS_M           if (yURG_debug.deps_mas           == 'y')
