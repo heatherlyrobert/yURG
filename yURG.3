@@ -13,7 +13,9 @@ yURG \- library for command line urgent/debugging processing
 .BI "char  yURG_abbr      (cchar  " "a_abbr" ");"
 .BI "char  yURG_name      (cchar *" "a_name" ");"
 .sp
-.B link with -L/usr/local/libs -lyURG or -lyURG_debug
+.B link with -L/usr/local/libs
+.B production versions must use -lyURG
+.B debug and unit testing programs must use -lyURG_debug (or segfault)
 
 .SH SUMMARY
 yURG is a set of shared c functions to provide standard, flexible, reliable, 

@@ -7,8 +7,8 @@
 
 
 /* rapidly evolving version number to aid with visual change confirmation     */
-#define YURG_VER_NUM   "0.3e"
-#define YURG_VER_TXT   "added debugging to hermes, and couple new URGs"
+#define YURG_VER_NUM   "0.3f"
+#define YURG_VER_TXT   "updated man with debug/unit must use yURG_debug"
 
 
 
