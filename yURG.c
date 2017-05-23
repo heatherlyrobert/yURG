@@ -140,6 +140,8 @@ tYURG_INFO  yURG_info [MAX_URGS] = {
    {   '-' , '-' , "YGLTEX"         , "yGLTEX opengl texture handling"        , 'M', 'g', &yURG_debug.ygltex_mas         },
    {   '-' , '-' , "ycolor"         , "yGLTEX opengl color handling"          , 'l', 'g', &yURG_debug.ycolor             },
    {   '-' , '-' , "YCOLOR"         , "yGLTEX opengl color handling"          , 'M', 'g', &yURG_debug.ycolor_mas         },
+   {   '-' , '-' , "format"         , "hyleoroi formatting options"           , 'M', 'g', &yURG_debug.format             },
+   {   '-' , '-' , "FORMAT"         , "hyleoroi formatting options"           , 'M', 'g', &yURG_debug.format_mas         },
    /*---(end-of-list)--------------------*/
    {   '\0', '-' , "END-OF-LIST", "end of list"                           , ' ', ' ', NULL                  },
 

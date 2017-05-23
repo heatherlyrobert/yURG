@@ -7,8 +7,8 @@
 
 
 /* rapidly evolving version number to aid with visual change confirmation     */
-#define YURG_VER_NUM   "0.3g"
-#define YURG_VER_TXT   "naming error in hermes urgents now fixed"
+#define YURG_VER_NUM   "0.3h"
+#define YURG_VER_TXT   "added format debug item for formatting and format options"
 
 
 
@@ -149,6 +149,9 @@ struct cURG_DEBUG
    /*---(colors)-------------------------*/
    char        ycolor;                 /* yFONT opengl color handling         */
    char        ycolor_mas;             /* yFONT opengl color handling         */
+   /*---(hyleoroi)-----------------------*/
+   char        format;                 /* formatting options                  */
+   char        format_mas;             /* formatting options                  */
    /*---(done)---------------------------*/
 };
 extern    tURG_DEBUG      yURG_debug;
@@ -259,6 +262,9 @@ extern    tURG_DEBUG      yURG_debug;
 /*---(yCOLOR)----------------------------*/
 #define     DEBUG_YCOLOR           if (yURG_debug.ycolor             == 'y')
 #define     DEBUG_YCOLOR_M         if (yURG_debug.ycolor_mas         == 'y')
+/*---(hyleoroi)--------------------------*/
+#define     DEBUG_FORMAT           if (yURG_debug.format             == 'y')
+#define     DEBUG_FORMAT_M         if (yURG_debug.format_mas         == 'y')
 
 typedef     const char         cchar;
 
