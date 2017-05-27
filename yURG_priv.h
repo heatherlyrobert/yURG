@@ -12,6 +12,12 @@
 
 #include    "yURG.h"
 
+
+/* rapidly evolving version number to aid with visual change confirmation     */
+#define YURG_VER_NUM   "0.3i"
+#define YURG_VER_TXT   "moved to make_program makefile enhancement"
+
+
 typedef   struct  cYURG_TYPE   tYURG_TYPE;
 struct cYURG_TYPE
 {

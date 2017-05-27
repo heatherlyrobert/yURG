@@ -6,11 +6,6 @@
 #define YURG_HGUARD loaded
 
 
-/* rapidly evolving version number to aid with visual change confirmation     */
-#define YURG_VER_NUM   "0.3h"
-#define YURG_VER_TXT   "added format debug item for formatting and format options"
-
-
 
 #define        LEN_LABEL        20
 #define        LEN_DESC         80
@@ -152,6 +147,8 @@ struct cURG_DEBUG
    /*---(hyleoroi)-----------------------*/
    char        format;                 /* formatting options                  */
    char        format_mas;             /* formatting options                  */
+   char        color;                  /* color formatting options            */
+   char        color_mas;              /* color formatting options            */
    /*---(done)---------------------------*/
 };
 extern    tURG_DEBUG      yURG_debug;
@@ -265,6 +262,8 @@ extern    tURG_DEBUG      yURG_debug;
 /*---(hyleoroi)--------------------------*/
 #define     DEBUG_FORMAT           if (yURG_debug.format             == 'y')
 #define     DEBUG_FORMAT_M         if (yURG_debug.format_mas         == 'y')
+#define     DEBUG_COLOR            if (yURG_debug.color              == 'y')
+#define     DEBUG_COLOR_M          if (yURG_debug.color              == 'y')
 
 typedef     const char         cchar;
 

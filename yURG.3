@@ -64,3 +64,111 @@ is available, the urgent is simply requested with upper case letters.
 .SH UNIVERSALS
 to see a list of universals
 
+.TH yURG 0 2017-jan "linux" "heatherly custom tools manual"
+
+.SH NAME
+yURG \- command-line and programatic control over debugging/tracing
+
+
+.SH SUMMARY
+yURG is a heatherly shared library to drive consistent, flexible, reliable,
+and repeatable debugging/tracing in programs with full command-line and
+programatic control over filtering and volume of output.
+
+.SH REASONING
+.B situation (s).  
+program debugging and tracing usually comes in one of two flavors -- EITHER
+ad-hoc inclusion of code/printing OR using a detailed debugging program which
+runs the program line-by-line.
+
+.B complication (c).  
+both flavors of debugging are time-consuming, cumbursome, and painful unless
+the problem source is already intuited.  additionally, neither method is
+repeatable in the fashion of testing.
+
+.B answer (a).  
+build and maintain a debugging system that will be built into each program,
+allow command-line selectable options, and provide comparable, repeatable,
+and consistent results on short-notice.
+
+.B objectives (o).  
+   -- provide command line options controlling debugging/logging focus
+   -- allow internal ability to alter debugging focus and volume
+   -- standardize debugging experience across all programs
+   -- do not require additional work to strip from production
+   -- make super easy and quick to use so i can isolate problems fast
+   -- make my execution environment more reliable and resilient
+   -- test, maintain, and document it once
+   -- use it everywhere and forever
+
+.SH FULL DEBUGGING ENVIRONMENT
+yURG and yLOG shared libraries work together to provide a standard, adaptable,
+and consistent debugging environment.  yLOG provides a consistent and standard
+execution logging capabilty that can be easily added to any program.  yURG then
+adds a standard set of command-line and real-time alterable debugging flags
+that activate specific debugging code as required.
+
+.SH COMMAND-LINE USAGE
+yURG implements a set of command-line options called urgents.  urgents are
+command line arguments to influence program logging, tracing, and debugging
+and which run parallel to normal ones.  normal command line arguments change
+the programs functioning.  urgents change what is written about the programs
+execution.
+
+.B format.  
+urgents are formatted consistently in order for them to stand out on the
+command line.  urgents will always be prefixed with one or two "at" signs.
+the formatting rules are modeled after GNU command-line option recommendations.
+
+.B short form (@).  
+the short form of an urgent is two characters long.  the first character is an
+"at" sign (@).  the second character is a single unique lower case letter.
+only the universal urgents, used in all programs, have short forms.
+   @a       turns on debugging for command line arguments
+   @u       turns on debugging for user interactions
+   @g       turns on debugging for graphics and drawing
+
+.B long form (@@).  
+the long form of an urgent is five or more characters long.  it starts with
+two "at" signs (@@).  these two are followed by three or more lower case
+letters indicating a unique urgent.
+all urgents have long forms.
+   @@args   turns on debugging for command line arguments
+   @@user   turns on debugging for user interactions
+   @@graf   turns on debugging for graphics and drawing
+
+.B extra output form.  
+both short and long form urgents MAY have an option of a second, more verbose
+level of output in order to better adjust debugging volume.  if this option
+is available, the urgent is simply requested with upper case letters.
+   @A       turns on debugging for command line arguments
+   @U       turns on debugging for user interactions
+   @G       turns on debugging for graphics and drawing
+   @@ARGS   turns on debugging for command line arguments
+   @@USER   turns on debugging for user interactions
+   @@GRAF   turns on debugging for graphics and drawing
+
+.B available urgents.  
+to display all urgent options, just add "@@urgents" to the command-line.
+this option will desplay a full urgent list with descriptions and then exit.
+
+.SH PROGRAMMING
+using yURG is a combination of two public function calls, and a standard set
+of "define" macros that turn calls to yLOG on and off.  to use this abilty,
+you must be comfortable with both yURG and yLOG.
+
+.B define macros.  
+all debug macros begin with DEBUG_.  this prefix allows those lines to be
+automatically stripped to create the production version of the code.
+
+.SH AUTHOR
+rsheatherly
+
+.SH SEE ALSO
+ yURG (0)        overview, reasoning, and descision process
+ yURG (3)        library usage and interface
+
+.SH COLOPHON
+this page is part of a documentation package mean to make our use of the
+heatherly libraries easier and faster
+

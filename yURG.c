@@ -142,6 +142,8 @@ tYURG_INFO  yURG_info [MAX_URGS] = {
    {   '-' , '-' , "YCOLOR"         , "yGLTEX opengl color handling"          , 'M', 'g', &yURG_debug.ycolor_mas         },
    {   '-' , '-' , "format"         , "hyleoroi formatting options"           , 'M', 'g', &yURG_debug.format             },
    {   '-' , '-' , "FORMAT"         , "hyleoroi formatting options"           , 'M', 'g', &yURG_debug.format_mas         },
+   {   '-' , '-' , "color"          , "hyleoroi color usage and setup"        , 'M', 'g', &yURG_debug.color              },
+   {   '-' , '-' , "COLOR"          , "hyleoroi color usage and setup"        , 'M', 'g', &yURG_debug.color_mas          },
    /*---(end-of-list)--------------------*/
    {   '\0', '-' , "END-OF-LIST", "end of list"                           , ' ', ' ', NULL                  },
 
