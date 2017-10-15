@@ -144,6 +144,9 @@ struct cURG_DEBUG
    /*---(colors)-------------------------*/
    char        ycolor;                 /* yFONT opengl color handling         */
    char        ycolor_mas;             /* yFONT opengl color handling         */
+   /*---(rpn)----------------------------*/
+   char        yrpn;                   /* yRPN reverse polish notation        */
+   char        yrpn_mas;               /* yRPN reverse polish notation        */
    /*---(hyleoroi)-----------------------*/
    char        format;                 /* formatting options                  */
    char        format_mas;             /* formatting options                  */
@@ -259,6 +262,9 @@ extern    tURG_DEBUG      yURG_debug;
 /*---(yCOLOR)----------------------------*/
 #define     DEBUG_YCOLOR           if (yURG_debug.ycolor             == 'y')
 #define     DEBUG_YCOLOR_M         if (yURG_debug.ycolor_mas         == 'y')
+/*---(yRPN)------------------------------*/
+#define     DEBUG_YRPN             if (yURG_debug.yrpn               == 'y')
+#define     DEBUG_YRPN_M           if (yURG_debug.yrpn_mas           == 'y')
 /*---(hyleoroi)--------------------------*/
 #define     DEBUG_FORMAT           if (yURG_debug.format             == 'y')
 #define     DEBUG_FORMAT_M         if (yURG_debug.format_mas         == 'y')

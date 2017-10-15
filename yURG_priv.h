@@ -14,8 +14,8 @@
 
 
 /* rapidly evolving version number to aid with visual change confirmation     */
-#define YURG_VER_NUM   "0.3i"
-#define YURG_VER_TXT   "moved to make_program makefile enhancement"
+#define YURG_VER_NUM   "0.3j"
+#define YURG_VER_TXT   "unknown changes i forgot to log"
 
 
 typedef   struct  cYURG_TYPE   tYURG_TYPE;

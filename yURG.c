@@ -140,6 +140,8 @@ tYURG_INFO  yURG_info [MAX_URGS] = {
    {   '-' , '-' , "YGLTEX"         , "yGLTEX opengl texture handling"        , 'M', 'g', &yURG_debug.ygltex_mas         },
    {   '-' , '-' , "ycolor"         , "yGLTEX opengl color handling"          , 'l', 'g', &yURG_debug.ycolor             },
    {   '-' , '-' , "YCOLOR"         , "yGLTEX opengl color handling"          , 'M', 'g', &yURG_debug.ycolor_mas         },
+   {   '-' , '-' , "yrpn"           , "yRPN reverse polish notation"          , 'l', 'g', &yURG_debug.yrpn               },
+   {   '-' , '-' , "YRPN"           , "yRPN reverse polish notation"          , 'M', 'g', &yURG_debug.yrpn_mas           },
    {   '-' , '-' , "format"         , "hyleoroi formatting options"           , 'M', 'g', &yURG_debug.format             },
    {   '-' , '-' , "FORMAT"         , "hyleoroi formatting options"           , 'M', 'g', &yURG_debug.format_mas         },
    {   '-' , '-' , "color"          , "hyleoroi color usage and setup"        , 'M', 'g', &yURG_debug.color              },
