@@ -119,6 +119,8 @@ tYURG_INFO  yURG_info [MAX_URGS] = {
    /*---(libraries)----------------------*/
    {   '-' , '-' , "ystr"           , "heatherly ySTR string library"         , 'l', 's', &yURG_debug.ystr               },
    {   '-' , '-' , "YSTR"           , "heatherly ySTR string library"         , 'M', 's', &yURG_debug.ystr_mas           },
+   {   '-' , '-' , "yregex"         , "heatherly yREGEX library"              , 'l', 's', &yURG_debug.yregex             },
+   {   '-' , '-' , "YREGEX"         , "heatherly yREGEX library"              , 'M', 's', &yURG_debug.yregex_mas         },
    {   '-' , '-' , "ykine_calc"     , "yKINE kinematics calculations"         , 'l', 'k', &yURG_debug.ykine_calc         },
    {   '-' , '-' , "YKINE_CALC"     , "yKINE kinematics calculations"         , 'M', 'k', &yURG_debug.ykine_calc_mas     },
    {   '-' , '-' , "ykine_data"     , "yKINE kinematics common data"          , 'l', 'k', &yURG_debug.ykine_data         },

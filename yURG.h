@@ -118,6 +118,9 @@ struct cURG_DEBUG
    /*---(safe-strings)-------------------*/
    char        ystr;                   /* ySTR string library                 */
    char        ystr_mas;               /* ySTR string library                 */
+   /*---(regular expressions)------------*/
+   char        yregex;                 /* yREGEX library                      */
+   char        yregex_mas;             /* yREGEX library                      */
    /*---(kinematics)---------------------*/
    char        ykine_calc;                  /* yKINE kinematics library            */
    char        ykine_calc_mas;              /* yKINE kinematics library            */
@@ -236,6 +239,9 @@ extern    tURG_DEBUG      yURG_debug;
 /*---(ySTR)------------------------------*/
 #define     DEBUG_YSTR             if (yURG_debug.ystr               == 'y')
 #define     DEBUG_YSTR_M           if (yURG_debug.ystr_mas           == 'y')
+/*---(yREGEX)----------------------------*/
+#define     DEBUG_YREGEX           if (yURG_debug.yregex             == 'y')
+#define     DEBUG_YREGEX_M         if (yURG_debug.yregex_mas         == 'y')
 /*---(kinematics)------------------------*/
 #define     DEBUG_YKINE_CALC       if (yURG_debug.ykine_calc         == 'y')
 #define     DEBUG_YKINE_CALC_M     if (yURG_debug.ykine_calc_mas     == 'y')
