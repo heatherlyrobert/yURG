@@ -64,14 +64,26 @@ struct cURG_DEBUG
    char        hist;                   /* h) history, undo, redo              */
    char        hist_mas;               /* H) history, undo, redo              */
    /*---(program)------------------------*/
-   char        graf;                   /* g) grahpics, drawing, and display   */
-   char        graf_mas;               /* G) grahpics, drawing, and display   */
+   char        graf;                   /* g) grahpics setup and config        */
+   char        graf_mas;               /* G) grahpics setup and config        */
+   char        wind;                   /* w) window drawing                   */
+   char        wind_mas;               /* W) window drawing                   */
    char        data;                   /* d) complex data structure handling  */
    char        data_mas;               /* D) complex data structure handling  */
    char        envi;                   /* e) environment processing           */
    char        envi_mas;               /* E) environment processing (mas/more)*/
    char        sort;                   /* s) data sorting and ordering        */
    char        sort_mas;               /* S) data sorting and ordering        */
+   /*---(data input)---------------------*/
+   char        touch;                  /* data point -- touch interface       */
+   char        raw;                    /* data point -- raw input             */
+   char        simple;                 /* data point -- simplification        */
+   char        average;                /* data point -- averaging             */
+   char        critical;               /* data point -- critical points       */
+   char        circle;                 /* data point -- circle marking        */
+   char        curve;                  /* data point -- curve marking         */
+   char        line;                   /* data point -- line straightening    */
+   char        dict;                   /* dictionary processssing             */
    /*---(hermes)-------------------------*/
    char        dirs;                   /* hermes locations                    */
    char        dirs_mas;               /* hermes locations                    */
@@ -192,12 +204,24 @@ extern    tURG_DEBUG      yURG_debug;
 #define     DEBUG_HIST_M           if (yURG_debug.hist_mas           == 'y')
 #define     DEBUG_GRAF             if (yURG_debug.graf               == 'y')
 #define     DEBUG_GRAF_M           if (yURG_debug.graf_mas           == 'y')
+#define     DEBUG_WIND             if (yURG_debug.wind               == 'y')
+#define     DEBUG_WIND_M           if (yURG_debug.wind_mas           == 'y')
 #define     DEBUG_DATA             if (yURG_debug.data               == 'y')
 #define     DEBUG_DATA_M           if (yURG_debug.data_mas           == 'y')
 #define     DEBUG_ENVI             if (yURG_debug.envi               == 'y')
 #define     DEBUG_ENVI_M           if (yURG_debug.envi_mas           == 'y')
 #define     DEBUG_SORT             if (yURG_debug.sort               == 'y')
 #define     DEBUG_SORT_M           if (yURG_debug.sort_mas           == 'y')
+/*---(gregg)-----------------------------*/
+#define     DEBUG_TOUCH            if (yURG_debug.touch              == 'y')
+#define     DEBUG_RAW              if (yURG_debug.raw                == 'y')
+#define     DEBUG_SIMPLE           if (yURG_debug.simple             == 'y')
+#define     DEBUG_AVERAGE          if (yURG_debug.average            == 'y')
+#define     DEBUG_CRITICAL         if (yURG_debug.critical           == 'y')
+#define     DEBUG_CIRCLE           if (yURG_debug.circle             == 'y')
+#define     DEBUG_CURVE            if (yURG_debug.curve              == 'y')
+#define     DEBUG_LINE             if (yURG_debug.line               == 'y')
+#define     DEBUG_DICT             if (yURG_debug.dict               == 'y')
 /*---(hermes)----------------------------*/
 #define     DEBUG_DIRS             if (yURG_debug.dirs               == 'y')
 #define     DEBUG_DIRS_M           if (yURG_debug.dirs_mas           == 'y')
