@@ -139,6 +139,7 @@ tYURG_INFO  yURG_info [MAX_URGS] = {
    {   '-' , '-' , "YKINE_DATA"     , "yKINE kinematics common data"          , 'M', 'k', &yURG_debug.ykine_data_mas     },
    {   '-' , '-' , "ykine_scrp"     , "yKINE kinematics script interpretation", 'l', 'k', &yURG_debug.ykine_scrp         },
    {   '-' , '-' , "YKINE_SCRP"     , "yKINE kinematics script interpretation", 'M', 'k', &yURG_debug.ykine_scrp_mas     },
+   {   '-' , '-' , "yvikeys"        , "yVIKEYS vi-keys handling library"      , 'l', 'v', &yURG_debug.yvikeys            },
    {   '-' , '-' , "yvikeys_keys"   , "yVIKEYS vi-keys handling library"      , 'l', 'v', &yURG_debug.yvikeys_keys       },
    {   '-' , '-' , "YVIKEYS_KEYS"   , "yVIKEYS vi-keys handling library"      , 'M', 'v', &yURG_debug.yvikeys_keys_mas   },
    {   '-' , '-' , "yvikeys_mode"   , "yVIKEYS vi-keys handling library"      , 'l', 'v', &yURG_debug.yvikeys_mode       },

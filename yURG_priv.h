@@ -14,8 +14,8 @@
 
 
 /* rapidly evolving version number to aid with visual change confirmation     */
-#define YURG_VER_NUM   "0.3l"
-#define YURG_VER_TXT   "added gregg urgent for window drawing vs graphic setup"
+#define YURG_VER_NUM   "0.3m"
+#define YURG_VER_TXT   "added a simple yvikeys main urgent"
 
 
 typedef   struct  cYURG_TYPE   tYURG_TYPE;

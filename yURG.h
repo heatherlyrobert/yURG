@@ -141,6 +141,7 @@ struct cURG_DEBUG
    char        ykine_scrp;                  /* yKINE kinematics library            */
    char        ykine_scrp_mas;              /* yKINE kinematics library            */
    /*---(vi-keys)------------------------*/
+   char        yvikeys;                     /* yVIKEYS vi-keys library        */
    char        yvikeys_keys;                /* yVIKEYS vi-keys library        */
    char        yvikeys_keys_mas;            /* yVIKEYS vi-keys library        */
    char        yvikeys_mode;                /* yVIKEYS vi-keys library        */
@@ -215,9 +216,9 @@ extern    tURG_DEBUG      yURG_debug;
 /*---(gregg)-----------------------------*/
 #define     DEBUG_TOUCH            if (yURG_debug.touch              == 'y')
 #define     DEBUG_RAW              if (yURG_debug.raw                == 'y')
-#define     DEBUG_SIMPLE           if (yURG_debug.simple             == 'y')
-#define     DEBUG_AVERAGE          if (yURG_debug.average            == 'y')
-#define     DEBUG_CRITICAL         if (yURG_debug.critical           == 'y')
+#define     DEBUG_SIMP             if (yURG_debug.simple             == 'y')
+#define     DEBUG_AVG              if (yURG_debug.average            == 'y')
+#define     DEBUG_CRIT             if (yURG_debug.critical           == 'y')
 #define     DEBUG_CIRCLE           if (yURG_debug.circle             == 'y')
 #define     DEBUG_CURVE            if (yURG_debug.curve              == 'y')
 #define     DEBUG_LINE             if (yURG_debug.line               == 'y')
@@ -274,6 +275,7 @@ extern    tURG_DEBUG      yURG_debug;
 #define     DEBUG_YKINE_SCRP       if (yURG_debug.ykine_scrp         == 'y')
 #define     DEBUG_YKINE_SCRP_M     if (yURG_debug.ykine_scrp_mas     == 'y')
 /*---(vi-keys)---------------------------*/
+#define     DEBUG_YVIKEYS          if (yURG_debug.yvikeys            == 'y')
 #define     DEBUG_YVIKEYS_KEYS     if (yURG_debug.yvikeys_keys       == 'y')
 #define     DEBUG_YVIKEYS_KEYS_M   if (yURG_debug.yvikeys_keys_mas   == 'y')
 #define     DEBUG_YVIKEYS_MODE     if (yURG_debug.yvikeys_mode       == 'y')
