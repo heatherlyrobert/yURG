@@ -81,15 +81,15 @@ tYURG_INFO  yURG_info [MAX_URGS] = {
    {   's' , '-' , "sort"           , "data sorting and ordering"             , 'u', 'p', &yURG_debug.sort               },
    {   'S' , '-' , "SORT"           , "data sorting and ordering"             , '#', 'p', &yURG_debug.sort_mas           },
    /*---(gregg)--------------------------*/
-   {   '-' , '-' , "touch"          , "touch interface"                       , 'M', '-', &yURG_debug.touch              },
+   {   '-' , '-' , "touch"          , "touch interface"                       , 's', '-', &yURG_debug.touch              },
    {   '-' , '-' , "raw"            , "data point -- raw collection"          , 's', '-', &yURG_debug.raw                },
-   {   '-' , '-' , "simple"         , "data point -- simplification"          , 'M', '-', &yURG_debug.simple             },
-   {   '-' , '-' , "average"        , "data point -- averaging"               , 'M', '-', &yURG_debug.average            },
-   {   '-' , '-' , "critical"       , "data point -- critical points"         , 'M', '-', &yURG_debug.critical           },
-   {   '-' , '-' , "circle"         , "data point -- circle marking"          , 'M', '-', &yURG_debug.circle             },
-   {   '-' , '-' , "curve"          , "data point -- curve marking"           , 'M', '-', &yURG_debug.curve              },
-   {   '-' , '-' , "line"           , "data point -- line straightening"      , 'M', '-', &yURG_debug.line               },
-   {   '-' , '-' , "dict"           , "dictionary processing"                 , 'M', '-', &yURG_debug.dict               },
+   {   '-' , '-' , "simple"         , "data point -- simplification"          , 's', '-', &yURG_debug.simple             },
+   {   '-' , '-' , "average"        , "data point -- averaging"               , 's', '-', &yURG_debug.average            },
+   {   '-' , '-' , "critical"       , "data point -- critical points"         , 's', '-', &yURG_debug.critical           },
+   {   '-' , '-' , "circle"         , "data point -- circle marking"          , 's', '-', &yURG_debug.circle             },
+   {   '-' , '-' , "curve"          , "data point -- curve marking"           , 's', '-', &yURG_debug.curve              },
+   {   '-' , '-' , "line"           , "data point -- line straightening"      , 's', '-', &yURG_debug.line               },
+   {   '-' , '-' , "dict"           , "dictionary processing"                 , 's', '-', &yURG_debug.dict               },
    /*---(hermes)-------------------------*/
    {   '-' , '-' , "dirs"           , "hermes location tracking"              , 's', '-', &yURG_debug.dirs               },
    {   '-' , '-' , "DIRS"           , "hermes location tracking"              , 'M', '-', &yURG_debug.dirs_mas           },
@@ -659,6 +659,7 @@ yURG_logger        (int a_argc, char *a_argv[])
       else if (strcmp (a, "@@kitchen"    ) == 0) { if (x_args != 'A')  x_args = 'a'; if (x_prog != 'P') x_prog = 'p'; }
       else if (strcmp (a, "@@omniscient" ) == 0) { x_args = 'A'; x_prog = 'P'; }
       else if (strcmp (a, "@@urgents"    ) == 0) { yURG_help (x_basename); exit (0); }
+      else if (strcmp (a, "@@help"       ) == 0) { yURG_help (x_basename); exit (0); }
       /*> printf ("done, ready for next\n");                                          <*/
    }
    /*> printf ("log  = %c\n", x_log);                                                 <*/
