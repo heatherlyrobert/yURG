@@ -25,7 +25,7 @@ struct cURG_DEBUG
 {
    /*---(handle)-------------------------*/
    int         logger;                 /* log file so that we don't close it  */
-   int         mode;                   /* quiet '-' vs logging 'y'            */
+   int         loud;                   /* quiet '-' vs logging 'y'            */
    /*---(overall)------------------------*/  /* abcdefghi_kl__opq_stu__x__    */
    /* f = full urgents turns on all standard urgents                          */
    /* k = kitchen sink and turns everything, i mean everything on             */
@@ -110,13 +110,23 @@ struct cURG_DEBUG
    /*---(dependencies)-------------------*/
    char        deps;
    char        deps_mas;
-   /*---(selections)---------------------*/
-   char        visu;                   /* gyges_visu : visual selection       */
-   char        visu_mas;               /* gyges_visu : visual selection       */
-   char        ssel;                   /* gyges_visu : source selection       */
-   char        ssel_mas;               /* gyges_visu : source selection       */
-   char        mark;                   /* gyges_visu : location/object marks  */
-   char        mark_mas;               /* gyges_visu : location/object marks  */
+   /*---(yVIKEYS)------------------------*/
+   char        visu;                   /* yVIKEYS : visual selection          */
+   char        visu_mas;               /* yVIKEYS : visual selection          */
+   char        ssel;                   /* yVIKEYS : text selection            */
+   char        ssel_mas;               /* yVIKEYS : text selection            */
+   char        mark;                   /* yVIKEYS : location marks            */
+   char        mark_mas;               /* yVIKEYS : location marks            */
+   char        hint;                   /* yVIKEYS : location hinting          */
+   char        hint_mas;               /* yVIKEYS : location hinting          */
+   char        srch;                   /* yVIKEYS : searching                 */
+   char        srch_mas;               /* yVIKEYS : searching                 */
+   char        map;                    /* yVIKEYS : screen mapping            */
+   char        map_mas;                /* yVIKEYS : screen mapping            */
+   char        mode;                   /* yVIKEYS : mode handling             */
+   char        mode_mas;               /* yVIKEYS : mode handling             */
+   char        edit;                   /* yVIKEYS : source editing            */
+   char        edit_mas;               /* yVIKEYS : source editing            */
    /*---(registers)----------------------*/
    char        regs;                   /* s_sel  : copy and paste registers   */
    char        regs_mas;               /* s_sel  : copy and paste registers   */
@@ -251,16 +261,28 @@ extern    tURG_DEBUG      yURG_debug;
 #define     DEBUG_EXEC_M           if (yURG_debug.exec_mas           == 'y')
 #define     DEBUG_ADJS             if (yURG_debug.adjs               == 'y')
 #define     DEBUG_ADJS_M           if (yURG_debug.adjs_mas           == 'y')
-/*---(visual)----------------------------*/
+/*---(yVIKEYS)---------------------------*/
 #define     DEBUG_VISU             if (yURG_debug.visu               == 'y')
 #define     DEBUG_VISU_M           if (yURG_debug.visu_mas           == 'y')
 #define     DEBUG_SSEL             if (yURG_debug.ssel               == 'y')
 #define     DEBUG_SSEL_M           if (yURG_debug.ssel_mas           == 'y')
 #define     DEBUG_MARK             if (yURG_debug.mark               == 'y')
 #define     DEBUG_MARK_M           if (yURG_debug.mark_mas           == 'y')
+#define     DEBUG_HINT             if (yURG_debug.hint               == 'y')
+#define     DEBUG_HINT_M           if (yURG_debug.hint_mas           == 'y')
+#define     DEBUG_SRCH             if (yURG_debug.srch               == 'y')
+#define     DEBUG_SRCH_M           if (yURG_debug.srch_mas           == 'y')
+#define     DEBUG_MAP              if (yURG_debug.map                == 'y')
+#define     DEBUG_MAP_M            if (yURG_debug.map_mas            == 'y')
+#define     DEBUG_MODE             if (yURG_debug.mode               == 'y')
+#define     DEBUG_MODE_M           if (yURG_debug.mode_mas           == 'y')
+#define     DEBUG_EDIT             if (yURG_debug.edit               == 'y')
+#define     DEBUG_EDIT_M           if (yURG_debug.edit_mas           == 'y')
 /*---(registers)-------------------------*/
 #define     DEBUG_REGS             if (yURG_debug.regs               == 'y')
 #define     DEBUG_REGS_M           if (yURG_debug.regs_mas           == 'y')
+#define     DEBUG_TREG             if (yURG_debug.treg               == 'y')
+#define     DEBUG_TREG_M           if (yURG_debug.treg_mas           == 'y')
 /*---(ySTR)------------------------------*/
 #define     DEBUG_YSTR             if (yURG_debug.ystr               == 'y')
 #define     DEBUG_YSTR_M           if (yURG_debug.ystr_mas           == 'y')

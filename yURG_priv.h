@@ -14,8 +14,8 @@
 
 
 /* rapidly evolving version number to aid with visual change confirmation     */
-#define YURG_VER_NUM   "0.3n"
-#define YURG_VER_TXT   "fixed gregg urgents which did not appear properly"
+#define YURG_VER_NUM   "0.3o"
+#define YURG_VER_TXT   "created some new urgents to help debug yVIKEYS easier"
 
 
 typedef   struct  cYURG_TYPE   tYURG_TYPE;

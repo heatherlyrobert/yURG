@@ -123,8 +123,22 @@ tYURG_INFO  yURG_info [MAX_URGS] = {
    {   '-' , '-' , "VISU"           , "visual selection of objects"           , 'M', '-', &yURG_debug.visu_mas           },
    {   '-' , '-' , "ssel"           , "visual selection of text strings"      , 's', '-', &yURG_debug.ssel               },
    {   '-' , '-' , "SSEL"           , "visual selection of text strings"      , 'M', '-', &yURG_debug.ssel_mas           },
-   {   '-' , '-' , "mark"           , "location and object marks"             , 's', '-', &yURG_debug.mark               },
-   {   '-' , '-' , "MARK"           , "location and object marks"             , 'M', '-', &yURG_debug.mark_mas           },
+   /*---(yVIKEYS-searching)--------------*/
+   {   '-' , '-' , "mark"           , "yVIKEYS location/object marks"         , 's', '-', &yURG_debug.mark               },
+   {   '-' , '-' , "MARK"           , "yVIKEYS location/object marks"         , 'M', '-', &yURG_debug.mark_mas           },
+   {   '-' , '-' , "hint"           , "yVIKEYS location/object hinting"       , 's', '-', &yURG_debug.hint               },
+   {   '-' , '-' , "HINT"           , "yVIKEYS location/object hinting"       , 'M', '-', &yURG_debug.hint_mas           },
+   {   '-' , '-' , "srch"           , "yVIKEYS location/object searching"     , 's', '-', &yURG_debug.srch               },
+   {   '-' , '-' , "SRCH"           , "yVIKEYS location/object searching"     , 'M', '-', &yURG_debug.srch_mas           },
+   /*---(yVIKEYS-handling)---------------*/
+   {   '-' , '-' , "map"            , "yVIKEYS screen mapping"                , 'l', 'v', &yURG_debug.map                },
+   {   '-' , '-' , "MAP"            , "yVIKEYS screen mapping"                , 'M', 'v', &yURG_debug.map_mas            },
+   {   '-' , '-' , "mode"           , "yVIKEYS mode handling"                 , 'l', 'v', &yURG_debug.mode               },
+   {   '-' , '-' , "MODE"           , "yVIKEYS mode handling"                 , 'M', 'v', &yURG_debug.mode_mas           },
+   {   '-' , '-' , "edit"           , "yVIKEYS source editing"                , 'l', 'v', &yURG_debug.edit               },
+   {   '-' , '-' , "EDIT"           , "yVIKEYS source editing"                , 'M', 'v', &yURG_debug.edit_mas           },
+   {   '-' , '-' , "yvikeys_mode"   , "yVIKEYS vi-keys handling library"      , 'l', 'v', &yURG_debug.yvikeys_mode       },
+   {   '-' , '-' , "YVIKEYS_MODE"   , "yVIKEYS vi-keys handling library"      , 'M', 'v', &yURG_debug.yvikeys_mode_mas   },
    /*---(registers)----------------------*/
    {   '-' , '-' , "regs"           , "copy and paste registers"              , 's', '-', &yURG_debug.regs               },
    {   '-' , '-' , "REGS"           , "copy and paste registers"              , 'M', '-', &yURG_debug.regs_mas           },
@@ -142,8 +156,6 @@ tYURG_INFO  yURG_info [MAX_URGS] = {
    {   '-' , '-' , "yvikeys"        , "yVIKEYS vi-keys handling library"      , 'l', 'v', &yURG_debug.yvikeys            },
    {   '-' , '-' , "yvikeys_keys"   , "yVIKEYS vi-keys handling library"      , 'l', 'v', &yURG_debug.yvikeys_keys       },
    {   '-' , '-' , "YVIKEYS_KEYS"   , "yVIKEYS vi-keys handling library"      , 'M', 'v', &yURG_debug.yvikeys_keys_mas   },
-   {   '-' , '-' , "yvikeys_mode"   , "yVIKEYS vi-keys handling library"      , 'l', 'v', &yURG_debug.yvikeys_mode       },
-   {   '-' , '-' , "YVIKEYS_MODE"   , "yVIKEYS vi-keys handling library"      , 'M', 'v', &yURG_debug.yvikeys_mode_mas   },
    {   '-' , '-' , "yvikeys_scale"  , "yVIKEYS vi-keys handling library"      , 'l', 'v', &yURG_debug.yvikeys_scale      },
    {   '-' , '-' , "YVIKEYS_SCALE"  , "yVIKEYS vi-keys handling library"      , 'M', 'v', &yURG_debug.yvikeys_scale_mas  },
    {   '-' , '-' , "yfont"          , "yFONT texturn mapped font library"     , 'l', 'g', &yURG_debug.yfont              },
@@ -275,7 +287,7 @@ yURG_help          (char *a_progname)
    char        x_header    [LEN_STR  ] = "";
    /*---(list universals)----------------*/
    printf ("yURG : urgent inventory report\n\n");
-   if (yURG_debug.mode != 'y') {
+   if (yURG_debug.loud != 'y') {
       printf ("YOU ARE NOT RUNNING IN DEBUG MODE\n");
       printf ("urgents are only active if debug version of program is used (except @v).\n");
       printf ("to run %s in debug mode, use %s_debug\n\n", a_progname, a_progname);
@@ -603,7 +615,7 @@ yURG_logger        (int a_argc, char *a_argv[])
    char        x_verb      = '-';
    /*---(default urgents)----------------*/
    yURG_debug.logger   =  -1;
-   yURG_debug.mode     = '-';
+   yURG_debug.loud     = '-';
    yURG_mass    ('-', 'E');   /* turn everything off */
    strlcpy (x_progname, a_argv [0], LEN_STR);
    strlcpy (x_basename, a_argv [0], LEN_STR);
@@ -616,7 +628,7 @@ yURG_logger        (int a_argc, char *a_argv[])
       if (strcmp (a_argv[0] + x_len - 6, "_debug") == 0)  x_type = 'd';
       if (strcmp (a_argv[0] + x_len - 5, "_unit" ) == 0)  x_type = 'u';
       /*> printf ("type = %c\n", x_type);                                                <*/
-      if (x_type != '-')   yURG_debug.mode   = 'y';
+      if (x_type != '-')   yURG_debug.loud   = 'y';
    }
    /*---(fix program name)---------------*/
    if (x_type == 'd') {
@@ -667,7 +679,7 @@ yURG_logger        (int a_argc, char *a_argv[])
    if (x_verb == 'v')    yURG_debug.verb = 'y';
    if (x_args == 'V')  { yURG_debug.verb = 'y'; yURG_debug.verb_mas = 'y'; }
    /*---(startup logging)----------------*/
-   if (yURG_debug.mode != 'y')                                  return 0;
+   if (yURG_debug.loud != 'y')                                  return 0;
    switch (x_log) {
    case 'y' :
       yURG_debug.logger = yLOG_begin (x_progname, yLOG_SYSTEM    , yLOG_NOISE);
@@ -709,7 +721,7 @@ yURG_urgs          (int a_argc, char *a_argv[])
    int         x_bad       = 0;
    int         x_good      = 0;
    /*---(defense)------------------------*/
-   if (yURG_debug.mode != 'y')   return 0;
+   if (yURG_debug.loud != 'y')   return 0;
    /*---(header)-------------------------*/
    DEBUG_TOPS   yLOG_enter   (__FUNCTION__);
    /*---(process)------------------------*/
