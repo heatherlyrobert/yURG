@@ -140,6 +140,8 @@ struct cURG_DEBUG
    /*---(safe-strings)-------------------*/
    char        ystr;                   /* ySTR string library                 */
    char        ystr_mas;               /* ySTR string library                 */
+   /*---(record parsing)-----------------*/
+   char        yparse;                 /* yPARSE parsing to queue libarary    */
    /*---(regular expressions)------------*/
    char        yregex;                 /* yREGEX library                      */
    char        yregex_mas;             /* yREGEX library                      */
@@ -286,6 +288,8 @@ extern    tURG_DEBUG      yURG_debug;
 /*---(ySTR)------------------------------*/
 #define     DEBUG_YSTR             if (yURG_debug.ystr               == 'y')
 #define     DEBUG_YSTR_M           if (yURG_debug.ystr_mas           == 'y')
+/*---(yPARSE)----------------------------*/
+#define     DEBUG_YPARSE           if (yURG_debug.yparse             == 'y')
 /*---(yREGEX)----------------------------*/
 #define     DEBUG_YREGEX           if (yURG_debug.yregex             == 'y')
 #define     DEBUG_YREGEX_M         if (yURG_debug.yregex_mas         == 'y')
