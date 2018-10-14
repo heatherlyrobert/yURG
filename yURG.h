@@ -142,6 +142,8 @@ struct cURG_DEBUG
    char        ystr_mas;               /* ySTR string library                 */
    /*---(record parsing)-----------------*/
    char        yparse;                 /* yPARSE parsing to queue libarary    */
+   /*---(robotics)-----------------------*/
+   char        ygolem;                 /* yGOLEM robotics controller          */
    /*---(regular expressions)------------*/
    char        yregex;                 /* yREGEX library                      */
    char        yregex_mas;             /* yREGEX library                      */
@@ -290,6 +292,8 @@ extern    tURG_DEBUG      yURG_debug;
 #define     DEBUG_YSTR_M           if (yURG_debug.ystr_mas           == 'y')
 /*---(yPARSE)----------------------------*/
 #define     DEBUG_YPARSE           if (yURG_debug.yparse             == 'y')
+/*---(yGOLEM)----------------------------*/
+#define     DEBUG_YGOLEM           if (yURG_debug.ygolem             == 'y')
 /*---(yREGEX)----------------------------*/
 #define     DEBUG_YREGEX           if (yURG_debug.yregex             == 'y')
 #define     DEBUG_YREGEX_M         if (yURG_debug.yregex_mas         == 'y')

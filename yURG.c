@@ -147,6 +147,8 @@ tYURG_INFO  yURG_info [MAX_URGS] = {
    {   '-' , '-' , "YSTR"           , "heatherly ySTR string library"         , 'M', 's', &yURG_debug.ystr_mas           },
    {   '-' , '-' , "yparse"         , "heatherly yPARSE parsing queue"        , 'l', 's', &yURG_debug.yparse             },
    {   '-' , '-' , "YPARSE"         , "heatherly yPARSE parsing queue"        , 'M', 's', &yURG_debug.yparse             },
+   {   '-' , '-' , "ygolem"         , "heatherly yGOLEM robotics controller"  , 'l', 's', &yURG_debug.ygolem             },
+   {   '-' , '-' , "YGOLEM"         , "heatherly yGOLEM robotics controller"  , 'M', 's', &yURG_debug.ygolem             },
    {   '-' , '-' , "yregex"         , "heatherly yREGEX library"              , 'l', 's', &yURG_debug.yregex             },
    {   '-' , '-' , "YREGEX"         , "heatherly yREGEX library"              , 'M', 's', &yURG_debug.yregex_mas         },
    {   '-' , '-' , "ykine_calc"     , "yKINE kinematics calculations"         , 'l', 'k', &yURG_debug.ykine_calc         },

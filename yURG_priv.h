@@ -14,8 +14,8 @@
 
 
 /* rapidly evolving version number to aid with visual change confirmation     */
-#define YURG_VER_NUM   "0.3p"
-#define YURG_VER_TXT   "created debugging entries for yPARSE library"
+#define YURG_VER_NUM   "0.3q"
+#define YURG_VER_TXT   "created debugging entries for yGOLEM library"
 
 
 typedef   struct  cYURG_TYPE   tYURG_TYPE;
