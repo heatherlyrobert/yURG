@@ -37,11 +37,11 @@ tYURG_INFO  yURG_info [MAX_URGS] = {
    {   '-' , 'y' , "urgents"        , "list all urgents available in program" , 'u', '-', NULL                           },
    /*---(overall)------------------------*/
    {   't' , '-' , "tops"           , "broad structure and context"           , 'u', 'o', &yURG_debug.tops               },
-   {   'T' , '-' , "TOPS"           , "broad structure and context"           , '#', 'o', &yURG_debug.tops_mas           },
-   {   'r' , '-' , "summ"           , "runtime statistics/analytical output"  , 'u', 'o', &yURG_debug.summ               },
-   {   'R' , '-' , "SUMM"           , "runtime statistics/analytical output"  , '#', 'o', &yURG_debug.summ_mas           },
+   {   '-' , '-' , "TOPS"           , "broad structure and context"           , '#', 'o', &yURG_debug.tops_mas           },
+   {   'r' , '-' , "rptg"           , "reports/dump, analysis, runtime stats" , 'u', 'o', &yURG_debug.rptg               },
+   {   '-' , '-' , "RPTG"           , "reports/dump, analysis, runtime stats" , '#', 'o', &yURG_debug.rptg_mas           },
    {   'v' , '-' , "verbose"        , "provide alternate terminal output"     , 'u', 'o', &yURG_debug.verb               },
-   {   'V' , '-' , "VERBOSE"        , "provide alternate terminal output"     , '#', 'o', &yURG_debug.verb_mas           },
+   {   '-' , '-' , "VERBOSE"        , "provide alternate terminal output"     , '#', 'o', &yURG_debug.verb_mas           },
    /*---(startup/shutdown)---------------*/
    {   'a' , 'y' , "args"           , "command-line args and urgent handling" , 'u', 's', &yURG_debug.args               },
    {   'A' , 'y' , "ARGS"           , "command-line args and urgent handling" , '#', 's', &yURG_debug.args_mas           },
@@ -738,8 +738,13 @@ yURG_urgs          (int a_argc, char *a_argv[])
       x_len  = strlen (a);
       ++x_urgs;
       rc = 0;
-      if      (x_len == 2)  rc = yURG_abbr  (a[1] , YURG_ON);
-      else if (x_len >= 5)  rc = yURG_name  (a + 2, YURG_ON);
+      if      (a [0] == '@' && x_len == 2)  rc = yURG_abbr  (a[1] , YURG_ON);
+      else if (a [0] == '@' && x_len >= 5) {
+         rc = yURG_name  (a + 2, YURG_ON);
+         if (rc < 0 && (strncmp (a + 2, "NO", 2) == 0 || strncmp (a + 2, "no", 2) == 0)) {
+            rc = yURG_name  (a + 4, YURG_OFF);
+         }
+      }
       else {
          DEBUG_ARGS   yLOG_note    ("could not process");
          ++x_bad;

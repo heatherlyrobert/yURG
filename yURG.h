@@ -31,11 +31,11 @@ struct cURG_DEBUG
    /* k = kitchen sink and turns everything, i mean everything on             */
    /* q = quiet turns all urgents off including the log itself                */
    char        tops;                   /* t) broad structure and context      */
-   char        tops_mas;               /* t) broad structure and context      */
-   char        summ;                   /* r) statistics and analytical output */
-   char        summ_mas;               /* R) statistics and analytical output */
+   char        tops_mas;               /*    broad structure and context      */
+   char        rptg;                   /* r) report/dump, analytics, stats    */
+   char        rptg_mas;               /*    report/dump, analytics, stats    */
    char        verb;                   /* v) statistics and analytical output */
-   char        verb_mas;               /* V) tracing on terminal output       */
+   char        verb_mas;               /*    tracing on terminal output       */
    /*---(startup/shutdown)---------------*/
    char        args;                   /* a) command line args and urgents    */
    char        args_mas;               /* A) command line args and urgents    */
@@ -191,8 +191,8 @@ extern    tURG_DEBUG      yURG_debug;
 /*---(standard)--------------------------*/
 #define     DEBUG_TOPS             if (yURG_debug.tops               == 'y')
 #define     DEBUG_TOPS_M           if (yURG_debug.tops_mas           == 'y')
-#define     DEBUG_SUMM             if (yURG_debug.summ               == 'y')
-#define     DEBUG_SUMM_M           if (yURG_debug.summ_mas           == 'y')
+#define     DEBUG_RPTG             if (yURG_debug.rptg               == 'y')
+#define     DEBUG_RPTG_M           if (yURG_debug.rptg_mas           == 'y')
 #define     URG_VERB               if (yURG_debug.verb               == 'y')
 #define     URG_VERB_M             if (yURG_debug.verb_mas           == 'y')
 #define     DEBUG_ARGS             if (yURG_debug.args               == 'y')
