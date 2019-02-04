@@ -14,8 +14,8 @@
 
 
 /* rapidly evolving version number to aid with visual change confirmation     */
-#define YURG_VER_NUM   "0.3r"
-#define YURG_VER_TXT   "changed DEBUG_SUMM to DEBUG_RPTG, much more clear and useful"
+#define YURG_VER_NUM   "0.3s"
+#define YURG_VER_TXT   "added ySCHED, yDLST, and yEXEC"
 
 
 typedef   struct  cYURG_TYPE   tYURG_TYPE;

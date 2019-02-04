@@ -1,5 +1,22 @@
 /*===[[ START HDOC ]]=========================================================*/
 
+/*===[[ HEADER ]]=============================================================*/
+/*
+ *   focus         : ((tbd))
+ *   heritage      : zelus-daimon (winged enforcer of completion and zeal)
+ *   purpose       : provide file location, change, and search services
+ *
+ *   base_system   : gnu/linux   (powerful, ubiquitous, technical, and hackable)
+ *   lang_name     : ansi-c      (wicked, limitless, universal, and everlasting)
+ *   dependencies  : none
+ *   size          : small       (approximately 2,000 slocL)
+ * 
+ *   author        : rsheatherly
+ *   created       : 2014-10
+ *   priorities    : direct, simple, brief, vigorous, and lucid (h.w. fowler)
+ *   end goal      : loosely coupled, strict interface, maintainable, traceable
+ */
+
 
 /*===[[ HEADER GUARD ]]=======================================================*/
 #ifndef YURG_HGUARD
@@ -26,7 +43,7 @@ struct cURG_DEBUG
    /*---(handle)-------------------------*/
    int         logger;                 /* log file so that we don't close it  */
    int         loud;                   /* quiet '-' vs logging 'y'            */
-   /*---(overall)------------------------*/  /* abcdefghi_kl__opq_stu__x__    */
+   /*---(overall)------------------------*/  /* abcdefghi_kl__opqrstu__x__    */
    /* f = full urgents turns on all standard urgents                          */
    /* k = kitchen sink and turns everything, i mean everything on             */
    /* q = quiet turns all urgents off including the log itself                */
@@ -38,42 +55,42 @@ struct cURG_DEBUG
    char        verb_mas;               /*    tracing on terminal output       */
    /*---(startup/shutdown)---------------*/
    char        args;                   /* a) command line args and urgents    */
-   char        args_mas;               /* A) command line args and urgents    */
+   char        args_mas;               /*    command line args and urgents    */
    char        conf;                   /* c) configuration handling           */
-   char        conf_mas;               /* C) configuration handling           */
+   char        conf_mas;               /*    configuration handling           */
    char        prog;                   /* p) program setup and teardown       */
-   char        prog_mas;               /* P) program setup and teardown       */
+   char        prog_mas;               /*    program setup and teardown       */
    /*---(file processing)----------------*/
    char        inpt;                   /* i) text and data file input         */
-   char        inpt_mas;               /* I) text/data file input   (mas/more)*/
+   char        inpt_mas;               /*    text/data file input   (mas/more)*/
    char        outp;                   /* o) text and data file output        */
-   char        outp_mas;               /* O) text/data file output  (mas/more)*/
+   char        outp_mas;               /*    text/data file output  (mas/more)*/
    char        sqls;                   /* q) sql and database accesses        */
-   char        sqls_mas;               /* Q) sql and database accesses        */
+   char        sqls_mas;               /*    sql and database accesses        */
    /*---(event handling)-----------------*/
    char        loop;                   /* l) main program event loop          */
-   char        loop_mas;               /* L) main program event loop          */
+   char        loop_mas;               /*    main program event loop          */
    char        user;                   /* u) user input and handling          */
-   char        user_mas;               /* U) user input and handling          */
+   char        user_mas;               /*    user input and handling          */
    char        apis;                   /* z) interprocess communication       */
-   char        apis_mas;               /* Z) interprocess communication       */
+   char        apis_mas;               /*    interprocess communication       */
    char        sign;                   /* x) os signal handling               */
-   char        sign_mas;               /* X) os signal handling               */
+   char        sign_mas;               /*    os signal handling               */
    char        scrp;                   /* b) scripts and batch operations     */
-   char        scrp_mas;               /* B) scripts and batch operations     */
+   char        scrp_mas;               /*    scripts and batch operations     */
    char        hist;                   /* h) history, undo, redo              */
-   char        hist_mas;               /* H) history, undo, redo              */
+   char        hist_mas;               /*    history, undo, redo              */
    /*---(program)------------------------*/
    char        graf;                   /* g) grahpics setup and config        */
-   char        graf_mas;               /* G) grahpics setup and config        */
+   char        graf_mas;               /*    grahpics setup and config        */
    char        wind;                   /* w) window drawing                   */
-   char        wind_mas;               /* W) window drawing                   */
+   char        wind_mas;               /*    window drawing                   */
    char        data;                   /* d) complex data structure handling  */
-   char        data_mas;               /* D) complex data structure handling  */
+   char        data_mas;               /*    complex data structure handling  */
    char        envi;                   /* e) environment processing           */
-   char        envi_mas;               /* E) environment processing (mas/more)*/
+   char        envi_mas;               /*    environment processing (mas/more)*/
    char        sort;                   /* s) data sorting and ordering        */
-   char        sort_mas;               /* S) data sorting and ordering        */
+   char        sort_mas;               /*    data sorting and ordering        */
    /*---(data input)---------------------*/
    char        touch;                  /* data point -- touch interface       */
    char        raw;                    /* data point -- raw input             */
@@ -140,6 +157,12 @@ struct cURG_DEBUG
    /*---(safe-strings)-------------------*/
    char        ystr;                   /* ySTR string library                 */
    char        ystr_mas;               /* ySTR string library                 */
+   char        ydlst;                  /* yDLST quad-double linked list       */
+   char        ydlst_mas;              /* yDLST quad-double linked list       */
+   char        ysched;                 /* ySCHED kernighan sched grammar      */
+   char        ysched_mas;             /* ySCHED kernighan sched grammar      */
+   char        yexec;                  /* yEXEC process dispatch and control  */
+   char        yexec_mas;              /* yEXEC process dispatch and control  */
    /*---(record parsing)-----------------*/
    char        yparse;                 /* yPARSE parsing to queue libarary    */
    /*---(robotics)-----------------------*/
@@ -290,6 +313,12 @@ extern    tURG_DEBUG      yURG_debug;
 /*---(ySTR)------------------------------*/
 #define     DEBUG_YSTR             if (yURG_debug.ystr               == 'y')
 #define     DEBUG_YSTR_M           if (yURG_debug.ystr_mas           == 'y')
+#define     DEBUG_YDLST            if (yURG_debug.ydlst              == 'y')
+#define     DEBUG_YDLST_M          if (yURG_debug.ydlst_mas          == 'y')
+#define     DEBUG_YSCHED           if (yURG_debug.ysched             == 'y')
+#define     DEBUG_YSCHED_M         if (yURG_debug.ysched_mas         == 'y')
+#define     DEBUG_YEXEC            if (yURG_debug.yexec              == 'y')
+#define     DEBUG_YEXEC_M          if (yURG_debug.yexec_mas          == 'y')
 /*---(yPARSE)----------------------------*/
 #define     DEBUG_YPARSE           if (yURG_debug.yparse             == 'y')
 /*---(yGOLEM)----------------------------*/
