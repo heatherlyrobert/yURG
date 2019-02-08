@@ -51,8 +51,8 @@ struct cURG_DEBUG
    char        tops_mas;               /*    broad structure and context      */
    char        rptg;                   /* r) report/dump, analytics, stats    */
    char        rptg_mas;               /*    report/dump, analytics, stats    */
-   char        verb;                   /* v) statistics and analytical output */
-   char        verb_mas;               /*    tracing on terminal output       */
+   char        view;                   /* v) view direct to stdout            */
+   char        view_mas;               /*    view direct to stdout            */
    /*---(startup/shutdown)---------------*/
    char        args;                   /* a) command line args and urgents    */
    char        args_mas;               /*    command line args and urgents    */
@@ -216,8 +216,8 @@ extern    tURG_DEBUG      yURG_debug;
 #define     DEBUG_TOPS_M           if (yURG_debug.tops_mas           == 'y')
 #define     DEBUG_RPTG             if (yURG_debug.rptg               == 'y')
 #define     DEBUG_RPTG_M           if (yURG_debug.rptg_mas           == 'y')
-#define     URG_VERB               if (yURG_debug.verb               == 'y')
-#define     URG_VERB_M             if (yURG_debug.verb_mas           == 'y')
+#define     DEBUG_VIEW             if (yURG_debug.view               == 'y')
+#define     DEBUG_VIEW_M           if (yURG_debug.view_mas           == 'y')
 #define     DEBUG_ARGS             if (yURG_debug.args               == 'y')
 #define     DEBUG_ARGS_M           if (yURG_debug.args_mas           == 'y')
 #define     DEBUG_CONF             if (yURG_debug.conf               == 'y')

@@ -6,6 +6,7 @@
 #include    <string.h>       /* C_ANSI : printf, snprintf, fgets, fopen, ...  */
 #include    <stdlib.h>       /* C_ANSI : exit                                 */
 #include    <ctype.h>        /* C_ANSI : tolower, toupper, ...                */
+#include    <sys/mount.h>    /* C_ANSI : mount                                */
 
 #include    <yLOG.h>         /* CUSTOM : heatherly program logging            */
 #include    <ySTR.h>         /* CUSTOM : heatherly string handling            */
@@ -14,8 +15,8 @@
 
 
 /* rapidly evolving version number to aid with visual change confirmation     */
-#define YURG_VER_NUM   "0.3s"
-#define YURG_VER_TXT   "added ySCHED, yDLST, and yEXEC"
+#define YURG_VER_NUM   "0.3t"
+#define YURG_VER_TXT   "alternate logging locations plus small change for view"
 
 
 typedef   struct  cYURG_TYPE   tYURG_TYPE;
