@@ -1,33 +1,8 @@
-/*===[[ START HDOC ]]=========================================================*/
-
-/*===[[ HEADER ]]=============================================================*/
-/*
- *   focus         : ((tbd))
- *   heritage      : zelus-daimon (winged enforcer of completion and zeal)
- *   purpose       : provide file location, change, and search services
- *
- *   base_system   : gnu/linux   (powerful, ubiquitous, technical, and hackable)
- *   lang_name     : ansi-c      (wicked, limitless, universal, and everlasting)
- *   dependencies  : none
- *   size          : small       (approximately 2,000 slocL)
- * 
- *   author        : rsheatherly
- *   created       : 2014-10
- *   priorities    : direct, simple, brief, vigorous, and lucid (h.w. fowler)
- *   end goal      : loosely coupled, strict interface, maintainable, traceable
- */
-
-
 /*===[[ HEADER GUARD ]]=======================================================*/
 #ifndef YURG_HGUARD
 #define YURG_HGUARD loaded
 
 
-
-#define        LEN_LABEL        20
-#define        LEN_DESC         80
-#define        LEN_STR         200
-#define        MAX_URGS        500
 
 #define        YURG_ON         'y'
 #define        YURG_OFF        '-'
@@ -43,7 +18,7 @@ struct cURG_DEBUG
    /*---(handle)-------------------------*/
    int         logger;                 /* log file so that we don't close it  */
    int         loud;                   /* quiet '-' vs logging 'y'            */
-   /*---(overall)------------------------*/  /* abcdefghi_kl__opqrstu__x__    */
+   /*---(overall)------------------------*/  /* abcdefghi_kl__opqrstuvwx_z    */
    /* f = full urgents turns on all standard urgents                          */
    /* k = kitchen sink and turns everything, i mean everything on             */
    /* q = quiet turns all urgents off including the log itself                */

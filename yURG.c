@@ -40,8 +40,9 @@ tYURG_INFO  yURG_info [MAX_URGS] = {
    {   '-' , '-' , "TOPS"           , "broad structure and context"           , '#', 'o', &yURG_debug.tops_mas           },
    {   'r' , '-' , "rptg"           , "reports/dump, analysis, runtime stats" , 'u', 'o', &yURG_debug.rptg               },
    {   '-' , '-' , "RPTG"           , "reports/dump, analysis, runtime stats" , '#', 'o', &yURG_debug.rptg_mas           },
-   {   'v' , '-' , "verbose"        , "provide alternate terminal output"     , 'u', 'o', &yURG_debug.view               },
-   {   '-' , '-' , "VERBOSE"        , "provide alternate terminal output"     , '#', 'o', &yURG_debug.view_mas           },
+   {   'v' , '-' , "view"           , "provide alternate terminal output"     , 'u', 'o', &yURG_debug.view               },
+   {   '-' , '-' , "VIEW"           , "provide alternate terminal output"     , '#', 'o', &yURG_debug.view_mas           },
+   {   '-' , '-' , "verbose"        , "provide alternate terminal output"     , 'u', 'o', &yURG_debug.view               },
    /*---(startup/shutdown)---------------*/
    {   'a' , 'y' , "args"           , "command-line args and urgent handling" , 'u', 's', &yURG_debug.args               },
    {   'A' , 'y' , "ARGS"           , "command-line args and urgent handling" , '#', 's', &yURG_debug.args_mas           },
@@ -616,6 +617,8 @@ yURG_logger        (int a_argc, char *a_argv[])
    int         i           = 0;
    char       *a           = NULL;
    int         x_len       = 0;
+   char       *p           = NULL;
+   int         t           [LEN_STR];
    char        x_progname  [LEN_STR] = "";
    char        x_basename  [LEN_STR] = "";
    char        x_log       = '-';
@@ -627,13 +630,15 @@ yURG_logger        (int a_argc, char *a_argv[])
    yURG_debug.logger   =  -1;
    yURG_debug.loud     = '-';
    yURG_mass    ('-', 'E');   /* turn everything off */
-   strlcpy (x_progname, a_argv [0], LEN_STR);
-   strlcpy (x_basename, a_argv [0], LEN_STR);
-   x_len  = strllen (x_progname, LEN_LABEL);
+   p = strrchr (a_argv [0], '/');
+   if (p == NULL)  strlcpy (x_progname, a_argv [0], LEN_STR);
+   else            strlcpy (x_progname, p + 1     , LEN_STR);
+   strlcpy (x_basename, x_progname, LEN_STR);
+   x_len  = strllen (x_basename, LEN_LABEL);
    /*---(test for normal version)--------*/
    if (x_len >= 6) {
-      if (strcmp (a_argv[0] + x_len - 6, "_debug") == 0)  x_type = 'd';
-      if (strcmp (a_argv[0] + x_len - 5, "_unit" ) == 0)  x_type = 'u';
+      if (strstr (x_basename, "_debug") != 0)  x_type = 'd';
+      if (strstr (x_basename, "_unit" ) != 0)  x_type = 'u';
       if (x_type != '-')   yURG_debug.loud   = 'y';
    }
    /*---(fix program name)---------------*/
@@ -661,8 +666,8 @@ yURG_logger        (int a_argc, char *a_argv[])
       /*---(locations)-------------------*/
       if      (strcmp (a, "@q"           ) == 0)   x_log  = yLOG_QUIET;
       else if (strcmp (a, "@@quiet"      ) == 0)   x_log  = yLOG_QUIET;
-      else if (strcmp (a, "@@yLOG"       ) == 0)   x_log  = yLOG_SYSTEM;
-      else if (strcmp (a, "@@yLOGh"      ) == 0)   x_log  = yLOG_HISTORICAL;
+      else if (strcmp (a, "@@ylog"       ) == 0)   x_log  = yLOG_SYSTEM;
+      else if (strcmp (a, "@@ylogh"      ) == 0)   x_log  = yLOG_HISTORICAL;
       else if (strcmp (a, "@@stdout"     ) == 0)   x_log  = yLOG_STDOUT;
       else if (strcmp (a, "@@root"       ) == 0)   x_log  = yLOG_ROOT;
       else if (strcmp (a, "@@usb"        ) == 0)   x_log  = yLOG_USB;
@@ -708,6 +713,9 @@ yURG_logger        (int a_argc, char *a_argv[])
    case yLOG_QUIET : default  :
       yURG_debug.logger = yLOG_begin (x_progname, yLOG_SYSTEM    , yLOG_QUIET);
       break;
+   }
+   if (yURG_debug.logger < 0) {
+      return yURG_debug.logger;
    }
    /*---(fast update)--------------------*/
    yURG_debug.tops = YURG_ON;
