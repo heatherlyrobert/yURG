@@ -8,8 +8,8 @@
 #define        YURG_OFF        '-'
 
 
-typedef     struct   cURG_DEBUG       tURG_DEBUG;
 
+typedef     struct   cURG_DEBUG       tURG_DEBUG;
 /*===[[ DEBUGGING SETUP ]]====================================================*/
 /* this is my latest standard format, vars, and urgents                       */
 /* v3.0b : added signal handling                                (2014-feb-01) */
@@ -352,6 +352,7 @@ char        yURG_abbr          (cchar  a_abbr, cchar a_on);
 char        yURG_name          (cchar *a_name, cchar a_on);
 char        yURG_mass          (cchar  a_set , cchar a_extra);
 
+char        yURG_lognum        (void);
 
 
 

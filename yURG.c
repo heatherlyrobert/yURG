@@ -211,7 +211,7 @@ yURG_version       (void)
 #else
    strlcpy (t, "[unknown    ]", 15);
 #endif
-   snprintf (yURG_ver, 100, "%s   %s : %s", t, YURG_VER_NUM, YURG_VER_TXT);
+   snprintf (yURG_ver, 100, "%s   %s : %s", t, P_VERNUM, P_VERTXT);
    return yURG_ver;
 }
 
@@ -613,7 +613,8 @@ static void      o___DRIVERS_________________o (void) {;}
 char         /*--: evaluate logger needs early -----------[ leaf   [ ------ ]-*/
 yURG_logger        (int a_argc, char *a_argv[])
 {
-   /*---(locals)-----------+-----------+-*/
+   /*---(locals)-----------+-----+-----+-*/
+   char        rc          =    0;
    int         i           = 0;
    char       *a           = NULL;
    int         x_len       = 0;
@@ -707,7 +708,7 @@ yURG_logger        (int a_argc, char *a_argv[])
       yURG_debug.logger = yLOG_begin (x_progname, yLOG_ROOT      , yLOG_NOISE);
       break;
    case yLOG_USB        :
-      mount ("/dev/sdb1", "/mnt/usb1/", "auto", MS_NOSUID | MS_NODEV | MS_NOEXEC | MS_NOATIME, "");
+      rc = mount ("/dev/sdb1", "/mnt/usb1", "vfat", MS_NOSUID | MS_NODEV | MS_NOEXEC | MS_NOATIME, NULL);
       yURG_debug.logger = yLOG_begin (x_progname, yLOG_USB       , yLOG_NOISE);
       break;
    case yLOG_QUIET : default  :
@@ -782,6 +783,8 @@ yURG_urgs          (int a_argc, char *a_argv[])
    DEBUG_TOPS   yLOG_exit    (__FUNCTION__);
    return x_good;
 }
+
+char yURG_lognum             (void) { return yURG_debug.logger; }
 
 
 

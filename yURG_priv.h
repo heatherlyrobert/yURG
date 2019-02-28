@@ -23,8 +23,8 @@
 #define     P_CREATED   "2014-10"
 #define     P_DEPENDS   "none"
 
-#define     P_VERNUM    "0.3u"
-#define     P_VERTXT   "fixed trouble with full path name calls do debugging"
+#define     P_VERNUM    "0.4a"
+#define     P_VERTXT    "mounts and writes to usb drive (vfat) to help boot debugging"
 #define     P_PRIORITY  "direct, simple, brief, vigorous, and lucid (h.w. fowler)"
 
 /*345678901-12345678901-123456789-123456789-123456789-123456789-123456789-123456789-123456789-*/
@@ -65,6 +65,8 @@ struct cYURG_INFO
    char        subtype;                     /* universal, mas, special        */
    char       *point;                       /* universal, mas, special        */
 };
+
+
 
 
 char*       yURG__unit         (char *a_question, int a_num);
