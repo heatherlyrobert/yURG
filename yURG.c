@@ -144,6 +144,7 @@ tYURG_INFO  yURG_info [MAX_URGS] = {
    {   '-' , '-' , "regs"           , "copy and paste registers"              , 's', '-', &yURG_debug.regs               },
    {   '-' , '-' , "REGS"           , "copy and paste registers"              , 'M', '-', &yURG_debug.regs_mas           },
    /*---(libraries)----------------------*/
+   {   '-' , '-' , "ylogs"          , "heatherly yLOG process monitoring"     , 'l', 's', &yURG_debug.ylogs              },
    {   '-' , '-' , "ystr"           , "heatherly ySTR string library"         , 'l', 's', &yURG_debug.ystr               },
    {   '-' , '-' , "YSTR"           , "heatherly ySTR string library"         , 'M', 's', &yURG_debug.ystr_mas           },
    {   '-' , '-' , "ydlst"          , "yDLST quad-double linked list lib"     , 'l', 's', &yURG_debug.ydlst              },
