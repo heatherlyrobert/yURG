@@ -4,8 +4,9 @@
 
 
 
-#define        YURG_ON         'y'
 #define        YURG_OFF        '-'
+#define        YURG_ON         'y'
+#define        YURG_MAS        'Y'
 
 
 
@@ -23,49 +24,29 @@ struct cURG_DEBUG
    /* k = kitchen sink and turns everything, i mean everything on             */
    /* q = quiet turns all urgents off including the log itself                */
    char        tops;                   /* t) broad structure and context      */
-   char        tops_mas;               /*    broad structure and context      */
    char        rptg;                   /* r) report/dump, analytics, stats    */
-   char        rptg_mas;               /*    report/dump, analytics, stats    */
    char        view;                   /* v) view direct to stdout            */
-   char        view_mas;               /*    view direct to stdout            */
    /*---(startup/shutdown)---------------*/
    char        args;                   /* a) command line args and urgents    */
-   char        args_mas;               /*    command line args and urgents    */
    char        conf;                   /* c) configuration handling           */
-   char        conf_mas;               /*    configuration handling           */
    char        prog;                   /* p) program setup and teardown       */
-   char        prog_mas;               /*    program setup and teardown       */
    /*---(file processing)----------------*/
    char        inpt;                   /* i) text and data file input         */
-   char        inpt_mas;               /*    text/data file input   (mas/more)*/
    char        outp;                   /* o) text and data file output        */
-   char        outp_mas;               /*    text/data file output  (mas/more)*/
    char        sqls;                   /* q) sql and database accesses        */
-   char        sqls_mas;               /*    sql and database accesses        */
    /*---(event handling)-----------------*/
    char        loop;                   /* l) main program event loop          */
-   char        loop_mas;               /*    main program event loop          */
    char        user;                   /* u) user input and handling          */
-   char        user_mas;               /*    user input and handling          */
    char        apis;                   /* z) interprocess communication       */
-   char        apis_mas;               /*    interprocess communication       */
    char        sign;                   /* x) os signal handling               */
-   char        sign_mas;               /*    os signal handling               */
    char        scrp;                   /* b) scripts and batch operations     */
-   char        scrp_mas;               /*    scripts and batch operations     */
    char        hist;                   /* h) history, undo, redo              */
-   char        hist_mas;               /*    history, undo, redo              */
    /*---(program)------------------------*/
    char        graf;                   /* g) grahpics setup and config        */
-   char        graf_mas;               /*    grahpics setup and config        */
    char        wind;                   /* w) window drawing                   */
-   char        wind_mas;               /*    window drawing                   */
    char        data;                   /* d) complex data structure handling  */
-   char        data_mas;               /*    complex data structure handling  */
    char        envi;                   /* e) environment processing           */
-   char        envi_mas;               /*    environment processing (mas/more)*/
    char        sort;                   /* s) data sorting and ordering        */
-   char        sort_mas;               /*    data sorting and ordering        */
    /*---(data input)---------------------*/
    char        touch;                  /* data point -- touch interface       */
    char        raw;                    /* data point -- raw input             */
@@ -78,53 +59,32 @@ struct cURG_DEBUG
    char        dict;                   /* dictionary processssing             */
    /*---(hermes)-------------------------*/
    char        dirs;                   /* hermes locations                    */
-   char        dirs_mas;               /* hermes locations                    */
    char        pkgs;                   /* hermes packages                     */
-   char        pkgs_mas;               /* hermes packages                     */
    char        cmds;                   /* hermes commands                     */
-   char        cmds_mas;               /* hermes commands                     */
    char        gentoo;                 /* hermes gentoo/portage access        */
-   char        gentoo_mas;             /* hermes gentoo/portage access        */
    char        cache;                  /* hermes cached database              */
-   char        cache_mas;              /* hermes cached database              */
    /*---(spreadsheet)--------------------*/
    char        locs;
-   char        locs_mas;
    char        cell;
-   char        cell_mas;
    /*---(calculations)-------------------*/
    char        rpn;
-   char        rpn_mas;
    char        calc;
-   char        calc_mas;
    char        exec;
-   char        exec_mas;
    /*---(dependencies)-------------------*/
    char        deps;
-   char        deps_mas;
    /*---(yVIKEYS)------------------------*/
    char        visu;                   /* yVIKEYS : visual selection          */
-   char        visu_mas;               /* yVIKEYS : visual selection          */
    char        ssel;                   /* yVIKEYS : text selection            */
-   char        ssel_mas;               /* yVIKEYS : text selection            */
    char        mark;                   /* yVIKEYS : location marks            */
-   char        mark_mas;               /* yVIKEYS : location marks            */
    char        hint;                   /* yVIKEYS : location hinting          */
-   char        hint_mas;               /* yVIKEYS : location hinting          */
    char        srch;                   /* yVIKEYS : searching                 */
-   char        srch_mas;               /* yVIKEYS : searching                 */
    char        map;                    /* yVIKEYS : screen mapping            */
-   char        map_mas;                /* yVIKEYS : screen mapping            */
    char        mode;                   /* yVIKEYS : mode handling             */
-   char        mode_mas;               /* yVIKEYS : mode handling             */
    char        edit;                   /* yVIKEYS : source editing            */
-   char        edit_mas;               /* yVIKEYS : source editing            */
    /*---(registers)----------------------*/
    char        regs;                   /* s_sel  : copy and paste registers   */
-   char        regs_mas;               /* s_sel  : copy and paste registers   */
    /*---(other)--------------------------*/
    char        adjs;                   /* small, configurable adjustments     */
-   char        adjs_mas;               /* small, configurable adjustments     */
    char        s;
    char        sylk;
    char        gnome;
@@ -132,100 +92,87 @@ struct cURG_DEBUG
    /*---(safe-strings)-------------------*/
    char        ylogs;                  /* yLOG process monitoring library     */
    char        ystr;                   /* ySTR string library                 */
-   char        ystr_mas;               /* ySTR string library                 */
    char        ydlst;                  /* yDLST quad-double linked list       */
-   char        ydlst_mas;              /* yDLST quad-double linked list       */
    char        ysched;                 /* ySCHED kernighan sched grammar      */
-   char        ysched_mas;             /* ySCHED kernighan sched grammar      */
    char        yexec;                  /* yEXEC process dispatch and control  */
-   char        yexec_mas;              /* yEXEC process dispatch and control  */
    /*---(record parsing)-----------------*/
    char        yparse;                 /* yPARSE parsing to queue libarary    */
    /*---(robotics)-----------------------*/
    char        ygolem;                 /* yGOLEM robotics controller          */
    /*---(regular expressions)------------*/
    char        yregex;                 /* yREGEX library                      */
-   char        yregex_mas;             /* yREGEX library                      */
    /*---(kinematics)---------------------*/
    char        ykine_calc;                  /* yKINE kinematics library            */
-   char        ykine_calc_mas;              /* yKINE kinematics library            */
    char        ykine_data;                  /* yKINE kinematics library            */
-   char        ykine_data_mas;              /* yKINE kinematics library            */
    char        ykine_scrp;                  /* yKINE kinematics library            */
-   char        ykine_scrp_mas;              /* yKINE kinematics library            */
    /*---(vi-keys)------------------------*/
    char        yvikeys;                     /* yVIKEYS vi-keys library        */
    char        yvikeys_keys;                /* yVIKEYS vi-keys library        */
-   char        yvikeys_keys_mas;            /* yVIKEYS vi-keys library        */
    char        yvikeys_mode;                /* yVIKEYS vi-keys library        */
-   char        yvikeys_mode_mas;            /* yVIKEYS vi-keys library        */
    char        yvikeys_scale;               /* yVIKEYS vi-keys library        */
-   char        yvikeys_scale_mas;           /* yVIKEYS vi-keys library        */
    /*---(fonts)--------------------------*/
    char        yfont;                  /* yFONT texture mapped font library   */
-   char        yfont_mas;              /* yFONT texture mapped font library   */
    char        yfont_file;             /* yFONT file creation and access      */
    char        yfont_calc;             /* yFONT layout and vertex calculation */
    char        yfont_map;              /* yFONT texture mapping and access    */
    /*---(textures)-----------------------*/
    char        ygltex;                 /* yFONT opengl texture handling       */
-   char        ygltex_mas;             /* yFONT opengl texture handling       */
    /*---(colors)-------------------------*/
    char        ycolor;                 /* yFONT opengl color handling         */
-   char        ycolor_mas;             /* yFONT opengl color handling         */
    /*---(rpn)----------------------------*/
    char        yrpn;                   /* yRPN reverse polish notation        */
-   char        yrpn_mas;               /* yRPN reverse polish notation        */
    /*---(hyleoroi)-----------------------*/
    char        format;                 /* formatting options                  */
-   char        format_mas;             /* formatting options                  */
    char        color;                  /* color formatting options            */
-   char        color_mas;              /* color formatting options            */
    /*---(done)---------------------------*/
 };
 extern    tURG_DEBUG      yURG_debug;
 
 
 
-/*---(standard)--------------------------*/
-#define     DEBUG_TOPS             if (yURG_debug.tops               == 'y')
-#define     DEBUG_TOPS_M           if (yURG_debug.tops_mas           == 'y')
-#define     DEBUG_RPTG             if (yURG_debug.rptg               == 'y')
-#define     DEBUG_RPTG_M           if (yURG_debug.rptg_mas           == 'y')
-#define     DEBUG_VIEW             if (yURG_debug.view               == 'y')
-#define     DEBUG_VIEW_M           if (yURG_debug.view_mas           == 'y')
-#define     DEBUG_ARGS             if (yURG_debug.args               == 'y')
-#define     DEBUG_ARGS_M           if (yURG_debug.args_mas           == 'y')
-#define     DEBUG_CONF             if (yURG_debug.conf               == 'y')
-#define     DEBUG_CONF_M           if (yURG_debug.conf_mas           == 'y')
-#define     DEBUG_PROG             if (yURG_debug.prog               == 'y')
-#define     DEBUG_PROG_M           if (yURG_debug.prog_mas           == 'y')
-#define     DEBUG_INPT             if (yURG_debug.inpt               == 'y')
-#define     DEBUG_INPT_M           if (yURG_debug.inpt_mas           == 'y')
-#define     DEBUG_OUTP             if (yURG_debug.outp               == 'y')
-#define     DEBUG_OUTP_M           if (yURG_debug.outp_mas           == 'y')
-#define     DEBUG_LOOP             if (yURG_debug.loop               == 'y')
-#define     DEBUG_LOOP_M           if (yURG_debug.loop_mas           == 'y')
-#define     DEBUG_USER             if (yURG_debug.user               == 'y')
-#define     DEBUG_USER_M           if (yURG_debug.user_mas           == 'y')
-#define     DEBUG_APIS             if (yURG_debug.apis               == 'y')
-#define     DEBUG_APIS_M           if (yURG_debug.apis_mas           == 'y')
-#define     DEBUG_SIGN             if (yURG_debug.sign               == 'y')
-#define     DEBUG_SIGN_M           if (yURG_debug.sign_mas           == 'y')
-#define     DEBUG_SCRP             if (yURG_debug.scrp               == 'y')
-#define     DEBUG_SCRP_M           if (yURG_debug.scrp_mas           == 'y')
-#define     DEBUG_HIST             if (yURG_debug.hist               == 'y')
-#define     DEBUG_HIST_M           if (yURG_debug.hist_mas           == 'y')
-#define     DEBUG_GRAF             if (yURG_debug.graf               == 'y')
-#define     DEBUG_GRAF_M           if (yURG_debug.graf_mas           == 'y')
-#define     DEBUG_WIND             if (yURG_debug.wind               == 'y')
-#define     DEBUG_WIND_M           if (yURG_debug.wind_mas           == 'y')
-#define     DEBUG_DATA             if (yURG_debug.data               == 'y')
-#define     DEBUG_DATA_M           if (yURG_debug.data_mas           == 'y')
-#define     DEBUG_ENVI             if (yURG_debug.envi               == 'y')
-#define     DEBUG_ENVI_M           if (yURG_debug.envi_mas           == 'y')
-#define     DEBUG_SORT             if (yURG_debug.sort               == 'y')
-#define     DEBUG_SORT_M           if (yURG_debug.sort_mas           == 'y')
+/*---(overall)----------------*/
+#define     DEBUG_TOPS             if (yURG_debug.tops               != '-')
+#define     DEBUG_TOPS_M           if (yURG_debug.tops               == 'Y')
+#define     DEBUG_RPTG             if (yURG_debug.rptg               != '-')
+#define     DEBUG_RPTG_M           if (yURG_debug.rptg               == 'Y')
+#define     DEBUG_VIEW             if (yURG_debug.view               != '-')
+#define     DEBUG_VIEW_M           if (yURG_debug.view               == 'Y')
+/*---(startup/shutdown)-------*/
+#define     DEBUG_ARGS             if (yURG_debug.args               != '-')
+#define     DEBUG_ARGS_M           if (yURG_debug.args               == 'Y')
+#define     DEBUG_CONF             if (yURG_debug.conf               != '-')
+#define     DEBUG_CONF_M           if (yURG_debug.conf               == 'Y')
+#define     DEBUG_PROG             if (yURG_debug.prog               != '-')
+#define     DEBUG_PROG_M           if (yURG_debug.prog               == 'Y')
+/*---(file/pipe)--------------*/
+#define     DEBUG_INPT             if (yURG_debug.inpt               != '-')
+#define     DEBUG_INPT_M           if (yURG_debug.inpt               == 'Y')
+#define     DEBUG_OUTP             if (yURG_debug.outp               != '-')
+#define     DEBUG_OUTP_M           if (yURG_debug.outp               == 'Y')
+/*---(event handling)---------*/
+#define     DEBUG_LOOP             if (yURG_debug.loop               != '-')
+#define     DEBUG_LOOP_M           if (yURG_debug.loop               == 'Y')
+#define     DEBUG_USER             if (yURG_debug.user               != '-')
+#define     DEBUG_USER_M           if (yURG_debug.user               == 'Y')
+#define     DEBUG_APIS             if (yURG_debug.apis               != '-')
+#define     DEBUG_APIS_M           if (yURG_debug.apis               == 'Y')
+#define     DEBUG_SIGN             if (yURG_debug.sign               != '-')
+#define     DEBUG_SIGN_M           if (yURG_debug.sign               == 'Y')
+#define     DEBUG_SCRP             if (yURG_debug.scrp               != '-')
+#define     DEBUG_SCRP_M           if (yURG_debug.scrp               == 'Y')
+#define     DEBUG_HIST             if (yURG_debug.hist               != '-')
+#define     DEBUG_HIST_M           if (yURG_debug.hist               == 'Y')
+/*---(program)----------------*/
+#define     DEBUG_GRAF             if (yURG_debug.graf               != '-')
+#define     DEBUG_GRAF_M           if (yURG_debug.graf               == 'Y')
+#define     DEBUG_WIND             if (yURG_debug.wind               != '-')
+#define     DEBUG_WIND_M           if (yURG_debug.wind               == 'Y')
+#define     DEBUG_DATA             if (yURG_debug.data               != '-')
+#define     DEBUG_DATA_M           if (yURG_debug.data               == 'Y')
+#define     DEBUG_ENVI             if (yURG_debug.envi               != '-')
+#define     DEBUG_ENVI_M           if (yURG_debug.envi               == 'Y')
+#define     DEBUG_SORT             if (yURG_debug.sort               != '-')
+#define     DEBUG_SORT_M           if (yURG_debug.sort               == 'Y')
 /*---(gregg)-----------------------------*/
 #define     DEBUG_TOUCH            if (yURG_debug.touch              == 'y')
 #define     DEBUG_RAW              if (yURG_debug.raw                == 'y')
@@ -237,107 +184,107 @@ extern    tURG_DEBUG      yURG_debug;
 #define     DEBUG_LINE             if (yURG_debug.line               == 'y')
 #define     DEBUG_DICT             if (yURG_debug.dict               == 'y')
 /*---(hermes)----------------------------*/
-#define     DEBUG_DIRS             if (yURG_debug.dirs               == 'y')
-#define     DEBUG_DIRS_M           if (yURG_debug.dirs_mas           == 'y')
-#define     DEBUG_PKGS             if (yURG_debug.pkgs               == 'y')
-#define     DEBUG_PKGS_M           if (yURG_debug.pkgs_mas           == 'y')
-#define     DEBUG_CMDS             if (yURG_debug.cmds               == 'y')
-#define     DEBUG_CMDS_M           if (yURG_debug.cmds_mas           == 'y')
-#define     DEBUG_GENTOO           if (yURG_debug.gentoo             == 'y')
-#define     DEBUG_GENTOO_M         if (yURG_debug.gentoo_mas         == 'y')
-#define     DEBUG_CACHE            if (yURG_debug.cache              == 'y')
-#define     DEBUG_CACHE_M          if (yURG_debug.cache_mas          == 'y')
+#define     DEBUG_DIRS             if (yURG_debug.dirs               != '-')
+#define     DEBUG_DIRS_M           if (yURG_debug.dirs               == 'Y')
+#define     DEBUG_PKGS             if (yURG_debug.pkgs               != '-')
+#define     DEBUG_PKGS_M           if (yURG_debug.pkgs               == 'Y')
+#define     DEBUG_CMDS             if (yURG_debug.cmds               != '-')
+#define     DEBUG_CMDS_M           if (yURG_debug.cmds               == 'Y')
+#define     DEBUG_GENTOO           if (yURG_debug.gentoo             != '-')
+#define     DEBUG_GENTOO_M         if (yURG_debug.gentoo             == 'Y')
+#define     DEBUG_CACHE            if (yURG_debug.cache              != '-')
+#define     DEBUG_CACHE_M          if (yURG_debug.cache              == 'Y')
 /*---(dependencies)----------------------*/
-#define     DEBUG_DEPS             if (yURG_debug.deps               == 'y')
-#define     DEBUG_DEPS_M           if (yURG_debug.deps_mas           == 'y')
+#define     DEBUG_DEPS             if (yURG_debug.deps               != '-')
+#define     DEBUG_DEPS_M           if (yURG_debug.deps               == 'Y')
 /*---(cells)-----------------------------*/
-#define     DEBUG_LOCS             if (yURG_debug.locs               == 'y')
-#define     DEBUG_LOCS_M           if (yURG_debug.locs_mas           == 'y')
-#define     DEBUG_CELL             if (yURG_debug.cell               == 'y')
-#define     DEBUG_CELL_M           if (yURG_debug.cell_mas           == 'y')
+#define     DEBUG_LOCS             if (yURG_debug.locs               != '-')
+#define     DEBUG_LOCS_M           if (yURG_debug.locs               == 'Y')
+#define     DEBUG_CELL             if (yURG_debug.cell               != '-')
+#define     DEBUG_CELL_M           if (yURG_debug.cell               == 'Y')
 /*---(formulas)--------------------------*/
-#define     DEBUG_RPN              if (yURG_debug.rpn                == 'y')
-#define     DEBUG_RPN_M            if (yURG_debug.rpn_mas            == 'y')
-#define     DEBUG_CALC             if (yURG_debug.calc               == 'y')
-#define     DEBUG_CALC_M           if (yURG_debug.calc_mas           == 'y')
-#define     DEBUG_EXEC             if (yURG_debug.exec               == 'y')
-#define     DEBUG_EXEC_M           if (yURG_debug.exec_mas           == 'y')
-#define     DEBUG_ADJS             if (yURG_debug.adjs               == 'y')
-#define     DEBUG_ADJS_M           if (yURG_debug.adjs_mas           == 'y')
+#define     DEBUG_RPN              if (yURG_debug.rpn                != '-')
+#define     DEBUG_RPN_M            if (yURG_debug.rpn                == 'Y')
+#define     DEBUG_CALC             if (yURG_debug.calc               != '-')
+#define     DEBUG_CALC_M           if (yURG_debug.calc               == 'Y')
+#define     DEBUG_EXEC             if (yURG_debug.exec               != '-')
+#define     DEBUG_EXEC_M           if (yURG_debug.exec               == 'Y')
+#define     DEBUG_ADJS             if (yURG_debug.adjs               != '-')
+#define     DEBUG_ADJS_M           if (yURG_debug.adjs               == 'Y')
 /*---(yVIKEYS)---------------------------*/
-#define     DEBUG_VISU             if (yURG_debug.visu               == 'y')
-#define     DEBUG_VISU_M           if (yURG_debug.visu_mas           == 'y')
-#define     DEBUG_SSEL             if (yURG_debug.ssel               == 'y')
-#define     DEBUG_SSEL_M           if (yURG_debug.ssel_mas           == 'y')
-#define     DEBUG_MARK             if (yURG_debug.mark               == 'y')
-#define     DEBUG_MARK_M           if (yURG_debug.mark_mas           == 'y')
-#define     DEBUG_HINT             if (yURG_debug.hint               == 'y')
-#define     DEBUG_HINT_M           if (yURG_debug.hint_mas           == 'y')
-#define     DEBUG_SRCH             if (yURG_debug.srch               == 'y')
-#define     DEBUG_SRCH_M           if (yURG_debug.srch_mas           == 'y')
-#define     DEBUG_MAP              if (yURG_debug.map                == 'y')
-#define     DEBUG_MAP_M            if (yURG_debug.map_mas            == 'y')
-#define     DEBUG_MODE             if (yURG_debug.mode               == 'y')
-#define     DEBUG_MODE_M           if (yURG_debug.mode_mas           == 'y')
-#define     DEBUG_EDIT             if (yURG_debug.edit               == 'y')
-#define     DEBUG_EDIT_M           if (yURG_debug.edit_mas           == 'y')
+#define     DEBUG_VISU             if (yURG_debug.visu               != '-')
+#define     DEBUG_VISU_M           if (yURG_debug.visu               == 'Y')
+#define     DEBUG_SSEL             if (yURG_debug.ssel               != '-')
+#define     DEBUG_SSEL_M           if (yURG_debug.ssel               == 'Y')
+#define     DEBUG_MARK             if (yURG_debug.mark               != '-')
+#define     DEBUG_MARK_M           if (yURG_debug.mark               == 'Y')
+#define     DEBUG_HINT             if (yURG_debug.hint               != '-')
+#define     DEBUG_HINT_M           if (yURG_debug.hint               == 'Y')
+#define     DEBUG_SRCH             if (yURG_debug.srch               != '-')
+#define     DEBUG_SRCH_M           if (yURG_debug.srch               == 'Y')
+#define     DEBUG_MAP              if (yURG_debug.map                != '-')
+#define     DEBUG_MAP_M            if (yURG_debug.map                == 'Y')
+#define     DEBUG_MODE             if (yURG_debug.mode               != '-')
+#define     DEBUG_MODE_M           if (yURG_debug.mode               == 'Y')
+#define     DEBUG_EDIT             if (yURG_debug.edit               != '-')
+#define     DEBUG_EDIT_M           if (yURG_debug.edit               == 'Y')
 /*---(registers)-------------------------*/
-#define     DEBUG_REGS             if (yURG_debug.regs               == 'y')
-#define     DEBUG_REGS_M           if (yURG_debug.regs_mas           == 'y')
-#define     DEBUG_TREG             if (yURG_debug.treg               == 'y')
-#define     DEBUG_TREG_M           if (yURG_debug.treg_mas           == 'y')
+#define     DEBUG_REGS             if (yURG_debug.regs               != '-')
+#define     DEBUG_REGS_M           if (yURG_debug.regs               == 'Y')
+#define     DEBUG_TREG             if (yURG_debug.treg               != '-')
+#define     DEBUG_TREG_M           if (yURG_debug.treg               == 'Y')
 /*---(ySTR)------------------------------*/
 #define     DEBUG_YLOGS            if (yURG_debug.ylogs              == 'y')
-#define     DEBUG_YSTR             if (yURG_debug.ystr               == 'y')
-#define     DEBUG_YSTR_M           if (yURG_debug.ystr_mas           == 'y')
-#define     DEBUG_YDLST            if (yURG_debug.ydlst              == 'y')
-#define     DEBUG_YDLST_M          if (yURG_debug.ydlst_mas          == 'y')
-#define     DEBUG_YSCHED           if (yURG_debug.ysched             == 'y')
-#define     DEBUG_YSCHED_M         if (yURG_debug.ysched_mas         == 'y')
-#define     DEBUG_YEXEC            if (yURG_debug.yexec              == 'y')
-#define     DEBUG_YEXEC_M          if (yURG_debug.yexec_mas          == 'y')
+#define     DEBUG_YSTR             if (yURG_debug.ystr               != '-')
+#define     DEBUG_YSTR_M           if (yURG_debug.ystr               == 'Y')
+#define     DEBUG_YDLST            if (yURG_debug.ydlst              != '-')
+#define     DEBUG_YDLST_M          if (yURG_debug.ydlst              == 'Y')
+#define     DEBUG_YSCHED           if (yURG_debug.ysched             != '-')
+#define     DEBUG_YSCHED_M         if (yURG_debug.ysched             == 'Y')
+#define     DEBUG_YEXEC            if (yURG_debug.yexec              != '-')
+#define     DEBUG_YEXEC_M          if (yURG_debug.yexec              == 'Y')
 /*---(yPARSE)----------------------------*/
 #define     DEBUG_YPARSE           if (yURG_debug.yparse             == 'y')
 /*---(yGOLEM)----------------------------*/
 #define     DEBUG_YGOLEM           if (yURG_debug.ygolem             == 'y')
 /*---(yREGEX)----------------------------*/
-#define     DEBUG_YREGEX           if (yURG_debug.yregex             == 'y')
-#define     DEBUG_YREGEX_M         if (yURG_debug.yregex_mas         == 'y')
+#define     DEBUG_YREGEX           if (yURG_debug.yregex             != '-')
+#define     DEBUG_YREGEX_M         if (yURG_debug.yregex             == 'Y')
 /*---(kinematics)------------------------*/
-#define     DEBUG_YKINE_CALC       if (yURG_debug.ykine_calc         == 'y')
-#define     DEBUG_YKINE_CALC_M     if (yURG_debug.ykine_calc_mas     == 'y')
-#define     DEBUG_YKINE_DATA       if (yURG_debug.ykine_data         == 'y')
-#define     DEBUG_YKINE_DATA_M     if (yURG_debug.ykine_data_mas     == 'y')
-#define     DEBUG_YKINE_SCRP       if (yURG_debug.ykine_scrp         == 'y')
-#define     DEBUG_YKINE_SCRP_M     if (yURG_debug.ykine_scrp_mas     == 'y')
+#define     DEBUG_YKINE_CALC       if (yURG_debug.ykine_calc         != '-')
+#define     DEBUG_YKINE_CALC_M     if (yURG_debug.ykine_calc         == 'Y')
+#define     DEBUG_YKINE_DATA       if (yURG_debug.ykine_data         != '-')
+#define     DEBUG_YKINE_DATA_M     if (yURG_debug.ykine_data         == 'Y')
+#define     DEBUG_YKINE_SCRP       if (yURG_debug.ykine_scrp         != '-')
+#define     DEBUG_YKINE_SCRP_M     if (yURG_debug.ykine_scrp         == 'Y')
 /*---(vi-keys)---------------------------*/
 #define     DEBUG_YVIKEYS          if (yURG_debug.yvikeys            == 'y')
-#define     DEBUG_YVIKEYS_KEYS     if (yURG_debug.yvikeys_keys       == 'y')
-#define     DEBUG_YVIKEYS_KEYS_M   if (yURG_debug.yvikeys_keys_mas   == 'y')
-#define     DEBUG_YVIKEYS_MODE     if (yURG_debug.yvikeys_mode       == 'y')
-#define     DEBUG_YVIKEYS_MODE_M   if (yURG_debug.yvikeys_mode_mas   == 'y')
-#define     DEBUG_YVIKEYS_SCALE    if (yURG_debug.yvikeys_scale      == 'y')
-#define     DEBUG_YVIKEYS_SCALE_M  if (yURG_debug.yvikeys_scale_mas  == 'y')
+#define     DEBUG_YVIKEYS_KEYS     if (yURG_debug.yvikeys_keys       != '-')
+#define     DEBUG_YVIKEYS_KEYS_M   if (yURG_debug.yvikeys_keys       == 'Y')
+#define     DEBUG_YVIKEYS_MODE     if (yURG_debug.yvikeys_mode       != '-')
+#define     DEBUG_YVIKEYS_MODE_M   if (yURG_debug.yvikeys_mode       == 'Y')
+#define     DEBUG_YVIKEYS_SCALE    if (yURG_debug.yvikeys_scale      != '-')
+#define     DEBUG_YVIKEYS_SCALE_M  if (yURG_debug.yvikeys_scale      == 'Y')
 /*---(yFONT)-----------------------------*/
-#define     DEBUG_YFONT            if (yURG_debug.yfont              == 'y')
-#define     DEBUG_YFONT_M          if (yURG_debug.yfont_mas          == 'y')
+#define     DEBUG_YFONT            if (yURG_debug.yfont              != '-')
+#define     DEBUG_YFONT_M          if (yURG_debug.yfont              == 'Y')
 #define     DEBUG_YFONT_FILE       if (yURG_debug.yfont_file         == 'y')
 #define     DEBUG_YFONT_CALC       if (yURG_debug.yfont_calc         == 'y')
 #define     DEBUG_YFONT_MAP        if (yURG_debug.yfont_map          == 'y')
 /*---(yGLTEX)----------------------------*/
-#define     DEBUG_YGLTEX           if (yURG_debug.ygltex             == 'y')
-#define     DEBUG_YGLTEX_M         if (yURG_debug.ygltex_mas         == 'y')
+#define     DEBUG_YGLTEX           if (yURG_debug.ygltex             != '-')
+#define     DEBUG_YGLTEX_M         if (yURG_debug.ygltex             == 'Y')
 /*---(yCOLOR)----------------------------*/
-#define     DEBUG_YCOLOR           if (yURG_debug.ycolor             == 'y')
-#define     DEBUG_YCOLOR_M         if (yURG_debug.ycolor_mas         == 'y')
+#define     DEBUG_YCOLOR           if (yURG_debug.ycolor             != '-')
+#define     DEBUG_YCOLOR_M         if (yURG_debug.ycolor             == 'Y')
 /*---(yRPN)------------------------------*/
-#define     DEBUG_YRPN             if (yURG_debug.yrpn               == 'y')
-#define     DEBUG_YRPN_M           if (yURG_debug.yrpn_mas           == 'y')
+#define     DEBUG_YRPN             if (yURG_debug.yrpn               != '-')
+#define     DEBUG_YRPN_M           if (yURG_debug.yrpn               == 'Y')
 /*---(hyleoroi)--------------------------*/
-#define     DEBUG_FORMAT           if (yURG_debug.format             == 'y')
-#define     DEBUG_FORMAT_M         if (yURG_debug.format_mas         == 'y')
-#define     DEBUG_COLOR            if (yURG_debug.color              == 'y')
-#define     DEBUG_COLOR_M          if (yURG_debug.color              == 'y')
+#define     DEBUG_FORMAT           if (yURG_debug.format             != '-')
+#define     DEBUG_FORMAT_M         if (yURG_debug.format             == 'Y')
+#define     DEBUG_COLOR            if (yURG_debug.color              != '-')
+#define     DEBUG_COLOR_M          if (yURG_debug.color              == 'Y')
 
 typedef     const char         cchar;
 
