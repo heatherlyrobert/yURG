@@ -1,0 +1,44 @@
+#23456789012  123  123456789-123456789-123456789-12345  123456789-123456789-  123456789-123456789-123456789-123456789-123456789-123456789-123456789-  123456789-  123456789-123456789-123456789-123456789-123456789-123456789-123456789-  -  123456789-123456789- 
+#==(verb)===  ver  ===========(description)===========  =====(function)=====  ========================(arguments)===================================  ==(test)==  ==========================(results)===================================  t  ========(var)======= 
+PREP          v20  include the prototype headers                               
+   incl       v20  include yURG header                  yURG.h               
+   incl       v20  include yURG private header          yURG_priv.h          
+
+
+
+#23456789-12  123  123456789-123456789-123456789-12345  123456789-123456789-  123456789-123456789-123456789-123456789-123456789-123456789-123456789-  123456789-  123456789-123456789-123456789-123456789-123456789-123456789-123456789-  -  123456789-123456789- 
+#==(verb)===  ver  ===========(description)===========  =====(function)=====  ========================(arguments)===================================  ==(test)==  ==========================(results)===================================  t  ========(var)======= 
+SCRP          v21  (BASE  ) verify urgents for log file location                yURG_urgs                                                               ----------  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+
+   COND       v21  prepare for run                                              - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((01.001))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     code     v21  create program name                  - - - - - - - - - -   char *x_name              = "yURG_TEST_debug";                                                
+     code     v21  create program name                  - - - - - - - - - -   char *x_short             = "yURG_TEST";                                                      
+     code     v21  create urgent list                   - - - - - - - - - -   char *x_urgs   [20]       = { x_name,"@@args", "", "", "", "", "", "", "", "" };
+     exec     v21  initialize urgents                   yURG_mass             '-'         , 'E'                                                       i_equal     0                                                                      
+
+   COND       v21  create a log in system directory                                   - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((01.002))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  remove old copies                    yLOGS_remove                x_short                , YLOG_SYS                                                                     i_greater   -1                                                                                                   
+     code     v21  update the x_args                    - - - - - - - - - -   x_urgs [2]  = "@@ylog";                                                                
+     exec     v21  run the logger handler               yURG_logger                 3 , x_urgs                                                                                            i_equal     0                                                                                                    
+     exec     v21  write footer and close               yLOGS_end                                                                                                                         v_null      0                                                                                                    
+     exec     v21  verify it is there                   yLOGS_verify                x_short                , YLOG_SYS                                                                     i_equal     1                                                                                                    
+     exec     v21  remove old copies                    yLOGS_remove                x_short                , YLOG_SYS                                                                     i_equal     1                                                                                                    
+
+   COND       v21  create a log in historical directory                               - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((01.002))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  remove old copies                    yLOGS_remove                x_short                , YLOG_HIST                                                                    i_greater   -1                                                                                                   
+     code     v21  update the x_args                    - - - - - - - - - -   x_urgs [2]  = "@@ylogh";                                                               
+     exec     v21  run the logger handler               yURG_logger                 3 , x_urgs                                                                                            i_equal     0                                                                                                    
+     exec     v21  write footer and close               yLOGS_end                                                                                                                         v_null      0                                                                                                    
+     exec     v21  verify it is there                   yLOGS_verify                x_short                , YLOG_HIST                                                                    i_equal     1                                                                                                    
+     exec     v21  remove old copies                    yLOGS_remove                x_short                , YLOG_HIST                                                                    i_equal     1                                                                                                    
+
+   COND       v21  create a log in root directory                                     - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((01.002))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     v21  remove old copies                    yLOGS_remove                x_short                , YLOG_ROOT                                                                    i_greater   -1                                                                                                   
+     code     v21  update the x_args                    - - - - - - - - - -   x_urgs [2]  = "@@root";                                                                
+     exec     v21  run the logger handler               yURG_logger                 3 , x_urgs                                                                                            i_equal     0                                                                                                    
+     exec     v21  write footer and close               yLOGS_end                                                                                                                         v_null      0                                                                                                    
+     exec     v21  verify it is there                   yLOGS_verify                x_short                , YLOG_ROOT                                                                    i_equal     1                                                                                                    
+     exec     v21  remove old copies                    yLOGS_remove                x_short                , YLOG_ROOT                                                                    i_equal     1                                                                                                    
+
+
+

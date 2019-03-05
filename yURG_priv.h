@@ -25,8 +25,8 @@
 #define     P_CREATED   "2014-10"
 #define     P_DEPENDS   "none"
 
-#define     P_VERNUM    "0.4c"
-#define     P_VERTXT    "added multi for abbrevs, cleaned up data table and mas"
+#define     P_VERNUM    "0.4d"
+#define     P_VERTXT    "fixed urgent reporting, simplified, and included macros"
 
 #define     P_PRIORITY  "direct, simple, brief, vigorous, and lucid (h.w. fowler)"
 #define     P_PRINCIPAL "[grow a set] and build your wings on the way down (r. bradbury)"
@@ -112,6 +112,7 @@ struct cYURG_TYPE
    char        sub;                         /* matches urgent sub-types;      */
    char        desc        [LEN_LABEL];     /* description of type            */
 };
+extern  tYURG_TYPE  yURG_type [MAX_URGS];
 
 typedef   struct  cYURG_INFO   tYURG_INFO;
 struct cYURG_INFO
@@ -123,16 +124,20 @@ struct cYURG_INFO
    char        sub;                         /* subtype                        */
    char       *point;                       /* pointer to normal              */
 };
+extern tYURG_INFO  yURG_info [MAX_URGS];
 
 
+/*345678901-12345678901-12345678901-12345678901-12345678901-12345678901-123456*/
 
-char        yurg__flip         (int i, cchar a_lower, cchar a_on);
-char        yurg__multi        (cchar *a_string, cchar a_on);
+char        yurg__flip              (int i, cchar a_lower, cchar a_on);
+char        yurg__multi             (cchar *a_string, cchar a_on);
 
-char*       yURG__unit         (char *a_question, int a_num);
-char        yURG__testquiet    (void);
-char        yURG__testloud     (void);
-char        yURG__testend      (void);
+char*       yURG__unit              (char *a_question, int a_num);
+char        yURG__testquiet         (void);
+char        yURG__testloud          (void);
+char        yURG__testend           (void);
 
+char        yurg_category           (cchar *a_prog, cchar a_type);
+char        yurg_urgents            (cchar *a_prog);
 
 #endif

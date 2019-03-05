@@ -36,6 +36,7 @@ struct cURG_DEBUG
    char        sqls;                   /* q) sql and database accesses        */
    /*---(event handling)-----------------*/
    char        loop;                   /* l) main program event loop          */
+   char        norm;                   /* n) normal execution (catch-all)     */
    char        user;                   /* u) user input and handling          */
    char        apis;                   /* z) interprocess communication       */
    char        sign;                   /* x) os signal handling               */
@@ -47,6 +48,7 @@ struct cURG_DEBUG
    char        data;                   /* d) complex data structure handling  */
    char        envi;                   /* e) environment processing           */
    char        sort;                   /* s) data sorting and ordering        */
+   char        trav;                   /* y) data searching and traversal     */
    /*---(data input)---------------------*/
    char        touch;                  /* data point -- touch interface       */
    char        raw;                    /* data point -- raw input             */
@@ -152,6 +154,8 @@ extern    tURG_DEBUG      yURG_debug;
 /*---(event handling)---------*/
 #define     DEBUG_LOOP             if (yURG_debug.loop               != '-')
 #define     DEBUG_LOOP_M           if (yURG_debug.loop               == 'Y')
+#define     DEBUG_NORM             if (yURG_debug.norm               != '-')
+#define     DEBUG_NORM_M           if (yURG_debug.norm               == 'Y')
 #define     DEBUG_USER             if (yURG_debug.user               != '-')
 #define     DEBUG_USER_M           if (yURG_debug.user               == 'Y')
 #define     DEBUG_APIS             if (yURG_debug.apis               != '-')
@@ -173,6 +177,8 @@ extern    tURG_DEBUG      yURG_debug;
 #define     DEBUG_ENVI_M           if (yURG_debug.envi               == 'Y')
 #define     DEBUG_SORT             if (yURG_debug.sort               != '-')
 #define     DEBUG_SORT_M           if (yURG_debug.sort               == 'Y')
+#define     DEBUG_TRAV             if (yURG_debug.trav               != '-')
+#define     DEBUG_TRAV_M           if (yURG_debug.trav               == 'Y')
 /*---(gregg)-----------------------------*/
 #define     DEBUG_TOUCH            if (yURG_debug.touch              == 'y')
 #define     DEBUG_RAW              if (yURG_debug.raw                == 'y')
@@ -289,19 +295,23 @@ extern    tURG_DEBUG      yURG_debug;
 typedef     const char         cchar;
 
 
-char*       yURG_version       (void);
-char        yURG_debugmode     (void);
+char*       yURG_version            (void);
+char        yURG_debugmode          (void);
 
-char        yURG_logger        (int    a_argc, char *a_argv[]);
-char        yURG_urgs          (int    a_argc, char *a_argv[]);
-char        yURG_summ          (void);
+char*       yURG_orig               (void);
+char*       yURG_curr               (void);
 
-char        yURG_list          (void);
-char        yURG_abbr          (cchar  a_abbr, cchar a_on);
-char        yURG_name          (cchar *a_name, cchar a_on);
-char        yURG_mass          (cchar  a_set , cchar a_extra);
+char        yURG_mass               (cchar  a_set , cchar a_extra);
+char        yURG_logger             (int    a_argc, char *a_argv[]);
+char        yURG_urgs               (int    a_argc, char *a_argv[]);
 
-char        yURG_lognum        (void);
+char        yURG_summ               (void);
+char        yURG_list               (void);
+
+char        yURG_abbr               (cchar  a_abbr, cchar a_on);
+char        yURG_name               (cchar *a_name, cchar a_on);
+
+char        yURG_lognum             (void);
 
 
 

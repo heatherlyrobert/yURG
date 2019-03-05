@@ -1,197 +1,196 @@
 .TH yURG 3 2017-jan "linux" "heatherly custom tools manual"
 
 .SH NAME
-yURG \- library for command line urgent/debugging processing
+yURG \- simple, clean, incremental debugging and logging control
+
+.SH IMAGERY
+zelus-daimon (enforcer) -- daimon of zeal, dedication, and enforement
+
+.SH SUMMARY
+yURG is a shared library to provide standard, flexible, reliable, and detailed
+traceability in programs.  its purpose is to take a complex and foundational
+capabilty, make it more useful, reliable, and tested.
+
 .SH SYNOPSIS
 .nf
-.B #include  <yURG.h>
-.sp
-.BI "char *yURG_version   (void);"
-.BI "char  yURG_logger    (int    " "a_argc" ", char *" "a_arcv[]" ");"
-.BI "char  yURG_urgs      (int    " "a_argc" ", char *" "a_arcv[]" ");"
-.sp
-.BI "char  yURG_abbr      (cchar  " "a_abbr" ");"
-.BI "char  yURG_name      (cchar *" "a_name" ");"
-.sp
-.B link with -L/usr/local/libs
-.B production versions must use -lyURG
-.B debug and unit testing programs must use -lyURG_debug (or segfault)
+.B #include  <yURG.h> and link to either the -lyURG or -lyURG_debug
 
-.SH SUMMARY
-yURG is a set of shared c functions to provide standard, flexible, reliable, 
-and detailed traceability in programs.  its purpose is to take a complex
-and foundational capabilty, make it more useful, and allow it to be tested,
-maintained, and documented in one place.
+.R  ---command line--------------------------------
+.BI "char     yURG_logger    (int    " "a_argc" ", char *" "a_arcv[]" ");"
+.BI "char     yURG_urgs      (int    " "a_argc" ", char *" "a_arcv[]" ");"
 
-.B hello
-.I hello
-.ce 1
-hello
-.HP 5
-urgents are command line arguments to influence program logging, tracing, and
-debugging and which run parallel to normal ones.  normal command line
+.R  ---incremental---------------------------------
+.BI "char     yURG_abbr      (cchar  " "a_abbr" ", cchar " "a_on" ");"
+.BI "char     yURG_name      (cchar *" "a_name" ", cchar " "a_on" ");"
+
+.R  ---support-------------------------------------
+.BI "char*    yURG_version (void);"
+.BI "char     yURG_lognum  (void);"
+.BI "char    *yURG_orig    (void);"
+.BI "char    *yURG_curr    (void);"
+
+.SH QUICK UP-FRONT NOTE
+urgents, as explained better below, are command line options to control
+debugging.  the can only be used with the "debug" version of the program.
+if they are requested from the normal production version, the will be
+silently ignored.
+
+my make file creates a debug version (suffexed with _debug) and strips
+all debugging code to produce the production version.  for instance..
+   khronos         production version of my cron daemon
+   khronos_debug   matching debug version
+
+as explained below, you can call the debug version with the @@urgents
+option and it will explain all the urgents that can be used and the
+matching debugging macros as the programmer can use.
+
+.SH URGENTS
+.SS DEFINITION
+urgents are command line arguments to influence program logging, tracing,
+and debugging and which run parallel to normal options.  normal command line
 arguments change the programs functioning.  urgents change what is written
 about the programs execution.
 
-.IP
-urgents are command line arguments to influence program logging, tracing, and
-debugging and which run parallel to normal ones.  normal command line
-arguments change the programs functioning.  urgents change what is written
-about the programs execution.
-
-.TP 5
-A)
-urgents are command line arguments to influence program logging, tracing, and
-debugging and which run parallel to normal ones.  normal command line
-arguments change the programs functioning.  urgents change what is written
-about the programs execution.
-
-.SH URGENT DEFINITION
-urgents are command line arguments to influence program logging, tracing, and
-debugging and which run parallel to normal ones.  normal command line
-arguments change the programs functioning.  urgents change what is written
-about the programs execution.
-
-.SH FORMAT
 urgents are formatted consistently in order for them to stand out on the
 command line.  urgents will always be prefixed with one or two "at" signs.
 
-.B short form (@).  
-the short form of an urgent is two characters long.  the first character is an
-"at" sign (@).  the second character is a single unique lower case letter.
+.SS short form (@).  
+the short form of an urgent is two characters long.  the first character is
+an "at" sign (@).  the second character is a single unique letter or number.
 only the universal urgents, used in all programs, have short forms.
-   @a       turns on debugging for command line arguments
-   @u       turns on debugging for user interactions
-   @g       turns on debugging for graphics and drawing
+   @a         turns on debugging for command line arguments
+   @u         turns on debugging for user interactions
+   @g         turns on debugging for graphics and drawing
 
-.B long form (@@).  
-the long form of an urgent is five or more characters long.  it starts with
-two "at" signs (@@).  these two are followed by three or more lower case
-letters indicating a unique urgent.
-all urgents have long forms.
-   @@args   turns on debugging for command line arguments
-   @@user   turns on debugging for user interactions
-   @@graf   turns on debugging for graphics and drawing
+short form urgents can be strung together after a single @
+   @agu       turns on the same options as requested above
 
-.B extra output form.  
-both short and long form urgents MAY have an option of a second, more verbose
-level of output in order to better adjust debugging volume.  if this option
-is available, the urgent is simply requested with upper case letters.
-   @A       turns on debugging for command line arguments
-   @U       turns on debugging for user interactions
-   @G       turns on debugging for graphics and drawing
-   @@ARGS   turns on debugging for command line arguments
-   @@USER   turns on debugging for user interactions
-   @@GRAF   turns on debugging for graphics and drawing
+short form urgents may also be turned off with a - after the @
+   @-a        turns off debugging for command line arguments 
+   @-agu      turns off the same options as requested above
 
-.SH UNIVERSALS
-to see a list of universals
+.SS long form (@@).  
+the long form of an urgent is generally five or more characters long.  it starts
+with two "at" signs (@@).  these two are followed by three or more lower case
+letters indicating a unique urgent.  all urgents have long forms.
+   @@args     turns on debugging for command line arguments
+   @@user     turns on debugging for user interactions
+   @@graf     turns on debugging for graphics and drawing
 
-.TH yURG 0 2017-jan "linux" "heatherly custom tools manual"
+long form urgents may be turned off with a prepended "no"
+   @@noargs   turns off debugging for command line arguments 
 
-.SH NAME
-yURG \- command-line and programatic control over debugging/tracing
+.SS extra output form.  
+long form urgents MAY have an option of a second, more verbose level of output
+in order to better adjust debugging volume.  if this option is available,
+the urgent is simply requested with upper case letters.
+   @@ARGS     turns on full debugging for command line arguments
+   @@USER     turns on full for user interactions
+   @@GRAF     turns on full for graphics and drawing
 
+same as long form urgents, they may be turned off with a "NO"
+   @@NOARGS   turns off extra debugging for command line arguments 
 
-.SH SUMMARY
-yURG is a heatherly shared library to drive consistent, flexible, reliable,
-and repeatable debugging/tracing in programs with full command-line and
-programatic control over filtering and volume of output.
+.SS combination form.
+there are several combination urgents that can help with quickly getting
+output when more is required, such as early runs when little is known.
+   @@quiet    turns off all debugging
+   @@full     turns on all universal "a-z" debugging
+   @@mas      turns on all universal "A-Z" extra debugging
+   @@kitchen  turns on all universal "a-z" plus some useful extras
+   @@omni     turns everything on, everything
 
-.SH REASONING
-.B situation (s).  
-program debugging and tracing usually comes in one of two flavors -- EITHER
-ad-hoc inclusion of code/printing OR using a detailed debugging program which
-runs the program line-by-line.
+.SS output
+the user also has control over where the log file is placed.
+   @@stdout   runs all logging to stdout
+   @@ylog     writes to /var/log/yLOG (ram disk)
+   @@ylogh    writes to /var/log/yLOG.historical (normal disk)
+   @@root     writes to / as an emergency outlet
+   @@usb      writes to /mnt/usb1 mount point for boot debugging
 
-.B complication (c).  
-both flavors of debugging are time-consuming, cumbursome, and painful unless
-the problem source is already intuited.  additionally, neither method is
-repeatable in the fashion of testing.
+see yLOG (3) for details on locations.
 
-.B answer (a).  
-build and maintain a debugging system that will be built into each program,
-allow command-line selectable options, and provide comparable, repeatable,
-and consistent results on short-notice.
+.SS help
+there are also a couple of options to help with urgent use.  these act
+like the --version style arguement which print something and exit.
+   @@urgents    writes list of every urgent to stdout and exits
+   @@universal  writes list of universal urgents to stdout and exits
+   @@library    writes list of library urgents to stdout and exits
+   @@program    writes list of program urgents to stdout and exits
 
-.B objectives (o).  
-   -- provide command line options controlling debugging/logging focus
-   -- allow internal ability to alter debugging focus and volume
-   -- standardize debugging experience across all programs
-   -- do not require additional work to strip from production
-   -- make super easy and quick to use so i can isolate problems fast
-   -- make my execution environment more reliable and resilient
-   -- test, maintain, and document it once
-   -- use it everywhere and forever
+.SH COMMAND LINE FUNCTIONS
+yURG operates at three levels, the first is to accept command line arguements
+that indicate whether to log and what to log.
 
-.SH FULL DEBUGGING ENVIRONMENT
-yURG and yLOG shared libraries work together to provide a standard, adaptable,
-and consistent debugging environment.  yLOG provides a consistent and standard
-execution logging capabilty that can be easily added to any program.  yURG then
-adds a standard set of command-line and real-time alterable debugging flags
-that activate specific debugging code as required.
+.SS yURG_logger
+parses the command lines arguments just enough to find urgents that effect
+whether to start logging and where the log file is placed (output above).
+the function is given argc, and argv for parsing.
 
-.SH COMMAND-LINE USAGE
-yURG implements a set of command-line options called urgents.  urgents are
-command line arguments to influence program logging, tracing, and debugging
-and which run parallel to normal ones.  normal command line arguments change
-the programs functioning.  urgents change what is written about the programs
-execution.
+.SS yURG_urgs
+after yURG_logger is run and logging initiated, the host program calls this
+function to parse all the remaining urgents and prepare the debugging scope.
+it is also given argc, and argv for parsing.
 
-.B format.  
-urgents are formatted consistently in order for them to stand out on the
-command line.  urgents will always be prefixed with one or two "at" signs.
-the formatting rules are modeled after GNU command-line option recommendations.
+.SS normal initialization and use
+below is the beginning of the main function in one of my programs.  preinit
+is used only if something must be done to prepare for logging, such as in
+the "init" system for starting up the computer.
+      if (rc >= 0)  rc = PROG_preinit ();
+      if (rc >= 0)  rc = yURG_logger  (a_argc, a_argv);
+      if (rc >= 0)  rc = yURG_urgs    (a_argc, a_argv);
+      if (rc >= 0)  rc = PROG_init    (a_argc, a_argv);
+      if (rc >= 0)  rc = PROG_args    (a_argc, a_argv);
+      if (rc >= 0)  rc = PROG_begin   ();
+      if (rc >= 0)  rc = PROG_visual  ();
 
-.B short form (@).  
-the short form of an urgent is two characters long.  the first character is an
-"at" sign (@).  the second character is a single unique lower case letter.
-only the universal urgents, used in all programs, have short forms.
-   @a       turns on debugging for command line arguments
-   @u       turns on debugging for user interactions
-   @g       turns on debugging for graphics and drawing
+.SH INCREMENTAL FUNCTIONS
+yURG operates at three levels, the second is to allow a program to adjust
+its debugging focus and timing during operation.
 
-.B long form (@@).  
-the long form of an urgent is five or more characters long.  it starts with
-two "at" signs (@@).  these two are followed by three or more lower case
-letters indicating a unique urgent.
-all urgents have long forms.
-   @@args   turns on debugging for command line arguments
-   @@user   turns on debugging for user interactions
-   @@graf   turns on debugging for graphics and drawing
+.SS yURG_abbr,
+turns debugging on or off for a short-form urgent using the one-letter assigned
+to it -- YURG_ON or YURG_OFF are the second argument.
 
-.B extra output form.  
-both short and long form urgents MAY have an option of a second, more verbose
-level of output in order to better adjust debugging volume.  if this option
-is available, the urgent is simply requested with upper case letters.
-   @A       turns on debugging for command line arguments
-   @U       turns on debugging for user interactions
-   @G       turns on debugging for graphics and drawing
-   @@ARGS   turns on debugging for command line arguments
-   @@USER   turns on debugging for user interactions
-   @@GRAF   turns on debugging for graphics and drawing
+turning a lower case abbreviation ON turns on the basic level.  turning on
+the upper case abbreviation turns on both normal and extra levels.
 
-.B available urgents.  
-to display all urgent options, just add "@@urgents" to the command-line.
-this option will desplay a full urgent list with descriptions and then exit.
+turning a lower case abbreviation OFF turns off all debugging for that urgent.
+the upper case abbreviation turns off only the extra level.
 
-.SH PROGRAMMING
-using yURG is a combination of two public function calls, and a standard set
-of "define" macros that turn calls to yLOG on and off.  to use this abilty,
-you must be comfortable with both yURG and yLOG.
+.SS yURG_name,
+turns debugging on or off for a the long-form, full name urgent. this works
+exactly the same as the yLOG_abbr version, but can target any urgent.
 
-.B define macros.  
-all debug macros begin with DEBUG_.  this prefix allows those lines to be
-automatically stripped to create the production version of the code.
+.SH RUN-TIME MACROS
+yURG operates at three levels, the third is to prefix yLOG functions
+with yURG macros so that can be turned on and off by categories.
 
-.SH AUTHOR
-rsheatherly
+the actual definition of the macro is a simple if statement based on the
+state of the urgent in yURG.  the macro is an "if" statement and only covers
+a single statement -- NOT A BLOCK.
+
+all macros are named exactly like the urgent long-form name.
+   DEBUG_ARGS   yLOG_enter (__FUNCTION__);
+   DEBUG_PROG   yLOG_value ("x_var"     , x_var);
+   DEBUG_YLOGS  yLOG_info  ("x_str"     , x_str);
+
+if you use @@args on the command line, every line preceeded with DEBUG_ARGS
+will happen.
+
+.SS warning
+production and debug versions of the programs are created by
+stripping lines with "DEBUG_" and "yLOG_" in them.   you can not use these
+macros to encompass multiple lines as the stripping is very primative.  you
+have been warned.
 
 .SH SEE ALSO
- yURG (0)        overview, reasoning, and descision process
- yURG (3)        library usage and interface
+ yLOG (3)        shared library for logging
+
+.SH AUTHOR
+heatherlyrobert ata gmail dotta com
 
 .SH COLOPHON
-this page is part of a documentation package mean to make our use of the
+this page is part of a documentation package meant to make our use of the
 heatherly libraries easier and faster
 
