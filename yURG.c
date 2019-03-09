@@ -10,10 +10,10 @@ char        s_upper     [30] = "";
 int         s_curr      = -1;
 
 char        s_origs     [LEN_RECD];      /* original urgs from yURG_urgs   */
-char        s_nows      [LEN_RECD];      /* current state of urgs          */
-int         s_ntry      = 0;
 int         s_norig     = 0;
+char        s_nows      [LEN_RECD];      /* current state of urgs          */
 int         s_nnow      = 0;
+int         s_ntry      = 0;
 
 tYURG_TYPE  yURG_type [MAX_URGS] = {
    {   'h' , '-' , "help by categories"      },
@@ -186,10 +186,60 @@ yurg__count        (void)
       /*---(filter)----------------------*/
       if (yURG_info [i].type     == '-')      continue;
       if (  yURG_info [i].point  == NULL)     continue;
-      if (*(yURG_info [i].point) == '-')      continue;
+      if (*(yURG_info [i].point) == YURG_OFF) continue;
       /*---(append)----------------------*/
       ++c;
    }
+   /*---(complete)-----------------------*/
+   return c;
+}
+
+char         /*--> create a string of current ------------[ ------ [ ------ ]-*/
+yURG_orig          (char *a_orig)
+{
+   if (a_orig != NULL)  strlcpy (a_orig, s_origs, LEN_RECD);
+   return s_norig;
+}
+
+char         /*--> create a string of current ------------[ ------ [ ------ ]-*/
+yURG_curr          (char *a_curr)
+{
+   /*---(locals)-----------+-----------+-*/
+   int         i           = 0;
+   int         k           = 0;
+   int         c           = 0;
+   char        t           [LEN_LABEL];
+   char        x_join      = 0;
+   /*---(list)---------------------------*/
+   strlcpy (s_nows, "", LEN_RECD);
+   for (i = 0; i < MAX_URGS; ++i) {
+      /*---(stop at end)-----------------*/
+      if (yURG_info [i].abbr     == '\0')     break;
+      /*---(filter)----------------------*/
+      if (yURG_info [i].type     == '-')      continue;
+      if (  yURG_info [i].point  == NULL)     continue;
+      if (*(yURG_info [i].point) == YURG_OFF) continue;
+      /*---(append)----------------------*/
+      if (yURG_info [i].abbr != '-')  {
+         if (*(yURG_info [i].point) == YURG_ON )  sprintf (t, "%c", yURG_info [i].abbr);
+         else                                     sprintf (t, "%c", toupper (yURG_info [i].abbr));
+         if (!x_join)  strlcat (s_nows, " @", LEN_RECD);
+         strlcat (s_nows, t, LEN_RECD);
+         x_join = 1;
+      } else {
+         strlcat (s_nows, " @@", LEN_RECD);
+         strcpy (t, yURG_info [i].full);
+         for (k = 0; k < strlen (t); ++k)  t [k] = toupper (t [k]);
+         if (*(yURG_info [i].point) == YURG_ON )  strlcat (s_nows, yURG_info [i].full, LEN_RECD);
+         else                                     strlcat (s_nows, t, LEN_RECD);
+         x_join = 0;
+      }
+      ++c;
+   }
+   strlcat (s_nows, " ", LEN_RECD);
+   /*---(save)---------------------------*/
+   if (a_curr != NULL)  strlcpy (a_curr, s_nows, LEN_RECD);
+   s_nnow = c;
    /*---(complete)-----------------------*/
    return c;
 }
@@ -211,7 +261,7 @@ yurg__strings      (void)
       if (yURG_info [i].abbr     == '-')      continue;
       if (yURG_info [i].type     == '-')      continue;
       if (  yURG_info [i].point  == NULL)     continue;
-      if (*(yURG_info [i].point) == '-')      continue;
+      if (*(yURG_info [i].point) == YURG_OFF) continue;
       /*---(append)----------------------*/
       c = yURG_info [i].abbr;
       if (c >= 'a' && c <= 'z') {
@@ -235,20 +285,35 @@ yurg__flip         (int i, cchar a_lower, cchar a_on)
 {
    /*---(set)-------------------------*/
    if (a_on == YURG_ON) {
+      /*---(note)---------------------*/
       DEBUG_ARGS_M   yLOG_note    ("set on");
+      /*---(defense)------------------*/
+      if (a_lower  && *(yURG_info [i].point) == YURG_ON )  return -1;
+      if (a_lower  && *(yURG_info [i].point) == YURG_MAS)  return -2;
+      if (!a_lower && *(yURG_info [i].point) == YURG_MAS)  return -3;
+      /*---(setting)------------------*/
       if (*(yURG_info [i].point) == YURG_OFF) {
          *(yURG_info [i].point) = YURG_ON;
       }
       if (!a_lower) *(yURG_info [i].point) = YURG_MAS;
+      /*---(done)---------------------*/
    }
    /*---(unset)-----------------------*/
    if (a_on == YURG_OFF) {
+      /*---(note)---------------------*/
       DEBUG_ARGS_M   yLOG_note    ("set off");
+      /*---(defense)------------------*/
+      if (a_lower  && *(yURG_info [i].point) == YURG_OFF)  return -6;
+      if (!a_lower && *(yURG_info [i].point) == YURG_OFF)  return -7;
+      if (!a_lower && *(yURG_info [i].point) == YURG_ON )  return -8;
+      /*---(setting)------------------*/
       if (*(yURG_info [i].point) == YURG_MAS)  {
          if (!a_lower) *(yURG_info [i].point) = YURG_ON;
       }
       if (a_lower) *(yURG_info [i].point) = YURG_OFF;
+      /*---(done)---------------------*/
    }
+   /*---(complete)--------------------*/
    return 0;
 }
 
@@ -283,6 +348,7 @@ yURG_abbr          (cchar a_abbr, cchar a_on)
 {
    /*---(locals)-----------+-----+-----+-*/
    char        rce         =  -10;
+   char        rc          =    0;
    int         i           =    0;
    int         x_count     =    0;
    char       *x_valid     = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -325,9 +391,9 @@ yURG_abbr          (cchar a_abbr, cchar a_on)
       }
       /*---(set)-------------------------*/
       ++x_count;
-      yurg__flip (i, a_abbr == x_lower, a_on);
-      /*---(done)------------------------*/
       s_curr = i;
+      rc = yurg__flip (i, a_abbr == x_lower, a_on);
+      if (rc < 0)  return rc;
       break;
    }
    /*---(check)--------------------------*/
@@ -352,6 +418,7 @@ yURG_name          (cchar *a_name, cchar a_on)
 {
    /*---(locals)-----------+-----------+-*/
    char        rce         = -10;
+   char        rc          =    0;
    int         i           = 0;
    int         x_len       = 0;
    int         x_count     = 0;
@@ -424,9 +491,10 @@ yURG_name          (cchar *a_name, cchar a_on)
       }
       /*---(set)-------------------------*/
       ++x_count;
-      yurg__flip (i, a_name [0] == x_lower [0], a_on);
-      /*---(done)------------------------*/
       s_curr = i;
+      rc = yurg__flip (i, a_name [0] == x_lower [0], a_on);
+      if (rc < 0)  return rc;
+      /*---(done)------------------------*/
       break;
    }
    /*---(check)--------------------------*/
@@ -578,6 +646,7 @@ char          unit_answer [ LEN_TEXT ];
 char*            /* [------] unit test accessor ------------------------------*/
 yURG__unit         (char *a_question, int a_num)
 {
+   char        t           [LEN_RECD];
    int         c           = 0;
    /*---(initialize)---------------------*/
    strlcpy (unit_answer, "yURG_unit, unknown request", 100);
@@ -598,7 +667,11 @@ yURG__unit         (char *a_question, int a_num)
          snprintf (unit_answer, LEN_TEXT, "yURG curr   (%2d) : %c %s"  , s_curr, yURG_info [s_curr].abbr, yURG_info [s_curr].full);
       }
    } else if (strncmp(a_question, "orig"      , 20)  == 0) {
-      snprintf (unit_answer, LEN_TEXT, "yURG orig   (%2d) : [%s]"  , s_norig, s_origs);
+      c = yURG_orig (t);
+      snprintf (unit_answer, LEN_TEXT, "yURG orig   (%2d) : [%s]"  , c, t);
+   } else if (strncmp(a_question, "now"       , 20)  == 0) {
+      c = yURG_curr (t);
+      snprintf (unit_answer, LEN_TEXT, "yURG now    (%2d) : [%s]"  , c, t);
    }
    /*---(complete)-----------------------*/
    return unit_answer;
@@ -610,6 +683,7 @@ char       /*----: set up programgents/debugging -----------------------------*/
 yURG__testquiet     (void)
 {
    char       *x_args [2]  = { "yURG_debug","@@quiet" };
+   s_curr = -1;   
    yURG_logger (2, x_args);
    return 0;
 }
@@ -618,6 +692,7 @@ char       /*----: set up programgents/debugging -----------------------------*/
 yURG__testloud      (void)
 {
    char       *x_args [2]  = { "yURG_debug","@@kitchen" };
+   s_curr = -1;   
    yURG_logger (2, x_args);
    return 0;
 }

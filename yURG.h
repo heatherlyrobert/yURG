@@ -298,8 +298,8 @@ typedef     const char         cchar;
 char*       yURG_version            (void);
 char        yURG_debugmode          (void);
 
-char*       yURG_orig               (void);
-char*       yURG_curr               (void);
+char        yURG_orig               (char *a_orig);
+char        yURG_curr               (char *a_curr);
 
 char        yURG_mass               (cchar  a_set , cchar a_extra);
 char        yURG_logger             (int    a_argc, char *a_argv[]);
