@@ -93,6 +93,7 @@ tYURG_INFO  yURG_info [MAX_URGS] = {
    {  '-' , "cell"           , "spreadsheet cell creation and mtce"    , 'p', '-', &yURG_debug.cell               },
    /*---(calculations)-------------------*/
    {  '-' , "rpn"            , "calculation conversion infix to rpn"   , 'p', '-', &yURG_debug.rpn                },
+   {  '-' , "yrpn"           , "yRPN reverse polish notation"          , 'l', 'g', &yURG_debug.yrpn               },
    {  '-' , "calc"           , "calculation building from rpn"         , 'p', '-', &yURG_debug.calc               },
    {  '-' , "exec"           , "calculation execution"                 , 'p', '-', &yURG_debug.exec               },
    {  '-' , "adjs"           , "small, config adjustments in measures" , 'p', '-', &yURG_debug.adjs               },
@@ -121,6 +122,7 @@ tYURG_INFO  yURG_info [MAX_URGS] = {
    {  '-' , "yexec"          , "yEXEC process dispatch and control"    , 'l', 's', &yURG_debug.yexec              },
    {  '-' , "ygolem"         , "heatherly yGOLEM robotics controller"  , 'l', 's', &yURG_debug.ygolem             },
    {  '-' , "yregex"         , "heatherly yREGEX library"              , 'l', 's', &yURG_debug.yregex             },
+   {  '-' , "ykine"          , "yKINE kinematics main"                 , 'l', 'k', &yURG_debug.ykine              },
    {  '-' , "ykine_calc"     , "yKINE kinematics calculations"         , 'l', 'k', &yURG_debug.ykine_calc         },
    {  '-' , "ykine_data"     , "yKINE kinematics common data"          , 'l', 'k', &yURG_debug.ykine_data         },
    {  '-' , "ykine_scrp"     , "yKINE kinematics script interpretation", 'l', 'k', &yURG_debug.ykine_scrp         },
@@ -133,7 +135,6 @@ tYURG_INFO  yURG_info [MAX_URGS] = {
    {  '-' , "yfont_map"      , "yFONT texture mapping and access"      , 'l', 'g', &yURG_debug.yfont_map          },
    {  '-' , "ygltex"         , "yGLTEX opengl texture handling"        , 'l', 'g', &yURG_debug.ygltex             },
    {  '-' , "ycolor"         , "yGLTEX opengl color handling"          , 'l', 'g', &yURG_debug.ycolor             },
-   {  '-' , "yrpn"           , "yRPN reverse polish notation"          , 'l', 'g', &yURG_debug.yrpn               },
    {  '-' , "format"         , "hyleoroi formatting options"           , 'M', 'g', &yURG_debug.format             },
    {  '-' , "color"          , "hyleoroi color usage and setup"        , 'M', 'g', &yURG_debug.color              },
    /*---(end-of-list)--------------------*/
@@ -515,6 +516,23 @@ yURG_name          (cchar *a_name, cchar a_on)
 }
 
 char       /*----: process the urgents/debugging -----------------------------*/
+yurg__wild         (cchar *a_string, cchar a_on)
+{
+   /*---(locals)-----------+-----+-----+-*/
+   int         i           =    0;
+   int         x_len       =    0;
+   int         c           =    0;
+   x_len = strlen (a_string);
+   for (i = 0; i < MAX_URGS; ++i) {
+      if (a_string [0] != yURG_info [i].full [0])              continue;
+      if (strncmp (a_string, yURG_info [i].full, x_len) != 0)  continue;
+      yURG_name (yURG_info [i].full, a_on);
+      ++c;
+   }
+   return c;
+}
+
+char       /*----: process the urgents/debugging -----------------------------*/
 yURG_mass          (cchar a_set, cchar a_extra)
 {
    int         i           = 0;
@@ -602,9 +620,13 @@ yURG_urgs          (int a_argc, char *a_argv[])
       }
       /*---(long form)-------------------*/
       else if (a [0] == '@' && x_len >= 5) {
-         rc = yURG_name  (a + 2, YURG_ON);
-         if (rc < 0 && (strncmp (a + 2, "NO", 2) == 0 || strncmp (a + 2, "no", 2) == 0)) {
-            rc = yURG_name  (a + 4, YURG_OFF);
+         if (a [1] == '@') {
+            rc = yURG_name  (a + 2, YURG_ON);
+            if (rc < 0 && (strncmp (a + 2, "NO", 2) == 0 || strncmp (a + 2, "no", 2) == 0)) {
+               rc = yURG_name  (a + 4, YURG_OFF);
+            }
+         } else if (a [1] == '+') {
+            rc = yurg__wild  (a + 2, YURG_ON);
          }
       }
       /*---(unknown)---------------------*/

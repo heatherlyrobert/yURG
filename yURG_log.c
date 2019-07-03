@@ -11,23 +11,23 @@ yurg__setlog            (cchar *a_name, cchar a_log)
    if (yURG_debug.loud != 'y')                                  return 0;
    switch (a_log) {
    case YLOG_SYS     :
-      yURG_debug.logger = yLOGS_begin (a_name, YLOG_SYS    , YLOG_NOISE);
+      yURG_debug.logger = yLOGS_begin (a_name, YLOG_SYS   , YLOG_NOISE);
       break;
    case YLOG_HIST   :
-      yURG_debug.logger = yLOGS_begin (a_name, YLOG_HIST, YLOG_NOISE);
+      yURG_debug.logger = yLOGS_begin (a_name, YLOG_HIST  , YLOG_NOISE);
       break;
    case YLOG_STDOUT     :
-      yURG_debug.logger = yLOGS_begin (a_name, YLOG_STDOUT    , YLOG_NOISE);
+      yURG_debug.logger = yLOGS_begin (a_name, YLOG_STDOUT, YLOG_NOISE);
       break;
    case YLOG_ROOT       :
-      yURG_debug.logger = yLOGS_begin (a_name, YLOG_ROOT      , YLOG_NOISE);
+      yURG_debug.logger = yLOGS_begin (a_name, YLOG_ROOT  , YLOG_NOISE);
       break;
    case YLOG_USB        :
       rc = mount ("/dev/sdb1", "/mnt/usb1", "vfat", MS_NOSUID | MS_NODEV | MS_NOEXEC | MS_NOATIME, NULL);
-      yURG_debug.logger = yLOGS_begin (a_name, YLOG_USB       , YLOG_NOISE);
+      yURG_debug.logger = yLOGS_begin (a_name, YLOG_USB   , YLOG_NOISE);
       break;
    case YLOG_QUIET : default  :
-      yURG_debug.logger = yLOGS_begin (a_name, YLOG_SYS    , YLOG_QUIET);
+      yURG_debug.logger = yLOGS_begin (a_name, YLOG_SYS   , YLOG_QUIET);
       break;
    }
    if (yURG_debug.logger < 0) {
@@ -48,7 +48,7 @@ yURG_logger        (int a_argc, char *a_argv[])
    int         t           [LEN_FULL];
    char        x_progname  [LEN_FULL] = "";
    char        x_basename  [LEN_FULL] = "";
-   char        x_log       = '-';
+   char        x_log       = YLOG_SYS;
    char        x_type      = '-';
    char        x_args      = '-';
    char        x_prog      = '-';
@@ -91,12 +91,8 @@ yURG_logger        (int a_argc, char *a_argv[])
       else if (strcmp (a, "@@verbose"    ) == 0) { x_verb = 'v'; continue; }
       else if (strcmp (a, "@V"           ) == 0) { x_verb = 'V'; continue; }
       else if (strcmp (a, "@@VERBOSE"    ) == 0) { x_verb = 'V'; continue; }
-      /*---(logging)---------------------*/
-      if (x_log == '-') x_log = YLOG_SYS;
-      /*> printf ("argv [%d] = [%s]\n", i, a_argv [i]);                               <*/
       /*---(locations)-------------------*/
-      if      (strcmp (a, "@q"           ) == 0) x_log  = YLOG_QUIET;
-      else if (strcmp (a, "@@quiet"      ) == 0) x_log  = YLOG_QUIET;
+      if      (strcmp (a, "@@null"       ) == 0) x_log  = YLOG_NULL;
       else if (strcmp (a, "@@ylog"       ) == 0) x_log  = YLOG_SYS;
       else if (strcmp (a, "@@ylogh"      ) == 0) x_log  = YLOG_HIST;
       else if (strcmp (a, "@@stdout"     ) == 0) x_log  = YLOG_STDOUT;
@@ -125,29 +121,28 @@ yURG_logger        (int a_argc, char *a_argv[])
    /*---(hande verbose flag)-------------*/
    if      (x_verb == 'v')    yURG_debug.view = YURG_ON;
    else if (x_verb == 'V')    yURG_debug.view = YURG_MAS;
+   /*---(jump out if not needed)---------*/
+   if (yURG_debug.loud != 'y')   return 0;
    /*---(startup logging)----------------*/
-   /*> printf ("x_args = %c\n", x_args);                                              <*/
-   /*> printf ("x_log  = %c\n", x_log);                                               <*/
-   if (yURG_debug.loud != 'y')                                  return 0;
    switch (x_log) {
    case YLOG_SYS     :
-      yURG_debug.logger = yLOGS_begin (x_progname, YLOG_SYS    , YLOG_NOISE);
+      yURG_debug.logger = yLOGS_begin (x_progname, YLOG_SYS   , YLOG_NOISE);
       break;
    case YLOG_HIST :
-      yURG_debug.logger = yLOGS_begin (x_progname, YLOG_HIST, YLOG_NOISE);
+      yURG_debug.logger = yLOGS_begin (x_progname, YLOG_HIST  , YLOG_NOISE);
       break;
    case YLOG_STDOUT     :
-      yURG_debug.logger = yLOGS_begin (x_progname, YLOG_STDOUT    , YLOG_NOISE);
+      yURG_debug.logger = yLOGS_begin (x_progname, YLOG_STDOUT, YLOG_NOISE);
       break;
    case YLOG_ROOT       :
-      yURG_debug.logger = yLOGS_begin (x_progname, YLOG_ROOT      , YLOG_NOISE);
+      yURG_debug.logger = yLOGS_begin (x_progname, YLOG_ROOT  , YLOG_NOISE);
       break;
    case YLOG_USB        :
       rc = mount ("/dev/sdb1", "/mnt/usb1", "vfat", MS_NOSUID | MS_NODEV | MS_NOEXEC | MS_NOATIME, NULL);
-      yURG_debug.logger = yLOGS_begin (x_progname, YLOG_USB       , YLOG_NOISE);
+      yURG_debug.logger = yLOGS_begin (x_progname, YLOG_USB   , YLOG_NOISE);
       break;
    case YLOG_QUIET : default  :
-      yURG_debug.logger = yLOGS_begin (x_progname, YLOG_SYS    , YLOG_QUIET);
+      yURG_debug.logger = yLOGS_begin (x_progname, YLOG_SYS   , YLOG_QUIET);
       break;
    }
    if (yURG_debug.logger < 0) {

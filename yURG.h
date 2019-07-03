@@ -104,9 +104,10 @@ struct cURG_DEBUG
    /*---(regular expressions)------------*/
    char        yregex;                 /* yREGEX library                      */
    /*---(kinematics)---------------------*/
-   char        ykine_calc;                  /* yKINE kinematics library            */
-   char        ykine_data;                  /* yKINE kinematics library            */
-   char        ykine_scrp;                  /* yKINE kinematics library            */
+   char        ykine;                  /* yKINE kinematics library -- main    */
+   char        ykine_calc;             /* yKINE kinematics library -- sub     */
+   char        ykine_data;             /* yKINE kinematics library -- sub     */
+   char        ykine_scrp;             /* yKINE kinematics library -- sub     */
    /*---(vi-keys)------------------------*/
    char        yvikeys;                     /* yVIKEYS vi-keys library        */
    char        yvikeys_keys;                /* yVIKEYS vi-keys library        */
@@ -257,6 +258,8 @@ extern    tURG_DEBUG      yURG_debug;
 #define     DEBUG_YREGEX           if (yURG_debug.yregex             != '-')
 #define     DEBUG_YREGEX_M         if (yURG_debug.yregex             == 'Y')
 /*---(kinematics)------------------------*/
+#define     DEBUG_YKINE            if (yURG_debug.ykine              != '-')
+#define     DEBUG_YKINE_M          if (yURG_debug.ykine              == 'Y')
 #define     DEBUG_YKINE_CALC       if (yURG_debug.ykine_calc         != '-')
 #define     DEBUG_YKINE_CALC_M     if (yURG_debug.ykine_calc         == 'Y')
 #define     DEBUG_YKINE_DATA       if (yURG_debug.ykine_data         != '-')

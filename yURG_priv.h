@@ -25,8 +25,8 @@
 #define     P_CREATED   "2014-10"
 #define     P_DEPENDS   "none"
 
-#define     P_VERNUM    "0.4e"
-#define     P_VERTXT    "implemented yURG_orig and yURG_curr (nicely) with unit tests"
+#define     P_VERNUM    "0.4f"
+#define     P_VERTXT    "updated to handle prefix wildcard on names"
 
 #define     P_PRIORITY  "direct, simple, brief, vigorous, and lucid (h.w. fowler)"
 #define     P_PRINCIPAL "[grow a set] and build your wings on the way down (r. bradbury)"
@@ -131,6 +131,7 @@ extern tYURG_INFO  yURG_info [MAX_URGS];
 
 char        yurg__flip              (int i, cchar a_lower, cchar a_on);
 char        yurg__multi             (cchar *a_string, cchar a_on);
+char        yurg__wild              (cchar *a_string, cchar a_on);
 
 char*       yURG__unit              (char *a_question, int a_num);
 char        yURG__testquiet         (void);
