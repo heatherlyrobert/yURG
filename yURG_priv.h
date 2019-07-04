@@ -25,8 +25,8 @@
 #define     P_CREATED   "2014-10"
 #define     P_DEPENDS   "none"
 
-#define     P_VERNUM    "0.4f"
-#define     P_VERTXT    "updated to handle prefix wildcard on names"
+#define     P_VERNUM    "0.4g"
+#define     P_VERTXT    "fixed quiet log in normal mode, and wildcard issue"
 
 #define     P_PRIORITY  "direct, simple, brief, vigorous, and lucid (h.w. fowler)"
 #define     P_PRINCIPAL "[grow a set] and build your wings on the way down (r. bradbury)"

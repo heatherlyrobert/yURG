@@ -71,12 +71,17 @@ yURG_logger        (int a_argc, char *a_argv[])
    }
    /*> printf ("yURG_debug.loud = %c\n", yURG_debug.loud);                            <*/
    /*---(fix program name)---------------*/
-   if (x_type == 'd') {
+   switch (x_type) {
+   case 'd' : /* debug version */
       x_basename [x_len - 6] = '\0';
       strlcpy (x_progname, x_basename, LEN_FULL);
-   }
-   if (x_type == 'u') {
+      break;
+   case 'u' : /* unit testing */
       x_basename [x_len - 5] = '\0';
+      break;
+   default  : /* no logging */
+      return 0;
+      break;
    }
    x_len  = strllen (x_progname, LEN_LABEL);
    /*---(process)------------------------*/

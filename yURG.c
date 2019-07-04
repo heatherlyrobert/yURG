@@ -615,7 +615,7 @@ yURG_urgs          (int a_argc, char *a_argv[])
          rc = yurg__multi (a + 1, YURG_OFF);
       }
       /*---(multi abbrev)----------------*/
-      else if (a [0] == '@' && a [1] != '@' && x_len > 2) {
+      else if (a [0] == '@' && a [1] != '@'  && a [1] != '+' && x_len > 2) {
          rc = yurg__multi (a + 1, YURG_ON);
       }
       /*---(long form)-------------------*/
