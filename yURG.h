@@ -108,6 +108,8 @@ struct cURG_DEBUG
    char        ykine_calc;             /* yKINE kinematics library -- sub     */
    char        ykine_data;             /* yKINE kinematics library -- sub     */
    char        ykine_scrp;             /* yKINE kinematics library -- sub     */
+   char        ykine_move;             /* yKINE kinematics library -- sub     */
+   char        ykine_exact;            /* yKINE kinematics library -- sub     */
    /*---(vi-keys)------------------------*/
    char        yvikeys;                     /* yVIKEYS vi-keys library        */
    char        yvikeys_keys;                /* yVIKEYS vi-keys library        */
@@ -261,11 +263,10 @@ extern    tURG_DEBUG      yURG_debug;
 #define     DEBUG_YKINE            if (yURG_debug.ykine              != '-')
 #define     DEBUG_YKINE_M          if (yURG_debug.ykine              == 'Y')
 #define     DEBUG_YKINE_CALC       if (yURG_debug.ykine_calc         != '-')
-#define     DEBUG_YKINE_CALC_M     if (yURG_debug.ykine_calc         == 'Y')
 #define     DEBUG_YKINE_DATA       if (yURG_debug.ykine_data         != '-')
-#define     DEBUG_YKINE_DATA_M     if (yURG_debug.ykine_data         == 'Y')
 #define     DEBUG_YKINE_SCRP       if (yURG_debug.ykine_scrp         != '-')
-#define     DEBUG_YKINE_SCRP_M     if (yURG_debug.ykine_scrp         == 'Y')
+#define     DEBUG_YKINE_MOVE       if (yURG_debug.ykine_move         != '-')
+#define     DEBUG_YKINE_EXACT      if (yURG_debug.ykine_exact        != '-')
 /*---(vi-keys)---------------------------*/
 #define     DEBUG_YVIKEYS          if (yURG_debug.yvikeys            == 'y')
 #define     DEBUG_YVIKEYS_KEYS     if (yURG_debug.yvikeys_keys       != '-')
