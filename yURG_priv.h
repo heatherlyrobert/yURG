@@ -25,8 +25,8 @@
 #define     P_CREATED   "2014-10"
 #define     P_DEPENDS   "none"
 
-#define     P_VERNUM    "0.4h"
-#define     P_VERTXT    "added a sub under ykine to help manage volume of logging"
+#define     P_VERNUM    "0.4i"
+#define     P_VERTXT    "consolidated YRPN and RPN to resolvf conflict in yRPN library"
 
 #define     P_PRIORITY  "direct, simple, brief, vigorous, and lucid (h.w. fowler)"
 #define     P_PRINCIPAL "[grow a set] and build your wings on the way down (r. bradbury)"

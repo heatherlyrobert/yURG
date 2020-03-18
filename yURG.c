@@ -72,15 +72,17 @@ tYURG_INFO  yURG_info [MAX_URGS] = {
    {  'd' , "data"           , "complex data structure handling"       , 'u', 'p', &yURG_debug.data               },
    {  's' , "sort"           , "data sorting and ordering"             , 'u', 'p', &yURG_debug.sort               },
    {  'y' , "trav"           , "data searching and traversal"          , 'u', 'p', &yURG_debug.trav               },
+   {  'm' , "mems"           , "data registers, memory, saving"        , 'u', 'p', &yURG_debug.mems               },
    /*---(gregg)--------------------------*/
    {  '-' , "touch"          , "touch interface"                       , 'p', '-', &yURG_debug.touch              },
    {  '-' , "raw"            , "data point -- raw collection"          , 'p', '-', &yURG_debug.raw                },
    {  '-' , "simple"         , "data point -- simplification"          , 'p', '-', &yURG_debug.simple             },
-   {  '-' , "average"        , "data point -- averaging"               , 'p', '-', &yURG_debug.average            },
-   {  '-' , "critical"       , "data point -- critical points"         , 'p', '-', &yURG_debug.critical           },
-   {  '-' , "circle"         , "data point -- circle marking"          , 'p', '-', &yURG_debug.circle             },
-   {  '-' , "curve"          , "data point -- curve marking"           , 'p', '-', &yURG_debug.curve              },
+   {  '-' , "avg"            , "data point -- averaging"               , 'p', '-', &yURG_debug.average            },
+   {  '-' , "crit"           , "data point -- critical points"         , 'p', '-', &yURG_debug.critical           },
+   {  '-' , "circ"           , "data point -- circle marking"          , 'p', '-', &yURG_debug.circle             },
+   {  '-' , "curv"           , "data point -- curve marking"           , 'p', '-', &yURG_debug.curve              },
    {  '-' , "line"           , "data point -- line straightening"      , 'p', '-', &yURG_debug.line               },
+   {  '-' , "match"          , "data point -- match processing"        , 'p', '-', &yURG_debug.match              },
    {  '-' , "dict"           , "dictionary processing"                 , 'p', '-', &yURG_debug.dict               },
    /*---(hermes)-------------------------*/
    {  '-' , "dirs"           , "hermes location tracking"              , 'p', '-', &yURG_debug.dirs               },
@@ -93,7 +95,6 @@ tYURG_INFO  yURG_info [MAX_URGS] = {
    {  '-' , "cell"           , "spreadsheet cell creation and mtce"    , 'p', '-', &yURG_debug.cell               },
    /*---(calculations)-------------------*/
    {  '-' , "rpn"            , "calculation conversion infix to rpn"   , 'p', '-', &yURG_debug.rpn                },
-   {  '-' , "yrpn"           , "yRPN reverse polish notation"          , 'l', 'g', &yURG_debug.yrpn               },
    {  '-' , "calc"           , "calculation building from rpn"         , 'p', '-', &yURG_debug.calc               },
    {  '-' , "exec"           , "calculation execution"                 , 'p', '-', &yURG_debug.exec               },
    {  '-' , "adjs"           , "small, config adjustments in measures" , 'p', '-', &yURG_debug.adjs               },
@@ -291,9 +292,18 @@ yurg__flip         (int i, cchar a_lower, cchar a_on)
       /*---(note)---------------------*/
       DEBUG_ARGS_M   yLOG_note    ("set on");
       /*---(defense)------------------*/
-      if (a_lower  && *(yURG_info [i].point) == YURG_ON )  return -1;
-      if (a_lower  && *(yURG_info [i].point) == YURG_MAS)  return -2;
-      if (!a_lower && *(yURG_info [i].point) == YURG_MAS)  return -3;
+      if (a_lower  && *(yURG_info [i].point) == YURG_ON ) {
+         DEBUG_ARGS_M   yLOG_note    ("already on, no need to double set");
+         return -1;
+      }
+      if (a_lower  && *(yURG_info [i].point) == YURG_MAS) {
+         DEBUG_ARGS_M   yLOG_note    ("already mas, normal of no use");
+         return -2;
+      }
+      if (!a_lower && *(yURG_info [i].point) == YURG_MAS) {
+         DEBUG_ARGS_M   yLOG_note    ("already mas, no need to double set");
+         return -3;
+      }
       /*---(setting)------------------*/
       if (*(yURG_info [i].point) == YURG_OFF) {
          *(yURG_info [i].point) = YURG_ON;
@@ -306,9 +316,18 @@ yurg__flip         (int i, cchar a_lower, cchar a_on)
       /*---(note)---------------------*/
       DEBUG_ARGS_M   yLOG_note    ("set off");
       /*---(defense)------------------*/
-      if (a_lower  && *(yURG_info [i].point) == YURG_OFF)  return -6;
-      if (!a_lower && *(yURG_info [i].point) == YURG_OFF)  return -7;
-      if (!a_lower && *(yURG_info [i].point) == YURG_ON )  return -8;
+      if (a_lower  && *(yURG_info [i].point) == YURG_OFF) {
+         DEBUG_ARGS_M   yLOG_note    ("already off, no need to double unset");
+         return -6;
+      }
+      if (!a_lower && *(yURG_info [i].point) == YURG_OFF) {
+         DEBUG_ARGS_M   yLOG_note    ("already off, no need to turn off mas");
+         return -7;
+      }
+      if (!a_lower && *(yURG_info [i].point) == YURG_ON ) {
+         DEBUG_ARGS_M   yLOG_note    ("already normal, no need to unset mas");
+         return -8;
+      }
       /*---(setting)------------------*/
       if (*(yURG_info [i].point) == YURG_MAS)  {
          if (!a_lower) *(yURG_info [i].point) = YURG_ON;
@@ -599,10 +618,9 @@ yURG_urgs          (int a_argc, char *a_argv[])
    for (i = 1; i < a_argc; ++i) {
       /*---(filter args)-----------------*/
       a = a_argv[i];
-      DEBUG_ARGS   yLOG_info    ("option"    , a);
+      DEBUG_ARGS   yLOG_complex ("option"    , "%2d, %s", i, a);
       ++x_total;
       if (a[0] != '@')  continue;
-      DEBUG_ARGS   yLOG_note    ("idenfified urgent");
       x_len  = strlen (a);
       ++s_ntry;
       /*---(process)---------------------*/
@@ -610,30 +628,36 @@ yURG_urgs          (int a_argc, char *a_argv[])
       s_curr = -1;
       /*---(single abbrev)---------------*/
       if (a [0] == '@' && x_len == 2) {
+         DEBUG_ARGS   yLOG_note    ("single abbreviated version");
          rc = yURG_abbr  (a[1] , YURG_ON);
       }
       /*---(multi abbrev)----------------*/
       else if (a [0] == '@' && a [1] == '-' && x_len > 2) {
+         DEBUG_ARGS   yLOG_note    ("multiple abbreviated OFF version");
          rc = yurg__multi (a + 1, YURG_OFF);
       }
       /*---(multi abbrev)----------------*/
       else if (a [0] == '@' && a [1] != '@'  && a [1] != '+' && x_len > 2) {
+         DEBUG_ARGS   yLOG_note    ("multiple abbreviated ON version");
          rc = yurg__multi (a + 1, YURG_ON);
       }
       /*---(long form)-------------------*/
       else if (a [0] == '@' && x_len >= 5) {
          if (a [1] == '@') {
+            DEBUG_ARGS   yLOG_note    ("long form ON version");
             rc = yURG_name  (a + 2, YURG_ON);
             if (rc < 0 && (strncmp (a + 2, "NO", 2) == 0 || strncmp (a + 2, "no", 2) == 0)) {
+               DEBUG_ARGS   yLOG_note    ("long form OFF version");
                rc = yURG_name  (a + 4, YURG_OFF);
             }
          } else if (a [1] == '+') {
+            DEBUG_ARGS   yLOG_note    ("wild card form ON version");
             rc = yurg__wild  (a + 2, YURG_ON);
          }
       }
       /*---(unknown)---------------------*/
       else {
-         DEBUG_ARGS   yLOG_note    ("could not process");
+         DEBUG_ARGS   yLOG_note    ("could not identify version");
          ++s_ntry;
       }
       /*---(report)----------------------*/

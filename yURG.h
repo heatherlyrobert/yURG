@@ -29,7 +29,7 @@ struct cURG_DEBUG
    /*---(startup/shutdown)---------------*/
    char        args;                   /* a) command line args and urgents    */
    char        conf;                   /* c) configuration handling           */
-   char        prog;                   /* p) program setup and teardown       */
+   char        prog;                   /* p) specific program setup/wrapup    */
    /*---(file processing)----------------*/
    char        inpt;                   /* i) text and data file input         */
    char        outp;                   /* o) text and data file output        */
@@ -49,6 +49,7 @@ struct cURG_DEBUG
    char        envi;                   /* e) environment processing           */
    char        sort;                   /* s) data sorting and ordering        */
    char        trav;                   /* y) data searching and traversal     */
+   char        mems;                   /* m) memory, registers, storing       */
    /*---(data input)---------------------*/
    char        touch;                  /* data point -- touch interface       */
    char        raw;                    /* data point -- raw input             */
@@ -58,6 +59,7 @@ struct cURG_DEBUG
    char        circle;                 /* data point -- circle marking        */
    char        curve;                  /* data point -- curve marking         */
    char        line;                   /* data point -- line straightening    */
+   char        match;                  /* data point -- match processing      */
    char        dict;                   /* dictionary processssing             */
    /*---(hermes)-------------------------*/
    char        dirs;                   /* hermes locations                    */
@@ -124,8 +126,6 @@ struct cURG_DEBUG
    char        ygltex;                 /* yFONT opengl texture handling       */
    /*---(colors)-------------------------*/
    char        ycolor;                 /* yFONT opengl color handling         */
-   /*---(rpn)----------------------------*/
-   char        yrpn;                   /* yRPN reverse polish notation        */
    /*---(hyleoroi)-----------------------*/
    char        format;                 /* formatting options                  */
    char        color;                  /* color formatting options            */
@@ -182,16 +182,29 @@ extern    tURG_DEBUG      yURG_debug;
 #define     DEBUG_SORT_M           if (yURG_debug.sort               == 'Y')
 #define     DEBUG_TRAV             if (yURG_debug.trav               != '-')
 #define     DEBUG_TRAV_M           if (yURG_debug.trav               == 'Y')
+#define     DEBUG_MEMS             if (yURG_debug.mems               != '-')
+#define     DEBUG_MEMS_M           if (yURG_debug.mems               == 'Y')
 /*---(gregg)-----------------------------*/
-#define     DEBUG_TOUCH            if (yURG_debug.touch              == 'y')
-#define     DEBUG_RAW              if (yURG_debug.raw                == 'y')
-#define     DEBUG_SIMP             if (yURG_debug.simple             == 'y')
-#define     DEBUG_AVG              if (yURG_debug.average            == 'y')
-#define     DEBUG_CRIT             if (yURG_debug.critical           == 'y')
-#define     DEBUG_CIRCLE           if (yURG_debug.circle             == 'y')
-#define     DEBUG_CURVE            if (yURG_debug.curve              == 'y')
-#define     DEBUG_LINE             if (yURG_debug.line               == 'y')
-#define     DEBUG_DICT             if (yURG_debug.dict               == 'y')
+#define     DEBUG_TOUCH            if (yURG_debug.touch              != '-')
+#define     DEBUG_TOUCH_M          if (yURG_debug.touch              == 'Y')
+#define     DEBUG_RAW              if (yURG_debug.raw                != '-')
+#define     DEBUG_RAW_M            if (yURG_debug.raw                == 'Y')
+#define     DEBUG_SIMP             if (yURG_debug.simple             != '-')
+#define     DEBUG_SIMP_M           if (yURG_debug.simple             == 'Y')
+#define     DEBUG_AVG              if (yURG_debug.average            != '-')
+#define     DEBUG_AVG_M            if (yURG_debug.average            == 'Y')
+#define     DEBUG_CRIT             if (yURG_debug.critical           != '-')
+#define     DEBUG_CRIT_M           if (yURG_debug.critical           == 'Y')
+#define     DEBUG_CIRC             if (yURG_debug.circle             != '-')
+#define     DEBUG_CIRC_M           if (yURG_debug.circle             == 'Y')
+#define     DEBUG_CURV             if (yURG_debug.curve              != '-')
+#define     DEBUG_CURV_M           if (yURG_debug.curve              == 'Y')
+#define     DEBUG_LINE             if (yURG_debug.line               != '-')
+#define     DEBUG_LINE_M           if (yURG_debug.line               == 'Y')
+#define     DEBUG_MATCH            if (yURG_debug.match              != '-')
+#define     DEBUG_MATCH_M          if (yURG_debug.match              == 'Y')
+#define     DEBUG_DICT             if (yURG_debug.dict               != '-')
+#define     DEBUG_DICT_M           if (yURG_debug.dict               == 'Y')
 /*---(hermes)----------------------------*/
 #define     DEBUG_DIRS             if (yURG_debug.dirs               != '-')
 #define     DEBUG_DIRS_M           if (yURG_debug.dirs               == 'Y')
@@ -287,9 +300,6 @@ extern    tURG_DEBUG      yURG_debug;
 /*---(yCOLOR)----------------------------*/
 #define     DEBUG_YCOLOR           if (yURG_debug.ycolor             != '-')
 #define     DEBUG_YCOLOR_M         if (yURG_debug.ycolor             == 'Y')
-/*---(yRPN)------------------------------*/
-#define     DEBUG_YRPN             if (yURG_debug.yrpn               != '-')
-#define     DEBUG_YRPN_M           if (yURG_debug.yrpn               == 'Y')
 /*---(hyleoroi)--------------------------*/
 #define     DEBUG_FORMAT           if (yURG_debug.format             != '-')
 #define     DEBUG_FORMAT_M         if (yURG_debug.format             == 'Y')
