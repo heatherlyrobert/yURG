@@ -25,8 +25,8 @@
 #define     P_CREATED   "2014-10"
 #define     P_DEPENDS   "none"
 
-#define     P_VERNUM    "0.4i"
-#define     P_VERTXT    "consolidated YRPN and RPN to resolvf conflict in yRPN library"
+#define     P_VERNUM    "0.4j"
+#define     P_VERTXT    "added ability to allow substantial limiting of output by stage"
 
 #define     P_PRIORITY  "direct, simple, brief, vigorous, and lucid (h.w. fowler)"
 #define     P_PRINCIPAL "[grow a set] and build your wings on the way down (r. bradbury)"
@@ -127,6 +127,10 @@ struct cYURG_INFO
 extern tYURG_INFO  yURG_info [MAX_URGS];
 
 
+
+extern char unit_answer [LEN_RECD];
+
+
 /*345678901-12345678901-12345678901-12345678901-12345678901-12345678901-123456*/
 
 char        yurg__flip              (int i, cchar a_lower, cchar a_on);
@@ -140,5 +144,11 @@ char        yURG__testend           (void);
 
 char        yurg_category           (cchar *a_prog, cchar a_type);
 char        yurg_urgents            (cchar *a_prog);
+
+char        yurg_stage_clear        (void);
+char        yurg_stage_prep         (void);
+char*       yurg_stage__unit        (char *a_question, int a_num);
+
+
 
 #endif

@@ -2,7 +2,6 @@
 #include    "yURG.h"
 #include    "yURG_priv.h"
 
-
 char
 yurg_category           (cchar *a_prog, cchar a_type)
 {
@@ -190,15 +189,27 @@ yURG_summ          (void)
    /*---(locals)-----------+-----------+-*/
    int         i           = 0;
    /*---(list)---------------------------*/
-   DEBUG_ARGS   yLOG_note   ("summarization of urgent processing");
+   DEBUG_ARGS   yLOG_note   ("universal urgents");
    for (i = 0; i < MAX_URGS; ++i) {
       /*---(stop at end)-----------------*/
       if (yURG_info [i].abbr  == '\0')     break;
       /*---(filter)----------------------*/
+      if (yURG_info [i].type  != 'u')      continue;
       if (yURG_info [i].type  == '-')      continue;
       if (yURG_info [i].point == NULL)     continue;
       /*---(show)------------------------*/
-      DEBUG_ARGS   yLOG_char   (yURG_info [i].full, *(yURG_info [i].point));
+      DEBUG_ARGS   yLOG_complex (yURG_info [i].full, "%c, %c, %s", *(yURG_info [i].point), yURG_info [i].abbr, yURG_info [i].desc);
+   }
+   DEBUG_ARGS   yLOG_note   ("specific urgents");
+   for (i = 0; i < MAX_URGS; ++i) {
+      /*---(stop at end)-----------------*/
+      if (yURG_info [i].abbr  == '\0')     break;
+      /*---(filter)----------------------*/
+      if (yURG_info [i].type  == 'u')      continue;
+      if (yURG_info [i].type  == '-')      continue;
+      if (yURG_info [i].point == NULL)     continue;
+      /*---(show)------------------------*/
+      DEBUG_ARGS   yLOG_complex (yURG_info [i].full, "%c, %c, %s", *(yURG_info [i].point), yURG_info [i].abbr, yURG_info [i].desc);
    }
    /*---(complete)-----------------------*/
    return 0;

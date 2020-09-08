@@ -19,9 +19,9 @@ struct cURG_DEBUG
    /*---(handle)-------------------------*/
    int         logger;                 /* log file so that we don't close it  */
    int         loud;                   /* quiet '-' vs logging 'y'            */
-   /*---(overall)------------------------*/  /* abcdefghi_kl__opqrstuvwx_z    */
+   /*---(overall)------------------------*/  /* abcde_ghi__lmnopqrstuvwxyz    */
    /* f = full urgents turns on all standard urgents                          */
-   /* k = kitchen sink and turns everything, i mean everything on             */
+   /* k = kitchen sink and turns everythinx, i mean everything on             */
    /* q = quiet turns all urgents off including the log itself                */
    char        tops;                   /* t) broad structure and context      */
    char        rptg;                   /* r) report/dump, analytics, stats    */
@@ -50,6 +50,8 @@ struct cURG_DEBUG
    char        sort;                   /* s) data sorting and ordering        */
    char        trav;                   /* y) data searching and traversal     */
    char        mems;                   /* m) memory, registers, storing       */
+   /*---(stages)-------------------------*/
+   char        stage    [20];          /* stages for active logging           */
    /*---(data input)---------------------*/
    char        touch;                  /* data point -- touch interface       */
    char        raw;                    /* data point -- raw input             */
@@ -67,6 +69,11 @@ struct cURG_DEBUG
    char        cmds;                   /* hermes commands                     */
    char        gentoo;                 /* hermes gentoo/portage access        */
    char        cache;                  /* hermes cached database              */
+   /*---(helios)-------------------------*/
+   char        mass;                   /* grouging of nodes, like disk drive  */
+   char        node;                   /* individual nodes                    */
+   char        edge;                   /* connections between nodes           */
+   char        stats;                  /* collections of statistics           */
    /*---(spreadsheet)--------------------*/
    char        locs;
    char        cell;
@@ -105,9 +112,12 @@ struct cURG_DEBUG
    char        ygolem;                 /* yGOLEM robotics controller          */
    /*---(regular expressions)------------*/
    char        yregex;                 /* yREGEX library                      */
+   /*---(windows)------------------------*/
+   char        desk;                   /* desktop/window control              */
    /*---(kinematics)---------------------*/
    char        ykine;                  /* yKINE kinematics library -- main    */
    char        ykine_calc;             /* yKINE kinematics library -- sub     */
+   char        ykine_tick;             /* yKINE kinematics library -- sub     */
    char        ykine_data;             /* yKINE kinematics library -- sub     */
    char        ykine_scrp;             /* yKINE kinematics library -- sub     */
    char        ykine_move;             /* yKINE kinematics library -- sub     */
@@ -154,6 +164,8 @@ extern    tURG_DEBUG      yURG_debug;
 #define     DEBUG_INPT_M           if (yURG_debug.inpt               == 'Y')
 #define     DEBUG_OUTP             if (yURG_debug.outp               != '-')
 #define     DEBUG_OUTP_M           if (yURG_debug.outp               == 'Y')
+#define     DEBUG_FILE             if (yURG_debug.inpt != '-' && yURG_debug.outp != '-')
+#define     DEBUG_FILE_M           if (yURG_debug.inpt == 'Y' || yURG_debug.outp == 'Y')
 /*---(event handling)---------*/
 #define     DEBUG_LOOP             if (yURG_debug.loop               != '-')
 #define     DEBUG_LOOP_M           if (yURG_debug.loop               == 'Y')
@@ -205,6 +217,17 @@ extern    tURG_DEBUG      yURG_debug;
 #define     DEBUG_MATCH_M          if (yURG_debug.match              == 'Y')
 #define     DEBUG_DICT             if (yURG_debug.dict               != '-')
 #define     DEBUG_DICT_M           if (yURG_debug.dict               == 'Y')
+/*---(stages)----------------------------*/
+#define     YURG_STAGE_INIT        0
+#define     YURG_STAGE_INPT        1
+#define     YURG_STAGE_MAIN        2
+#define     YURG_STAGE_OUTP        3
+#define     YURG_STAGE_WRAP        4
+#define     YURG_STAGE_ONE         6
+#define     YURG_STAGE_TWO         7
+#define     YURG_STAGE_THR         8
+#define     YURG_STAGE_FOU         9
+#define     YURG_STAGE_FIV         10
 /*---(hermes)----------------------------*/
 #define     DEBUG_DIRS             if (yURG_debug.dirs               != '-')
 #define     DEBUG_DIRS_M           if (yURG_debug.dirs               == 'Y')
@@ -216,6 +239,15 @@ extern    tURG_DEBUG      yURG_debug;
 #define     DEBUG_GENTOO_M         if (yURG_debug.gentoo             == 'Y')
 #define     DEBUG_CACHE            if (yURG_debug.cache              != '-')
 #define     DEBUG_CACHE_M          if (yURG_debug.cache              == 'Y')
+/*---(graph/helios)----------------------*/
+#define     DEBUG_MASS             if (yURG_debug.mass               != '-')
+#define     DEBUG_MASS_M           if (yURG_debug.mass               == 'Y')
+#define     DEBUG_NODE             if (yURG_debug.node               != '-')
+#define     DEBUG_NODE_M           if (yURG_debug.node               == 'Y')
+#define     DEBUG_EDGE             if (yURG_debug.edge               != '-')
+#define     DEBUG_EDGE_M           if (yURG_debug.edge               == 'Y')
+#define     DEBUG_STATS            if (yURG_debug.stats              != '-')
+#define     DEBUG_STATS_M          if (yURG_debug.stats              == 'Y')
 /*---(dependencies)----------------------*/
 #define     DEBUG_DEPS             if (yURG_debug.deps               != '-')
 #define     DEBUG_DEPS_M           if (yURG_debug.deps               == 'Y')
@@ -272,13 +304,17 @@ extern    tURG_DEBUG      yURG_debug;
 /*---(yREGEX)----------------------------*/
 #define     DEBUG_YREGEX           if (yURG_debug.yregex             != '-')
 #define     DEBUG_YREGEX_M         if (yURG_debug.yregex             == 'Y')
+/*---(windows)---------------------------*/
+#define     DEBUG_DESK             if (yURG_debug.desk               != '-')
+#define     DEBUG_DESK_M           if (yURG_debug.desk               != 'Y')
 /*---(kinematics)------------------------*/
 #define     DEBUG_YKINE            if (yURG_debug.ykine              != '-')
 #define     DEBUG_YKINE_M          if (yURG_debug.ykine              == 'Y')
 #define     DEBUG_YKINE_CALC       if (yURG_debug.ykine_calc         != '-')
+#define     DEBUG_YKINE_TICK       if (yURG_debug.ykine_tick         != '-')
+#define     DEBUG_YKINE_MOVE       if (yURG_debug.ykine_move         != '-')
 #define     DEBUG_YKINE_DATA       if (yURG_debug.ykine_data         != '-')
 #define     DEBUG_YKINE_SCRP       if (yURG_debug.ykine_scrp         != '-')
-#define     DEBUG_YKINE_MOVE       if (yURG_debug.ykine_move         != '-')
 #define     DEBUG_YKINE_EXACT      if (yURG_debug.ykine_exact        != '-')
 /*---(vi-keys)---------------------------*/
 #define     DEBUG_YVIKEYS          if (yURG_debug.yvikeys            == 'y')
@@ -306,6 +342,7 @@ extern    tURG_DEBUG      yURG_debug;
 #define     DEBUG_COLOR            if (yURG_debug.color              != '-')
 #define     DEBUG_COLOR_M          if (yURG_debug.color              == 'Y')
 
+
 typedef     const char         cchar;
 
 
@@ -327,6 +364,7 @@ char        yURG_name               (cchar *a_name, cchar a_on);
 
 char        yURG_lognum             (void);
 
+char        yURG_stage_check        (char a_stage);
 
 
 #endif

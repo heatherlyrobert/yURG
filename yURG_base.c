@@ -45,6 +45,17 @@ tYURG_INFO  yURG_info [MAX_URGS] = {
    {  '-' , "mas"            , "turn all universals and their mas on"  , '-', '-', NULL                           },
    {  '-' , "kitchen"        , "turn all universals/specific (no mas)" , '-', '-', NULL                           },
    {  '-' , "omni"           , "turn absolutely everything on"         , '-', '-', NULL                           },
+   /*---(stages)-------------------------*/
+   {  '-' , "only_init"      , "only active during startup"            , '-', '-', &(yURG_debug.stage[0])         },
+   {  '-' , "only_inpt"      , "only active during file input"         , '-', '-', &(yURG_debug.stage[1])         },
+   {  '-' , "only_main"      , "only active during normal/main"        , '-', '-', &(yURG_debug.stage[2])         },
+   {  '-' , "only_outp"      , "only active during file output"        , '-', '-', &(yURG_debug.stage[3])         },
+   {  '-' , "only_wrap"      , "only active during shutdown "          , '-', '-', &(yURG_debug.stage[4])         },
+   {  '-' , "only_one"       , "during main, user-defined stage 1"     , '-', '-', &(yURG_debug.stage[6])         },
+   {  '-' , "only_two"       , "during main, user-defined stage 2"     , '-', '-', &(yURG_debug.stage[7])         },
+   {  '-' , "only_thr"       , "during main, user-defined stage 3"     , '-', '-', &(yURG_debug.stage[8])         },
+   {  '-' , "only_fou"       , "during main, user-defined stage 4"     , '-', '-', &(yURG_debug.stage[9])         },
+   {  '-' , "only_fiv"       , "during main, user-defined stage 5"     , '-', '-', &(yURG_debug.stage[10])        },
    /*---(overall)------------------------*/
    {  't' , "tops"           , "broad structure and context"           , 'u', 'o', &yURG_debug.tops               },
    {  'r' , "rptg"           , "reports/dump, analysis, runtime stats" , 'u', 'o', &yURG_debug.rptg               },
@@ -84,6 +95,11 @@ tYURG_INFO  yURG_info [MAX_URGS] = {
    {  '-' , "line"           , "data point -- line straightening"      , 'p', '-', &yURG_debug.line               },
    {  '-' , "match"          , "data point -- match processing"        , 'p', '-', &yURG_debug.match              },
    {  '-' , "dict"           , "dictionary processing"                 , 'p', '-', &yURG_debug.dict               },
+   /*---(graph/helios)-------------------*/
+   {  '-' , "mass"           , "group of nodes"                        , 'p', '-', &yURG_debug.mass               },
+   {  '-' , "node"           , "node or vertex"                        , 'p', '-', &yURG_debug.node               },
+   {  '-' , "edge"           , "edge or connection"                    , 'p', '-', &yURG_debug.edge               },
+   {  '-' , "stats"          , "statistics and grouping"               , 'p', '-', &yURG_debug.stats              },
    /*---(hermes)-------------------------*/
    {  '-' , "dirs"           , "hermes location tracking"              , 'p', '-', &yURG_debug.dirs               },
    {  '-' , "pkgs"           , "hermes package tracking"               , 'p', '-', &yURG_debug.pkgs               },
@@ -125,10 +141,12 @@ tYURG_INFO  yURG_info [MAX_URGS] = {
    {  '-' , "yregex"         , "heatherly yREGEX library"              , 'l', 's', &yURG_debug.yregex             },
    {  '-' , "ykine"          , "yKINE kinematics main"                 , 'l', 'k', &yURG_debug.ykine              },
    {  '-' , "ykine_calc"     , "yKINE kinematics calculations"         , 'l', 'k', &yURG_debug.ykine_calc         },
+   {  '-' , "ykine_tick"     , "yKINE kinematics exact timing/ticks"   , 'l', 'k', &yURG_debug.ykine_tick         },
    {  '-' , "ykine_data"     , "yKINE kinematics common data"          , 'l', 'k', &yURG_debug.ykine_data         },
    {  '-' , "ykine_scrp"     , "yKINE kinematics script interpretation", 'l', 'k', &yURG_debug.ykine_scrp         },
    {  '-' , "ykine_move"     , "yKINE kinematics move creation"        , 'l', 'k', &yURG_debug.ykine_move         },
    {  '-' , "ykine_exact"    , "yKINE kinematics loading of progress"  , 'l', 'k', &yURG_debug.ykine_exact        },
+   {  '-' , "desk"           , "yX11 window management"                , 'l', 'v', &yURG_debug.desk               },
    {  '-' , "yvikeys"        , "yVIKEYS vi-keys handling library"      , 'l', 'v', &yURG_debug.yvikeys            },
    {  '-' , "yvikeys_keys"   , "yVIKEYS vi-keys handling library"      , 'l', 'v', &yURG_debug.yvikeys_keys       },
    {  '-' , "yvikeys_scale"  , "yVIKEYS vi-keys handling library"      , 'l', 'v', &yURG_debug.yvikeys_scale      },
@@ -614,6 +632,7 @@ yURG_urgs          (int a_argc, char *a_argv[])
    s_norig = 0;
    strlcpy (s_nows , "", LEN_RECD);
    s_nnow  = 0;
+   yurg_stage_clear ();
    /*---(process)------------------------*/
    for (i = 1; i < a_argc; ++i) {
       /*---(filter args)-----------------*/
@@ -673,6 +692,7 @@ yURG_urgs          (int a_argc, char *a_argv[])
    DEBUG_ARGS   yLOG_value   ("s_ntry"    , s_ntry);
    DEBUG_ARGS   yLOG_value   ("s_norig"   , s_norig);
    DEBUG_ARGS   yLOG_info    ("s_origs"   , s_origs);
+   yurg_stage_prep ();
    yURG_summ   ();
    /*---(complete)-----------------------*/
    DEBUG_TOPS   yLOG_exit    (__FUNCTION__);
@@ -688,8 +708,7 @@ char yURG_lognum             (void) { return yURG_debug.logger; }
 /*====================------------------------------------====================*/
 static void      o___UNITTEST________________o (void) {;}
 
-#define       LEN_TEXT  2000
-char          unit_answer [ LEN_TEXT ];
+char          unit_answer [LEN_RECD];
 
 char*            /* [------] unit test accessor ------------------------------*/
 yURG__unit         (char *a_question, int a_num)
@@ -701,25 +720,25 @@ yURG__unit         (char *a_question, int a_num)
    /*---(string testing)-----------------*/
    if      (strncmp(a_question, "lower"     , 20)  == 0) {
       yurg__strings ();
-      snprintf (unit_answer, LEN_TEXT, "yURG lower       : [%s]", s_lower);
+      snprintf (unit_answer, LEN_RECD, "yURG lower       : [%s]", s_lower);
    } else if (strncmp(a_question, "upper"     , 20)  == 0) {
       yurg__strings ();
-      snprintf (unit_answer, LEN_TEXT, "yURG upper       : [%s]", s_upper);
+      snprintf (unit_answer, LEN_RECD, "yURG upper       : [%s]", s_upper);
    } else if (strncmp(a_question, "count"     , 20)  == 0) {
       c = yurg__count ();
-      snprintf (unit_answer, LEN_TEXT, "yURG count       : %d"  , c);
+      snprintf (unit_answer, LEN_RECD, "yURG count       : %d"  , c);
    } else if (strncmp(a_question, "curr"      , 20)  == 0) {
       if (s_curr < 0) {
-         snprintf (unit_answer, LEN_TEXT, "yURG curr   (%2d) : %c %s"  , s_curr, '-', "n/a");
+         snprintf (unit_answer, LEN_RECD, "yURG curr   (%2d) : %c %s"  , s_curr, '-', "n/a");
       } else {
-         snprintf (unit_answer, LEN_TEXT, "yURG curr   (%2d) : %c %s"  , s_curr, yURG_info [s_curr].abbr, yURG_info [s_curr].full);
+         snprintf (unit_answer, LEN_RECD, "yURG curr   (%2d) : %c %s"  , s_curr, yURG_info [s_curr].abbr, yURG_info [s_curr].full);
       }
    } else if (strncmp(a_question, "orig"      , 20)  == 0) {
       c = yURG_orig (t);
-      snprintf (unit_answer, LEN_TEXT, "yURG orig   (%2d) : [%s]"  , c, t);
+      snprintf (unit_answer, LEN_RECD, "yURG orig   (%2d) : [%s]"  , c, t);
    } else if (strncmp(a_question, "now"       , 20)  == 0) {
       c = yURG_curr (t);
-      snprintf (unit_answer, LEN_TEXT, "yURG now    (%2d) : [%s]"  , c, t);
+      snprintf (unit_answer, LEN_RECD, "yURG now    (%2d) : [%s]"  , c, t);
    }
    /*---(complete)-----------------------*/
    return unit_answer;
