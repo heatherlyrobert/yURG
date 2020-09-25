@@ -1,0 +1,226 @@
+.TH yURG 6 2017-jan "linux" "heatherly custom tools manual"
+
+.SH NAME
+.B yURG
+\- simple, clean, incremental debugging and logging control
+
+.SH PATRON
+.B zelus-daimon
+(enforcer), daimon of rivalry, zeal, and dedication
+
+.SH HERITAGE
+.B zeal
+is sibling of strength (kratos), force (bia), and victory (nike)
+
+.SH IMAGERY
+beautiful angel-like winged daimon standing behind zeus' throne
+
+.SH SUMMARY
+.B yURG/yLOG
+are a pair of simple, direct, consistent, and clean libraries
+to enable process logging, tracing, and debugging in order to speed issue
+detection, identification, repair, and re-certification
+
+.SH DOCUMENTATION FILES
+.nf
+yURG (3)           interfacing applications with yKINE
+.nf
+yURG (6)  ******   run-time usage and navigation
+.nf
+yURG (7)           decision rationale, objectives, and overview
+
+.SH TABLE OF CONTENTS (TOC)
+.nf
+1) debugging version
+.nf
+2) universal urgents
+.nf
+3) setting urgents
+.nf
+4) compound versions
+.nf
+5) unsetting urgents
+.nf
+6) specific urgents
+.nf
+7) program stages
+.nf
+8) output locations
+
+.SH DEBUGGING VERSION
+my standard make file produces two version of each program.  first, a
+run-time version which has no debugging code and ignores urgents.  second,
+is a debugging version that accepts urgents, logs messages, and has "_debug"
+appended to its name.
+
+.SH UNIVERSAL URGENTS
+a base set of urgents is standardized for all application, although, they
+may not be implemented simply because the do not apply.  each of these is
+given a short-name as well as a full/long name.
+.SS overall
+   ab-- long----  --description-------------------------
+   @t   @@tops    broad structure and context
+   @r   @@rptg    reports/dump, analysis, runtime stats
+   @v   @@view    provide alternate terminal output
+.SS startup/shutdown
+   ab-- long----  --description-------------------------
+   @a   @@args    command-line args and urgent handling
+   @c   @@conf    configuration handling
+   @p   @@prog    program setup and shutdown
+.SS file processing
+   ab-- long----  --description-------------------------
+   @i   @@inpt    text and data file input
+   @o   @@outp    text and data file output
+   @q   @@sqls    database and sql interaction
+.SS event handling
+   ab-- long----  --description-------------------------
+   @l   @@loop    major program event loops
+   @n   @@norm    normal execution flow (catch-all)
+   @u   @@user    user input and handling
+   @z   @@apis    interprocess communication
+   @x   @@sign    o/s signal handling
+   @b   @@scrp    scripts and batch handling
+   @h   @@hist    history, undo, redo
+.SS deeper program
+   ab-- long----  --description-------------------------
+   @g   @@graf    graphics, drawing, and display
+   @w   @@wind    repeated windows, drawing and looping
+   @e   @@envi    environmental processing
+   @d   @@data    complex data structure handling
+   @s   @@sort    data sorting and ordering
+   @y   @@trav    data searching and traversal
+   @m   @@mems    data registers, memory, saving
+
+.SH SETTING URGENTS
+urgents are referred to by their whole name, typically 3 to 5 characters,
+sometimes more.  universals may also be referred to by their one letter
+abbreviations.  the examples below are for universals, but apply to any urgent.
+.SS turning on with whole name
+at run-time, urgents are triggered by adding them anywhere on the command-line
+always preceeded by "@@" which triggers urgent processing.  normal argument
+processing ignores anything beginning with a '@'.
+
+examples...
+   $gyges_debug ... @@args ...          turns on args urgent
+   $gyges_debug ... @@args @@inpt ...   triggers both args and inpt
+.SS turning on "mas" (more verbose)
+during programming, the volume of output can become overwhelming.  yURG allows
+all urgents to have a normal and a "mas" version.  to trigger the mas version
+simply capitalize the urgent name.
+
+examples...
+   $gyges_debug ... @@ARGS ...          turns mas on args urgent
+   $gyges_debug ... @@args @@INPT ...   normal on args and mas on inpt
+.SS turn on with abbreviated name
+universal urgents all have a one letter abbreviated name which can be used
+to keep the command-line length down, just like short options.  to use this
+option, you must use only a single "@" prefix.
+
+examples...
+   $gyges_debug ... @a ...              turns on args urgent
+   $gyges_debug ... @a @I ...           normal on args and mas on inpt
+   $gyges_debug ... @aI ...             and, can be concatinated.
+
+.SH COMPOUND URGENTS
+in order to set groups of urgents quickly, they have been grouped.
+
+   @@quiet        turn absolutely everything off
+   @@full         turn all universals on
+   @@mas          turn all universals and their mas on
+   @@kitchen      turn all universals/specific (no mas)
+   @@omni         turn absolutely everything on
+
+.SH UNSETTING URGENTS
+similar to setting urgents, unsetting them is done with either the whole
+name, or a single letter in the case of universals.  this is only needed
+if you set a group/compound and then need to take a few away.
+.SS turning off with whole name
+urgents are un-triggered by adding AFTER their setting by compound or
+wild-card with a prefix of "@@no".
+
+examples...
+   $gyges_debug ... @@full @@noargs ... all universals except args
+
+.SH SPECIFIC URGENTS
+complex programs can use multiple libraries and specialized code, and therefore
+universal debugging could produce prohibative volumes of output.  in both
+these cases, specific urgents can be added to allow finer control.
+.SS inventory
+to get a list of urgents potentially available, the program can be run to
+produce a list to stdout.
+
+examples...
+   $gyges_debug ... @@urgents           lists every urgent, everywhere
+   $gyges_debug ... @@universal         lists all the universals
+   $gyges_debug ... @@library           lists those for libraries only
+   $gyges_debug ... @@program           lists non-library urgents
+.SS setting custom urgents
+urgents are set by name exactly like universals.
+
+examples...
+   $gyges_debug ... @@rpn ...           reverse polish notation debug
+   $gyges_debug ... @@map ...           yVIKEYS screen mapping
+   $gyges_debug ... @@ystr ...          ySTR safe-string library
+   $gyges_debug ... @@kine_calc ...     yKINE debugging of calc code
+   $gyges_debug ... @@kine_scrp ...     yKINE debugging of script code
+.SS wild carding based on prefix
+a few libraries are very complex and their urgents can be triggers in mass
+by using the common prefix of the urgents preceeded by "@+".
+
+examples...
+   $gyges_debug ... @+ykine ...         trigger all yKINE options
+.SS mas/verbose options
+same as universals, some urgents have a more verbose, mas version that is
+triggered by using the urgent name in upper case.
+
+examples...
+   $gyges_debug ... @@YSTR ...          trigger mas on ySTR library
+
+.SH PROGRAM STAGES
+complex programs can easily produce millions of lines of output.  besides
+using targeted urgents, stages allow the user to ignore initialization or
+shutdown code, file processing, or stages of processing.  these are not
+implemented except in larger programs.
+
+.SS standard stages
+   @@only_init        only show debugging during prep/startup
+   @@only_inpt        only show pipe/file input processing
+   @@only_main        only show post-startup/pre-shudown
+   @@only_outp        only show pipe/file output processing
+   @@only_wrap        only show debugging during wrap/shutdown
+
+.SS programmer-defined custom stages
+   @@only_one         1st custom phase
+   @@only_two         2nd custom phase
+   @@only_thr         3rd custom phase
+   @@only_fou         4th custom phase
+   @@only_fiv         5th custom phase
+
+.SH OUTPUT LOCATIONS
+by default, a log file is created on a virtual ramdisk for speed and ease.
+but, when debugging very special programs, this may not be the best answer.
+
+.SS alternate locations
+   @@ylog             normal logging ramdisk (default)
+   @@ylogh            virtual ramdisk for historical logging
+   @@stdout           straight to stdio on the terminal
+   @@root             root directory, before mounting
+   @@usb              before anything is mounted for writing
+   @@quiet            turn off all logging
+   @@null             to /dev/null device
+
+.SH SEE ALSO
+this documentation is layered to provide easier navigation.
+   yURG (3), interfacing applications with this library
+   yURG (6), run-time usage and navigation
+   yURG (7), decision rationale, objectives, and overview
+   yLOG (3), interfacing applications with this library
+   yLOG (5), input and output file structure
+   yLOG (7), decision rationale, objectives, and overview
+
+.SH AUTHOR
+jelloshrike at gmail dot com
+
+.SH COLOPHON
+this page is part of a documentation package meant to make use of the
+heatherly tools easier and faster.

@@ -6,7 +6,7 @@
 char
 yurg_stage_clear        (void)
 {
-   strlcpy (yURG_debug.stage, "----- ----- -----", LEN_LABEL);
+   strlcpy (myURG.stage, "----- ----- -----", LEN_LABEL);
    return 0;
 }
 
@@ -14,20 +14,20 @@ char
 yurg_stage_prep         (void)
 {
    int         i           =    0;
-   if (strcmp (yURG_debug.stage, "----- ----- -----") == 0) {
-      strlcpy (yURG_debug.stage, "yyyyy yyyyy yyyyy", LEN_LABEL);
+   if (strcmp (myURG.stage, "----- ----- -----") == 0) {
+      strlcpy (myURG.stage, "yyyyy yyyyy yyyyy", LEN_LABEL);
       return 0;
    }
-   if (yURG_debug.stage [YURG_STAGE_MAIN] == 'y') {
-      yURG_debug.stage [YURG_STAGE_ONE] = 'y';
-      yURG_debug.stage [YURG_STAGE_TWO] = 'y';
-      yURG_debug.stage [YURG_STAGE_THR] = 'y';
-      yURG_debug.stage [YURG_STAGE_FOU] = 'y';
-      yURG_debug.stage [YURG_STAGE_FIV] = 'y';
+   if (myURG.stage [YURG_STAGE_MAIN] == 'y') {
+      myURG.stage [YURG_STAGE_ONE] = 'y';
+      myURG.stage [YURG_STAGE_TWO] = 'y';
+      myURG.stage [YURG_STAGE_THR] = 'y';
+      myURG.stage [YURG_STAGE_FOU] = 'y';
+      myURG.stage [YURG_STAGE_FIV] = 'y';
       return 0;
    }
    for (i = YURG_STAGE_ONE; i <= YURG_STAGE_FIV; ++i) {
-      if (yURG_debug.stage [i] == 'y') yURG_debug.stage [YURG_STAGE_MAIN] = 'y';
+      if (myURG.stage [i] == 'y') myURG.stage [YURG_STAGE_MAIN] = 'y';
    }
    return 0;
 }
@@ -54,7 +54,7 @@ yURG_stage_check        (char a_stage)
    default              :  strlcpy (s, "UNKNOWN stage"   , LEN_RECD);   break;
    }
    strlcat (t, s, LEN_RECD);
-   if (yURG_debug.stage [a_stage] == 'y') {
+   if (myURG.stage [a_stage] == 'y') {
       strlcat (t, ", UNMUTING", LEN_RECD);
       yLOG_note (t);
       rc = 1;
@@ -83,7 +83,7 @@ yurg_stage__unit        (char *a_question, int a_num)
    snprintf (unit_answer, LEN_RECD, "STAGE            : request not understood");
    /*---(string testing)-----------------*/
    if      (strncmp (a_question, "settings"  , 20)  == 0) {
-      snprintf (unit_answer, LEN_RECD, "STAGE settings   : [%s]", yURG_debug.stage);
+      snprintf (unit_answer, LEN_RECD, "STAGE settings   : [%s]", myURG.stage);
    }
    /*---(complete)-----------------------*/
    return unit_answer;

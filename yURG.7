@@ -1,0 +1,111 @@
+.TH yURG 7 2017-jan "linux" "heatherly custom tools manual"
+
+.SH NAME
+.B yURG
+\- simple, clean, incremental debugging and logging control
+
+.SH PATRON
+.B zelus-daimon
+(enforcer), daimon of rivalry, zeal, and dedication
+
+.SH HERITAGE
+.B zeal
+is sibling of strength (kratos), force (bia), and victory (nike)
+
+.SH IMAGERY
+beautiful angel-like winged daimon standing behind zeus' throne
+
+.SH SUMMARY
+.B yURG/yLOG
+are a pair of simple, direct, consistent, and clean libraries
+to enable process logging, tracing, and debugging in order to speed issue
+detection, identification, repair, and re-certification
+
+.SH DOCUMENTATION FILES
+.nf
+yURG (3)           interfacing applications with yKINE
+.nf
+yURG (6)           run-time usage and navigation
+.nf
+yURG (7)  ******   decision rationale, objectives, and overview
+
+.SH DEFINITION
+process logging and debugging is a method of observing actual program
+behavior in order to learn, trace, identify, understand, and repair
+non-trivial and emergent (multi-cause) run-time issues.
+
+.SH CURRENT STATE
+my code base is growing quickly and much of that code executes either
+continuously, frequently, or at critical moments -- big code base,
+audacious plans, and one programmer to rule it all ;)
+
+.SH CONCERN
+the art of logging, messaging, reporting, and creating transparent programs
+has been replaced with massive, complex programs and expensive commercial
+monitoring with incoherent streams of ad-hoc messages.
+
+.SH ALTERNATIVES
+syslog, systemd, printf, gdb
+
+.SH VALUE
+process logging and debugging is a rapid way to diagnose process issues.
+it is a huge time and resource saver in build/testing, recreating prodution
+issues, and regaining logic/flow knowledge.
+
+.SH NEED
+i need something run-time configurable, remain built-in, and ready for
+immediate use.  it must include structure/flow logging as well as values
+and state messages, and be easy to search, sort, and filter.
+
+.SH USERBASE
+never confuse tailored, technical, super-user systems and general, easy-
+to-use, zero effort required systems built to get end-users up and happy
+as quickly as possible.  i will always chose power.
+
+.SH OBJECTIVES
+ a) allow programs to be observed without significantly altering them
+ b) provide forensic trail for programs to aid reproduction of issues
+ c) keep it simple so that it does not require huge learning curve
+ d) cleanly incorporated so it can remain permenantly in source code
+ e) maximize reuse so i don't have to recreate each time
+ f) standardize so data can be scanned quickly and troubles found fast
+ g) easy and automatic to remove so as to not hamper production
+ h) allows programmers to see the true program execution path
+ i) cut significant time from tracing, debugging, and maintaining
+ j) speed education of new maintainers and unit testers (watch flow)
+ k) re-enforce a disciplined development culture and building-to-last
+ l) avoid a product that will require me to switch every few years
+
+.SH WARNINGS
+ a) logging eats up cpu, disk, and other resources
+ b) is rarely reviewed (only because existing methods are complicated)
+ c) can distract when nothing needs to be reviewed (configurable)
+ d) is one more thing that can go wrong (always funny)
+ e) must be very different for high volume apps (must address)
+ f) has to be built ahead of time and therefore can slow projects
+ g) since its shared, changes can effect all programs
+ h) drives a single method of thinking (myopia requires self-review)
+
+.SH ANSWER
+pair of libraries to manage debugging.  yLOG will report
+structure, create the messages, and log problems.  yURG will facilitate
+run-time filtering of that data so that debugging is faster and more focused.
+
+.SH SEE ALSO
+this documentation is layered to provide easier navigation.
+   yURG (3), interfacing applications with this library
+   yURG (6), run-time usage and navigation
+   yURG (7), decision rationale, objectives, and overview
+   yLOG (3), interfacing applications with this library
+   yLOG (5), input and output file structure
+   yLOG (7), decision rationale, objectives, and overview
+
+.SH AUTHOR
+jelloshrike at gmail dot com
+
+.SH COLOPHON
+this page is part of a documentation package meant to make use of the
+heatherly tools easier and faster.
+
+
+

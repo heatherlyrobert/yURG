@@ -18,7 +18,7 @@ yurg_category           (cchar *a_prog, cchar a_type)
    /*---(list universals)----------------*/
    if (a_prog != NULL) {
       printf ("yURG urgents report\n\n");
-      if (yURG_debug.loud != 'y') {
+      if (myURG.loud != 'y') {
          printf ("YOU ARE NOT RUNNING IN DEBUG MODE\n");
          printf ("urgents are only active if debug version of program is used.\n");
          printf ("to run %s in debug mode, use %s_debug.\n\n", a_prog, a_prog);
@@ -95,7 +95,7 @@ yurg_urgents            (cchar *a_prog)
  *>    char        x_header    [LEN_FULL  ] = "";                                                               <* 
  *>    /+---(list universals)----------------+/                                                                 <* 
  *>    printf ("yURG : urgent inventory report\n\n");                                                           <* 
- *>    if (yURG_debug.loud != 'y') {                                                                            <* 
+ *>    if (myURG.loud != 'y') {                                                                            <* 
  *>       printf ("YOU ARE NOT RUNNING IN DEBUG MODE\n");                                                       <* 
  *>       printf ("urgents are only active if debug version of program is used (except @v).\n");                <* 
  *>       printf ("to run %s in debug mode, use %s_debug\n\n", a_progname, a_progname);                         <* 

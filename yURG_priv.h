@@ -8,14 +8,23 @@
 /*345678901-12345678901-12345678901-12345678901-12345678901-12345678901-12345678901-12345678901-*/
 
 /*===[[ ONE_LINERS ]]=========================================================*/
+/*-------   --12345678  "123456789-123456789-123456789-123456789-123456789-123456789-"  */
 
 #define     P_FOCUS     "RS (run-time support)"
 #define     P_NICHE     "de (debugging/logging control)"
 #define     P_PURPOSE   "simple, clean, incremental debugging and logging control"
 
+#define     P_EXECUTE   "libyURG.so"
+#define     P_FULLPATH  "/usr/local/lib64/libyURG.so"
+#define     P_ONELINE   "zelus-daimon (enforcer) debugging and logging control"
+
+#define     P_SUFFIX    "n/a"
+#define     P_CONTENT   "n/a"
+
 #define     P_NAMESAKE  "zelus-daimon (enforcer)"
 #define     P_HERITAGE  "zeal, sibling of strength (kratos), force (bia), and victory (nike)"
 #define     P_IMAGERY   "angel-like being, represents zeal and dedication, enforcer of zeus"
+#define     P_REASON    "daimon of zealousness, dedication, and enforcement"
 
 #define     P_SYSTEM    "gnu/linux   (powerful, ubiquitous, technical, and hackable)"
 #define     P_LANGUAGE  "ansi-c      (wicked, limitless, universal, and everlasting)"
@@ -25,8 +34,10 @@
 #define     P_CREATED   "2014-10"
 #define     P_DEPENDS   "none"
 
-#define     P_VERNUM    "0.4j"
-#define     P_VERTXT    "added ability to allow substantial limiting of output by stage"
+#define     P_VERMAJOR  "1.--, production improvements"
+#define     P_VERMINOR  "1.0-, keep support broad and advancing"
+#define     P_VERNUM    "1.0a"
+#define     P_VERTXT    "updated, cleaned, and added global variable change"
 
 #define     P_PRIORITY  "direct, simple, brief, vigorous, and lucid (h.w. fowler)"
 #define     P_PRINCIPAL "[grow a set] and build your wings on the way down (r. bradbury)"

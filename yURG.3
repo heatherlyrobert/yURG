@@ -3,13 +3,22 @@
 .SH NAME
 yURG \- simple, clean, incremental debugging and logging control
 
+.SH PATRON
+.B zelus-daimon
+(enforcer), daimon of rivalry, zeal, and dedication
+
+.SH HERITAGE
+.B zeal
+is sibling of strength (kratos), force (bia), and victory (nike)
+
 .SH IMAGERY
-zelus-daimon (enforcer) -- daimon of zeal, dedication, and enforement
+beautiful angel-like winged daimon standing behind zeus' throne
 
 .SH SUMMARY
-yURG is a shared library to provide standard, flexible, reliable, and detailed
-traceability in programs.  its purpose is to take a complex and foundational
-capabilty, make it more useful, reliable, and tested.
+.B yURG/yLOG
+are a pair of simple, direct, consistent, and clean libraries
+to enable process logging, tracing, and debugging in order to speed issue
+detection, identification, repair, and re-certification
 
 .SH SYNOPSIS
 .nf
@@ -24,16 +33,19 @@ capabilty, make it more useful, reliable, and tested.
 .BI "char     yURG_name      (cchar *" "a_name" ", cchar " "a_on" ");"
 
 .R  ---support-------------------------------------
-.BI "char*    yURG_version (void);"
-.BI "char     yURG_lognum  (void);"
-.BI "char    *yURG_orig    (void);"
-.BI "char    *yURG_curr    (void);"
+.BI "char*    yURG_version   (void);"
+.BI "char     yURG_lognum    (void);"
+.BI "char    *yURG_orig      (void);"
+.BI "char    *yURG_curr      (void);"
+
+.R  ---stages--------------------------------------
+.BI "char     yURG_stage_check (cchar " "a_stage" ");"
 
 .SH QUICK UP-FRONT NOTE
 urgents, as explained better below, are command line options to control
-debugging.  the can only be used with the "debug" version of the program.
-if they are requested from the normal production version, the will be
-silently ignored.
+debugging.  they can only be used with the "_debug" version of the program.
+if they are requested from the normal production version, the will be silently
+ignored.
 
 my make file creates a debug version (suffexed with _debug) and strips
 all debugging code to produce the production version.  for instance..
@@ -185,10 +197,16 @@ macros to encompass multiple lines as the stripping is very primative.  you
 have been warned.
 
 .SH SEE ALSO
- yLOG (3)        shared library for logging
+this documentation is layered to provide easier navigation.
+   yURG (3), interfacing applications with this library
+   yURG (6), run-time usage and navigation
+   yURG (7), decision rationale, objectives, and overview
+   yLOG (3), interfacing applications with this library
+   yLOG (5), input and output file structure
+   yLOG (7), decision rationale, objectives, and overview
 
 .SH AUTHOR
-heatherlyrobert ata gmail dotta com
+jelloshrike at gmail dot com
 
 .SH COLOPHON
 this page is part of a documentation package meant to make our use of the
