@@ -58,9 +58,9 @@ yURG_logger        (int a_argc, char *a_argv[])
    myURG.use      = '-';
    yURG_mass    ('-', 'E');   /* turn everything off */
    p = strrchr (a_argv [0], '/');
-   if (p == NULL)  strlcpy (x_progname, a_argv [0], LEN_FULL);
-   else            strlcpy (x_progname, p + 1     , LEN_FULL);
-   strlcpy (x_basename, x_progname, LEN_FULL);
+   if (p == NULL)  strncpy (x_progname, a_argv [0], LEN_FULL);
+   else            strncpy (x_progname, p + 1     , LEN_FULL);
+   strncpy (x_basename, x_progname, LEN_FULL);
    x_len  = strllen (x_basename, LEN_LABEL);
    /*---(test for normal version)--------*/
    /*> printf ("name %s, %d[%s]\n", a_argv [0], x_len, x_basename);                   <*/
@@ -74,7 +74,7 @@ yURG_logger        (int a_argc, char *a_argv[])
    switch (myURG.use) {
    case 'd' : /* debug version */
       x_basename [x_len - 6] = '\0';
-      strlcpy (x_progname, x_basename, LEN_FULL);
+      strncpy (x_progname, x_basename, LEN_FULL);
       break;
    case 'u' : /* unit testing */
       x_basename [x_len - 5] = '\0';

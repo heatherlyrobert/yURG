@@ -45,7 +45,7 @@ yurg_category           (cchar *a_prog, cchar a_type)
          if (yURG_info [j].sub      != yURG_type [i].sub)               continue;
          ++c;
          /*---(convert to upper)------------*/
-         strlcpy (x_upper, yURG_info [j].full, LEN_LABEL);
+         strncpy (x_upper, yURG_info [j].full, LEN_LABEL);
          x_len = strllen (x_upper, LEN_LABEL);
          for (k = 0; k < x_len; ++k)  x_upper [k] = toupper (x_upper [k]);
          /*---(debug macro)-----------------*/
@@ -116,7 +116,7 @@ yurg_urgents            (cchar *a_prog)
  *>          if (yURG_info [j].type  != x_type)                          continue;                              <* 
  *>          /+---(find mas version)---------+/                                                                 <* 
  *>          x_mas = '-';                                                                                       <* 
- *>          strlcpy (x_upper, yURG_info [j].full, LEN_LABEL);                                                  <* 
+ *>          strncpy (x_upper, yURG_info [j].full, LEN_LABEL);                                                  <* 
  *>          x_len = strllen (x_upper, LEN_LABEL);                                                              <* 
  *>          for (k = 0; k < x_len; ++k)  x_upper [k] = toupper (x_upper [k]);                                  <* 
  *>          for (k = 0; k < MAX_URGS; ++k) {                                                                   <* 

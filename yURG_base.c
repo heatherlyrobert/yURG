@@ -176,13 +176,13 @@ yURG_version       (void)
 {
    char    t [20] = "";
 #if    __TINYC__ > 0
-   strlcpy (t, "[tcc built  ]", 15);
+   strncpy (t, "[tcc built  ]", 15);
 #elif  __GNUC__  > 0
-   strlcpy (t, "[gnu gcc    ]", 15);
+   strncpy (t, "[gnu gcc    ]", 15);
 #elif  __HEPH__  > 0
    strncpy (t, "[hephaestus ]", 15);
 #else
-   strlcpy (t, "[unknown    ]", 15);
+   strncpy (t, "[unknown    ]", 15);
 #endif
    snprintf (yURG_ver, 100, "%s   %s : %s", t, P_VERNUM, P_VERTXT);
    return yURG_ver;
@@ -219,7 +219,7 @@ yurg__count        (void)
 char         /*--> create a string of current ------------[ ------ [ ------ ]-*/
 yURG_orig          (char *a_orig)
 {
-   if (a_orig != NULL)  strlcpy (a_orig, s_origs, LEN_RECD);
+   if (a_orig != NULL)  strncpy (a_orig, s_origs, LEN_RECD);
    return s_norig;
 }
 
@@ -233,7 +233,7 @@ yURG_curr          (char *a_curr)
    char        t           [LEN_LABEL];
    char        x_join      = 0;
    /*---(list)---------------------------*/
-   strlcpy (s_nows, "", LEN_RECD);
+   strncpy (s_nows, "", LEN_RECD);
    for (i = 0; i < MAX_URGS; ++i) {
       /*---(stop at end)-----------------*/
       if (yURG_info [i].abbr     == '\0')     break;
@@ -245,22 +245,22 @@ yURG_curr          (char *a_curr)
       if (yURG_info [i].abbr != '-')  {
          if (*(yURG_info [i].point) == YURG_ON )  sprintf (t, "%c", yURG_info [i].abbr);
          else                                     sprintf (t, "%c", toupper (yURG_info [i].abbr));
-         if (!x_join)  strlcat (s_nows, " @", LEN_RECD);
-         strlcat (s_nows, t, LEN_RECD);
+         if (!x_join)  strncat (s_nows, " @", LEN_RECD);
+         strncat (s_nows, t, LEN_RECD);
          x_join = 1;
       } else {
-         strlcat (s_nows, " @@", LEN_RECD);
+         strncat (s_nows, " @@", LEN_RECD);
          strcpy (t, yURG_info [i].full);
          for (k = 0; k < strlen (t); ++k)  t [k] = toupper (t [k]);
-         if (*(yURG_info [i].point) == YURG_ON )  strlcat (s_nows, yURG_info [i].full, LEN_RECD);
-         else                                     strlcat (s_nows, t, LEN_RECD);
+         if (*(yURG_info [i].point) == YURG_ON )  strncat (s_nows, yURG_info [i].full, LEN_RECD);
+         else                                     strncat (s_nows, t, LEN_RECD);
          x_join = 0;
       }
       ++c;
    }
-   strlcat (s_nows, " ", LEN_RECD);
+   strncat (s_nows, " ", LEN_RECD);
    /*---(save)---------------------------*/
-   if (a_curr != NULL)  strlcpy (a_curr, s_nows, LEN_RECD);
+   if (a_curr != NULL)  strncpy (a_curr, s_nows, LEN_RECD);
    s_nnow = c;
    /*---(complete)-----------------------*/
    return c;
@@ -273,8 +273,8 @@ yurg__strings      (void)
    int         i           = 0;
    char        c           = ' ';
    /*---(initialize)---------------------*/
-   strlcpy  (s_lower, "--------------------------", LEN_FULL);
-   strlcpy  (s_upper, "--------------------------", LEN_FULL);
+   strncpy  (s_lower, "--------------------------", LEN_FULL);
+   strncpy  (s_upper, "--------------------------", LEN_FULL);
    /*---(list)---------------------------*/
    for (i = 0; i < MAX_URGS; ++i) {
       /*---(stop at end)-----------------*/
@@ -487,7 +487,7 @@ yURG_name          (cchar *a_name, cchar a_on)
       DEBUG_ARGS_M   yLOG_exit    (__FUNCTION__);
       return rce;
    }
-   strlcpy (x_lower, a_name, LEN_LABEL);
+   strncpy (x_lower, a_name, LEN_LABEL);
    --rce;  for (i = 0; i < x_len; ++i) {
       DEBUG_ARGS_M   yLOG_char    ("check"     , a_name [i]);
       if (strchr (x_valid, a_name [i]) == NULL)  {
@@ -628,9 +628,9 @@ yURG_urgs          (int a_argc, char *a_argv[])
    DEBUG_TOPS   yLOG_enter   (__FUNCTION__);
    /*---(prepare)------------------------*/
    s_ntry  = 0;
-   strlcpy (s_origs, "", LEN_RECD);
+   strncpy (s_origs, "", LEN_RECD);
    s_norig = 0;
-   strlcpy (s_nows , "", LEN_RECD);
+   strncpy (s_nows , "", LEN_RECD);
    s_nnow  = 0;
    yurg_stage_clear ();
    /*---(process)------------------------*/
@@ -683,12 +683,12 @@ yURG_urgs          (int a_argc, char *a_argv[])
       DEBUG_ARGS   yLOG_value   ("rc"        , rc);
       if (rc >= 0) {
          ++s_norig;
-         strlcat (s_origs, " ", LEN_RECD);
-         strlcat (s_origs, a  , LEN_RECD);
+         strncat (s_origs, " ", LEN_RECD);
+         strncat (s_origs, a  , LEN_RECD);
       }
       /*---(done)------------------------*/
    }
-   strlcat (s_origs, " ", LEN_RECD);
+   strncat (s_origs, " ", LEN_RECD);
    DEBUG_ARGS   yLOG_value   ("s_ntry"    , s_ntry);
    DEBUG_ARGS   yLOG_value   ("s_norig"   , s_norig);
    DEBUG_ARGS   yLOG_info    ("s_origs"   , s_origs);
@@ -716,7 +716,7 @@ yURG__unit         (char *a_question, int a_num)
    char        t           [LEN_RECD];
    int         c           = 0;
    /*---(initialize)---------------------*/
-   strlcpy (unit_answer, "yURG_unit, unknown request", 100);
+   strncpy (unit_answer, "yURG_unit, unknown request", 100);
    /*---(string testing)-----------------*/
    if      (strncmp(a_question, "lower"     , 20)  == 0) {
       yurg__strings ();

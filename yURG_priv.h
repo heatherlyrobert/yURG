@@ -36,8 +36,8 @@
 
 #define     P_VERMAJOR  "1.--, production improvements"
 #define     P_VERMINOR  "1.0-, keep support broad and advancing"
-#define     P_VERNUM    "1.0a"
-#define     P_VERTXT    "updated, cleaned, and added global variable change"
+#define     P_VERNUM    "1.0b"
+#define     P_VERTXT    "dependencies between libraries became circular >:o  fixed"
 
 #define     P_PRIORITY  "direct, simple, brief, vigorous, and lucid (h.w. fowler)"
 #define     P_PRINCIPAL "[grow a set] and build your wings on the way down (r. bradbury)"
@@ -109,9 +109,23 @@
 #include    <sys/mount.h>    /* C_ANSI : mount                                */
 
 #include    <yLOG.h>         /* CUSTOM : heatherly program logging            */
-#include    <ySTR.h>         /* CUSTOM : heatherly string handling            */
-
 #include    "yURG.h"
+
+/*===[[ ySTR CLIPPING ]]======================================================*/
+#define     LEN_HUGE        10000       /* special cases only                 */
+#define     LEN_RECD         2000       /* longer likely means hacker         */
+#define     LEN_PATH          300       /* large, but not crazy length        */
+#define     LEN_FULL          200       /* large string length                */
+#define     LEN_HUND          100       /* conservative field/arg length      */
+#define     LEN_LONG           75       /* long descrition                    */
+#define     LEN_DESC           50       /* no one reads long descriptions     */
+#define     LEN_TITLE          30       /* for organizing                     */
+#define     LEN_LABEL          20       /* names and labels                   */
+#define     LEN_USER           12       /* user names                         */
+#define     LEN_HEX            10       /* hex codes                          */
+#define     LEN_TERSE          10       /* terse string                       */
+#define     LEN_SHORT           5       /* for small needs                    */
+
 
 
 #define        MAX_URGS        500

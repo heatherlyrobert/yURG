@@ -6,7 +6,7 @@
 char
 yurg_stage_clear        (void)
 {
-   strlcpy (myURG.stage, "----- ----- -----", LEN_LABEL);
+   strncpy (myURG.stage, "----- ----- -----", LEN_LABEL);
    return 0;
 }
 
@@ -15,7 +15,7 @@ yurg_stage_prep         (void)
 {
    int         i           =    0;
    if (strcmp (myURG.stage, "----- ----- -----") == 0) {
-      strlcpy (myURG.stage, "yyyyy yyyyy yyyyy", LEN_LABEL);
+      strncpy (myURG.stage, "yyyyy yyyyy yyyyy", LEN_LABEL);
       return 0;
    }
    if (myURG.stage [YURG_STAGE_MAIN] == 'y') {
@@ -41,25 +41,25 @@ yURG_stage_check        (char a_stage)
    yLOGS_unmute ();
    sprintf (t, "%s : checking %d, ", __FUNCTION__, a_stage);
    switch (a_stage) {
-   case YURG_STAGE_INIT :  strlcpy (s, "initialization"  , LEN_RECD);   break;
-   case YURG_STAGE_INPT :  strlcpy (s, "file/pipe input" , LEN_RECD);   break;
-   case YURG_STAGE_MAIN :  strlcpy (s, "main loop"       , LEN_RECD);   break;
-   case YURG_STAGE_OUTP :  strlcpy (s, "file/pipe output", LEN_RECD);   break;
-   case YURG_STAGE_WRAP :  strlcpy (s, "wrap_up"         , LEN_RECD);   break;
-   case YURG_STAGE_ONE  :  strlcpy (s, "user stage 1"    , LEN_RECD);   break;
-   case YURG_STAGE_TWO  :  strlcpy (s, "user stage 2"    , LEN_RECD);   break;
-   case YURG_STAGE_THR  :  strlcpy (s, "user stage 3"    , LEN_RECD);   break;
-   case YURG_STAGE_FOU  :  strlcpy (s, "user stage 4"    , LEN_RECD);   break;
-   case YURG_STAGE_FIV  :  strlcpy (s, "user stage 5"    , LEN_RECD);   break;
-   default              :  strlcpy (s, "UNKNOWN stage"   , LEN_RECD);   break;
+   case YURG_STAGE_INIT :  strncpy (s, "initialization"  , LEN_RECD);   break;
+   case YURG_STAGE_INPT :  strncpy (s, "file/pipe input" , LEN_RECD);   break;
+   case YURG_STAGE_MAIN :  strncpy (s, "main loop"       , LEN_RECD);   break;
+   case YURG_STAGE_OUTP :  strncpy (s, "file/pipe output", LEN_RECD);   break;
+   case YURG_STAGE_WRAP :  strncpy (s, "wrap_up"         , LEN_RECD);   break;
+   case YURG_STAGE_ONE  :  strncpy (s, "user stage 1"    , LEN_RECD);   break;
+   case YURG_STAGE_TWO  :  strncpy (s, "user stage 2"    , LEN_RECD);   break;
+   case YURG_STAGE_THR  :  strncpy (s, "user stage 3"    , LEN_RECD);   break;
+   case YURG_STAGE_FOU  :  strncpy (s, "user stage 4"    , LEN_RECD);   break;
+   case YURG_STAGE_FIV  :  strncpy (s, "user stage 5"    , LEN_RECD);   break;
+   default              :  strncpy (s, "UNKNOWN stage"   , LEN_RECD);   break;
    }
-   strlcat (t, s, LEN_RECD);
+   strncat (t, s, LEN_RECD);
    if (myURG.stage [a_stage] == 'y') {
-      strlcat (t, ", UNMUTING", LEN_RECD);
+      strncat (t, ", UNMUTING", LEN_RECD);
       yLOG_note (t);
       rc = 1;
    } else {
-      strlcat (t, ", MUTING", LEN_RECD);
+      strncat (t, ", MUTING", LEN_RECD);
       yLOG_note (t);
       yLOGS_mute   ();
       rc = 0;
