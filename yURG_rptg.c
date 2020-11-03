@@ -46,7 +46,7 @@ yurg_category           (cchar *a_prog, cchar a_type)
          ++c;
          /*---(convert to upper)------------*/
          strncpy (x_upper, yURG_info [j].full, LEN_LABEL);
-         x_len = strllen (x_upper, LEN_LABEL);
+         x_len = strlen (x_upper);
          for (k = 0; k < x_len; ++k)  x_upper [k] = toupper (x_upper [k]);
          /*---(debug macro)-----------------*/
          if (yURG_info [j].point == NULL)   strcpy  (x_debug, "-");
@@ -117,7 +117,7 @@ yurg_urgents            (cchar *a_prog)
  *>          /+---(find mas version)---------+/                                                                 <* 
  *>          x_mas = '-';                                                                                       <* 
  *>          strncpy (x_upper, yURG_info [j].full, LEN_LABEL);                                                  <* 
- *>          x_len = strllen (x_upper, LEN_LABEL);                                                              <* 
+ *>          x_len = strlen  (x_upper);                                                                         <* 
  *>          for (k = 0; k < x_len; ++k)  x_upper [k] = toupper (x_upper [k]);                                  <* 
  *>          for (k = 0; k < MAX_URGS; ++k) {                                                                   <* 
  *>             if (yURG_info [k].abbr  == '\0')                         break;                                 <* 
@@ -214,3 +214,165 @@ yURG_summ          (void)
    /*---(complete)-----------------------*/
    return 0;
 }
+
+
+
+/*====================------------------------------------====================*/
+/*===----                      error reporting                         ----===*/
+/*====================------------------------------------====================*/
+static void  o___ERRORS__________o () { return; }
+
+static char  s_name   [LEN_FULL] = "stderr";
+static FILE *s_error  = NULL;
+static char  s_print  [LEN_FULL] = "";
+
+char
+yurg_rptg__eclose       (void)
+{
+   DEBUG_ARGS   yLOG_point   ("s_error"   , s_error);
+   if (s_error != NULL && s_error != stderr) {
+      DEBUG_ARGS   yLOG_note    ("closing bitbucket or custom error file");
+      fclose (s_error);
+      s_error = NULL;
+   }
+   return 0;
+}
+
+char
+yurg_rptg__eopen        (char *a_name)
+{
+   char        rce         =  -10;
+   DEBUG_ARGS   yLOG_info    ("a_name"    , a_name);
+   --rce;  if (a_name == NULL) {
+      DEBUG_ARGS   yLOG_note    ("a_name is null, reverting to stderr");
+      yURG_stderr ();
+      return rce;
+   }
+   --rce;  if (strlen (a_name) <= 0) {
+      DEBUG_ARGS   yLOG_note    ("a_name is empty, reverting to stderr");
+      yURG_stderr ();
+      return rce;
+   }
+   s_error = fopen (a_name, "wt");
+   --rce;  if (s_error == NULL) {
+      DEBUG_ARGS   yLOG_note    ("can not open, reverting to stderr");
+      yURG_stderr ();
+      return rce;
+   }
+   strcpy (s_name, a_name);
+   DEBUG_ARGS   yLOG_point   ("s_error"   , s_error);
+   return 0;
+}
+
+char
+yURG_stderr             (void)
+{
+   DEBUG_ARGS   yLOG_enter   (__FUNCTION__);
+   yurg_rptg__eclose ();
+   s_error = stderr;
+   strcpy (s_name, "stderr");
+   DEBUG_ARGS   yLOG_point   ("s_error"   , s_error);
+   DEBUG_ARGS   yLOG_exit    (__FUNCTION__);
+   return 0;
+}
+
+char
+yURG_noerror            (void)
+{
+   char        rc          =    0;
+   DEBUG_ARGS   yLOG_enter   (__FUNCTION__);
+   rc = yurg_rptg__eclose ();
+   rc = yurg_rptg__eopen  ("/dev/null");
+   DEBUG_ARGS   yLOG_exit    (__FUNCTION__);
+   return rc;
+}
+
+char
+yURG_tmperr             (void)
+{
+   char        rc          =    0;
+   DEBUG_ARGS   yLOG_enter   (__FUNCTION__);
+   rc = yurg_rptg__eclose ();
+   rc = yurg_rptg__eopen  ("/tmp/errors.txt");
+   DEBUG_ARGS   yLOG_exit    (__FUNCTION__);
+   return rc;
+}
+
+char
+yURG_custom             (char *a_name)
+{
+   char        rc          =    0;
+   DEBUG_ARGS   yLOG_enter   (__FUNCTION__);
+   rc = yurg_rptg__eclose ();
+   rc = yurg_rptg__eopen  (a_name);
+   DEBUG_ARGS   yLOG_exit    (__FUNCTION__);
+   return rc;
+}
+
+char
+yURG_error              (cchar *a_format, ...)
+{
+   /*---(locals)-----------+-----+-----+-*/
+   va_list     x_args;
+   /*---(check output)-------------------*/
+   if (s_error == NULL)  yURG_stderr ();
+   /*---(va_args)------------------------*/
+   va_start   (x_args, a_format);
+   vsnprintf  (s_print, LEN_FULL - 1, a_format, x_args);
+   va_end     (x_args);
+   fprintf    (s_error, "%s\n", s_print);
+   fflush     (s_error);
+   /*---(complete)-----------------------*/
+   return 0;
+}
+
+
+
+/*====================------------------------------------====================*/
+/*===----                    unit testing accessor                     ----===*/
+/*====================------------------------------------====================*/
+static void      o___UNITTEST________________o (void) {;}
+
+int
+yURG_peek               (char *a_name, int n, char *a_recd)
+{
+   char        t           [LEN_RECD]  = "";
+   FILE       *f           = NULL;
+   int         c           =    0;
+   int         x_len       =    0;
+   if (a_name == NULL)            return 0;
+   if (strcmp (a_name, "") == 0)  return 0;
+   if (a_recd == NULL)            return 0;
+   strcpy (a_recd, "");
+   f = fopen (a_name, "rt");
+   if (f == NULL)  return 0;
+   while (1) {
+      fgets (t, LEN_RECD, f);
+      if (feof (f))  break;
+      if (c == n)  strcpy (a_recd, t);
+      ++c;
+   }
+   x_len = strlen (a_recd);
+   if (x_len > 0 && a_recd [x_len - 1] == '\n')  a_recd [--x_len] = '\0';
+   fclose (f);
+   return c;
+}
+
+char*            /* [------] unit test accessor ------------------------------*/
+yurg_rptg__unit         (char *a_question, int a_num)
+{
+   char        t           [LEN_HUND]  = "";
+   char        s           [LEN_HUND]  = "";
+   /*---(initialize)---------------------*/
+   strncpy (unit_answer, "RPTG unit        : unknown request", 100);
+   /*---(string testing)-----------------*/
+   if      (strcmp (a_question, "error"     ) == 0) {
+      snprintf  (t, LEN_HUND, "[%-.15s]"   , s_name);
+      snprintf  (s, LEN_HUND, "%2d[%-.60s]", strlen (s_print), s_print);
+      snprintf (unit_answer, LEN_RECD, "RPTG error       : %-17.17s  %s", t, s);
+   }
+   /*---(complete)-----------------------*/
+   return unit_answer;
+}
+
+

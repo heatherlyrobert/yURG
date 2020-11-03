@@ -131,7 +131,6 @@ tYURG_INFO  yURG_info [MAX_URGS] = {
    /*---(registers)----------------------*/
    {  '-' , "regs"           , "copy and paste registers"              , 'p', '-', &myURG.regs               },
    /*---(libraries)----------------------*/
-   {  '-' , "ylogs"          , "heatherly yLOG process monitoring"     , 'l', 's', &myURG.ylogs              },
    {  '-' , "ystr"           , "heatherly ySTR string library"         , 'l', 's', &myURG.ystr               },
    {  '-' , "ydlst"          , "yDLST quad-double linked list lib"     , 'l', 's', &myURG.ydlst              },
    {  '-' , "ysched"         , "ySCHED kernighan sched grammar"        , 'l', 's', &myURG.ysched             },
@@ -373,7 +372,7 @@ yurg__multi        (cchar *a_string, cchar a_on)
       return rce;
    }
    DEBUG_ARGS_M   yLOG_info    ("a_string"  , a_string);
-   x_len = strllen (a_string, LEN_LABEL);
+   x_len = strlen (a_string);
    DEBUG_ARGS_M   yLOG_value   ("x_len"     , x_len);
    for (i = 0; i < x_len; ++i) {
       yURG_abbr (a_string [i], a_on);
@@ -475,7 +474,7 @@ yURG_name          (cchar *a_name, cchar a_on)
       return rce;
    }
    DEBUG_ARGS_M   yLOG_info    ("a_name"    , a_name);
-   x_len = strllen (a_name, LEN_LABEL);
+   x_len = strlen (a_name);
    DEBUG_ARGS_M   yLOG_value   ("x_len"     , x_len);
    --rce;  if (x_len <  3) {
       DEBUG_ARGS_M   yLOG_note    ("a_name too short (< 3 chars)");

@@ -10,17 +10,10 @@ yurg__setlog            (cchar *a_name, cchar a_log)
    char        rc          =    0;
    if (myURG.loud != 'y')                                  return 0;
    switch (a_log) {
-   case YLOG_SYS     :
-      myURG.logger = yLOGS_begin (a_name, YLOG_SYS   , YLOG_NOISE);
-      break;
-   case YLOG_HIST   :
-      myURG.logger = yLOGS_begin (a_name, YLOG_HIST  , YLOG_NOISE);
-      break;
-   case YLOG_STDOUT     :
-      myURG.logger = yLOGS_begin (a_name, YLOG_STDOUT, YLOG_NOISE);
-      break;
-   case YLOG_ROOT       :
-      myURG.logger = yLOGS_begin (a_name, YLOG_ROOT  , YLOG_NOISE);
+   case YLOG_SYS        : case YLOG_HIST       :
+   case YLOG_STDOUT     : case YLOG_ROOT       :
+   case YLOG_TMP        :
+      myURG.logger = yLOGS_begin (a_name, a_log, YLOG_NOISE);
       break;
    case YLOG_USB        :
       rc = mount ("/dev/sdb1", "/mnt/usb1", "vfat", MS_NOSUID | MS_NODEV | MS_NOEXEC | MS_NOATIME, NULL);
@@ -35,6 +28,8 @@ yurg__setlog            (cchar *a_name, cchar a_log)
    }
    return 0;
 }
+
+#define  TWOARG  if (++i >= a_argc)  printf ("%s option requires an argument (%d)\n", a, --rc); else 
 
 char         /*--: evaluate logger needs early -----------[ leaf   [ ------ ]-*/
 yURG_logger        (int a_argc, char *a_argv[])
@@ -61,7 +56,7 @@ yURG_logger        (int a_argc, char *a_argv[])
    if (p == NULL)  strncpy (x_progname, a_argv [0], LEN_FULL);
    else            strncpy (x_progname, p + 1     , LEN_FULL);
    strncpy (x_basename, x_progname, LEN_FULL);
-   x_len  = strllen (x_basename, LEN_LABEL);
+   x_len  = strlen (x_basename);
    /*---(test for normal version)--------*/
    /*> printf ("name %s, %d[%s]\n", a_argv [0], x_len, x_basename);                   <*/
    if (x_len >= 6) {
@@ -69,7 +64,7 @@ yURG_logger        (int a_argc, char *a_argv[])
       if (strstr (x_basename, "_unit" ) != 0)  myURG.use  = 'u';
       if (myURG.use != '-')                    myURG.loud = 'y';
    }
-   /*> printf ("myURG.loud = %c\n", myURG.loud);                            <*/
+   /*> printf ("myURG.loud = %c\n", myURG.loud);                                      <*/
    /*---(fix program name)---------------*/
    switch (myURG.use) {
    case 'd' : /* debug version */
@@ -83,7 +78,7 @@ yURG_logger        (int a_argc, char *a_argv[])
       return 0;
       break;
    }
-   x_len  = strllen (x_progname, LEN_LABEL);
+   x_len  = strlen (x_progname);
    /*---(process)------------------------*/
    for (i = 1; i < a_argc; ++i) {
       /*---(prepare)---------------------*/
@@ -103,6 +98,7 @@ yURG_logger        (int a_argc, char *a_argv[])
       else if (strcmp (a, "@@stdout"     ) == 0) x_log  = YLOG_STDOUT;
       else if (strcmp (a, "@@root"       ) == 0) x_log  = YLOG_ROOT;
       else if (strcmp (a, "@@usb"        ) == 0) x_log  = YLOG_USB;
+      else if (strcmp (a, "@@tmp"        ) == 0) x_log  = YLOG_TMP;
       /*---(singles)---------------------*/
       else if (strcmp (a, "@a"           ) == 0)   x_args = 'a';
       else if (strcmp (a, "@@args"       ) == 0)   x_args = 'a';
@@ -121,6 +117,11 @@ yURG_logger        (int a_argc, char *a_argv[])
       else if (strcmp (a, "@@universal"  ) == 0) { yurg_category  (x_basename, 'u'); exit (0); }
       else if (strcmp (a, "@@program"    ) == 0) { yurg_category  (x_basename, 'p'); exit (0); }
       else if (strcmp (a, "@@library"    ) == 0) { yurg_category  (x_basename, 'l'); exit (0); }
+      /*---(stderr)----------------------*/
+      else if (strcmp (a, "@@stderr"     ) == 0)  yURG_stderr  ();
+      else if (strcmp (a, "@@noerror"    ) == 0)  yURG_noerror ();
+      else if (strcmp (a, "@@tmperr"     ) == 0)  yURG_tmperr  ();
+      else if (strcmp (a, "@@errors"     ) == 0)  TWOARG yURG_custom  (a_argv [i]);
       /*> else if (strcmp (a, "@@help"       ) == 0) { yURG_help (x_basename); exit (0); }   <*/
    }
    /*---(hande verbose flag)-------------*/
@@ -129,28 +130,9 @@ yURG_logger        (int a_argc, char *a_argv[])
    /*---(jump out if not needed)---------*/
    if (myURG.loud != 'y')   return 0;
    /*---(startup logging)----------------*/
-   switch (x_log) {
-   case YLOG_SYS     :
-      myURG.logger = yLOGS_begin (x_progname, YLOG_SYS   , YLOG_NOISE);
-      break;
-   case YLOG_HIST :
-      myURG.logger = yLOGS_begin (x_progname, YLOG_HIST  , YLOG_NOISE);
-      break;
-   case YLOG_STDOUT     :
-      myURG.logger = yLOGS_begin (x_progname, YLOG_STDOUT, YLOG_NOISE);
-      break;
-   case YLOG_ROOT       :
-      myURG.logger = yLOGS_begin (x_progname, YLOG_ROOT  , YLOG_NOISE);
-      break;
-   case YLOG_USB        :
-      rc = mount ("/dev/sdb1", "/mnt/usb1", "vfat", MS_NOSUID | MS_NODEV | MS_NOEXEC | MS_NOATIME, NULL);
-      myURG.logger = yLOGS_begin (x_progname, YLOG_USB   , YLOG_NOISE);
-      break;
-   case YLOG_QUIET : default  :
-      myURG.logger = yLOGS_begin (x_progname, YLOG_SYS   , YLOG_QUIET);
-      break;
-   }
+   rc = yurg__setlog (x_progname, x_log);
    if (myURG.logger < 0) {
+      DEBUG_TOPS    yLOG_exitr   (__FUNCTION__, myURG.logger);
       return myURG.logger;
    }
    /*---(fast update)--------------------*/

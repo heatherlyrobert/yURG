@@ -102,7 +102,6 @@ struct cURG_DEBUG
    char        gnome;
    char        dtree;          /* displays the dependency tree and exits      */
    /*---(safe-strings)-------------------*/
-   char        ylogs;                  /* yLOG process monitoring library     */
    char        ystr;                   /* ySTR string library                 */
    char        ydlst;                  /* yDLST quad-double linked list       */
    char        ysched;                 /* ySCHED kernighan sched grammar      */
@@ -291,7 +290,6 @@ extern    tURG_DEBUG      myURG;
 #define     DEBUG_TREG             if (myURG.treg               != '-')
 #define     DEBUG_TREG_M           if (myURG.treg               == 'Y')
 /*---(ySTR)------------------------------*/
-#define     DEBUG_YLOGS            if (myURG.ylogs              == 'y')
 #define     DEBUG_YSTR             if (myURG.ystr               != '-')
 #define     DEBUG_YSTR_M           if (myURG.ystr               == 'Y')
 #define     DEBUG_YDLST            if (myURG.ydlst              != '-')
@@ -368,6 +366,13 @@ char        yURG_name               (cchar *a_name, cchar a_on);
 char        yURG_lognum             (void);
 
 char        yURG_stage_check        (char a_stage);
+
+char        yURG_stderr             (void);
+char        yURG_tmperr             (void);
+char        yURG_noerror            (void);
+char        yURG_custom             (char *a_name);
+char        yURG_error              (cchar *a_format, ...);
+int         yURG_peek               (char *a_name, int n, char *a_recd);
 
 
 #endif

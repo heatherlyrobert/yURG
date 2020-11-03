@@ -12,19 +12,20 @@
 
 #define     P_FOCUS     "RS (run-time support)"
 #define     P_NICHE     "de (debugging/logging control)"
+#define     P_SUBJECT   "runtime debugging control"
 #define     P_PURPOSE   "simple, clean, incremental debugging and logging control"
-
-#define     P_EXECUTE   "libyURG.so"
-#define     P_FULLPATH  "/usr/local/lib64/libyURG.so"
-#define     P_ONELINE   "zelus-daimon (enforcer) debugging and logging control"
-
-#define     P_SUFFIX    "n/a"
-#define     P_CONTENT   "n/a"
 
 #define     P_NAMESAKE  "zelus-daimon (enforcer)"
 #define     P_HERITAGE  "zeal, sibling of strength (kratos), force (bia), and victory (nike)"
 #define     P_IMAGERY   "angel-like being, represents zeal and dedication, enforcer of zeus"
 #define     P_REASON    "daimon of zealousness, dedication, and enforcement"
+
+#define     P_ONELINE   P_NAMESAKE " " P_SUBJECT
+
+#define     P_BASENAME  "yURG"
+#define     P_FULLPATH  "/usr/local/lib64/libyURG.so"
+#define     P_SUFFIX    "n/a"
+#define     P_CONTENT   "n/a"
 
 #define     P_SYSTEM    "gnu/linux   (powerful, ubiquitous, technical, and hackable)"
 #define     P_LANGUAGE  "ansi-c      (wicked, limitless, universal, and everlasting)"
@@ -36,12 +37,17 @@
 
 #define     P_VERMAJOR  "1.--, production improvements"
 #define     P_VERMINOR  "1.0-, keep support broad and advancing"
-#define     P_VERNUM    "1.0b"
-#define     P_VERTXT    "dependencies between libraries became circular >:o  fixed"
+#define     P_VERNUM    "1.0c"
+#define     P_VERTXT    "added console error reporting helpers, and unit tested"
 
 #define     P_PRIORITY  "direct, simple, brief, vigorous, and lucid (h.w. fowler)"
 #define     P_PRINCIPAL "[grow a set] and build your wings on the way down (r. bradbury)"
 #define     P_REMINDER  "there are many better options, but i *own* every byte of this one"
+
+/*-------   --12345678  "123456789-123456789-123456789-123456789-123456789-123456789-"  */
+/*===[[ END ONE_LINERS ]]=====================================================*/
+
+
 
 /*===[[ REASONING ]]==========================================================*/
 /*345678901-12345678901-12345678901-12345678901-12345678901-12345678901-12345678901-12345678901-*/
@@ -105,6 +111,7 @@
 #include    <stdio.h>        /* C_ANSI : strcpy, strlen, strchr, strcmp, ...  */
 #include    <string.h>       /* C_ANSI : printf, snprintf, fgets, fopen, ...  */
 #include    <stdlib.h>       /* C_ANSI : exit                                 */
+#include    <stdarg.h>       /* C_ANSI : va_args                              */
 #include    <ctype.h>        /* C_ANSI : tolower, toupper, ...                */
 #include    <sys/mount.h>    /* C_ANSI : mount                                */
 
@@ -152,7 +159,6 @@ struct cYURG_INFO
 extern tYURG_INFO  yURG_info [MAX_URGS];
 
 
-
 extern char unit_answer [LEN_RECD];
 
 
@@ -175,5 +181,6 @@ char        yurg_stage_prep         (void);
 char*       yurg_stage__unit        (char *a_question, int a_num);
 
 
+char*       yurg_rptg__unit         (char *a_question, int a_num);
 
 #endif
