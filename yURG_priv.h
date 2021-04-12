@@ -37,8 +37,8 @@
 
 #define     P_VERMAJOR  "1.--, production improvements"
 #define     P_VERMINOR  "1.0-, keep support broad and advancing"
-#define     P_VERNUM    "1.0c"
-#define     P_VERTXT    "added console error reporting helpers, and unit tested"
+#define     P_VERNUM    "1.0d"
+#define     P_VERTXT    "updated messages and errors, plus added touch, rm, mkdir, and rmdir"
 
 #define     P_PRIORITY  "direct, simple, brief, vigorous, and lucid (h.w. fowler)"
 #define     P_PRINCIPAL "[grow a set] and build your wings on the way down (r. bradbury)"
@@ -180,7 +180,7 @@ char        yurg_stage_clear        (void);
 char        yurg_stage_prep         (void);
 char*       yurg_stage__unit        (char *a_question, int a_num);
 
-
+char        yurg_rptg__test_clear   (void);
 char*       yurg_rptg__unit         (char *a_question, int a_num);
 
 #endif

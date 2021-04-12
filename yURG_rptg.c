@@ -2,6 +2,22 @@
 #include    "yURG.h"
 #include    "yURG_priv.h"
 
+
+
+static char  s_ename   [LEN_FULL] = "stderr";
+static FILE *s_efile   = NULL;
+static char  s_elive   = 'y';
+
+static char  s_mname   [LEN_FULL] = "stdout";
+static FILE *s_mfile   = NULL;
+static char  s_mlive   = 'y';
+
+static char  s_print   [LEN_FULL] = "";
+static char  s_perror  [LEN_FULL] = "";
+static char  s_status  [LEN_FULL] = "";
+
+
+
 char
 yurg_category           (cchar *a_prog, cchar a_type)
 {
@@ -147,20 +163,20 @@ yurg_urgents            (cchar *a_prog)
  *>                   yURG_info [j].full , x_mas, yURG_info [j].desc );                                         <* 
  *>          /+---(totals)-------------------+/                                                                 <* 
  *>          ++x_count;                                                                                         <* 
- *>          if (x_mas == 'y')  ++x_countmas;                                                                   <* 
- *>          /+---(done)---------------------+/                                                                 <* 
- *>       }                                                                                                     <* 
- *>       /+---(sub-totals)------------------+/                                                                 <* 
- *>       printf ("   ---count = %d (%d mas)\n\n", x_count, x_countmas);                                        <* 
- *>       x_total     += x_count;                                                                               <* 
- *>       x_totalmas  += x_countmas;                                                                            <* 
- *>       x_count      = x_countmas = 0;                                                                        <* 
- *>    }                                                                                                        <* 
- *>    /+---(grand totals)-------------------+/                                                                 <* 
- *>    printf ("grand total count = %d (%d mas), %d overall\n\n", x_total, x_totalmas, x_total + x_totalmas);   <* 
- *>    /+---(complete)-----------------------+/                                                                 <* 
- *>    return 0;                                                                                                <* 
- *> }                                                                                                           <*/
+*>          if (x_mas == 'y')  ++x_countmas;                                                                   <* 
+*>          /+---(done)---------------------+/                                                                 <* 
+*>       }                                                                                                     <* 
+*>       /+---(sub-totals)------------------+/                                                                 <* 
+*>       printf ("   ---count = %d (%d mas)\n\n", x_count, x_countmas);                                        <* 
+*>       x_total     += x_count;                                                                               <* 
+*>       x_totalmas  += x_countmas;                                                                            <* 
+*>       x_count      = x_countmas = 0;                                                                        <* 
+*>    }                                                                                                        <* 
+*>    /+---(grand totals)-------------------+/                                                                 <* 
+*>    printf ("grand total count = %d (%d mas), %d overall\n\n", x_total, x_totalmas, x_total + x_totalmas);   <* 
+*>    /+---(complete)-----------------------+/                                                                 <* 
+*>    return 0;                                                                                                <* 
+*> }                                                                                                           <*/
 
 char         /*--> display all urgents and status --------[ ------ [ ------ ]-*/
 yURG_list          (void)
@@ -222,18 +238,14 @@ yURG_summ          (void)
 /*====================------------------------------------====================*/
 static void  o___ERRORS__________o () { return; }
 
-static char  s_name   [LEN_FULL] = "stderr";
-static FILE *s_error  = NULL;
-static char  s_print  [LEN_FULL] = "";
-
 char
 yurg_rptg__eclose       (void)
 {
-   DEBUG_ARGS   yLOG_point   ("s_error"   , s_error);
-   if (s_error != NULL && s_error != stderr) {
+   DEBUG_ARGS   yLOG_point   ("s_efile"   , s_efile);
+   if (s_efile != NULL && s_efile != stderr) {
       DEBUG_ARGS   yLOG_note    ("closing bitbucket or custom error file");
-      fclose (s_error);
-      s_error = NULL;
+      fclose (s_efile);
+      s_efile = NULL;
    }
    return 0;
 }
@@ -245,39 +257,39 @@ yurg_rptg__eopen        (char *a_name)
    DEBUG_ARGS   yLOG_info    ("a_name"    , a_name);
    --rce;  if (a_name == NULL) {
       DEBUG_ARGS   yLOG_note    ("a_name is null, reverting to stderr");
-      yURG_stderr ();
+      yURG_err_std ();
       return rce;
    }
    --rce;  if (strlen (a_name) <= 0) {
       DEBUG_ARGS   yLOG_note    ("a_name is empty, reverting to stderr");
-      yURG_stderr ();
+      yURG_err_std ();
       return rce;
    }
-   s_error = fopen (a_name, "wt");
-   --rce;  if (s_error == NULL) {
+   s_efile = fopen (a_name, "wt");
+   --rce;  if (s_efile == NULL) {
       DEBUG_ARGS   yLOG_note    ("can not open, reverting to stderr");
-      yURG_stderr ();
+      yURG_err_std ();
       return rce;
    }
-   strcpy (s_name, a_name);
-   DEBUG_ARGS   yLOG_point   ("s_error"   , s_error);
+   strcpy (s_ename, a_name);
+   DEBUG_ARGS   yLOG_point   ("s_efile"   , s_efile);
    return 0;
 }
 
 char
-yURG_stderr             (void)
+yURG_err_std            (void)
 {
    DEBUG_ARGS   yLOG_enter   (__FUNCTION__);
    yurg_rptg__eclose ();
-   s_error = stderr;
-   strcpy (s_name, "stderr");
-   DEBUG_ARGS   yLOG_point   ("s_error"   , s_error);
+   s_efile = stderr;
+   strcpy (s_ename, "stderr");
+   DEBUG_ARGS   yLOG_point   ("s_efile"   , s_efile);
    DEBUG_ARGS   yLOG_exit    (__FUNCTION__);
    return 0;
 }
 
 char
-yURG_noerror            (void)
+yURG_err_none           (void)
 {
    char        rc          =    0;
    DEBUG_ARGS   yLOG_enter   (__FUNCTION__);
@@ -288,18 +300,18 @@ yURG_noerror            (void)
 }
 
 char
-yURG_tmperr             (void)
+yURG_err_tmp            (void)
 {
    char        rc          =    0;
    DEBUG_ARGS   yLOG_enter   (__FUNCTION__);
    rc = yurg_rptg__eclose ();
-   rc = yurg_rptg__eopen  ("/tmp/errors.txt");
+   rc = yurg_rptg__eopen  (YURG_ERR);
    DEBUG_ARGS   yLOG_exit    (__FUNCTION__);
    return rc;
 }
 
 char
-yURG_custom             (char *a_name)
+yURG_err_custom         (char *a_name)
 {
    char        rc          =    0;
    DEBUG_ARGS   yLOG_enter   (__FUNCTION__);
@@ -309,32 +321,264 @@ yURG_custom             (char *a_name)
    return rc;
 }
 
+char yURG_err_mute  (void) { s_elive = '-'; }
+char yURG_err_live  (void) { s_elive = 'y'; }
+
 char
-yURG_error              (cchar *a_format, ...)
+yURG_err                (cchar a_type, cchar *a_format, ...)
 {
    /*---(locals)-----------+-----+-----+-*/
+   char        x_pre       [LEN_LABEL] = "";
+   char        x_label     [LEN_LABEL] = "";
    va_list     x_args;
    /*---(check output)-------------------*/
-   if (s_error == NULL)  yURG_stderr ();
+   if (s_efile == NULL)  yURG_err_std ();
+   /*---(prefix)-------------------------*/
+   switch (a_type) {
+   case 'W' :  strcpy (x_pre, "");         strcpy (x_label, "WARNING, ");   break;
+   case 'F' :  strcpy (x_pre, "");         strcpy (x_label, "FATAL, "  );   break;
+   case 'w' :  strcpy (x_pre, "  ** ");    strcpy (x_label, "WARNING, ");   break;
+   case 'f' :  strcpy (x_pre, "  ** ");    strcpy (x_label, "FATAL, "  );   break;
+   case 'ÿ' :  strcpy (x_pre, "    ** ");  strcpy (x_label, "WARNING, ");   break;
+   case 'ü' :  strcpy (x_pre, "    ** ");  strcpy (x_label, "FATAL, "  );   break;
+   }
    /*---(va_args)------------------------*/
    va_start   (x_args, a_format);
-   vsnprintf  (s_print, LEN_FULL - 1, a_format, x_args);
+   vsnprintf  (s_perror, LEN_FULL - 1, a_format, x_args);
    va_end     (x_args);
-   fprintf    (s_error, "%s\n", s_print);
-   fflush     (s_error);
+   if (s_elive == 'y') {
+      if (s_mfile == NULL)  fprintf (s_efile, "%s%s\n", x_label, s_perror);
+      else                  fprintf (s_efile, "%s%s%s\n", x_pre, x_label, s_perror);
+      fflush     (s_efile);
+   }
    /*---(complete)-----------------------*/
    return 0;
+}
+
+char* yURG_err_last  (void)  { return s_perror; }
+
+char  yURG_err_clear (void)  { strcpy (s_perror, "");  return 0; }
+
+char
+yURG_err_purge          (void)
+{
+   yURG_err_std ();
+   system ("rm -rf /tmp/errors.txt     > /dev/null  2>&1");
+   return 0;
+}
+
+
+/*====================------------------------------------====================*/
+/*===----                      error reporting                         ----===*/
+/*====================------------------------------------====================*/
+static void  o___OPERATOR________o () { return; }
+
+char
+yurg_rptg__cclose       (void)
+{
+   DEBUG_ARGS   yLOG_point   ("s_mfile" , s_mfile);
+   if (s_mfile != NULL && s_mfile != stdout) {
+      DEBUG_ARGS   yLOG_note    ("closing bitbucket or custom console file");
+      fclose (s_mfile);
+      s_mfile = NULL;
+   }
+   return 0;
+}
+
+char
+yurg_rptg__copen        (char *a_name)
+{
+   char        rce         =  -10;
+   DEBUG_ARGS   yLOG_info    ("a_name"    , a_name);
+   --rce;  if (a_name == NULL) {
+      DEBUG_ARGS   yLOG_note    ("a_name is null, reverting to stdout");
+      yURG_msg_std ();
+      return rce;
+   }
+   --rce;  if (strlen (a_name) <= 0) {
+      DEBUG_ARGS   yLOG_note    ("a_name is empty, reverting to stdout");
+      yURG_msg_std ();
+      return rce;
+   }
+   s_mfile = fopen (a_name, "wt");
+   --rce;  if (s_mfile == NULL) {
+      DEBUG_ARGS   yLOG_note    ("can not open, reverting to stdout");
+      yURG_msg_std ();
+      return rce;
+   }
+   strcpy (s_mname, a_name);
+   DEBUG_ARGS   yLOG_point   ("s_mfile"   , s_mfile);
+   return 0;
+}
+
+char
+yURG_msg_std            (void)
+{
+   DEBUG_ARGS   yLOG_enter   (__FUNCTION__);
+   yurg_rptg__cclose ();
+   s_mfile = stdout;
+   strcpy (s_mname, "stdout");
+   DEBUG_ARGS   yLOG_point   ("s_mfile"   , s_mfile);
+   DEBUG_ARGS   yLOG_exit    (__FUNCTION__);
+   return 0;
+}
+
+char
+yURG_msg_none           (void)
+{
+   char        rc          =    0;
+   DEBUG_ARGS   yLOG_enter   (__FUNCTION__);
+   rc = yurg_rptg__cclose ();
+   rc = yurg_rptg__copen  ("/dev/null");
+   DEBUG_ARGS   yLOG_exit    (__FUNCTION__);
+   return rc;
+}
+
+char
+yURG_msg_tmp            (void)
+{
+   char        rc          =    0;
+   DEBUG_ARGS   yLOG_enter   (__FUNCTION__);
+   rc = yurg_rptg__cclose ();
+   rc = yurg_rptg__copen  (YURG_MSG);
+   DEBUG_ARGS   yLOG_exit    (__FUNCTION__);
+   return rc;
+}
+
+char
+yURG_msg_custom         (char *a_name)
+{
+   char        rc          =    0;
+   DEBUG_ARGS   yLOG_enter   (__FUNCTION__);
+   rc = yurg_rptg__cclose ();
+   rc = yurg_rptg__copen  (a_name);
+   DEBUG_ARGS   yLOG_exit    (__FUNCTION__);
+   return rc;
+}
+
+char yURG_msg_mute  (void) { s_mlive = '-'; }
+char yURG_msg_live  (void) { s_mlive = 'y'; }
+
+char
+yURG_msg                (cchar a_type, cchar *a_format, ...)
+{
+   /*---(locals)-----------+-----+-----+-*/
+   char        x_pre       [LEN_LABEL] = "";
+   va_list     x_args;
+   /*---(check output)-------------------*/
+   if (s_mfile == NULL)  yURG_msg_std ();
+   /*---(prefix)-------------------------*/
+   switch (a_type) {
+   case '>' :  strcpy (x_pre, ""     );     break;
+   case '-' :  strcpy (x_pre, "  -- ");     break;
+   case '+' :  strcpy (x_pre, "    -- ");   break;
+   }
+   /*---(va_args)------------------------*/
+   va_start   (x_args, a_format);
+   if (s_mlive == 'y') {
+      vsnprintf  (s_print, LEN_FULL - 1, a_format, x_args);
+      fprintf    (s_mfile, "%s%s\n", x_pre, s_print);
+      fflush     (s_mfile);
+   }
+   va_end     (x_args);
+   /*---(complete)-----------------------*/
+   return 0;
+}
+
+char* yURG_msg_last  (void)  { return s_print; }
+
+char  yURG_msg_clear (void)  { strcpy (s_print, "");  return 0; }
+
+char
+yURG_msg_purge          (void)
+{
+   yURG_msg_std ();
+   system ("rm -rf /tmp/console.txt    > /dev/null  2>&1");
+   return 0;
+}
+
+char
+yURG_all_clear          (void)
+{
+   yURG_msg_clear ();
+   yURG_err_clear ();
+   return 0;
+}
+
+char
+yURG_all_tmp            (void)
+{
+   yURG_msg_tmp ();
+   yURG_msg_clear ();
+   yURG_err_tmp ();
+   yURG_err_clear ();
+   return 0;
+}
+
+char*
+yURG_mute_status        (void)
+{
+   char        t           [LEN_HUND]  = "";
+   char        s           [LEN_HUND]  = "";
+   snprintf  (t, LEN_HUND, "%c å%-.25sæ"   , s_mlive, s_mname);
+   snprintf  (s, LEN_HUND, "%c å%-.25sæ"   , s_elive, s_ename);
+   sprintf (s_status, "%-30.30s   %s", t, s);
+   return s_status;
 }
 
 
 
 /*====================------------------------------------====================*/
-/*===----                    unit testing accessor                     ----===*/
+/*===----                    files and directories                     ----===*/
 /*====================------------------------------------====================*/
-static void      o___UNITTEST________________o (void) {;}
+static void      o___REVIEW__________________o (void) {;}
+
+char
+yURG_touch              (cchar *a_file, cchar *a_own, cchar *a_grp, cchar *a_perms)
+{
+   char        x_cmd       [LEN_RECD]  = "";
+   sprintf (x_cmd, "touch %s       > /dev/null  2>&1", a_file);
+   system  (x_cmd);
+   sprintf (x_cmd, "chown %s:%s %s > /dev/null  2>&1", a_own  , a_grp  , a_file);
+   system  (x_cmd);
+   sprintf (x_cmd, "chmod %s %s    > /dev/null  2>&1", a_perms, a_file );
+   system  (x_cmd);
+   return 0;
+}
+
+char
+yURG_rm                 (cchar *a_file)
+{
+   char        x_cmd       [LEN_RECD]  = "";
+   sprintf (x_cmd, "rm -f %s       > /dev/null  2>&1", a_file);
+   system  (x_cmd);
+   return 0;
+}
+
+char
+yURG_mkdir              (cchar *a_dir, cchar *a_own, cchar *a_grp, cchar *a_perms)
+{
+   char        x_cmd       [LEN_RECD]  = "";
+   sprintf (x_cmd, "mkdir %s       > /dev/null  2>&1", a_dir);
+   system  (x_cmd);
+   sprintf (x_cmd, "chown %s:%s %s > /dev/null  2>&1", a_own  , a_grp  , a_dir);
+   system  (x_cmd);
+   sprintf (x_cmd, "chmod %s %s    > /dev/null  2>&1", a_perms, a_dir  );
+   system  (x_cmd);
+   return 0;
+}
+
+char
+yURG_rmdir              (cchar *a_dir)
+{
+   char        x_cmd       [LEN_RECD];
+   sprintf (x_cmd, "rm    -fr %s   > /dev/null  2>&1", a_dir);
+   system  (x_cmd);
+   return 0;
+}
 
 int
-yURG_peek               (char *a_name, int n, char *a_recd)
+yURG_peek               (cchar *a_name, int n, char *a_recd)
 {
    char        t           [LEN_RECD]  = "";
    FILE       *f           = NULL;
@@ -345,17 +589,42 @@ yURG_peek               (char *a_name, int n, char *a_recd)
    if (a_recd == NULL)            return 0;
    strcpy (a_recd, "");
    f = fopen (a_name, "rt");
-   if (f == NULL)  return 0;
+   if (f == NULL)  return -1;
+   if (n == -1) {
+      fclose (f);
+      return  '!';
+   }
    while (1) {
       fgets (t, LEN_RECD, f);
       if (feof (f))  break;
-      if (c == n)  strcpy (a_recd, t);
+      if (c == n)    strcpy (a_recd, t);
+      if (n == 999)  strcpy (a_recd, t);
       ++c;
    }
    x_len = strlen (a_recd);
    if (x_len > 0 && a_recd [x_len - 1] == '\n')  a_recd [--x_len] = '\0';
    fclose (f);
    return c;
+}
+
+
+
+/*====================------------------------------------====================*/
+/*===----                    unit testing accessor                     ----===*/
+/*====================------------------------------------====================*/
+static void      o___UNITTEST________________o (void) {;}
+
+char
+yurg_rptg__test_clear   (void)
+{
+   yURG_err_clear ();
+   strcpy (s_ename, "stderr");
+   s_efile  = stderr;
+   yURG_msg_clear ();
+   strcpy (s_mname, "stdout");
+   s_mfile  = stdout;
+   strcpy (s_print, "");
+   return 0;
 }
 
 char*            /* [------] unit test accessor ------------------------------*/
@@ -367,9 +636,14 @@ yurg_rptg__unit         (char *a_question, int a_num)
    strncpy (unit_answer, "RPTG unit        : unknown request", 100);
    /*---(string testing)-----------------*/
    if      (strcmp (a_question, "error"     ) == 0) {
-      snprintf  (t, LEN_HUND, "[%-.15s]"   , s_name);
-      snprintf  (s, LEN_HUND, "%2d[%-.60s]", strlen (s_print), s_print);
+      snprintf  (t, LEN_HUND, "å%-.15sæ"   , s_ename);
+      snprintf  (s, LEN_HUND, "%2då%-.60sæ", strlen (s_perror), s_perror);
       snprintf (unit_answer, LEN_RECD, "RPTG error       : %-17.17s  %s", t, s);
+   }
+   else if (strcmp (a_question, "console"   ) == 0) {
+      snprintf  (t, LEN_HUND, "å%-.15sæ"   , s_mname);
+      snprintf  (s, LEN_HUND, "%2då%-.60sæ", strlen (s_print), s_print);
+      snprintf (unit_answer, LEN_RECD, "RPTG console     : %-17.17s  %s", t, s);
    }
    /*---(complete)-----------------------*/
    return unit_answer;

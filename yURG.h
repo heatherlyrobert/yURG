@@ -8,6 +8,17 @@
 #define        YURG_ON         'y'
 #define        YURG_MAS        'Y'
 
+#define        YURG_MSG        "/tmp/console.txt"
+#define        YURG_LEVEL0     '>'
+#define        YURG_LEVEL1     '-'
+#define        YURG_LEVEL2     '+'
+#define        YURG_ERR        "/tmp/errors.txt"
+#define        YURG_FATAL0     'F'
+#define        YURG_FATAL1     'f'
+#define        YURG_FATAL2     'ü'
+#define        YURG_WARN0      'W'
+#define        YURG_WARN1      'w'
+#define        YURG_WARN2      'ÿ'
 
 
 typedef     struct   cURG_DEBUG       tURG_DEBUG;
@@ -22,7 +33,7 @@ struct cURG_DEBUG
    char        loud;                   /* quiet '-' vs logging 'y'            */
    /*---(overall)------------------------*/  /* abcde_ghi__lmnopqrstuvwxyz    */
    /* f = full urgents turns on all standard urgents                          */
-   /* k = kitchen sink and turns everythinx, i mean everything on             */
+   /* k = kitchen sink and turns everything on, i mean everything on          */
    /* q = quiet turns all urgents off including the log itself                */
    char        tops;                   /* t) broad structure and context      */
    char        rptg;                   /* r) report/dump, analytics, stats    */
@@ -106,6 +117,7 @@ struct cURG_DEBUG
    char        ydlst;                  /* yDLST quad-double linked list       */
    char        ysched;                 /* ySCHED kernighan sched grammar      */
    char        yexec;                  /* yEXEC process dispatch and control  */
+   char        ysec;                   /* ySEC system access logging          */
    /*---(record parsing)-----------------*/
    char        yparse;                 /* yPARSE parsing to queue libarary    */
    /*---(robotics)-----------------------*/
@@ -298,6 +310,8 @@ extern    tURG_DEBUG      myURG;
 #define     DEBUG_YSCHED_M         if (myURG.ysched             == 'Y')
 #define     DEBUG_YEXEC            if (myURG.yexec              != '-')
 #define     DEBUG_YEXEC_M          if (myURG.yexec              == 'Y')
+#define     DEBUG_YSEC             if (myURG.ysec               != '-')
+#define     DEBUG_YSEC_M           if (myURG.ysec               == 'Y')
 /*---(yPARSE)----------------------------*/
 #define     DEBUG_YPARSE           if (myURG.yparse             == 'y')
 /*---(yGOLEM)----------------------------*/
@@ -367,12 +381,37 @@ char        yURG_lognum             (void);
 
 char        yURG_stage_check        (char a_stage);
 
-char        yURG_stderr             (void);
-char        yURG_tmperr             (void);
-char        yURG_noerror            (void);
-char        yURG_custom             (char *a_name);
-char        yURG_error              (cchar *a_format, ...);
-int         yURG_peek               (char *a_name, int n, char *a_recd);
+char        yURG_err_std            (void);
+char        yURG_err_tmp            (void);
+char        yURG_err_none           (void);
+char        yURG_err_custom         (char *a_name);
+char        yURG_err_live           (void);
+char        yURG_err_mute           (void);
+char        yURG_err                (cchar a_type, cchar *a_format, ...);
+char*       yURG_err_last           (void);
+char        yURG_err_clear          (void);
+char        yURG_err_purge          (void);
+
+char        yURG_msg_std            (void);
+char        yURG_msg_tmp            (void);
+char        yURG_msg_none           (void);
+char        yURG_msg_custom         (char *a_name);
+char        yURG_msg_live           (void);
+char        yURG_msg_mute           (void);
+char        yURG_msg                (cchar a_type, cchar *a_format, ...);
+char*       yURG_msg_last           (void);
+char        yURG_msg_clear          (void);
+char        yURG_msg_purge          (void);
+
+char        yURG_all_clear          (void);
+char        yURG_all_tmp            (void);
+char*       yURG_mute_status        (void);
+
+int         yURG_peek               (cchar *a_name, int n, char *a_recd);
+char        yURG_touch              (cchar *a_file, cchar *a_own, cchar *a_grp, cchar *a_perms);
+char        yURG_rm                 (cchar *a_file);
+char        yURG_mkdir              (cchar *a_dir, cchar *a_own, cchar *a_grp, cchar *a_perms);
+char        yURG_rmdir              (cchar *a_dir);
 
 
 #endif

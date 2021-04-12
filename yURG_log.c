@@ -95,7 +95,7 @@ yURG_logger        (int a_argc, char *a_argv[])
       if      (strcmp (a, "@@null"       ) == 0) x_log  = YLOG_NULL;
       else if (strcmp (a, "@@ylog"       ) == 0) x_log  = YLOG_SYS;
       else if (strcmp (a, "@@ylogh"      ) == 0) x_log  = YLOG_HIST;
-      else if (strcmp (a, "@@stdout"     ) == 0) x_log  = YLOG_STDOUT;
+      else if (strcmp (a, "@@here"       ) == 0) x_log  = YLOG_STDOUT;
       else if (strcmp (a, "@@root"       ) == 0) x_log  = YLOG_ROOT;
       else if (strcmp (a, "@@usb"        ) == 0) x_log  = YLOG_USB;
       else if (strcmp (a, "@@tmp"        ) == 0) x_log  = YLOG_TMP;
@@ -118,10 +118,15 @@ yURG_logger        (int a_argc, char *a_argv[])
       else if (strcmp (a, "@@program"    ) == 0) { yurg_category  (x_basename, 'p'); exit (0); }
       else if (strcmp (a, "@@library"    ) == 0) { yurg_category  (x_basename, 'l'); exit (0); }
       /*---(stderr)----------------------*/
-      else if (strcmp (a, "@@stderr"     ) == 0)  yURG_stderr  ();
-      else if (strcmp (a, "@@noerror"    ) == 0)  yURG_noerror ();
-      else if (strcmp (a, "@@tmperr"     ) == 0)  yURG_tmperr  ();
-      else if (strcmp (a, "@@errors"     ) == 0)  TWOARG yURG_custom  (a_argv [i]);
+      else if (strcmp (a, "@@stderr"     ) == 0)  yURG_err_std  ();
+      else if (strcmp (a, "@@noerror"    ) == 0)  yURG_err_none ();
+      else if (strcmp (a, "@@tmperr"     ) == 0)  yURG_err_tmp  ();
+      else if (strcmp (a, "@@errors"     ) == 0)  TWOARG yURG_err_custom (a_argv [i]);
+      /*---(stdout)----------------------*/
+      else if (strcmp (a, "@@stdout"     ) == 0)  yURG_msg_std  ();
+      else if (strcmp (a, "@@noout"      ) == 0)  yURG_msg_none ();
+      else if (strcmp (a, "@@tmpout"     ) == 0)  yURG_msg_tmp  ();
+      else if (strcmp (a, "@@console"    ) == 0)  TWOARG yURG_msg_custom (a_argv [i]);
       /*> else if (strcmp (a, "@@help"       ) == 0) { yURG_help (x_basename); exit (0); }   <*/
    }
    /*---(hande verbose flag)-------------*/

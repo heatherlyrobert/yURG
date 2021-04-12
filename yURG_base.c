@@ -136,6 +136,7 @@ tYURG_INFO  yURG_info [MAX_URGS] = {
    {  '-' , "ysched"         , "ySCHED kernighan sched grammar"        , 'l', 's', &myURG.ysched             },
    {  '-' , "yparse"         , "heatherly yPARSE parsing queue"        , 'l', 's', &myURG.yparse             },
    {  '-' , "yexec"          , "yEXEC process dispatch and control"    , 'l', 's', &myURG.yexec              },
+   {  '-' , "ysec"           , "ySEC system access logging"            , 'l', 's', &myURG.ysec               },
    {  '-' , "ygolem"         , "heatherly yGOLEM robotics controller"  , 'l', 's', &myURG.ygolem             },
    {  '-' , "yregex"         , "heatherly yREGEX library"              , 'l', 's', &myURG.yregex             },
    {  '-' , "ykine"          , "yKINE kinematics main"                 , 'l', 'k', &myURG.ykine              },
