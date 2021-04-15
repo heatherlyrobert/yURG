@@ -37,8 +37,8 @@
 
 #define     P_VERMAJOR  "1.--, production improvements"
 #define     P_VERMINOR  "1.0-, keep support broad and advancing"
-#define     P_VERNUM    "1.0d"
-#define     P_VERTXT    "updated messages and errors, plus added touch, rm, mkdir, and rmdir"
+#define     P_VERNUM    "1.0e"
+#define     P_VERTXT    "updated yURG_peek to be more useful.  added yURG_peek_count and _dir"
 
 #define     P_PRIORITY  "direct, simple, brief, vigorous, and lucid (h.w. fowler)"
 #define     P_PRINCIPAL "[grow a set] and build your wings on the way down (r. bradbury)"
@@ -164,6 +164,7 @@ extern char unit_answer [LEN_RECD];
 
 /*345678901-12345678901-12345678901-12345678901-12345678901-12345678901-123456*/
 
+char        yurg_mass               (cchar  a_set , cchar a_extra);
 char        yurg__flip              (int i, cchar a_lower, cchar a_on);
 char        yurg__multi             (cchar *a_string, cchar a_on);
 char        yurg__wild              (cchar *a_string, cchar a_on);

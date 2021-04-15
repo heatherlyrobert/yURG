@@ -7,10 +7,6 @@ yURG \- simple, clean, incremental debugging and logging control
 .B zelus-daimon
 (enforcer), daimon of rivalry, zeal, and dedication
 
-.SH HERITAGE
-.B zeal
-is sibling of strength (kratos), force (bia), and victory (nike)
-
 .SH IMAGERY
 beautiful angel-like winged daimon standing behind zeus' throne
 
@@ -20,26 +16,76 @@ are a pair of simple, direct, consistent, and clean libraries
 to enable process logging, tracing, and debugging in order to speed issue
 detection, identification, repair, and re-certification
 
+.SH DOCUMENTATION FILES (see also)
+.nf  
+.B yURG (3)···········interfacing library with c programs
+yURG (6)           run-time usage and navigation
+yURG (7)           decision rationale, scope, and objectives
+
+.SH TABLE OF CONTENTS
+.nf  
+a) synopsis        standard library inclusion and declarations
+b) overview        general overview of program
+c) user-mode       detailed command line options
+d) daemon-mode     detailed command line options
+e) debugging       logging, debugging, and tracing
+
 .SH SYNOPSIS
 .nf
 .B #include  <yURG.h> and link to either the -lyURG or -lyURG_debug
 
-.R  ---command line--------------------------------
-.BI "char     yURG_logger    (int    " "a_argc" ", char *" "a_arcv[]" ");"
-.BI "char     yURG_urgs      (int    " "a_argc" ", char *" "a_arcv[]" ");"
+.R  ---program support-----------------------------
+.BI "char*    yURG_version     (void);"
+.BI "char     yURG_lognum      (void);"
+
+.R  ---command line arguments----------------------
+.BI "char     yURG_logger      (int    " "a_argc" ", char *" "a_arcv[]" ");"
+.BI "char     yURG_urgs        (int    " "a_argc" ", char *" "a_arcv[]" ");"
 
 .R  ---incremental---------------------------------
-.BI "char     yURG_abbr      (cchar  " "a_abbr" ", cchar " "a_on" ");"
-.BI "char     yURG_name      (cchar *" "a_name" ", cchar " "a_on" ");"
-
-.R  ---support-------------------------------------
-.BI "char*    yURG_version   (void);"
-.BI "char     yURG_lognum    (void);"
-.BI "char    *yURG_orig      (void);"
-.BI "char    *yURG_curr      (void);"
+.BI "char     yURG_abbr        (cchar  " "a_abbr" ", cchar " "a_on" ");"
+.BI "char     yURG_name        (cchar *" "a_name" ", cchar " "a_on" ");"
 
 .R  ---stages--------------------------------------
 .BI "char     yURG_stage_check (cchar " "a_stage" ");"
+
+.R  ---console messages----------------------------
+.BI "char     yURG_msg_std     (void);"
+.BI "char     yURG_msg_tmp     (void);"
+.BI "char     yURG_msg_none    (void);"
+.BI "char     yURG_msg_custom  (char *" "a_name" ");"
+.BI "char     yURG_msg_live    (void);"
+.BI "char     yURG_msg_mute    (void);"
+.BI "char     yURG_msg         (cchar " "a_type" ", cchar *" "a_format " ", " "..." ");"
+
+.R  ---error messages------------------------------
+.BI "char     yURG_err_std     (void);"
+.BI "char     yURG_err_tmp     (void);"
+.BI "char     yURG_err_none    (void);"
+.BI "char     yURG_err_custom  (char *" "a_name" ");"
+.BI "char     yURG_err_live    (void);"
+.BI "char     yURG_err_mute    (void);"
+.BI "char     yURG_err         (cchar " "a_type" ", cchar *" "a_format " ", " "..." ");"
+
+.R  ---unit testing support------------------------
+.BI "char    *yURG_orig        (void);"
+.BI "char    *yURG_curr        (void);"
+.BI "char    *yURG_msg_last    (void);"
+.BI "char     yURG_msg_clear   (void);"
+.BI "char     yURG_msg_purge   (void);"
+.BI "char    *yURG_err_last    (void);"
+.BI "char     yURG_err_clear   (void);"
+.BI "char     yURG_err_purge   (void);"
+.BI "char     yURG_all_clear   (void);"
+.BI "char     yURG_all_tmp     (void);"
+.BI "char     yURG_mute_status (void);"
+
+.R  ---files and directories-----------------------
+.BI "int      yURG_peek        (cchar *" "a_name" ", int " "n" ", char *" "a_recd" ");"
+.BI "char     yURG_touch       (cchar *" "a_file" ", cchar *" "a_own" ", cchar *" "a_grp" " ´´´>"
+.BI "char     yURG_rm          (cchar *" "a_file" ");"
+.BI "char     yURG_mkdir       (cchar *" "a_dir " ", cchar *" "a_own" ", cchar *" "a_grp" " ´´´>"
+.BI "char     yURG_rmdir       (cchar *" "a_dir " ");"
 
 .SH QUICK UP-FRONT NOTE
 urgents, as explained better below, are command line options to control
@@ -201,9 +247,6 @@ this documentation is layered to provide easier navigation.
    yURG (3), interfacing applications with this library
    yURG (6), run-time usage and navigation
    yURG (7), decision rationale, objectives, and overview
-   yLOG (3), interfacing applications with this library
-   yLOG (5), input and output file structure
-   yLOG (7), decision rationale, objectives, and overview
 
 .SH AUTHOR
 jelloshrike at gmail dot com

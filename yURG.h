@@ -367,7 +367,6 @@ char        yURG_debugmode          (void);
 char        yURG_orig               (char *a_orig);
 char        yURG_curr               (char *a_curr);
 
-char        yURG_mass               (cchar  a_set , cchar a_extra);
 char        yURG_logger             (int    a_argc, char *a_argv[]);
 char        yURG_urgs               (int    a_argc, char *a_argv[]);
 
@@ -407,11 +406,13 @@ char        yURG_all_clear          (void);
 char        yURG_all_tmp            (void);
 char*       yURG_mute_status        (void);
 
-int         yURG_peek               (cchar *a_name, int n, char *a_recd);
 char        yURG_touch              (cchar *a_file, cchar *a_own, cchar *a_grp, cchar *a_perms);
 char        yURG_rm                 (cchar *a_file);
 char        yURG_mkdir              (cchar *a_dir, cchar *a_own, cchar *a_grp, cchar *a_perms);
 char        yURG_rmdir              (cchar *a_dir);
+int         yURG_peek_count         (cchar *a_name);
+char*       yURG_peek               (cchar *a_name, int n);
+char*       yURG_peek_dir           (cchar *a_name);
 
 
 #endif

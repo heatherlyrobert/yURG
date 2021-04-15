@@ -16,6 +16,7 @@ static char  s_print   [LEN_FULL] = "";
 static char  s_perror  [LEN_FULL] = "";
 static char  s_status  [LEN_FULL] = "";
 
+static char  s_peek    [LEN_RECD] = "";
 
 
 char
@@ -577,34 +578,55 @@ yURG_rmdir              (cchar *a_dir)
    return 0;
 }
 
-int
-yURG_peek               (cchar *a_name, int n, char *a_recd)
+char*
+yurg_peek               (cchar *a_name, int n, int *a_count)
 {
    char        t           [LEN_RECD]  = "";
    FILE       *f           = NULL;
    int         c           =    0;
    int         x_len       =    0;
-   if (a_name == NULL)            return 0;
-   if (strcmp (a_name, "") == 0)  return 0;
-   if (a_recd == NULL)            return 0;
-   strcpy (a_recd, "");
+   if (a_name == NULL)            return "(null name)";
+   if (strcmp (a_name, "") == 0)  return "(empty name)";
+   if (a_count != NULL)  *a_count = 0;
+   strcpy (s_peek, "");
    f = fopen (a_name, "rt");
-   if (f == NULL)  return -1;
+   if (f == NULL)  return "(not found)";
    if (n == -1) {
       fclose (f);
-      return  '!';
+      return "(found)";
    }
    while (1) {
       fgets (t, LEN_RECD, f);
       if (feof (f))  break;
-      if (c == n)    strcpy (a_recd, t);
-      if (n == 999)  strcpy (a_recd, t);
+      if (c == n)    strcpy (s_peek, t);
+      if (n == 999)  strcpy (s_peek, t);
       ++c;
    }
-   x_len = strlen (a_recd);
-   if (x_len > 0 && a_recd [x_len - 1] == '\n')  a_recd [--x_len] = '\0';
+   x_len = strlen (s_peek);
+   if (x_len > 0 && s_peek [x_len - 1] == '\n')  s_peek [--x_len] = '\0';
    fclose (f);
+   if (a_count != NULL)  *a_count = c;
+   return s_peek;
+}
+
+int
+yURG_peek_count         (cchar *a_name)
+{
+   int         c           =    0;
+   yurg_peek (a_name, 0, &c);
    return c;
+}
+
+char*
+yURG_peek               (cchar *a_name, int n)
+{
+   return yurg_peek (a_name, n, NULL);
+}
+
+char*
+yURG_peek_dir           (cchar *a_name)
+{
+   return yurg_peek (a_name, -1, NULL);
 }
 
 

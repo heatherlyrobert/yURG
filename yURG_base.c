@@ -515,11 +515,11 @@ yURG_name          (cchar *a_name, cchar a_on)
       /*---(compound)--------------------*/
       if (yURG_info [i].point == NULL) {
          DEBUG_ARGS_M   yLOG_note    ("compound urgent");
-         if      (strcmp (a_name, "quiet"     ) == 0)   yURG_mass  ('-', 'E');
-         else if (strcmp (a_name, "full"      ) == 0)   yURG_mass  ('y', '-');
-         else if (strcmp (a_name, "mas"       ) == 0)   yURG_mass  ('y', 'M');
-         else if (strcmp (a_name, "kitchen"   ) == 0)   yURG_mass  ('y', 'y');
-         else if (strcmp (a_name, "omni"      ) == 0)   yURG_mass  ('y', 'E');
+         if      (strcmp (a_name, "quiet"     ) == 0)   yurg_mass  ('-', 'E');
+         else if (strcmp (a_name, "full"      ) == 0)   yurg_mass  ('y', '-');
+         else if (strcmp (a_name, "mas"       ) == 0)   yurg_mass  ('y', 'M');
+         else if (strcmp (a_name, "kitchen"   ) == 0)   yurg_mass  ('y', 'y');
+         else if (strcmp (a_name, "omni"      ) == 0)   yurg_mass  ('y', 'E');
          ++x_count;
          break;
       }
@@ -572,7 +572,7 @@ yurg__wild         (cchar *a_string, cchar a_on)
 }
 
 char       /*----: process the urgents/debugging -----------------------------*/
-yURG_mass          (cchar a_set, cchar a_extra)
+yurg_mass          (cchar a_set, cchar a_extra)
 {
    int         i           = 0;
    for (i = 0; i < MAX_URGS; ++i) {

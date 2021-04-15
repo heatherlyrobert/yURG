@@ -51,7 +51,7 @@ yURG_logger        (int a_argc, char *a_argv[])
    myURG.logger   =  -1;
    myURG.loud     = '-';
    myURG.use      = '-';
-   yURG_mass    ('-', 'E');   /* turn everything off */
+   yurg_mass    ('-', 'E');   /* turn everything off */
    p = strrchr (a_argv [0], '/');
    if (p == NULL)  strncpy (x_progname, a_argv [0], LEN_FULL);
    else            strncpy (x_progname, p + 1     , LEN_FULL);
