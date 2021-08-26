@@ -330,18 +330,21 @@ yURG_err                (cchar a_type, cchar *a_format, ...)
 {
    /*---(locals)-----------+-----+-----+-*/
    char        x_pre       [LEN_LABEL] = "";
+   char        x_suf       [LEN_LABEL] = "";
    char        x_label     [LEN_LABEL] = "";
    va_list     x_args;
    /*---(check output)-------------------*/
    if (s_efile == NULL)  yURG_err_std ();
    /*---(prefix)-------------------------*/
+   strcpy (x_pre, BOLD_ERR);
+   strcpy (x_suf, BOLD_OFF);
    switch (a_type) {
-   case 'W' :  strcpy (x_pre, "");         strcpy (x_label, "WARNING, ");   break;
-   case 'F' :  strcpy (x_pre, "");         strcpy (x_label, "FATAL, "  );   break;
-   case 'w' :  strcpy (x_pre, "  ** ");    strcpy (x_label, "WARNING, ");   break;
-   case 'f' :  strcpy (x_pre, "  ** ");    strcpy (x_label, "FATAL, "  );   break;
-   case 'ÿ' :  strcpy (x_pre, "    ** ");  strcpy (x_label, "WARNING, ");   break;
-   case 'ü' :  strcpy (x_pre, "    ** ");  strcpy (x_label, "FATAL, "  );   break;
+   case 'W' :  strcat (x_pre, "");         strcpy (x_label, "WARNING, ");   break;
+   case 'F' :  strcat (x_pre, "");         strcpy (x_label, "FATAL, "  );   break;
+   case 'w' :  strcat (x_pre, "  ** ");    strcpy (x_label, "WARNING, ");   break;
+   case 'f' :  strcat (x_pre, "  ** ");    strcpy (x_label, "FATAL, "  );   break;
+   case 'ÿ' :  strcat (x_pre, "    ** ");  strcpy (x_label, "WARNING, ");   break;
+   case 'ü' :  strcat (x_pre, "    ** ");  strcpy (x_label, "FATAL, "  );   break;
    }
    /*---(va_args)------------------------*/
    va_start   (x_args, a_format);
@@ -516,6 +519,18 @@ yURG_all_tmp            (void)
    return 0;
 }
 
+char
+yURG_all_tmplive        (void)
+{
+   yURG_msg_tmp   ();
+   yURG_msg_live  ();
+   yURG_msg_clear ();
+   yURG_err_tmp   ();
+   yURG_err_live  ();
+   yURG_err_clear ();
+   return 0;
+}
+
 char*
 yURG_mute_status        (void)
 {
@@ -585,21 +600,43 @@ yurg_peek               (cchar *a_name, int n, int *a_count)
    FILE       *f           = NULL;
    int         c           =    0;
    int         x_len       =    0;
+   static int  x_last      =    0;
    if (a_name == NULL)            return "(null name)";
    if (strcmp (a_name, "") == 0)  return "(empty name)";
    if (a_count != NULL)  *a_count = 0;
    strcpy (s_peek, "");
    f = fopen (a_name, "rt");
-   if (f == NULL)  return "(not found)";
-   if (n == -1) {
+   if (f == NULL) {
+      if (a_count != NULL)  *a_count = -1;
+      return "(not found)";
+   }
+   switch (n) {
+   case -1 :
       fclose (f);
       return "(found)";
+      break;
+   case 'º' :
+      n = x_last = 0;
+      break;
+   case '»' :
+      n = x_last = 999;
+      break;
+   case 'Ö' :
+      n = ++x_last;
+      break;
+   case '×' :
+      n = --x_last;
+      break;
+   default :
+      x_last = n;
+      break;
    }
+   if (n < 0)  n = x_last = 0;
    while (1) {
       fgets (t, LEN_RECD, f);
       if (feof (f))  break;
-      if (c == n)    strcpy (s_peek, t);
-      if (n == 999)  strcpy (s_peek, t);
+      if (c == x_last)    strcpy (s_peek, t);
+      if (x_last == 999)  strcpy (s_peek, t);
       ++c;
    }
    x_len = strlen (s_peek);
@@ -623,10 +660,13 @@ yURG_peek               (cchar *a_name, int n)
    return yurg_peek (a_name, n, NULL);
 }
 
-char*
-yURG_peek_dir           (cchar *a_name)
+char 
+yURG_peek_exists        (cchar *a_name)
 {
-   return yurg_peek (a_name, -1, NULL);
+   int         c           =    0;
+   yurg_peek (a_name, -1, &c);
+   if (c < 0)  return -1;
+   return 0;
 }
 
 

@@ -9,16 +9,20 @@
 #define        YURG_MAS        'Y'
 
 #define        YURG_MSG        "/tmp/console.txt"
+#define        YURG_BASE       '>'
 #define        YURG_LEVEL0     '>'
 #define        YURG_LEVEL1     '-'
 #define        YURG_LEVEL2     '+'
 #define        YURG_ERR        "/tmp/errors.txt"
+#define        YURG_FATAL      'F'
 #define        YURG_FATAL0     'F'
 #define        YURG_FATAL1     'f'
 #define        YURG_FATAL2     'ü'
+#define        YURG_WARN       'W'
 #define        YURG_WARN0      'W'
 #define        YURG_WARN1      'w'
 #define        YURG_WARN2      'ÿ'
+#define        YURG_LASTLINE   999
 
 
 typedef     struct   cURG_DEBUG       tURG_DEBUG;
@@ -117,6 +121,7 @@ struct cURG_DEBUG
    char        ydlst;                  /* yDLST quad-double linked list       */
    char        ysched;                 /* ySCHED kernighan sched grammar      */
    char        yexec;                  /* yEXEC process dispatch and control  */
+   char        yjobs;                  /* yJOBS job execution and control     */
    char        ysec;                   /* ySEC system access logging          */
    /*---(record parsing)-----------------*/
    char        yparse;                 /* yPARSE parsing to queue libarary    */
@@ -310,6 +315,8 @@ extern    tURG_DEBUG      myURG;
 #define     DEBUG_YSCHED_M         if (myURG.ysched             == 'Y')
 #define     DEBUG_YEXEC            if (myURG.yexec              != '-')
 #define     DEBUG_YEXEC_M          if (myURG.yexec              == 'Y')
+#define     DEBUG_YJOBS            if (myURG.yjobs              != '-')
+#define     DEBUG_YJOBS_M          if (myURG.yjobs              == 'Y')
 #define     DEBUG_YSEC             if (myURG.ysec               != '-')
 #define     DEBUG_YSEC_M           if (myURG.ysec               == 'Y')
 /*---(yPARSE)----------------------------*/
@@ -404,6 +411,7 @@ char        yURG_msg_purge          (void);
 
 char        yURG_all_clear          (void);
 char        yURG_all_tmp            (void);
+char        yURG_all_tmplive        (void);
 char*       yURG_mute_status        (void);
 
 char        yURG_touch              (cchar *a_file, cchar *a_own, cchar *a_grp, cchar *a_perms);
@@ -412,7 +420,7 @@ char        yURG_mkdir              (cchar *a_dir, cchar *a_own, cchar *a_grp, c
 char        yURG_rmdir              (cchar *a_dir);
 int         yURG_peek_count         (cchar *a_name);
 char*       yURG_peek               (cchar *a_name, int n);
-char*       yURG_peek_dir           (cchar *a_name);
+char        yURG_peek_exists        (cchar *a_name);
 
 
 #endif
