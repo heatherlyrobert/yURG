@@ -126,6 +126,7 @@ tYURG_INFO  yURG_info [MAX_URGS] = {
    /*---(yVIKEYS-handling)---------------*/
    {  '-' , "map"            , "yVIKEYS screen mapping"                , 'l', 'v', &myURG.map                },
    {  '-' , "mode"           , "yVIKEYS mode handling"                 , 'l', 'v', &myURG.mode               },
+   {  '-' , "keys"           , "yVIKEYS key handling"                  , 'l', 'v', &myURG.keys               },
    {  '-' , "edit"           , "yVIKEYS source editing"                , 'l', 'v', &myURG.edit               },
    {  '-' , "yvikeys_mode"   , "yVIKEYS vi-keys handling library"      , 'l', 'v', &myURG.yvikeys_mode       },
    /*---(registers)----------------------*/

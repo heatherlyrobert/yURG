@@ -336,23 +336,22 @@ yURG_err                (cchar a_type, cchar *a_format, ...)
    /*---(check output)-------------------*/
    if (s_efile == NULL)  yURG_err_std ();
    /*---(prefix)-------------------------*/
-   strcpy (x_pre, BOLD_ERR);
-   strcpy (x_suf, BOLD_OFF);
    switch (a_type) {
-   case 'W' :  strcat (x_pre, "");         strcpy (x_label, "WARNING, ");   break;
-   case 'F' :  strcat (x_pre, "");         strcpy (x_label, "FATAL, "  );   break;
-   case 'w' :  strcat (x_pre, "  ** ");    strcpy (x_label, "WARNING, ");   break;
-   case 'f' :  strcat (x_pre, "  ** ");    strcpy (x_label, "FATAL, "  );   break;
-   case 'ÿ' :  strcat (x_pre, "    ** ");  strcpy (x_label, "WARNING, ");   break;
-   case 'ü' :  strcat (x_pre, "    ** ");  strcpy (x_label, "FATAL, "  );   break;
+   case 'W' :  strcpy (x_pre, BOLD_YEL "");         strcpy (x_label, "WARNING, ");   break;
+   case 'F' :  strcpy (x_pre, BOLD_ERR "");         strcpy (x_label, "FATAL, "  );   break;
+   case 'w' :  strcpy (x_pre, BOLD_YEL "  ** ");    strcpy (x_label, "WARNING, ");   break;
+   case 'f' :  strcpy (x_pre, BOLD_ERR "  ** ");    strcpy (x_label, "FATAL, "  );   break;
+   case 'ÿ' :  strcpy (x_pre, BOLD_YEL "    ** ");  strcpy (x_label, "WARNING, ");   break;
+   case 'ü' :  strcpy (x_pre, BOLD_ERR "    ** ");  strcpy (x_label, "FATAL, "  );   break;
    }
+   strcpy (x_suf, BOLD_OFF);
    /*---(va_args)------------------------*/
    va_start   (x_args, a_format);
    vsnprintf  (s_perror, LEN_FULL - 1, a_format, x_args);
    va_end     (x_args);
    if (s_elive == 'y') {
-      if (s_mfile == NULL)  fprintf (s_efile, "%s%s\n", x_label, s_perror);
-      else                  fprintf (s_efile, "%s%s%s\n", x_pre, x_label, s_perror);
+      if (s_efile == NULL)  fprintf (s_efile, "%s%s%s\n", x_label, s_perror, x_suf);
+      else                  fprintf (s_efile, "%s%s%s%s\n", x_pre, x_label, s_perror, x_suf);
       fflush     (s_efile);
    }
    /*---(complete)-----------------------*/

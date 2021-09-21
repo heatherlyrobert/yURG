@@ -107,6 +107,7 @@ struct cURG_DEBUG
    char        srch;                   /* yVIKEYS : searching                 */
    char        map;                    /* yVIKEYS : screen mapping            */
    char        mode;                   /* yVIKEYS : mode handling             */
+   char        keys;                   /* yVIKEYS : key handling              */
    char        edit;                   /* yVIKEYS : source editing            */
    /*---(registers)----------------------*/
    char        regs;                   /* s_sel  : copy and paste registers   */
@@ -299,6 +300,8 @@ extern    tURG_DEBUG      myURG;
 #define     DEBUG_MAP_M            if (myURG.map                == 'Y')
 #define     DEBUG_MODE             if (myURG.mode               != '-')
 #define     DEBUG_MODE_M           if (myURG.mode               == 'Y')
+#define     DEBUG_KEYS             if (myURG.keys               != '-')
+#define     DEBUG_KEYS_M           if (myURG.keys               == 'Y')
 #define     DEBUG_EDIT             if (myURG.edit               != '-')
 #define     DEBUG_EDIT_M           if (myURG.edit               == 'Y')
 /*---(registers)-------------------------*/
