@@ -33,6 +33,43 @@ tYURG_TYPE  yURG_type [MAX_URGS] = {
    {   '\0', '\0', "end-of-list"             },
 };
 
+
+/*> {  'p' , "prog"           , "program setup, main, and shutdown"     , 'u', 's', &myURG.prog               },   <* 
+ *> /+---(startup/shutdown)---------------+/                                                                       <* 
+ *> {  'a' , "args"           , "command-line args and urgent handling" , 'u', 's', &myURG.args               },   <* 
+ *> {  'c' , "conf"           , "configuration handling"                , 'u', 's', &myURG.conf               },   <* 
+ *> /+---(file processing)----------------+/                                                                       <* 
+ *> {  'f' , "file"           , "shared file handling"                  , 'u', 'd', &myURG.inpt               },   <* 
+ *> {  'i' , "inpt"           , "text and data file input"              , 'u', 'd', &myURG.inpt               },   <* 
+ *> {  'o' , "outp"           , "text and data file output"             , 'u', 'd', &myURG.outp               },   <* 
+ *> {  'x' , "apis"           , "db, sigs, env, api"                    , 'u', 'e', &myURG.sign               },   <*/
+
+/*> {  't' , "tops"           , "broad structure and context"           , 'u', 'o', &myURG.tops               },   <* 
+ *> {  'r' , "rptg"           , "reports/dump, analysis, runtime stats" , 'u', 'o', &myURG.rptg               },   <* 
+ *> {  'v' , "view"           , "provide alternate terminal output"     , 'u', 'o', &myURG.view               },   <*/
+
+/*> /+---(event handling)-----------------+/                                                                                 <* 
+ *> {  'l' , "loop"           , "major program event loops"             , 'u', 'e', &myURG.loop               },             <* 
+ *> {  'u' , "user"           , "user input and handling"               , 'u', 'e', &myURG.user               },             <* 
+ *> {  'b' , "scrp"           , "scripts and batch handling"            , 'u', 'e', &myURG.scrp               },             <* 
+ *> /+> {  'n' , "norm"           , "normal execution flow (catch-all)"     , 'u', 'e', &myURG.norm               },   <+/   <* 
+ *> {  'h' , "hist"           , "history, undo, redo"                   , 'u', 'e', &myURG.hist               },             <* 
+ *> /+---(deeper program)-----------------+/                                                                                 <* 
+ *> {  'd' , "data"           , "complex data structure handling"       , 'u', 'p', &myURG.data               },             <* 
+ *> {  's' , "sort"           , "data sorting and ordering"             , 'u', 'p', &myURG.sort               },             <* 
+ *> {  'g' , "graf"           , "graphics, drawing, and display"        , 'u', 'p', &myURG.graf               },             <* 
+ *> {  'w' , "wind"           , "repeated windows, drawing and looping" , 'u', 'p', &myURG.wind               },             <* 
+ *> /+> {  'y' , "trav"           , "data searching and traversal"          , 'u', 'p', &myURG.trav               },   <+/   <* 
+ *> /+> {  'm' , "mems"           , "data registers, memory, saving"        , 'u', 'p', &myURG.mems               },   <+/   <*/
+
+char   g_stage  [ 30] = "························";
+char   g_urgs   [300] = "································································································································································································································································";
+
+char   g_lower  [ 30] = "··························";
+char   g_upper  [ 30] = "··························";
+char   g_greek  [ 30] = "························";
+char   g_number [ 30] = "··········";
+
 tYURG_INFO  yURG_info [MAX_URGS] = {
    /* abbr   ---full----------  ---desc--------------------------------  typ  sub  pointer---------------------- */
    {  '-' , "urgents"        , "list every urgent available"           , 'h', '-', NULL                           },
@@ -46,16 +83,15 @@ tYURG_INFO  yURG_info [MAX_URGS] = {
    {  '-' , "kitchen"        , "turn all universals/specific (no mas)" , '-', '-', NULL                           },
    {  '-' , "omni"           , "turn absolutely everything on"         , '-', '-', NULL                           },
    /*---(stages)-------------------------*/
-   {  '-' , "only_init"      , "only active during startup"            , '-', '-', &(myURG.stage[0])         },
-   {  '-' , "only_inpt"      , "only active during file input"         , '-', '-', &(myURG.stage[1])         },
-   {  '-' , "only_main"      , "only active during normal/main"        , '-', '-', &(myURG.stage[2])         },
-   {  '-' , "only_outp"      , "only active during file output"        , '-', '-', &(myURG.stage[3])         },
-   {  '-' , "only_wrap"      , "only active during shutdown "          , '-', '-', &(myURG.stage[4])         },
-   {  '-' , "only_one"       , "during main, user-defined stage 1"     , '-', '-', &(myURG.stage[6])         },
-   {  '-' , "only_two"       , "during main, user-defined stage 2"     , '-', '-', &(myURG.stage[7])         },
-   {  '-' , "only_thr"       , "during main, user-defined stage 3"     , '-', '-', &(myURG.stage[8])         },
-   {  '-' , "only_fou"       , "during main, user-defined stage 4"     , '-', '-', &(myURG.stage[9])         },
-   {  '-' , "only_fiv"       , "during main, user-defined stage 5"     , '-', '-', &(myURG.stage[10])        },
+   {  '-' , "mute"           , "start muted/silent"                    , '-', '-', &myURG.mute                    },
+   {  'ù' , "beg"            , "only active during startup"            , '-', '-', &(myURG.stage[0])         },
+   {  'ò' , "mid"            , "only active during normal/main"        , '-', '-', &(myURG.stage[1])         },
+   {  'ÿ' , "end"            , "only active during shutdown "          , '-', '-', &(myURG.stage[2])         },
+   {  'è' , "one"            , "during main, user-defined block 1"     , '-', '-', &(myURG.stage[4])         },
+   {  'é' , "two"            , "during main, user-defined block 2"     , '-', '-', &(myURG.stage[5])         },
+   {  'ë' , "thr"            , "during main, user-defined block 3"     , '-', '-', &(myURG.stage[6])         },
+   {  'ê' , "fou"            , "during main, user-defined block 4"     , '-', '-', &(myURG.stage[7])         },
+   {  'ì' , "fiv"            , "during main, user-defined block 5"     , '-', '-', &(myURG.stage[8])         },
    /*---(overall)------------------------*/
    {  't' , "tops"           , "broad structure and context"           , 'u', 'o', &myURG.tops               },
    {  'r' , "rptg"           , "reports/dump, analysis, runtime stats" , 'u', 'o', &myURG.rptg               },
@@ -110,7 +146,7 @@ tYURG_INFO  yURG_info [MAX_URGS] = {
    {  '-' , "locs"           , "spreadsheet location parsing and use"  , 'p', '-', &myURG.locs               },
    {  '-' , "cell"           , "spreadsheet cell creation and mtce"    , 'p', '-', &myURG.cell               },
    /*---(calculations)-------------------*/
-   {  '-' , "rpn"            , "calculation conversion infix to rpn"   , 'p', '-', &myURG.rpn                },
+   {  '-' , "yrpn"           , "yRPN conversion infix to rpn"          , 'p', '-', &myURG.yrpn               },
    {  '-' , "calc"           , "calculation building from rpn"         , 'p', '-', &myURG.calc               },
    {  '-' , "exec"           , "calculation execution"                 , 'p', '-', &myURG.exec               },
    {  '-' , "adjs"           , "small, config adjustments in measures" , 'p', '-', &myURG.adjs               },
@@ -129,6 +165,17 @@ tYURG_INFO  yURG_info [MAX_URGS] = {
    {  '-' , "keys"           , "yVIKEYS key handling"                  , 'l', 'v', &myURG.keys               },
    {  '-' , "edit"           , "yVIKEYS source editing"                , 'l', 'v', &myURG.edit               },
    {  '-' , "yvikeys_mode"   , "yVIKEYS vi-keys handling library"      , 'l', 'v', &myURG.yvikeys_mode       },
+   /*---(vi-keys libraries)--------------*/
+   {  'F' , "yfile"          , "yFILE  vi-keys file management"        , 'l', 'v', &myURG.yfile              },
+   {  '0' , "ymode"          , "yMODE  vi-keys mode processing"        , 'l', 'v', &myURG.ymode              },
+   {  'L' , "ykeys"          , "yKEYS  vi-keys keyboard handling"      , 'l', 'v', &myURG.ykeys              },
+   {  '@' , "ymacro"         , "yMACRO vi-keys script handling"        , 'l', 'v', &myURG.ymacro             },
+   {  'V' , "yview"          , "yVIEW  vi-keys layout manageent"       , 'l', 'v', &myURG.yview              },
+   {  ':' , "ycmd"           , "yCMD   vi-keys command processor"      , 'l', 'v', &myURG.ycmd               },
+   {  ':' , "ymark"          , "yMARK  vi-keys search and mark"        , 'l', 'v', &myURG.ycmd               },
+   {  'S' , "ysrc"           , "ySRC   vi-keys content handling"       , 'l', 'v', &myURG.ysrc               },
+   {  'M' , "ymap"           , "yMAP   vi-keys map mode handling"      , 'l', 'v', &myURG.ymap               },
+   {  '-' , "ysort"          , "ySORT  vi-keys data ordering"          , 'l', 'v', &myURG.ysort              },
    /*---(registers)----------------------*/
    {  '-' , "regs"           , "copy and paste registers"              , 'p', '-', &myURG.regs               },
    /*---(libraries)----------------------*/
@@ -137,6 +184,7 @@ tYURG_INFO  yURG_info [MAX_URGS] = {
    {  '-' , "ysched"         , "ySCHED kernighan sched grammar"        , 'l', 's', &myURG.ysched             },
    {  '-' , "yparse"         , "heatherly yPARSE parsing queue"        , 'l', 's', &myURG.yparse             },
    {  '-' , "yexec"          , "yEXEC process dispatch and control"    , 'l', 's', &myURG.yexec              },
+   {  '-' , "ycalc"          , "yCALC calculation engine"              , 'l', 's', &myURG.ycalc              },
    {  '-' , "yjobs"          , "yJOBS job execution and control"       , 'l', 's', &myURG.yjobs              },
    {  '-' , "ysec"           , "ySEC system access logging"            , 'l', 's', &myURG.ysec               },
    {  '-' , "ygolem"         , "heatherly yGOLEM robotics controller"  , 'l', 's', &myURG.ygolem             },
@@ -403,12 +451,12 @@ yURG_abbr          (cchar a_abbr, cchar a_on)
    /*---(defense)------------------------*/
    --rce;  if (a_abbr <=  32) {
       DEBUG_ARGS_M   yLOG_note    ("a_abbr is control character");
-      DEBUG_ARGS_M   yLOG_exit    (__FUNCTION__);
+      DEBUG_ARGS_M   yLOG_exitr   (__FUNCTION__, rce);
       return rce;
    }
    --rce;  if (strchr (x_valid, a_abbr) == NULL) {
       DEBUG_ARGS_M   yLOG_note    ("a_abbr not alphabetic");
-      DEBUG_ARGS_M   yLOG_exit    (__FUNCTION__);
+      DEBUG_ARGS_M   yLOG_exitr   (__FUNCTION__, rce);
       return rce;
    }
    x_lower = tolower (a_abbr);
@@ -428,26 +476,29 @@ yURG_abbr          (cchar a_abbr, cchar a_on)
       DEBUG_ARGS_M   yLOG_note    ("MATCH");
       if (yURG_info [i].point == NULL) {
          DEBUG_ARGS_M   yLOG_note    ("bad pointer on record");
-         DEBUG_ARGS_M   yLOG_exit    (__FUNCTION__);
+         DEBUG_ARGS_M   yLOG_exitr   (__FUNCTION__, rce);
          return rce;
       }
       /*---(set)-------------------------*/
       ++x_count;
       s_curr = i;
       rc = yurg__flip (i, a_abbr == x_lower, a_on);
-      if (rc < 0)  return rc;
+      if (rc < 0) {
+         DEBUG_ARGS_M   yLOG_exitr   (__FUNCTION__, rc);
+         return rc;
+      }
       break;
    }
    /*---(check)--------------------------*/
    DEBUG_ARGS_M   yLOG_value   ("count"     , x_count);
    --rce;  if (x_count < 1  ) {
       DEBUG_ARGS_M   yLOG_note    ("did not find any urgents matching name");
-      DEBUG_ARGS_M   yLOG_exit    (__FUNCTION__);
+      DEBUG_ARGS_M   yLOG_exitr   (__FUNCTION__, rce);
       return rce;
    }
    --rce;  if (x_count > 1  ) {
       DEBUG_ARGS_M   yLOG_note    ("found more than one urgent matching name");
-      DEBUG_ARGS_M   yLOG_exit    (__FUNCTION__);
+      DEBUG_ARGS_M   yLOG_exitr   (__FUNCTION__, rce);
       return rce;
    }
    /*---(complete)-----------------------*/
@@ -535,7 +586,14 @@ yURG_name          (cchar *a_name, cchar a_on)
       ++x_count;
       s_curr = i;
       rc = yurg__flip (i, a_name [0] == x_lower [0], a_on);
-      if (rc < 0)  return rc;
+      if (rc < 0) {
+         DEBUG_ARGS_M yLOG_exit    (__FUNCTION__);
+         return rc;
+      }
+      /*---(muting)----------------------*/
+      if (strcmp (a_name, "mute"      ) == 0) {
+         if (myURG.mute == 'y') yLOGS_mute   ();
+      }
       /*---(done)------------------------*/
       break;
    }
@@ -573,6 +631,23 @@ yurg__wild         (cchar *a_string, cchar a_on)
    return c;
 }
 
+char
+yurg__mass_one     (char *a_var, char a_set)
+{
+   switch (a_set) {
+   case 'Y'  :
+      if (*a_var != 'Y')  *a_var = a_set;
+      break;
+   case 'y'  :
+      if (*a_var == '-')  *a_var = a_set;
+      break;
+   default   :
+      *a_var = a_set;
+      break;
+   }
+   return 0;
+}
+
 char       /*----: process the urgents/debugging -----------------------------*/
 yurg_mass          (cchar a_set, cchar a_extra)
 {
@@ -580,27 +655,32 @@ yurg_mass          (cchar a_set, cchar a_extra)
    for (i = 0; i < MAX_URGS; ++i) {
       /*---(stop at end)-----------------*/
       if (yURG_info [i].abbr  == '\0')     break;
+      if (strcmp (yURG_info [i].full, "mute") == 0)  continue;
       /*---(filter)----------------------*/
       if (yURG_info [i].point == NULL)     continue;
       if (yURG_info [i].type  == '-')      continue;
       /*---(everything)------------------*/
       if (a_extra == 'E' ) {
-         *(yURG_info [i].point) = a_set;
+         /*> *(yURG_info [i].point) = a_set;                                          <*/
+         yurg__mass_one (yURG_info [i].point, a_set);
          continue;
       }
       /*---(universal)-------------------*/
       if (yURG_info [i].type  == 'u') {
-         *(yURG_info [i].point) = a_set;
+         /*> *(yURG_info [i].point) = a_set;                                          <*/
+         yurg__mass_one (yURG_info [i].point, a_set);
          continue;
       }
       /*---(mas)-------------------------*/
       if (yURG_info [i].type  == '#' && a_extra == 'M' ) {
-         *(yURG_info [i].point) = a_set;
+         /*> *(yURG_info [i].point) = a_set;                                          <*/
+         yurg__mass_one (yURG_info [i].point, a_set);
          continue;
       }
       /*---(specialty)-------------------*/
       if (yURG_info [i].type  == 's' && a_extra == 'y' ) {
-         *(yURG_info [i].point) = a_set;
+         /*> *(yURG_info [i].point) = a_set;                                          <*/
+         yurg__mass_one (yURG_info [i].point, a_set);
          continue;
       }
       /*---(done)------------------------*/
@@ -627,13 +707,14 @@ yURG_urgs          (int a_argc, char *a_argv[])
    /*---(defense)------------------------*/
    if (myURG.loud != 'y')   return 0;
    /*---(header)-------------------------*/
-   DEBUG_TOPS   yLOG_enter   (__FUNCTION__);
+   DEBUG_ARGS   yLOG_enter   (__FUNCTION__);
    /*---(prepare)------------------------*/
    s_ntry  = 0;
    strncpy (s_origs, "", LEN_RECD);
    s_norig = 0;
    strncpy (s_nows , "", LEN_RECD);
    s_nnow  = 0;
+   myURG.mute = '-';
    yurg_stage_clear ();
    /*---(process)------------------------*/
    for (i = 1; i < a_argc; ++i) {
@@ -697,7 +778,7 @@ yURG_urgs          (int a_argc, char *a_argv[])
    yurg_stage_prep ();
    yURG_summ   ();
    /*---(complete)-----------------------*/
-   DEBUG_TOPS   yLOG_exit    (__FUNCTION__);
+   DEBUG_ARGS   yLOG_exit    (__FUNCTION__);
    return s_norig;
 }
 
@@ -769,7 +850,7 @@ yURG__testloud      (void)
 char       /*----: set up program urgents/debugging --------------------------*/
 yURG__testend       (void)
 {
-   DEBUG_TOPS   yLOGS_end     ();
+   DEBUG_ARGS   yLOGS_end     ();
    return 0;
 }
 

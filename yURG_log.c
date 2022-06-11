@@ -137,7 +137,7 @@ yURG_logger        (int a_argc, char *a_argv[])
    /*---(startup logging)----------------*/
    rc = yurg__setlog (x_progname, x_log);
    if (myURG.logger < 0) {
-      DEBUG_TOPS    yLOG_exitr   (__FUNCTION__, myURG.logger);
+      DEBUG_ARGS    yLOG_exitr   (__FUNCTION__, myURG.logger);
       return myURG.logger;
    }
    /*---(fast update)--------------------*/
@@ -146,13 +146,13 @@ yURG_logger        (int a_argc, char *a_argv[])
    if (x_args == 'A')    myURG.args = YURG_MAS;
    if (x_prog == 'p')    myURG.prog = YURG_ON;
    if (x_prog == 'P')    myURG.prog = YURG_MAS;;
-   DEBUG_TOPS    yLOG_enter   (__FUNCTION__);
-   DEBUG_TOPS    yLOG_note    ("@@tops turned on in yURG_logger()");
+   DEBUG_ARGS    yLOG_enter   (__FUNCTION__);
+   DEBUG_ARGS    yLOG_note    ("@@tops turned on in yURG_logger()");
    DEBUG_ARGS    yLOG_note    ("@@args turned on in yURG_logger()");
    DEBUG_ARGS_M  yLOG_note    ("@@ARGS turned on in yURG_logger()");
-   DEBUG_PROG    yLOG_note    ("@@prog turned on in yURG_logger()");
-   DEBUG_PROG_M  yLOG_note    ("@@PROG turned on in yURG_logger()");
-   DEBUG_TOPS    yLOG_exit    (__FUNCTION__);
+   DEBUG_ARGS    yLOG_note    ("@@prog turned on in yURG_logger()");
+   DEBUG_ARGS_M  yLOG_note    ("@@PROG turned on in yURG_logger()");
+   DEBUG_ARGS    yLOG_exit    (__FUNCTION__);
    /*---(complete)-----------------------*/
    return 0;
 }

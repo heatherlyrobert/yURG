@@ -12,7 +12,7 @@ static char  s_mname   [LEN_FULL] = "stdout";
 static FILE *s_mfile   = NULL;
 static char  s_mlive   = 'y';
 
-static char  s_print   [LEN_FULL] = "";
+static char  s_print   [LEN_RECD] = "";
 static char  s_perror  [LEN_FULL] = "";
 static char  s_status  [LEN_FULL] = "";
 
@@ -337,12 +337,12 @@ yURG_err                (cchar a_type, cchar *a_format, ...)
    if (s_efile == NULL)  yURG_err_std ();
    /*---(prefix)-------------------------*/
    switch (a_type) {
-   case 'W' :  strcpy (x_pre, BOLD_YEL "");         strcpy (x_label, "WARNING, ");   break;
-   case 'F' :  strcpy (x_pre, BOLD_ERR "");         strcpy (x_label, "FATAL, "  );   break;
-   case 'w' :  strcpy (x_pre, BOLD_YEL "  ** ");    strcpy (x_label, "WARNING, ");   break;
-   case 'f' :  strcpy (x_pre, BOLD_ERR "  ** ");    strcpy (x_label, "FATAL, "  );   break;
-   case 'ÿ' :  strcpy (x_pre, BOLD_YEL "    ** ");  strcpy (x_label, "WARNING, ");   break;
-   case 'ü' :  strcpy (x_pre, BOLD_ERR "    ** ");  strcpy (x_label, "FATAL, "  );   break;
+   case 'W' :  strcpy (x_pre, BOLD_YEL "");            strcpy (x_label, "warning, ");   break;
+   case 'F' :  strcpy (x_pre, BOLD_ERR "");            strcpy (x_label, "FATAL, "  );   break;
+   case 'w' :  strcpy (x_pre, "  " BOLD_YEL "** ");    strcpy (x_label, "warning, ");   break;
+   case 'f' :  strcpy (x_pre, "  " BOLD_ERR "** ");    strcpy (x_label, "FATAL, "  );   break;
+   case 'ÿ' :  strcpy (x_pre, "    " BOLD_YEL "** ");  strcpy (x_label, "warning, ");   break;
+   case 'ü' :  strcpy (x_pre, "    " BOLD_ERR "** ");  strcpy (x_label, "FATAL, "  );   break;
    }
    strcpy (x_suf, BOLD_OFF);
    /*---(va_args)------------------------*/
@@ -519,6 +519,22 @@ yURG_all_tmp            (void)
 }
 
 char
+yURG_all_live           (void)
+{
+   yURG_msg_live ();
+   yURG_err_live ();
+   return 0;
+}
+
+char
+yURG_all_mute           (void)
+{
+   yURG_msg_mute ();
+   yURG_err_mute ();
+   return 0;
+}
+
+char
 yURG_all_tmplive        (void)
 {
    yURG_msg_tmp   ();
@@ -620,7 +636,7 @@ yurg_peek               (cchar *a_name, int n, int *a_count)
    case '»' :
       n = x_last = 999;
       break;
-   case 'Ö' :
+   case 'Ö' : case '·' :  /* · means default */
       n = ++x_last;
       break;
    case '×' :
@@ -666,6 +682,22 @@ yURG_peek_exists        (cchar *a_name)
    yurg_peek (a_name, -1, &c);
    if (c < 0)  return -1;
    return 0;
+}
+
+char*
+yURG_peek_fill          (cchar *a_name, int n)
+{
+   int         i           =    0;
+   int         l           =    0;
+   strcpy (s_print, yurg_peek (a_name, n, NULL));
+   l = strlen (s_print);
+   if (l == 0)  return "n/a";
+   for (i = 0; i < l; ++i) {
+      if (s_print [i] == ' ')   s_print [i] = '²';
+      if (s_print [i] == '')  s_print [i] = '§';
+      if (s_print [i] == '\t')  s_print [i] = 'Ú';
+   }
+   return s_print;
 }
 
 

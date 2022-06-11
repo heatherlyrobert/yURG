@@ -24,7 +24,149 @@
 #define        YURG_WARN2      'ÿ'
 #define        YURG_LASTLINE   999
 
+/*
+ *    DEBUG_PROG   yLOG_enter   (__FUNCTION__);
+ *    DEBUG_PROG   yLOG_value   ("testing"   , x_test);
+ *    DEBUG_PROG   yLOG_note    ("all is well";
+ *    DEBUG_PROG   yLOG_exit    (__FUNCTION__);
+ *
+ *
+ *    yLOG_enter   (YURG_PROG, __FUNCTION__);
+ *    yLOG_value   (YURG_PROG, "testing"   , x_test);
+ *    yLOG_note    (YURG_PROG, "all is well";
+ *    yLOG_exit    (YURG_PROG, __FUNCTION__);
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ */
 
+
+/*  real fla   vol
+ *
+ *    ´  a  args   -   evaluating args and urgs
+ *    ´  p  prog   -   general program startup and shutdown
+ *
+ *    ·  ·  file   -   shared inpt/outp opens, closes, error handling, ...
+ *    ´  i  inpt   -   data source files/db (non-conf) and database queries
+ *    ´  o  outp   -   data output files/db (non-conf) and database insert, ...
+ *    ´  c  conf   -   configuration handling, updating, etc
+ *    ´  r  rptg   -   reporting, export, and import handling
+ *
+ *    ´  s  sort   y   sorting and ordering data structures
+ *    ´  f  find   y   searching for matches in major data structures
+ *    ´  w  walk   y   walking major data structures for various purposes
+ *    ´  t  tabl   y   data table input, update, searching, and output
+ *
+ *    ´  d  data   y   pure data chewing, reviewing, gathering
+ *
+ *    ´  l  loop   y   main looping, highly repetitive
+ *    ´  u  user   -   user input handling
+ *    ´  g  graf   y   graphics handling, highly repetitive, specific
+ *
+ *    ´  e  envi   -   apis, signals, os, shell
+ *
+ *    ´  ylog   -   yLOG
+ *    ´  yurg   -   yURG
+ *    ´  yunit  -   yUNIT
+ *    ´  yvar   -   yVAR
+ *    ´  ystr   -   ySTR
+ *
+ *    ´  ycmd   C   yCMD
+ *    ´  ymark  M   yMARK
+ *    ´  yfile  F   yFILE
+ *    ´  ygod   G   yGOD
+ *    ´  ykeys  K   yKEYS
+ *    ´  ymacro B   yMACRO (batch)
+ *    ´  ymap   P   yMAP
+ *    ´  ymode  M   yMODE
+ *    ´  ysrc   S   ySRC
+ *    ´  yview  V   yVIEW
+ *    ´  yviop  Y   yVIOPENGL
+ *    ´  yvicu  Y   yVICURSES
+ *
+ *    ´  ycalc  ý   yCALC
+ *    ´  ycolor ò   yCOLOR
+ *    ´  ydlst  ë   yDLST
+ *    ´  yexec  ì   yEXEC
+ *    ´  yfont  ü   yFONT
+ *    ´  ygltex ê   yGLTEX
+ *    ´  ygolem ó   yGOLEM
+ *    ·  yhub   ·   yHUBLIN
+ *    ´  yjobs  ö   yJOBS
+ *    ´  ykine  ñ   yKINE
+ *    ´  yparse ÷   yPARSE
+ *    ´  yregex ø   yREGEX
+ *    ´  yrpn   ô   yRPN
+ *    ´  ysced  ù   ySCHED
+ *    ´  ysec   è   ySEC    (argus)
+ *    ´  ysort  ú   ySORT   (troll)
+ *    ´  yx11   õ   yX11
+ *
+ *
+ *    0 - 9   custom for a program (not library)
+ *
+ */
+
+/*---(base)-----------------*/
+#define  YURG_ARGS    'a'     /* command line args/urgs                       */
+#define  YURG_PROG    'p'     /* one-time startup/shutdown                    */
+/*---(input-output)---------*/
+#define  YURG_FILE    '+'    /* shared inpt/outp opens, errors, ...           */
+#define  YURG_INPT    'i'    /* data source files/db (non-conf)               */
+#define  YURG_OUTP    'o'    /* data output files/db (non-conf)               */
+#define  YURG_CONF    'c'    /* configuration handling, updating, etc         */
+#define  YURG_RPTG    'r'    /* reporting, export, and import handling        */
+/*---(volume)---------------*/
+#define  YURG_LOOP    'l'    /* main loop processing, highly repetitve        */
+#define  YURG_USER    'u'    /* user input handling                           */
+#define  YURG_GRAF    'g'    /* graphics handling, highly repetitve           */
+#define  YURG_ENVI    'e'    /* directories, signals, apis, shell, o/s        */
+/*---(data)-----------------*/
+#define  YURG_SORT    's'    /* sorting and ordering data structures          */
+#define  YURG_SRCH    'h'    /* searching in major data structures            */
+#define  YURG_WALK    'w'    /* walking major data structures                 */
+#define  YURG_DATA    'd'    /* pure data chewing, reviewing, gathering       */
+#define  YURG_TABLE   't'    /* data table input, update, and output          */
+/*---(vi-keys libs)---------*/
+#define  YURG_YCMD    'C'
+#define  YURG_YMARK   'M'
+#define  YURG_YFILE   'F'
+#define  YURG_YGOD    'G'
+#define  YURG_YKEYS   'K'
+#define  YURG_YMACRO  'B'
+#define  YURG_YMAP    'P'
+#define  YURG_YMODE   'O'
+#define  YURG_YSRC    'S'
+#define  YURG_YVIEW   'V'
+#define  YURG_YVICU   'Y'
+#define  YURG_YVIOP   'Y'
+/*---(other libs)-----------*/
+#define  YURG_YCALC   'ý'
+#define  YURG_YCOLOR  'ò'
+#define  YURG_YDLST   'ë'
+#define  YURG_YEXEC   'ì'
+#define  YURG_YFONT   'ü'
+#define  YURG_YGLTEX  'ê'
+#define  YURG_YGOLEM  'û'
+#define  YURG_YJOBS   'ö'
+#define  YURG_YKINE   'ñ'
+#define  YURG_YPARSE  '÷'
+#define  YURG_YREGEX  'ø'
+#define  YURG_YRPN    'ô'
+#define  YURG_YSCHED  'ù'
+#define  YURG_YSEC    'è'
+#define  YURG_YSORT   'ú'
+#define  YURG_YDESK   'õ'    /* x-windows, w-windows, etc.                    */
+
+
+
+typedef     unsigned char             uchar;
 typedef     struct   cURG_DEBUG       tURG_DEBUG;
 /*===[[ DEBUGGING SETUP ]]====================================================*/
 /* this is my latest standard format, vars, and urgents                       */
@@ -35,6 +177,8 @@ struct cURG_DEBUG
    int         logger;                 /* log file so that we don't close it  */
    char        use;                    /* (-) normal, (d)ebug, or (u)nit      */
    char        loud;                   /* quiet '-' vs logging 'y'            */
+   uchar       curr;
+   char        mute;                   /* silent mode                         */
    /*---(overall)------------------------*/  /* abcde_ghi__lmnopqrstuvwxyz    */
    /* f = full urgents turns on all standard urgents                          */
    /* k = kitchen sink and turns everything on, i mean everything on          */
@@ -68,6 +212,7 @@ struct cURG_DEBUG
    char        mems;                   /* m) memory, registers, storing       */
    /*---(stages)-------------------------*/
    char        stage    [20];          /* stages for active logging           */
+   char        cstage;                 /* current stage                       */
    /*---(data input)---------------------*/
    char        touch;                  /* data point -- touch interface       */
    char        raw;                    /* data point -- raw input             */
@@ -94,7 +239,7 @@ struct cURG_DEBUG
    char        locs;
    char        cell;
    /*---(calculations)-------------------*/
-   char        rpn;
+   char        yrpn;
    char        calc;
    char        exec;
    /*---(dependencies)-------------------*/
@@ -109,6 +254,16 @@ struct cURG_DEBUG
    char        mode;                   /* yVIKEYS : mode handling             */
    char        keys;                   /* yVIKEYS : key handling              */
    char        edit;                   /* yVIKEYS : source editing            */
+   /*---(vi-keys libraries)--------------*/
+   char        ymode;                  /* yMODE  vi-keys mode processing      */
+   char        ykeys;                  /* yKEYS  vi-keys keyboard handling    */
+   char        ymacro;                 /* yMACRO vi-keys script handling      */
+   char        yview;                  /* yVIEW  vi-keys layout management    */
+   char        ycmd;                   /* yCMD   vi-keys command processor    */
+   char        ymark;                  /* yMARK  vi-keys search and marking   */
+   char        ysrc;                   /* ySRC   vi-keys content editing      */
+   char        yfile;                  /* yFILE  vi-keys file management      */
+   char        ymap;                   /* yMAP   vi-keys map mode handling    */
    /*---(registers)----------------------*/
    char        regs;                   /* s_sel  : copy and paste registers   */
    /*---(other)--------------------------*/
@@ -124,6 +279,8 @@ struct cURG_DEBUG
    char        yexec;                  /* yEXEC process dispatch and control  */
    char        yjobs;                  /* yJOBS job execution and control     */
    char        ysec;                   /* ySEC system access logging          */
+   char        ycalc;                  /* yCALC calculation engine            */
+   char        ysort;                  /* ySORT data ordering                 */
    /*---(record parsing)-----------------*/
    char        yparse;                 /* yPARSE parsing to queue libarary    */
    /*---(robotics)-----------------------*/
@@ -165,207 +322,227 @@ extern    tURG_DEBUG      myURG;
 
 /*---(silent)-----------------*/
 #define     NOT_DEBUG              if (myURG.use                == '-')
+#define     DEBUG_ANY              yLOG_curr (myURG.cstage, '¢');  
 /*---(overall)----------------*/
-#define     DEBUG_TOPS             if (myURG.tops               != '-')
-#define     DEBUG_TOPS_M           if (myURG.tops               == 'Y')
-#define     DEBUG_RPTG             if (myURG.rptg               != '-')
-#define     DEBUG_RPTG_M           if (myURG.rptg               == 'Y')
-#define     DEBUG_VIEW             if (myURG.view               != '-')
-#define     DEBUG_VIEW_M           if (myURG.view               == 'Y')
+#define     DEBUG_TOPS             yLOG_curr (myURG.cstage, 't');  if (myURG.tops    != '-')
+#define     DEBUG_TOPS_M           yLOG_curr (myURG.cstage, 't');  if (myURG.tops    == 'Y')
+#define     DEBUG_RPTG             yLOG_curr (myURG.cstage, 'r');  if (myURG.rptg    != '-')
+#define     DEBUG_RPTG_M           yLOG_curr (myURG.cstage, 'r');  if (myURG.rptg    == 'Y')
+#define     DEBUG_VIEW             yLOG_curr (myURG.cstage, 'v');  if (myURG.view    != '-')
+#define     DEBUG_VIEW_M           yLOG_curr (myURG.cstage, 'v');  if (myURG.view    == 'Y')
 /*---(startup/shutdown)-------*/
-#define     DEBUG_ARGS             if (myURG.args               != '-')
-#define     DEBUG_ARGS_M           if (myURG.args               == 'Y')
-#define     DEBUG_CONF             if (myURG.conf               != '-')
-#define     DEBUG_CONF_M           if (myURG.conf               == 'Y')
-#define     DEBUG_PROG             if (myURG.prog               != '-')
-#define     DEBUG_PROG_M           if (myURG.prog               == 'Y')
+#define     DEBUG_ARGS             yLOG_curr (myURG.cstage, 'a');  if (myURG.args    != '-')
+#define     DEBUG_ARGS_M           yLOG_curr (myURG.cstage, 'a');  if (myURG.args    == 'Y')
+#define     DEBUG_CONF             yLOG_curr (myURG.cstage, 'c');  if (myURG.conf    != '-')
+#define     DEBUG_CONF_M           yLOG_curr (myURG.cstage, 'c');  if (myURG.conf    == 'Y')
+#define     DEBUG_PROG             yLOG_curr (myURG.cstage, 'p');  if (myURG.prog    != '-')
+#define     DEBUG_PROG_M           yLOG_curr (myURG.cstage, 'p');  if (myURG.prog    == 'Y')
 /*---(file/pipe)--------------*/
-#define     DEBUG_INPT             if (myURG.inpt               != '-')
-#define     DEBUG_INPT_M           if (myURG.inpt               == 'Y')
-#define     DEBUG_OUTP             if (myURG.outp               != '-')
-#define     DEBUG_OUTP_M           if (myURG.outp               == 'Y')
-#define     DEBUG_FILE             if (myURG.inpt != '-' && myURG.outp != '-')
-#define     DEBUG_FILE_M           if (myURG.inpt == 'Y' || myURG.outp == 'Y')
+#define     DEBUG_INPT             yLOG_curr (myURG.cstage, 'i');  if (myURG.inpt    != '-')
+#define     DEBUG_INPT_M           yLOG_curr (myURG.cstage, 'i');  if (myURG.inpt    == 'Y')
+#define     DEBUG_OUTP             yLOG_curr (myURG.cstage, 'o');  if (myURG.outp    != '-')
+#define     DEBUG_OUTP_M           yLOG_curr (myURG.cstage, 'o');  if (myURG.outp    == 'Y')
+#define     DEBUG_FILE             yLOG_curr (myURG.cstage, 'f');  if (myURG.inpt != '-' || myURG.outp != '-')
+#define     DEBUG_FILE_M           yLOG_curr (myURG.cstage, 'f');  if (myURG.inpt == 'Y' || myURG.outp == 'Y')
 /*---(event handling)---------*/
-#define     DEBUG_LOOP             if (myURG.loop               != '-')
-#define     DEBUG_LOOP_M           if (myURG.loop               == 'Y')
-#define     DEBUG_NORM             if (myURG.norm               != '-')
-#define     DEBUG_NORM_M           if (myURG.norm               == 'Y')
-#define     DEBUG_USER             if (myURG.user               != '-')
-#define     DEBUG_USER_M           if (myURG.user               == 'Y')
-#define     DEBUG_APIS             if (myURG.apis               != '-')
-#define     DEBUG_APIS_M           if (myURG.apis               == 'Y')
-#define     DEBUG_SIGN             if (myURG.sign               != '-')
-#define     DEBUG_SIGN_M           if (myURG.sign               == 'Y')
-#define     DEBUG_SCRP             if (myURG.scrp               != '-')
-#define     DEBUG_SCRP_M           if (myURG.scrp               == 'Y')
-#define     DEBUG_HIST             if (myURG.hist               != '-')
-#define     DEBUG_HIST_M           if (myURG.hist               == 'Y')
+#define     DEBUG_LOOP             yLOG_curr (myURG.cstage, 'l');  if (myURG.loop    != '-')
+#define     DEBUG_LOOP_M           yLOG_curr (myURG.cstage, 'l');  if (myURG.loop    == 'Y')
+#define     DEBUG_NORM             yLOG_curr (myURG.cstage, 'n');  if (myURG.norm    != '-')
+#define     DEBUG_NORM_M           yLOG_curr (myURG.cstage, 'n');  if (myURG.norm    == 'Y')
+#define     DEBUG_USER             yLOG_curr (myURG.cstage, 'u');  if (myURG.user    != '-')
+#define     DEBUG_USER_M           yLOG_curr (myURG.cstage, 'u');  if (myURG.user    == 'Y')
+#define     DEBUG_APIS             yLOG_curr (myURG.cstage, 'z');  if (myURG.apis    != '-')
+#define     DEBUG_APIS_M           yLOG_curr (myURG.cstage, 'z');  if (myURG.apis    == 'Y')
+#define     DEBUG_SIGN             yLOG_curr (myURG.cstage, 'x');  if (myURG.sign    != '-')
+#define     DEBUG_SIGN_M           yLOG_curr (myURG.cstage, 'x');  if (myURG.sign    == 'Y')
+#define     DEBUG_SCRP             yLOG_curr (myURG.cstage, 'b');  if (myURG.scrp    != '-')
+#define     DEBUG_SCRP_M           yLOG_curr (myURG.cstage, 'b');  if (myURG.scrp    == 'Y')
+#define     DEBUG_HIST             yLOG_curr (myURG.cstage, 'h');  if (myURG.hist    != '-')
+#define     DEBUG_HIST_M           yLOG_curr (myURG.cstage, 'h');  if (myURG.hist    == 'Y')
 /*---(program)----------------*/
-#define     DEBUG_GRAF             if (myURG.graf               != '-')
-#define     DEBUG_GRAF_M           if (myURG.graf               == 'Y')
-#define     DEBUG_WIND             if (myURG.wind               != '-')
-#define     DEBUG_WIND_M           if (myURG.wind               == 'Y')
-#define     DEBUG_DATA             if (myURG.data               != '-')
-#define     DEBUG_DATA_M           if (myURG.data               == 'Y')
-#define     DEBUG_ENVI             if (myURG.envi               != '-')
-#define     DEBUG_ENVI_M           if (myURG.envi               == 'Y')
-#define     DEBUG_SORT             if (myURG.sort               != '-')
-#define     DEBUG_SORT_M           if (myURG.sort               == 'Y')
-#define     DEBUG_TRAV             if (myURG.trav               != '-')
-#define     DEBUG_TRAV_M           if (myURG.trav               == 'Y')
-#define     DEBUG_MEMS             if (myURG.mems               != '-')
-#define     DEBUG_MEMS_M           if (myURG.mems               == 'Y')
+#define     DEBUG_GRAF             yLOG_curr (myURG.cstage, 'g');  if (myURG.graf    != '-')
+#define     DEBUG_GRAF_M           yLOG_curr (myURG.cstage, 'g');  if (myURG.graf    == 'Y')
+#define     DEBUG_WIND             yLOG_curr (myURG.cstage, 'w');  if (myURG.wind    != '-')
+#define     DEBUG_WIND_M           yLOG_curr (myURG.cstage, 'w');  if (myURG.wind    == 'Y')
+#define     DEBUG_DATA             yLOG_curr (myURG.cstage, 'd');  if (myURG.data    != '-')
+#define     DEBUG_DATA_M           yLOG_curr (myURG.cstage, 'd');  if (myURG.data    == 'Y')
+#define     DEBUG_ENVI             yLOG_curr (myURG.cstage, 'e');  if (myURG.envi    != '-')
+#define     DEBUG_ENVI_M           yLOG_curr (myURG.cstage, 'e');  if (myURG.envi    == 'Y')
+#define     DEBUG_SORT             yLOG_curr (myURG.cstage, 's');  if (myURG.sort    != '-')
+#define     DEBUG_SORT_M           yLOG_curr (myURG.cstage, 's');  if (myURG.sort    == 'Y')
+#define     DEBUG_TRAV             yLOG_curr (myURG.cstage, 'y');  if (myURG.trav    != '-')
+#define     DEBUG_TRAV_M           yLOG_curr (myURG.cstage, 'y');  if (myURG.trav    == 'Y')
+#define     DEBUG_MEMS             yLOG_curr (myURG.cstage, 'm');  if (myURG.mems    != '-')
+#define     DEBUG_MEMS_M           yLOG_curr (myURG.cstage, 'm');  if (myURG.mems    == 'Y')
 /*---(gregg)-----------------------------*/
-#define     DEBUG_TOUCH            if (myURG.touch              != '-')
-#define     DEBUG_TOUCH_M          if (myURG.touch              == 'Y')
-#define     DEBUG_RAW              if (myURG.raw                != '-')
-#define     DEBUG_RAW_M            if (myURG.raw                == 'Y')
-#define     DEBUG_SIMP             if (myURG.simple             != '-')
-#define     DEBUG_SIMP_M           if (myURG.simple             == 'Y')
-#define     DEBUG_AVG              if (myURG.average            != '-')
-#define     DEBUG_AVG_M            if (myURG.average            == 'Y')
-#define     DEBUG_CRIT             if (myURG.critical           != '-')
-#define     DEBUG_CRIT_M           if (myURG.critical           == 'Y')
-#define     DEBUG_CIRC             if (myURG.circle             != '-')
-#define     DEBUG_CIRC_M           if (myURG.circle             == 'Y')
-#define     DEBUG_CURV             if (myURG.curve              != '-')
-#define     DEBUG_CURV_M           if (myURG.curve              == 'Y')
-#define     DEBUG_LINE             if (myURG.line               != '-')
-#define     DEBUG_LINE_M           if (myURG.line               == 'Y')
-#define     DEBUG_MATCH            if (myURG.match              != '-')
-#define     DEBUG_MATCH_M          if (myURG.match              == 'Y')
-#define     DEBUG_DICT             if (myURG.dict               != '-')
-#define     DEBUG_DICT_M           if (myURG.dict               == 'Y')
+#define     DEBUG_TOUCH            yLOG_curr (myURG.cstage, '¢');  if (myURG.touch              != '-')
+#define     DEBUG_TOUCH_M          yLOG_curr (myURG.cstage, '¢');  if (myURG.touch              == 'Y')
+#define     DEBUG_RAW              yLOG_curr (myURG.cstage, '¢');  if (myURG.raw                != '-')
+#define     DEBUG_RAW_M            yLOG_curr (myURG.cstage, '¢');  if (myURG.raw                == 'Y')
+#define     DEBUG_SIMP             yLOG_curr (myURG.cstage, '¢');  if (myURG.simple             != '-')
+#define     DEBUG_SIMP_M           yLOG_curr (myURG.cstage, '¢');  if (myURG.simple             == 'Y')
+#define     DEBUG_AVG              yLOG_curr (myURG.cstage, '¢');  if (myURG.average            != '-')
+#define     DEBUG_AVG_M            yLOG_curr (myURG.cstage, '¢');  if (myURG.average            == 'Y')
+#define     DEBUG_CRIT             yLOG_curr (myURG.cstage, '¢');  if (myURG.critical           != '-')
+#define     DEBUG_CRIT_M           yLOG_curr (myURG.cstage, '¢');  if (myURG.critical           == 'Y')
+#define     DEBUG_CIRC             yLOG_curr (myURG.cstage, '¢');  if (myURG.circle             != '-')
+#define     DEBUG_CIRC_M           yLOG_curr (myURG.cstage, '¢');  if (myURG.circle             == 'Y')
+#define     DEBUG_CURV             yLOG_curr (myURG.cstage, '¢');  if (myURG.curve              != '-')
+#define     DEBUG_CURV_M           yLOG_curr (myURG.cstage, '¢');  if (myURG.curve              == 'Y')
+#define     DEBUG_LINE             yLOG_curr (myURG.cstage, '¢');  if (myURG.line               != '-')
+#define     DEBUG_LINE_M           yLOG_curr (myURG.cstage, '¢');  if (myURG.line               == 'Y')
+#define     DEBUG_MATCH            yLOG_curr (myURG.cstage, '¢');  if (myURG.match              != '-')
+#define     DEBUG_MATCH_M          yLOG_curr (myURG.cstage, '¢');  if (myURG.match              == 'Y')
+#define     DEBUG_DICT             yLOG_curr (myURG.cstage, '¢');  if (myURG.dict               != '-')
+#define     DEBUG_DICT_M           yLOG_curr (myURG.cstage, '¢');  if (myURG.dict               == 'Y')
 /*---(stages)----------------------------*/
-#define     YURG_STAGE_INIT        0
-#define     YURG_STAGE_INPT        1
-#define     YURG_STAGE_MAIN        2
-#define     YURG_STAGE_OUTP        3
-#define     YURG_STAGE_WRAP        4
-#define     YURG_STAGE_ONE         6
-#define     YURG_STAGE_TWO         7
-#define     YURG_STAGE_THR         8
-#define     YURG_STAGE_FOU         9
-#define     YURG_STAGE_FIV         10
+#define     YURG_BEG               0
+#define     YURG_MID               1
+#define     YURG_END               2
+#define     YURG_ONE               4
+#define     YURG_TWO               5
+#define     YURG_THR               6
+#define     YURG_FOU               7
+#define     YURG_FIV               8  
 /*---(hermes)----------------------------*/
-#define     DEBUG_DIRS             if (myURG.dirs               != '-')
-#define     DEBUG_DIRS_M           if (myURG.dirs               == 'Y')
-#define     DEBUG_PKGS             if (myURG.pkgs               != '-')
-#define     DEBUG_PKGS_M           if (myURG.pkgs               == 'Y')
-#define     DEBUG_CMDS             if (myURG.cmds               != '-')
-#define     DEBUG_CMDS_M           if (myURG.cmds               == 'Y')
-#define     DEBUG_GENTOO           if (myURG.gentoo             != '-')
-#define     DEBUG_GENTOO_M         if (myURG.gentoo             == 'Y')
-#define     DEBUG_CACHE            if (myURG.cache              != '-')
-#define     DEBUG_CACHE_M          if (myURG.cache              == 'Y')
+#define     DEBUG_DIRS             yLOG_curr (myURG.cstage, '¢');  if (myURG.dirs               != '-')
+#define     DEBUG_DIRS_M           yLOG_curr (myURG.cstage, '¢');  if (myURG.dirs               == 'Y')
+#define     DEBUG_PKGS             yLOG_curr (myURG.cstage, '¢');  if (myURG.pkgs               != '-')
+#define     DEBUG_PKGS_M           yLOG_curr (myURG.cstage, '¢');  if (myURG.pkgs               == 'Y')
+#define     DEBUG_CMDS             yLOG_curr (myURG.cstage, '¢');  if (myURG.cmds               != '-')
+#define     DEBUG_CMDS_M           yLOG_curr (myURG.cstage, '¢');  if (myURG.cmds               == 'Y')
+#define     DEBUG_GENTOO           yLOG_curr (myURG.cstage, '¢');  if (myURG.gentoo             != '-')
+#define     DEBUG_GENTOO_M         yLOG_curr (myURG.cstage, '¢');  if (myURG.gentoo             == 'Y')
+#define     DEBUG_CACHE            yLOG_curr (myURG.cstage, '¢');  if (myURG.cache              != '-')
+#define     DEBUG_CACHE_M          yLOG_curr (myURG.cstage, '¢');  if (myURG.cache              == 'Y')
 /*---(graph/helios)----------------------*/
-#define     DEBUG_MASS             if (myURG.mass               != '-')
-#define     DEBUG_MASS_M           if (myURG.mass               == 'Y')
-#define     DEBUG_NODE             if (myURG.node               != '-')
-#define     DEBUG_NODE_M           if (myURG.node               == 'Y')
-#define     DEBUG_EDGE             if (myURG.edge               != '-')
-#define     DEBUG_EDGE_M           if (myURG.edge               == 'Y')
-#define     DEBUG_STATS            if (myURG.stats              != '-')
-#define     DEBUG_STATS_M          if (myURG.stats              == 'Y')
+#define     DEBUG_MASS             yLOG_curr (myURG.cstage, '¢');  if (myURG.mass               != '-')
+#define     DEBUG_MASS_M           yLOG_curr (myURG.cstage, '¢');  if (myURG.mass               == 'Y')
+#define     DEBUG_NODE             yLOG_curr (myURG.cstage, '¢');  if (myURG.node               != '-')
+#define     DEBUG_NODE_M           yLOG_curr (myURG.cstage, '¢');  if (myURG.node               == 'Y')
+#define     DEBUG_EDGE             yLOG_curr (myURG.cstage, '¢');  if (myURG.edge               != '-')
+#define     DEBUG_EDGE_M           yLOG_curr (myURG.cstage, '¢');  if (myURG.edge               == 'Y')
+#define     DEBUG_STATS            yLOG_curr (myURG.cstage, '¢');  if (myURG.stats              != '-')
+#define     DEBUG_STATS_M          yLOG_curr (myURG.cstage, '¢');  if (myURG.stats              == 'Y')
 /*---(dependencies)----------------------*/
-#define     DEBUG_DEPS             if (myURG.deps               != '-')
-#define     DEBUG_DEPS_M           if (myURG.deps               == 'Y')
+#define     DEBUG_DEPS             yLOG_curr (myURG.cstage, '¢');  if (myURG.deps               != '-')
+#define     DEBUG_DEPS_M           yLOG_curr (myURG.cstage, '¢');  if (myURG.deps               == 'Y')
 /*---(cells)-----------------------------*/
-#define     DEBUG_LOCS             if (myURG.locs               != '-')
-#define     DEBUG_LOCS_M           if (myURG.locs               == 'Y')
-#define     DEBUG_CELL             if (myURG.cell               != '-')
-#define     DEBUG_CELL_M           if (myURG.cell               == 'Y')
+#define     DEBUG_LOCS             yLOG_curr (myURG.cstage, '¢');  if (myURG.locs               != '-')
+#define     DEBUG_LOCS_M           yLOG_curr (myURG.cstage, '¢');  if (myURG.locs               == 'Y')
+#define     DEBUG_CELL             yLOG_curr (myURG.cstage, '¢');  if (myURG.cell               != '-')
+#define     DEBUG_CELL_M           yLOG_curr (myURG.cstage, '¢');  if (myURG.cell               == 'Y')
 /*---(formulas)--------------------------*/
-#define     DEBUG_RPN              if (myURG.rpn                != '-')
-#define     DEBUG_RPN_M            if (myURG.rpn                == 'Y')
-#define     DEBUG_CALC             if (myURG.calc               != '-')
-#define     DEBUG_CALC_M           if (myURG.calc               == 'Y')
-#define     DEBUG_EXEC             if (myURG.exec               != '-')
-#define     DEBUG_EXEC_M           if (myURG.exec               == 'Y')
-#define     DEBUG_ADJS             if (myURG.adjs               != '-')
-#define     DEBUG_ADJS_M           if (myURG.adjs               == 'Y')
+#define     DEBUG_YRPN             yLOG_curr (myURG.cstage, '¢');  if (myURG.yrpn               != '-')
+#define     DEBUG_YRPN_M           yLOG_curr (myURG.cstage, '¢');  if (myURG.yrpn               == 'Y')
+#define     DEBUG_CALC             yLOG_curr (myURG.cstage, '¢');  if (myURG.calc               != '-')
+#define     DEBUG_CALC_M           yLOG_curr (myURG.cstage, '¢');  if (myURG.calc               == 'Y')
+#define     DEBUG_EXEC             yLOG_curr (myURG.cstage, '¢');  if (myURG.exec               != '-')
+#define     DEBUG_EXEC_M           yLOG_curr (myURG.cstage, '¢');  if (myURG.exec               == 'Y')
+#define     DEBUG_ADJS             yLOG_curr (myURG.cstage, '¢');  if (myURG.adjs               != '-')
+#define     DEBUG_ADJS_M           yLOG_curr (myURG.cstage, '¢');  if (myURG.adjs               == 'Y')
 /*---(yVIKEYS)---------------------------*/
-#define     DEBUG_VISU             if (myURG.visu               != '-')
-#define     DEBUG_VISU_M           if (myURG.visu               == 'Y')
-#define     DEBUG_SSEL             if (myURG.ssel               != '-')
-#define     DEBUG_SSEL_M           if (myURG.ssel               == 'Y')
-#define     DEBUG_MARK             if (myURG.mark               != '-')
-#define     DEBUG_MARK_M           if (myURG.mark               == 'Y')
-#define     DEBUG_HINT             if (myURG.hint               != '-')
-#define     DEBUG_HINT_M           if (myURG.hint               == 'Y')
-#define     DEBUG_SRCH             if (myURG.srch               != '-')
-#define     DEBUG_SRCH_M           if (myURG.srch               == 'Y')
-#define     DEBUG_MAP              if (myURG.map                != '-')
-#define     DEBUG_MAP_M            if (myURG.map                == 'Y')
-#define     DEBUG_MODE             if (myURG.mode               != '-')
-#define     DEBUG_MODE_M           if (myURG.mode               == 'Y')
-#define     DEBUG_KEYS             if (myURG.keys               != '-')
-#define     DEBUG_KEYS_M           if (myURG.keys               == 'Y')
-#define     DEBUG_EDIT             if (myURG.edit               != '-')
-#define     DEBUG_EDIT_M           if (myURG.edit               == 'Y')
+#define     DEBUG_VISU             yLOG_curr (myURG.cstage, '¢');  if (myURG.visu               != '-')
+#define     DEBUG_VISU_M           yLOG_curr (myURG.cstage, '¢');  if (myURG.visu               == 'Y')
+#define     DEBUG_SSEL             yLOG_curr (myURG.cstage, '¢');  if (myURG.ssel               != '-')
+#define     DEBUG_SSEL_M           yLOG_curr (myURG.cstage, '¢');  if (myURG.ssel               == 'Y')
+#define     DEBUG_MARK             yLOG_curr (myURG.cstage, '¢');  if (myURG.mark               != '-')
+#define     DEBUG_MARK_M           yLOG_curr (myURG.cstage, '¢');  if (myURG.mark               == 'Y')
+#define     DEBUG_HINT             yLOG_curr (myURG.cstage, '¢');  if (myURG.hint               != '-')
+#define     DEBUG_HINT_M           yLOG_curr (myURG.cstage, '¢');  if (myURG.hint               == 'Y')
+#define     DEBUG_MAP              yLOG_curr (myURG.cstage, '¢');  if (myURG.map                != '-')
+#define     DEBUG_MAP_M            yLOG_curr (myURG.cstage, '¢');  if (myURG.map                == 'Y')
+#define     DEBUG_MODE             yLOG_curr (myURG.cstage, '¢');  if (myURG.mode               != '-')
+#define     DEBUG_MODE_M           yLOG_curr (myURG.cstage, '¢');  if (myURG.mode               == 'Y')
+#define     DEBUG_KEYS             yLOG_curr (myURG.cstage, '¢');  if (myURG.keys               != '-')
+#define     DEBUG_KEYS_M           yLOG_curr (myURG.cstage, '¢');  if (myURG.keys               == 'Y')
+#define     DEBUG_EDIT             yLOG_curr (myURG.cstage, '¢');  if (myURG.edit               != '-')
+#define     DEBUG_EDIT_M           yLOG_curr (myURG.cstage, '¢');  if (myURG.edit               == 'Y')
 /*---(registers)-------------------------*/
-#define     DEBUG_REGS             if (myURG.regs               != '-')
-#define     DEBUG_REGS_M           if (myURG.regs               == 'Y')
-#define     DEBUG_TREG             if (myURG.treg               != '-')
-#define     DEBUG_TREG_M           if (myURG.treg               == 'Y')
+#define     DEBUG_REGS             yLOG_curr (myURG.cstage, '¢');  if (myURG.regs               != '-')
+#define     DEBUG_REGS_M           yLOG_curr (myURG.cstage, '¢');  if (myURG.regs               == 'Y')
+#define     DEBUG_TREG             yLOG_curr (myURG.cstage, '¢');  if (myURG.treg               != '-')
+#define     DEBUG_TREG_M           yLOG_curr (myURG.cstage, '¢');  if (myURG.treg               == 'Y')
 /*---(ySTR)------------------------------*/
-#define     DEBUG_YSTR             if (myURG.ystr               != '-')
-#define     DEBUG_YSTR_M           if (myURG.ystr               == 'Y')
-#define     DEBUG_YDLST            if (myURG.ydlst              != '-')
-#define     DEBUG_YDLST_M          if (myURG.ydlst              == 'Y')
-#define     DEBUG_YSCHED           if (myURG.ysched             != '-')
-#define     DEBUG_YSCHED_M         if (myURG.ysched             == 'Y')
-#define     DEBUG_YEXEC            if (myURG.yexec              != '-')
-#define     DEBUG_YEXEC_M          if (myURG.yexec              == 'Y')
-#define     DEBUG_YJOBS            if (myURG.yjobs              != '-')
-#define     DEBUG_YJOBS_M          if (myURG.yjobs              == 'Y')
-#define     DEBUG_YSEC             if (myURG.ysec               != '-')
-#define     DEBUG_YSEC_M           if (myURG.ysec               == 'Y')
+#define     DEBUG_YSTR             yLOG_curr (myURG.cstage, '¢');  if (myURG.ystr               != '-')
+#define     DEBUG_YSTR_M           yLOG_curr (myURG.cstage, '¢');  if (myURG.ystr               == 'Y')
+#define     DEBUG_YDLST            yLOG_curr (myURG.cstage, '¢');  if (myURG.ydlst              != '-')
+#define     DEBUG_YDLST_M          yLOG_curr (myURG.cstage, '¢');  if (myURG.ydlst              == 'Y')
+#define     DEBUG_YSCHED           yLOG_curr (myURG.cstage, '¢');  if (myURG.ysched             != '-')
+#define     DEBUG_YSCHED_M         yLOG_curr (myURG.cstage, '¢');  if (myURG.ysched             == 'Y')
+#define     DEBUG_YEXEC            yLOG_curr (myURG.cstage, '¢');  if (myURG.yexec              != '-')
+#define     DEBUG_YEXEC_M          yLOG_curr (myURG.cstage, '¢');  if (myURG.yexec              == 'Y')
+#define     DEBUG_YCALC            yLOG_curr (myURG.cstage, '¢');  if (myURG.ycalc              != '-')
+#define     DEBUG_YCALC_M          yLOG_curr (myURG.cstage, '¢');  if (myURG.ycalc              == 'Y')
+#define     DEBUG_YSORT            yLOG_curr (myURG.cstage, '¢');  if (myURG.ysort              != '-')
+#define     DEBUG_YSORT_M          yLOG_curr (myURG.cstage, '¢');  if (myURG.ysort              == 'Y')
+#define     DEBUG_YJOBS            yLOG_curr (myURG.cstage, '¢');  if (myURG.yjobs              != '-')
+#define     DEBUG_YJOBS_M          yLOG_curr (myURG.cstage, '¢');  if (myURG.yjobs              == 'Y')
+#define     DEBUG_YSEC             yLOG_curr (myURG.cstage, '¢');  if (myURG.ysec               != '-')
+#define     DEBUG_YSEC_M           yLOG_curr (myURG.cstage, '¢');  if (myURG.ysec               == 'Y')
+/*---(vi-keys libraries)-----------------*/
+#define     DEBUG_YMODE            yLOG_curr (myURG.cstage, '¢');  if (myURG.ymode              != '-')
+#define     DEBUG_YMODE_M          yLOG_curr (myURG.cstage, '¢');  if (myURG.ymode              == 'Y')
+#define     DEBUG_YKEYS            yLOG_curr (myURG.cstage, '¢');  if (myURG.ykeys              != '-')
+#define     DEBUG_YKEYS_M          yLOG_curr (myURG.cstage, '¢');  if (myURG.ykeys              == 'Y')
+#define     DEBUG_YMACRO           yLOG_curr (myURG.cstage, '¢');  if (myURG.ymacro             != '-')
+#define     DEBUG_YMACRO_M         yLOG_curr (myURG.cstage, '¢');  if (myURG.ymacro             == 'Y')
+#define     DEBUG_YVIEW            yLOG_curr (myURG.cstage, '¢');  if (myURG.yview              != '-')
+#define     DEBUG_YVIEW_M          yLOG_curr (myURG.cstage, '¢');  if (myURG.yview              == 'Y')
+#define     DEBUG_YCMD             yLOG_curr (myURG.cstage, '¢');  if (myURG.ycmd               != '-')
+#define     DEBUG_YCMD_M           yLOG_curr (myURG.cstage, '¢');  if (myURG.ycmd               == 'Y')
+#define     DEBUG_YMARK            yLOG_curr (myURG.cstage, '¢');  if (myURG.ymark              != '-')
+#define     DEBUG_YMARK_M          yLOG_curr (myURG.cstage, '¢');  if (myURG.ymark              == 'Y')
+#define     DEBUG_YSRC             yLOG_curr (myURG.cstage, '¢');  if (myURG.ysrc               != '-')
+#define     DEBUG_YSRC_M           yLOG_curr (myURG.cstage, '¢');  if (myURG.ysrc               == 'Y')
+#define     DEBUG_YMAP             yLOG_curr (myURG.cstage, '¢');  if (myURG.ymap               != '-')
+#define     DEBUG_YMAP_M           yLOG_curr (myURG.cstage, '¢');  if (myURG.ymap               == 'Y')
+#define     DEBUG_YFILE            yLOG_curr (myURG.cstage, '¢');  if (myURG.yfile              != '-')
+#define     DEBUG_YFILE_M          yLOG_curr (myURG.cstage, '¢');  if (myURG.yfile              == 'Y')
 /*---(yPARSE)----------------------------*/
-#define     DEBUG_YPARSE           if (myURG.yparse             == 'y')
+#define     DEBUG_YPARSE           yLOG_curr (myURG.cstage, '¢');  if (myURG.yparse             == 'y')
 /*---(yGOLEM)----------------------------*/
-#define     DEBUG_YGOLEM           if (myURG.ygolem             == 'y')
+#define     DEBUG_YGOLEM           yLOG_curr (myURG.cstage, '¢');  if (myURG.ygolem             == 'y')
 /*---(yREGEX)----------------------------*/
-#define     DEBUG_YREGEX           if (myURG.yregex             != '-')
-#define     DEBUG_YREGEX_M         if (myURG.yregex             == 'Y')
+#define     DEBUG_YREGEX           yLOG_curr (myURG.cstage, '¢');  if (myURG.yregex             != '-')
+#define     DEBUG_YREGEX_M         yLOG_curr (myURG.cstage, '¢');  if (myURG.yregex             == 'Y')
 /*---(windows)---------------------------*/
-#define     DEBUG_DESK             if (myURG.desk               != '-')
-#define     DEBUG_DESK_M           if (myURG.desk               != 'Y')
+#define     DEBUG_DESK             yLOG_curr (myURG.cstage, '¢');  if (myURG.desk               != '-')
+#define     DEBUG_DESK_M           yLOG_curr (myURG.cstage, '¢');  if (myURG.desk               != 'Y')
 /*---(kinematics)------------------------*/
-#define     DEBUG_YKINE            if (myURG.ykine              != '-')
-#define     DEBUG_YKINE_M          if (myURG.ykine              == 'Y')
-#define     DEBUG_YKINE_CALC       if (myURG.ykine_calc         != '-')
-#define     DEBUG_YKINE_TICK       if (myURG.ykine_tick         != '-')
-#define     DEBUG_YKINE_MOVE       if (myURG.ykine_move         != '-')
-#define     DEBUG_YKINE_DATA       if (myURG.ykine_data         != '-')
-#define     DEBUG_YKINE_SCRP       if (myURG.ykine_scrp         != '-')
-#define     DEBUG_YKINE_EXACT      if (myURG.ykine_exact        != '-')
+#define     DEBUG_YKINE            yLOG_curr (myURG.cstage, '¢');  if (myURG.ykine              != '-')
+#define     DEBUG_YKINE_M          yLOG_curr (myURG.cstage, '¢');  if (myURG.ykine              == 'Y')
+#define     DEBUG_YKINE_CALC       yLOG_curr (myURG.cstage, '¢');  if (myURG.ykine_calc         != '-')
+#define     DEBUG_YKINE_TICK       yLOG_curr (myURG.cstage, '¢');  if (myURG.ykine_tick         != '-')
+#define     DEBUG_YKINE_MOVE       yLOG_curr (myURG.cstage, '¢');  if (myURG.ykine_move         != '-')
+#define     DEBUG_YKINE_DATA       yLOG_curr (myURG.cstage, '¢');  if (myURG.ykine_data         != '-')
+#define     DEBUG_YKINE_SCRP       yLOG_curr (myURG.cstage, '¢');  if (myURG.ykine_scrp         != '-')
+#define     DEBUG_YKINE_EXACT      yLOG_curr (myURG.cstage, '¢');  if (myURG.ykine_exact        != '-')
 /*---(vi-keys)---------------------------*/
-#define     DEBUG_YVIKEYS          if (myURG.yvikeys            == 'y')
-#define     DEBUG_YVIKEYS_KEYS     if (myURG.yvikeys_keys       != '-')
-#define     DEBUG_YVIKEYS_KEYS_M   if (myURG.yvikeys_keys       == 'Y')
-#define     DEBUG_YVIKEYS_MODE     if (myURG.yvikeys_mode       != '-')
-#define     DEBUG_YVIKEYS_MODE_M   if (myURG.yvikeys_mode       == 'Y')
-#define     DEBUG_YVIKEYS_SCALE    if (myURG.yvikeys_scale      != '-')
-#define     DEBUG_YVIKEYS_SCALE_M  if (myURG.yvikeys_scale      == 'Y')
+#define     DEBUG_YVIKEYS          yLOG_curr (myURG.cstage, '¢');  if (myURG.yvikeys            == 'y')
+#define     DEBUG_YVIKEYS_KEYS     yLOG_curr (myURG.cstage, '¢');  if (myURG.yvikeys_keys       != '-')
+#define     DEBUG_YVIKEYS_KEYS_M   yLOG_curr (myURG.cstage, '¢');  if (myURG.yvikeys_keys       == 'Y')
+#define     DEBUG_YVIKEYS_MODE     yLOG_curr (myURG.cstage, '¢');  if (myURG.yvikeys_mode       != '-')
+#define     DEBUG_YVIKEYS_MODE_M   yLOG_curr (myURG.cstage, '¢');  if (myURG.yvikeys_mode       == 'Y')
+#define     DEBUG_YVIKEYS_SCALE    yLOG_curr (myURG.cstage, '¢');  if (myURG.yvikeys_scale      != '-')
+#define     DEBUG_YVIKEYS_SCALE_M  yLOG_curr (myURG.cstage, '¢');  if (myURG.yvikeys_scale      == 'Y')
 /*---(yFONT)-----------------------------*/
-#define     DEBUG_YFONT            if (myURG.yfont              != '-')
-#define     DEBUG_YFONT_M          if (myURG.yfont              == 'Y')
-#define     DEBUG_YFONT_FILE       if (myURG.yfont_file         == 'y')
-#define     DEBUG_YFONT_CALC       if (myURG.yfont_calc         == 'y')
-#define     DEBUG_YFONT_MAP        if (myURG.yfont_map          == 'y')
+#define     DEBUG_YFONT            yLOG_curr (myURG.cstage, '¢');  if (myURG.yfont              != '-')
+#define     DEBUG_YFONT_M          yLOG_curr (myURG.cstage, '¢');  if (myURG.yfont              == 'Y')
+#define     DEBUG_YFONT_FILE       yLOG_curr (myURG.cstage, '¢');  if (myURG.yfont_file         == 'y')
+#define     DEBUG_YFONT_CALC       yLOG_curr (myURG.cstage, '¢');  if (myURG.yfont_calc         == 'y')
+#define     DEBUG_YFONT_MAP        yLOG_curr (myURG.cstage, '¢');  if (myURG.yfont_map          == 'y')
 /*---(yGLTEX)----------------------------*/
-#define     DEBUG_YGLTEX           if (myURG.ygltex             != '-')
-#define     DEBUG_YGLTEX_M         if (myURG.ygltex             == 'Y')
+#define     DEBUG_YGLTEX           yLOG_curr (myURG.cstage, '¢');  if (myURG.ygltex             != '-')
+#define     DEBUG_YGLTEX_M         yLOG_curr (myURG.cstage, '¢');  if (myURG.ygltex             == 'Y')
 /*---(yCOLOR)----------------------------*/
-#define     DEBUG_YCOLOR           if (myURG.ycolor             != '-')
-#define     DEBUG_YCOLOR_M         if (myURG.ycolor             == 'Y')
+#define     DEBUG_YCOLOR           yLOG_curr (myURG.cstage, '¢');  if (myURG.ycolor             != '-')
+#define     DEBUG_YCOLOR_M         yLOG_curr (myURG.cstage, '¢');  if (myURG.ycolor             == 'Y')
 /*---(hyleoroi)--------------------------*/
-#define     DEBUG_FORMAT           if (myURG.format             != '-')
-#define     DEBUG_FORMAT_M         if (myURG.format             == 'Y')
-#define     DEBUG_COLOR            if (myURG.color              != '-')
-#define     DEBUG_COLOR_M          if (myURG.color              == 'Y')
+#define     DEBUG_FORMAT           yLOG_curr (myURG.cstage, '¢');  if (myURG.format             != '-')
+#define     DEBUG_FORMAT_M         yLOG_curr (myURG.cstage, '¢');  if (myURG.format             == 'Y')
+#define     DEBUG_COLOR            yLOG_curr (myURG.cstage, '¢');  if (myURG.color              != '-')
+#define     DEBUG_COLOR_M          yLOG_curr (myURG.cstage, '¢');  if (myURG.color              == 'Y')
 
 
 typedef     const char         cchar;
@@ -414,6 +591,8 @@ char        yURG_msg_purge          (void);
 
 char        yURG_all_clear          (void);
 char        yURG_all_tmp            (void);
+char        yURG_all_mute           (void);
+char        yURG_all_live           (void);
 char        yURG_all_tmplive        (void);
 char*       yURG_mute_status        (void);
 
@@ -424,6 +603,7 @@ char        yURG_rmdir              (cchar *a_dir);
 int         yURG_peek_count         (cchar *a_name);
 char*       yURG_peek               (cchar *a_name, int n);
 char        yURG_peek_exists        (cchar *a_name);
+char*       yURG_peek_fill          (cchar *a_name, int n);
 
 
 #endif
