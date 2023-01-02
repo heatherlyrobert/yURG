@@ -141,7 +141,7 @@ yURG_logger        (int a_argc, char *a_argv[])
       return myURG.logger;
    }
    /*---(fast update)--------------------*/
-   myURG.tops = YURG_ON;
+   myURG.prog = YURG_ON;
    if (x_args == 'a')    myURG.args = YURG_ON;
    if (x_args == 'A')    myURG.args = YURG_MAS;
    if (x_prog == 'p')    myURG.prog = YURG_ON;

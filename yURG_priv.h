@@ -37,8 +37,8 @@
 
 #define     P_VERMAJOR  "1.--, production improvements"
 #define     P_VERMINOR  "1.0-, keep support broad and advancing"
-#define     P_VERNUM    "1.0h"
-#define     P_VERTXT    "added YSORT to get sorting isolated to keep volume down"
+#define     P_VERNUM    "1.0i"
+#define     P_VERTXT    "added DEBUG_YVIHUB for the new integration library"
 
 #define     P_PRIORITY  "direct, simple, brief, vigorous, and lucid (h.w. fowler)"
 #define     P_PRINCIPAL "[grow a set] and build your wings on the way down (r. bradbury)"
@@ -113,6 +113,8 @@
 #include    <stdlib.h>       /* C_ANSI : exit                                 */
 #include    <stdarg.h>       /* C_ANSI : va_args                              */
 #include    <ctype.h>        /* C_ANSI : tolower, toupper, ...                */
+#include    <sys/stat.h>          /* fstat, umask                                */
+#include    <unistd.h>       /* stat(),crpyt()                      */
 #include    <sys/mount.h>    /* C_ANSI : mount                                */
 
 #include    <yLOG.h>         /* CUSTOM : heatherly program logging            */
@@ -137,6 +139,7 @@
 #define     LEN_SHORT           5       /* for small needs                    */
 
 
+typedef struct stat      tSTAT;
 
 #define        MAX_URGS        500
 

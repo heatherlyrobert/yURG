@@ -4,6 +4,26 @@
 
 tURG_DEBUG      myURG;
 
+/*
+ *  standard a-z urgents are for a application, not libraries.
+ *
+ *  libraries should be separable from application as they are
+ *  debugged separately.  but, to create a debugging path that may
+ *  include both, base library urgents can include...
+ *
+ *     @@ymap      ymap, base
+ *     @@YMAP      ymap, base with more detail
+ *     @@ymap_g    ymap, plus graf
+ *     @@ymap_u    ymap, plus user
+ *
+ *     @+ymap      ymap, everything that starts with ymap
+ *
+ *
+ *
+ *
+ *
+ */
+
 char        s_lower     [30] = "";
 char        s_upper     [30] = "";
 
@@ -93,33 +113,25 @@ tYURG_INFO  yURG_info [MAX_URGS] = {
    {  'ê' , "fou"            , "during main, user-defined block 4"     , '-', '-', &(myURG.stage[7])         },
    {  'ì' , "fiv"            , "during main, user-defined block 5"     , '-', '-', &(myURG.stage[8])         },
    /*---(overall)------------------------*/
-   {  't' , "tops"           , "broad structure and context"           , 'u', 'o', &myURG.tops               },
-   {  'r' , "rptg"           , "reports/dump, analysis, runtime stats" , 'u', 'o', &myURG.rptg               },
    {  'v' , "view"           , "provide alternate terminal output"     , 'u', 'o', &myURG.view               },
    /*---(startup/shutdown)---------------*/
-   {  'a' , "args"           , "command-line args and urgent handling" , 'u', 's', &myURG.args               },
-   {  'c' , "conf"           , "configuration handling"                , 'u', 's', &myURG.conf               },
    {  'p' , "prog"           , "program setup and shutdown"            , 'u', 's', &myURG.prog               },
+   {  'a' , "args"           , "command-line args and urgent handling" , 'u', 's', &myURG.args               },
    /*---(file processing)----------------*/
    {  'i' , "inpt"           , "text and data file input"              , 'u', 'd', &myURG.inpt               },
    {  'o' , "outp"           , "text and data file output"             , 'u', 'd', &myURG.outp               },
-   {  'q' , "sqls"           , "database and sql interaction"          , 'u', 'd', &myURG.sqls               },
-   /*---(event handling)-----------------*/
+   {  'c' , "conf"           , "configuration handling"                , 'u', 's', &myURG.conf               },
+   {  'r' , "rptg"           , "reports/dump, analysis, runtime stats" , 'u', 'o', &myURG.rptg               },
+   /*---(event/volume)-------------------*/
    {  'l' , "loop"           , "major program event loops"             , 'u', 'e', &myURG.loop               },
-   {  'n' , "norm"           , "normal execution flow (catch-all)"     , 'u', 'e', &myURG.norm               },
    {  'u' , "user"           , "user input and handling"               , 'u', 'e', &myURG.user               },
-   {  'z' , "apis"           , "interprocess communication"            , 'u', 'e', &myURG.apis               },
-   {  'x' , "sign"           , "o/s signal handling"                   , 'u', 'e', &myURG.sign               },
-   {  'b' , "scrp"           , "scripts and batch handling"            , 'u', 'e', &myURG.scrp               },
-   {  'h' , "hist"           , "history, undo, redo"                   , 'u', 'e', &myURG.hist               },
-   /*---(deeper program)-----------------*/
    {  'g' , "graf"           , "graphics, drawing, and display"        , 'u', 'p', &myURG.graf               },
-   {  'w' , "wind"           , "repeated windows, drawing and looping" , 'u', 'p', &myURG.wind               },
    {  'e' , "envi"           , "environmental processing"              , 'u', 'p', &myURG.envi               },
+
+   /*---(deeper program)-----------------*/
    {  'd' , "data"           , "complex data structure handling"       , 'u', 'p', &myURG.data               },
    {  's' , "sort"           , "data sorting and ordering"             , 'u', 'p', &myURG.sort               },
    {  'y' , "trav"           , "data searching and traversal"          , 'u', 'p', &myURG.trav               },
-   {  'm' , "mems"           , "data registers, memory, saving"        , 'u', 'p', &myURG.mems               },
    /*---(gregg)--------------------------*/
    {  '-' , "touch"          , "touch interface"                       , 'p', '-', &myURG.touch              },
    {  '-' , "raw"            , "data point -- raw collection"          , 'p', '-', &myURG.raw                },
@@ -166,6 +178,7 @@ tYURG_INFO  yURG_info [MAX_URGS] = {
    {  '-' , "edit"           , "yVIKEYS source editing"                , 'l', 'v', &myURG.edit               },
    {  '-' , "yvikeys_mode"   , "yVIKEYS vi-keys handling library"      , 'l', 'v', &myURG.yvikeys_mode       },
    /*---(vi-keys libraries)--------------*/
+   {  '-' , "yvihub"         , "yVIHUB vi-keys coordination"           , 'l', 'v', &myURG.yvihub             },
    {  'F' , "yfile"          , "yFILE  vi-keys file management"        , 'l', 'v', &myURG.yfile              },
    {  '0' , "ymode"          , "yMODE  vi-keys mode processing"        , 'l', 'v', &myURG.ymode              },
    {  'L' , "ykeys"          , "yKEYS  vi-keys keyboard handling"      , 'l', 'v', &myURG.ykeys              },
@@ -174,7 +187,10 @@ tYURG_INFO  yURG_info [MAX_URGS] = {
    {  ':' , "ycmd"           , "yCMD   vi-keys command processor"      , 'l', 'v', &myURG.ycmd               },
    {  ':' , "ymark"          , "yMARK  vi-keys search and mark"        , 'l', 'v', &myURG.ycmd               },
    {  'S' , "ysrc"           , "ySRC   vi-keys content handling"       , 'l', 'v', &myURG.ysrc               },
+   {  '-' , "ysrc_u"         , "ySRC   user/mode details"              , 'l', 'v', &myURG.ysrc_user          },
    {  'M' , "ymap"           , "yMAP   vi-keys map mode handling"      , 'l', 'v', &myURG.ymap               },
+   {  '-' , "ymap_u"         , "yMAP   user/mode details"              , 'l', 'v', &myURG.ymap_user          },
+   {  '-' , "ymap_g"         , "yMAP   draw/refresh details"           , 'l', 'v', &myURG.ymap_graf          },
    {  '-' , "ysort"          , "ySORT  vi-keys data ordering"          , 'l', 'v', &myURG.ysort              },
    /*---(registers)----------------------*/
    {  '-' , "regs"           , "copy and paste registers"              , 'p', '-', &myURG.regs               },
@@ -197,6 +213,7 @@ tYURG_INFO  yURG_info [MAX_URGS] = {
    {  '-' , "ykine_move"     , "yKINE kinematics move creation"        , 'l', 'k', &myURG.ykine_move         },
    {  '-' , "ykine_exact"    , "yKINE kinematics loading of progress"  , 'l', 'k', &myURG.ykine_exact        },
    {  '-' , "desk"           , "yX11 window management"                , 'l', 'v', &myURG.desk               },
+   {  '-' , "yxwin"          , "yX11 window management"                , 'l', 'v', &myURG.yxwin              },
    {  '-' , "yvikeys"        , "yVIKEYS vi-keys handling library"      , 'l', 'v', &myURG.yvikeys            },
    {  '-' , "yvikeys_keys"   , "yVIKEYS vi-keys handling library"      , 'l', 'v', &myURG.yvikeys_keys       },
    {  '-' , "yvikeys_scale"  , "yVIKEYS vi-keys handling library"      , 'l', 'v', &myURG.yvikeys_scale      },

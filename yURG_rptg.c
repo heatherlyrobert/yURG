@@ -616,6 +616,7 @@ yurg_peek               (cchar *a_name, int n, int *a_count)
    int         c           =    0;
    int         x_len       =    0;
    static int  x_last      =    0;
+   if (a_count != NULL)  *a_count = -1;
    if (a_name == NULL)            return "(null name)";
    if (strcmp (a_name, "") == 0)  return "(empty name)";
    if (a_count != NULL)  *a_count = 0;
@@ -678,10 +679,10 @@ yURG_peek               (cchar *a_name, int n)
 char 
 yURG_peek_exists        (cchar *a_name)
 {
-   int         c           =    0;
-   yurg_peek (a_name, -1, &c);
-   if (c < 0)  return -1;
-   return 0;
+   int         rc          =    0;
+   tSTAT       s;
+   rc = stat (a_name, &s);
+   return rc;
 }
 
 char*
