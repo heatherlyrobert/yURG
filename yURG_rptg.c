@@ -527,10 +527,26 @@ yURG_all_live           (void)
 }
 
 char
+yURG_all_none           (void)
+{
+   yURG_msg_none ();
+   yURG_err_none ();
+   return 0;
+}
+
+char
 yURG_all_mute           (void)
 {
    yURG_msg_mute ();
    yURG_err_mute ();
+   return 0;
+}
+
+char
+yURG_all_off            (void)
+{
+   yURG_all_mute ();
+   yURG_all_none ();
    return 0;
 }
 

@@ -115,23 +115,24 @@ tYURG_INFO  yURG_info [MAX_URGS] = {
    /*---(overall)------------------------*/
    {  'v' , "view"           , "provide alternate terminal output"     , 'u', 'o', &myURG.view               },
    /*---(startup/shutdown)---------------*/
-   {  'p' , "prog"           , "program setup and shutdown"            , 'u', 's', &myURG.prog               },
+   {  'p' , "prog"           , "general program setup and shutdown"    , 'u', 's', &myURG.prog               },
    {  'a' , "args"           , "command-line args and urgent handling" , 'u', 's', &myURG.args               },
    /*---(file processing)----------------*/
-   {  'i' , "inpt"           , "text and data file input"              , 'u', 'd', &myURG.inpt               },
-   {  'o' , "outp"           , "text and data file output"             , 'u', 'd', &myURG.outp               },
-   {  'c' , "conf"           , "configuration handling"                , 'u', 's', &myURG.conf               },
-   {  'r' , "rptg"           , "reports/dump, analysis, runtime stats" , 'u', 'o', &myURG.rptg               },
+   {  'i' , "inpt"           , "data source files/db (non-conf/rptg)"  , 'u', 'd', &myURG.inpt               },
+   {  'o' , "outp"           , "data output files/db (non-conf/rptg)"  , 'u', 'd', &myURG.outp               },
+   {  'c' , "conf"           , "configuration handling and updating"   , 'u', 's', &myURG.conf               },
+   {  'r' , "rptg"           , "reporting, import and export"          , 'u', 'o', &myURG.rptg               },
    /*---(event/volume)-------------------*/
-   {  'l' , "loop"           , "major program event loops"             , 'u', 'e', &myURG.loop               },
+   {  'l' , "loop"           , "main looping, highly repetitive"       , 'u', 'e', &myURG.loop               },
    {  'u' , "user"           , "user input and handling"               , 'u', 'e', &myURG.user               },
    {  'g' , "graf"           , "graphics, drawing, and display"        , 'u', 'p', &myURG.graf               },
-   {  'e' , "envi"           , "environmental processing"              , 'u', 'p', &myURG.envi               },
-
+   {  'e' , "envi"           , "apis, signals, os, shell"              , 'u', 'p', &myURG.envi               },
    /*---(deeper program)-----------------*/
-   {  'd' , "data"           , "complex data structure handling"       , 'u', 'p', &myURG.data               },
-   {  's' , "sort"           , "data sorting and ordering"             , 'u', 'p', &myURG.sort               },
-   {  'y' , "trav"           , "data searching and traversal"          , 'u', 'p', &myURG.trav               },
+   {  's' , "sort"           , "sorting and ordering data structures"  , 'u', 'p', &myURG.sort               },
+   {  'f' , "find"           , "searching for matches in data struct"  , 'u', 'p', &myURG.find               },
+   {  'w' , "walk"           , "walking data structures"               , 'u', 'p', &myURG.walk               },
+   {  't' , "tabl"           , "data table input, update, searching"   , 'u', 'p', &myURG.tabl               },
+   {  'd' , "data"           , "pure data chewing, reviewing, gather"  , 'u', 'p', &myURG.data               },
    /*---(gregg)--------------------------*/
    {  '-' , "touch"          , "touch interface"                       , 'p', '-', &myURG.touch              },
    {  '-' , "raw"            , "data point -- raw collection"          , 'p', '-', &myURG.raw                },
@@ -443,7 +444,7 @@ yurg__multi        (cchar *a_string, cchar a_on)
    x_len = strlen (a_string);
    DEBUG_ARGS_M   yLOG_value   ("x_len"     , x_len);
    for (i = 0; i < x_len; ++i) {
-      yURG_abbr (a_string [i], a_on);
+      yURG_by_abbr (a_string [i], a_on);
    }
    /*---(complete)-----------------------*/
    DEBUG_ARGS_M   yLOG_exit    (__FUNCTION__);
@@ -451,7 +452,7 @@ yurg__multi        (cchar *a_string, cchar a_on)
 }
 
 char         /*--> set a single urgent by abbr -----------[ ------ [ ------ ]-*/
-yURG_abbr          (cchar a_abbr, cchar a_on)
+yURG_by_abbr       (cchar a_abbr, cchar a_on)
 {
    /*---(locals)-----------+-----+-----+-*/
    char        rce         =  -10;
@@ -524,7 +525,7 @@ yURG_abbr          (cchar a_abbr, cchar a_on)
 }
 
 char         /*--> set a single urgent by name -----------[ ------ [ ------ ]-*/
-yURG_name          (cchar *a_name, cchar a_on)
+yURG_by_name       (cchar *a_name, cchar a_on)
 {
    /*---(locals)-----------+-----------+-*/
    char        rce         = -10;
@@ -642,7 +643,7 @@ yurg__wild         (cchar *a_string, cchar a_on)
    for (i = 0; i < MAX_URGS; ++i) {
       if (a_string [0] != yURG_info [i].full [0])              continue;
       if (strncmp (a_string, yURG_info [i].full, x_len) != 0)  continue;
-      yURG_name (yURG_info [i].full, a_on);
+      yURG_by_name (yURG_info [i].full, a_on);
       ++c;
    }
    return c;
@@ -748,15 +749,15 @@ yURG_urgs          (int a_argc, char *a_argv[])
       /*---(single abbrev)---------------*/
       if (a [0] == '@' && x_len == 2) {
          DEBUG_ARGS   yLOG_note    ("single abbreviated version");
-         rc = yURG_abbr  (a[1] , YURG_ON);
+         rc = yURG_by_abbr  (a[1] , YURG_ON);
       }
       /*---(multi abbrev)----------------*/
-      else if (a [0] == '@' && a [1] == '-' && x_len > 2) {
+      else if (a [0] == '@' && a [1] != '@' && a [1] == '-' && x_len > 2) {
          DEBUG_ARGS   yLOG_note    ("multiple abbreviated OFF version");
          rc = yurg__multi (a + 1, YURG_OFF);
       }
       /*---(multi abbrev)----------------*/
-      else if (a [0] == '@' && a [1] != '@'  && a [1] != '+' && x_len > 2) {
+      else if (a [0] == '@' && a [1] != '@' && a [1] != '+' && x_len > 2) {
          DEBUG_ARGS   yLOG_note    ("multiple abbreviated ON version");
          rc = yurg__multi (a + 1, YURG_ON);
       }
@@ -764,10 +765,10 @@ yURG_urgs          (int a_argc, char *a_argv[])
       else if (a [0] == '@' && x_len >= 5) {
          if (a [1] == '@') {
             DEBUG_ARGS   yLOG_note    ("long form ON version");
-            rc = yURG_name  (a + 2, YURG_ON);
+            rc = yURG_by_name  (a + 2, YURG_ON);
             if (rc < 0 && (strncmp (a + 2, "NO", 2) == 0 || strncmp (a + 2, "no", 2) == 0)) {
                DEBUG_ARGS   yLOG_note    ("long form OFF version");
-               rc = yURG_name  (a + 4, YURG_OFF);
+               rc = yURG_by_name  (a + 4, YURG_OFF);
             }
          } else if (a [1] == '+') {
             DEBUG_ARGS   yLOG_note    ("wild card form ON version");

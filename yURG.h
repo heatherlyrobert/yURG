@@ -182,24 +182,26 @@ struct cURG_DEBUG
    /* f = full urgents turns on all standard urgents                          */
    /* k = kitchen sink and turns everything on, i mean everything on          */
    /* q = quiet turns all urgents off including the log itself                */
-   char        rptg;                   /* r) report/dump, analytics, stats    */
    char        view;                   /* v) view direct to stdout            */
    /*---(startup/shutdown)---------------*/
-   char        args;                   /* a) command line args and urgents    */
-   char        conf;                   /* c) configuration handling           */
    char        prog;                   /* p) specific program setup/wrapup    */
+   char        args;                   /* a) command line args and urgents    */
    /*---(file processing)----------------*/
    char        inpt;                   /* i) text and data file input         */
    char        outp;                   /* o) text and data file output        */
+   char        conf;                   /* c) configuration handling           */
+   char        rptg;                   /* r) report/dump, analytics, stats    */
    /*---(event handling)-----------------*/
    char        loop;                   /* l) main program event loop          */
    char        user;                   /* u) user input and handling          */
-   /*---(program)------------------------*/
    char        graf;                   /* g) grahpics setup and config        */
-   char        data;                   /* d) complex data structure handling  */
    char        envi;                   /* e) environment processing           */
+   /*---(program)------------------------*/
    char        sort;                   /* s) data sorting and ordering        */
-   char        trav;                   /* y) data searching and traversal     */
+   char        find;                   /* y) data searching and traversal     */
+   char        walk;                   /* y) data searching and traversal     */
+   char        tabl;                   /* y) data searching and traversal     */
+   char        data;                   /* d) complex data structure handling  */
    /*---(stages)-------------------------*/
    char        stage    [20];          /* stages for active logging           */
    char        cstage;                 /* current stage                       */
@@ -548,8 +550,8 @@ char        yURG_urgs               (int    a_argc, char *a_argv[]);
 char        yURG_summ               (void);
 char        yURG_list               (void);
 
-char        yURG_abbr               (cchar  a_abbr, cchar a_on);
-char        yURG_name               (cchar *a_name, cchar a_on);
+char        yURG_by_abbr            (cchar  a_abbr, cchar a_on);
+char        yURG_by_name            (cchar *a_name, cchar a_on);
 
 char        yURG_lognum             (void);
 
@@ -579,7 +581,9 @@ char        yURG_msg_purge          (void);
 
 char        yURG_all_clear          (void);
 char        yURG_all_tmp            (void);
+char        yURG_all_none           (void);
 char        yURG_all_mute           (void);
+char        yURG_all_off            (void);
 char        yURG_all_live           (void);
 char        yURG_all_tmplive        (void);
 char*       yURG_mute_status        (void);
