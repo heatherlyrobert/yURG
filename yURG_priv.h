@@ -37,8 +37,8 @@
 
 #define     P_VERMAJOR  "1.--, production improvements"
 #define     P_VERMINOR  "1.0-, keep support broad and advancing"
-#define     P_VERNUM    "1.0j"
-#define     P_VERTXT    "added yURG_all_off and yURG_all_none to simplify program start-up"
+#define     P_VERNUM    "1.0k"
+#define     P_VERTXT    "update to yURG_peek for cursor to same line (´)"
 
 #define     P_PRIORITY  "direct, simple, brief, vigorous, and lucid (h.w. fowler)"
 #define     P_PRINCIPAL "[grow a set] and build your wings on the way down (r. bradbury)"

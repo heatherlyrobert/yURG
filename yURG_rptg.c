@@ -653,6 +653,9 @@ yurg_peek               (cchar *a_name, int n, int *a_count)
    case '»' :
       n = x_last = 999;
       break;
+   case '´' :
+      n = x_last;
+      break;
    case 'Ö' : case '·' :  /* · means default */
       n = ++x_last;
       break;
