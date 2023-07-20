@@ -90,144 +90,153 @@ char   g_upper  [ 30] = "··························";
 char   g_greek  [ 30] = "························";
 char   g_number [ 30] = "··········";
 
-tYURG_INFO  yURG_info [MAX_URGS] = {
-   /* abbr   ---full----------  ---desc--------------------------------  typ  sub  pointer---------------------- */
-   {  '-' , "urgents"        , "list every urgent available"           , 'h', '-', NULL                           },
-   {  '-' , "universal"      , "list universal urgents"                , 'h', '-', NULL                           },
-   {  '-' , "program"        , "list program urgents"                  , 'h', '-', NULL                           },
-   {  '-' , "library"        , "list library urgents"                  , 'h', '-', NULL                           },
+const tYURG_INFO  yURG_info [MAX_URGS] = {
+   /* abbr   ---full----------  ---desc--------------------------------  typ  sub  ---base---   ---mas----   pointer------------------ */
+   {  '-' , "urgents"        , "list every urgent available"           , 'h', '-', ""         , ""         , NULL                      },
+   {  '-' , "universal"      , "list universal urgents"                , 'h', '-', ""         , ""         , NULL                      },
+   {  '-' , "program"        , "list program urgents"                  , 'h', '-', ""         , ""         , NULL                      },
+   {  '-' , "library"        , "list library urgents"                  , 'h', '-', ""         , ""         , NULL                      },
    /*---(compound)-----------------------*/
-   {  '-' , "quiet"          , "turn absolutely everything off"        , '-', '-', NULL                           },
-   {  '-' , "full"           , "turn all universals on"                , '-', '-', NULL                           },
-   {  '-' , "mas"            , "turn all universals and their mas on"  , '-', '-', NULL                           },
-   {  '-' , "kitchen"        , "turn all universals/specific (no mas)" , '-', '-', NULL                           },
-   {  '-' , "omni"           , "turn absolutely everything on"         , '-', '-', NULL                           },
+   {  '-' , "quiet"          , "turn absolutely everything off"        , '-', '-', ""         , ""         , NULL                      },
+   {  '-' , "full"           , "turn all universals on"                , '-', '-', ""         , ""         , NULL                      },
+   {  '-' , "mas"            , "turn all universals and their mas on"  , '-', '-', ""         , ""         , NULL                      },
+   {  '-' , "kitchen"        , "turn all universals/specific (no mas)" , '-', '-', ""         , ""         , NULL                      },
+   {  '-' , "omni"           , "turn absolutely everything on"         , '-', '-', ""         , ""         , NULL                      },
    /*---(stages)-------------------------*/
-   {  '-' , "mute"           , "start muted/silent"                    , '-', '-', &myURG.mute                    },
-   {  'ù' , "beg"            , "only active during startup"            , '-', '-', &(myURG.stage[0])         },
-   {  'ò' , "mid"            , "only active during normal/main"        , '-', '-', &(myURG.stage[1])         },
-   {  'ÿ' , "end"            , "only active during shutdown "          , '-', '-', &(myURG.stage[2])         },
-   {  'è' , "one"            , "during main, user-defined block 1"     , '-', '-', &(myURG.stage[4])         },
-   {  'é' , "two"            , "during main, user-defined block 2"     , '-', '-', &(myURG.stage[5])         },
-   {  'ë' , "thr"            , "during main, user-defined block 3"     , '-', '-', &(myURG.stage[6])         },
-   {  'ê' , "fou"            , "during main, user-defined block 4"     , '-', '-', &(myURG.stage[7])         },
-   {  'ì' , "fiv"            , "during main, user-defined block 5"     , '-', '-', &(myURG.stage[8])         },
+   {  '-' , "mute"           , "start muted/silent"                    , '-', '-', ""         , ""         , &myURG.mute               },
+   {  'ù' , "beg"            , "only active during startup"            , '-', '-', ""         , ""         , &(myURG.stage[0])         },
+   {  'ò' , "mid"            , "only active during normal/main"        , '-', '-', ""         , ""         , &(myURG.stage[1])         },
+   {  'ÿ' , "end"            , "only active during shutdown "          , '-', '-', ""         , ""         , &(myURG.stage[2])         },
+   {  'è' , "one"            , "during main, user-defined block 1"     , '-', '-', ""         , ""         , &(myURG.stage[4])         },
+   {  'é' , "two"            , "during main, user-defined block 2"     , '-', '-', ""         , ""         , &(myURG.stage[5])         },
+   {  'ë' , "thr"            , "during main, user-defined block 3"     , '-', '-', ""         , ""         , &(myURG.stage[6])         },
+   {  'ê' , "fou"            , "during main, user-defined block 4"     , '-', '-', ""         , ""         , &(myURG.stage[7])         },
+   {  'ì' , "fiv"            , "during main, user-defined block 5"     , '-', '-', ""         , ""         , &(myURG.stage[8])         },
    /*---(overall)------------------------*/
-   {  'v' , "view"           , "provide alternate terminal output"     , 'u', 'o', &myURG.view               },
+   {  'v' , "view"           , "provide alternate terminal output"     , 'u', 'o', "VIEW"     , "VIEW_M"   , &myURG.view               },
    /*---(startup/shutdown)---------------*/
-   {  'p' , "prog"           , "general program setup and shutdown"    , 'u', 's', &myURG.prog               },
-   {  'a' , "args"           , "command-line args and urgent handling" , 'u', 's', &myURG.args               },
+   {  'p' , "prog"           , "general program setup and shutdown"    , 'u', 's', "PROG"     , "PROG_M"   , &myURG.prog               },
+   {  'a' , "args"           , "command-line args and urgent handling" , 'u', 's', "ARGS"     , "ARGS_M"   , &myURG.args               },
    /*---(file processing)----------------*/
-   {  'i' , "inpt"           , "data source files/db (non-conf/rptg)"  , 'u', 'd', &myURG.inpt               },
-   {  'o' , "outp"           , "data output files/db (non-conf/rptg)"  , 'u', 'd', &myURG.outp               },
-   {  'c' , "conf"           , "configuration handling and updating"   , 'u', 's', &myURG.conf               },
-   {  'r' , "rptg"           , "reporting, import and export"          , 'u', 'o', &myURG.rptg               },
+   {  '+' , "file"           , "combination of inpt/outp"              , '-', '-', "FILE"     , "FILE_M"   , NULL                      },
+   {  'i' , "inpt"           , "data source files/db (non-conf/rptg)"  , 'u', 'd', "INPT"     , "INPT_M"   , &myURG.inpt               },
+   {  'o' , "outp"           , "data output files/db (non-conf/rptg)"  , 'u', 'd', "OUTP"     , "OUTP_M"   , &myURG.outp               },
+   {  'c' , "conf"           , "configuration handling and updating"   , 'u', 's', "CONF"     , "CONF_M"   , &myURG.conf               },
+   {  'r' , "rptg"           , "reporting, import and export"          , 'u', 'o', "RPTG"     , "RPTG_M"   , &myURG.rptg               },
    /*---(event/volume)-------------------*/
-   {  'l' , "loop"           , "main looping, highly repetitive"       , 'u', 'e', &myURG.loop               },
-   {  'u' , "user"           , "user input and handling"               , 'u', 'e', &myURG.user               },
-   {  'g' , "graf"           , "graphics, drawing, and display"        , 'u', 'p', &myURG.graf               },
-   {  'e' , "envi"           , "apis, signals, os, shell"              , 'u', 'p', &myURG.envi               },
+   {  'l' , "loop"           , "main looping, highly repetitive"       , 'u', 'e', "LOOP"     , "LOOP_M"   , &myURG.loop               },
+   {  'u' , "user"           , "user input and handling"               , 'u', 'e', "USER"     , "USER_M"   , &myURG.user               },
+   {  'g' , "graf"           , "graphics, drawing, and display"        , 'u', 'p', "GRAF"     , "GRAF_M"   , &myURG.graf               },
+   {  'e' , "envi"           , "apis, signals, os, shell"              , 'u', 'p', "ENVI"     , "ENVI_M"   , &myURG.envi               },
    /*---(deeper program)-----------------*/
-   {  's' , "sort"           , "sorting and ordering data structures"  , 'u', 'p', &myURG.sort               },
-   {  'f' , "find"           , "searching for matches in data struct"  , 'u', 'p', &myURG.find               },
-   {  'w' , "walk"           , "walking data structures"               , 'u', 'p', &myURG.walk               },
-   {  't' , "tabl"           , "data table input, update, searching"   , 'u', 'p', &myURG.tabl               },
-   {  'd' , "data"           , "pure data chewing, reviewing, gather"  , 'u', 'p', &myURG.data               },
+   {  's' , "sort"           , "sorting and ordering data structures"  , 'u', 'p', "SORT"     , "SORT_M"   , &myURG.sort               },
+   {  'f' , "find"           , "searching for matches in data struct"  , 'u', 'p', "FIND"     , "FIND_M"   , &myURG.find               },
+   {  'w' , "walk"           , "walking data structures"               , 'u', 'p', "WALK"     , "WALK_M"   , &myURG.walk               },
+   {  't' , "tabl"           , "data table input, update, searching"   , 'u', 'p', "TABL"     , "TABL_M"   , &myURG.tabl               },
+   {  'd' , "data"           , "pure data chewing, reviewing, gather"  , 'u', 'p', "DATA"     , "DATA_M"   , &myURG.data               },
+   /*---(critical)-----------------------*/
+   {  'ÿ' , "ystr"           , "heatherly ySTR string library"         , 'l', 's', "YSTR"     , "YSTR_M"   , &myURG.ystr               },
    /*---(gregg)--------------------------*/
-   {  '-' , "touch"          , "touch interface"                       , 'p', '-', &myURG.touch              },
-   {  '-' , "raw"            , "data point -- raw collection"          , 'p', '-', &myURG.raw                },
-   {  '-' , "simple"         , "data point -- simplification"          , 'p', '-', &myURG.simple             },
-   {  '-' , "avg"            , "data point -- averaging"               , 'p', '-', &myURG.average            },
-   {  '-' , "crit"           , "data point -- critical points"         , 'p', '-', &myURG.critical           },
-   {  '-' , "circ"           , "data point -- circle marking"          , 'p', '-', &myURG.circle             },
-   {  '-' , "curv"           , "data point -- curve marking"           , 'p', '-', &myURG.curve              },
-   {  '-' , "line"           , "data point -- line straightening"      , 'p', '-', &myURG.line               },
-   {  '-' , "match"          , "data point -- match processing"        , 'p', '-', &myURG.match              },
-   {  '-' , "dict"           , "dictionary processing"                 , 'p', '-', &myURG.dict               },
+   {  '-' , "touch"          , "touch interface"                       , 'p', '-', ""         , ""         , &myURG.touch              },
+   {  '-' , "raw"            , "data point -- raw collection"          , 'p', '-', ""         , ""         , &myURG.raw                },
+   {  '-' , "simple"         , "data point -- simplification"          , 'p', '-', ""         , ""         , &myURG.simple             },
+   {  '-' , "avg"            , "data point -- averaging"               , 'p', '-', ""         , ""         , &myURG.average            },
+   {  '-' , "crit"           , "data point -- critical points"         , 'p', '-', ""         , ""         , &myURG.critical           },
+   {  '-' , "circ"           , "data point -- circle marking"          , 'p', '-', ""         , ""         , &myURG.circle             },
+   {  '-' , "curv"           , "data point -- curve marking"           , 'p', '-', ""         , ""         , &myURG.curve              },
+   {  '-' , "line"           , "data point -- line straightening"      , 'p', '-', ""         , ""         , &myURG.line               },
+   {  '-' , "match"          , "data point -- match processing"        , 'p', '-', ""         , ""         , &myURG.match              },
+   {  '-' , "dict"           , "dictionary processing"                 , 'p', '-', ""         , ""         , &myURG.dict               },
    /*---(graph/helios)-------------------*/
-   {  '-' , "mass"           , "group of nodes"                        , 'p', '-', &myURG.mass               },
-   {  '-' , "node"           , "node or vertex"                        , 'p', '-', &myURG.node               },
-   {  '-' , "edge"           , "edge or connection"                    , 'p', '-', &myURG.edge               },
-   {  '-' , "stats"          , "statistics and grouping"               , 'p', '-', &myURG.stats              },
+   {  '-' , "mass"           , "group of nodes"                        , 'p', '-', ""         , ""         , &myURG.mass               },
+   {  '-' , "node"           , "node or vertex"                        , 'p', '-', ""         , ""         , &myURG.node               },
+   {  '-' , "edge"           , "edge or connection"                    , 'p', '-', ""         , ""         , &myURG.edge               },
+   {  '-' , "stats"          , "statistics and grouping"               , 'p', '-', ""         , ""         , &myURG.stats              },
    /*---(hermes)-------------------------*/
-   {  '-' , "dirs"           , "hermes location tracking"              , 'p', '-', &myURG.dirs               },
-   {  '-' , "pkgs"           , "hermes package tracking"               , 'p', '-', &myURG.pkgs               },
-   {  '-' , "cmds"           , "hermes command tracking"               , 'p', '-', &myURG.cmds               },
-   {  '-' , "gentoo"         , "hermes gentoo/portage access"          , 'p', '-', &myURG.gentoo             },
-   {  '-' , "cache"          , "hermes cached database"                , 'p', '-', &myURG.cache              },
+   {  '-' , "dirs"           , "hermes location tracking"              , 'p', '-', ""         , ""         , &myURG.dirs               },
+   {  '-' , "pkgs"           , "hermes package tracking"               , 'p', '-', ""         , ""         , &myURG.pkgs               },
+   {  '-' , "cmds"           , "hermes command tracking"               , 'p', '-', ""         , ""         , &myURG.cmds               },
+   {  '-' , "gentoo"         , "hermes gentoo/portage access"          , 'p', '-', ""         , ""         , &myURG.gentoo             },
+   {  '-' , "cache"          , "hermes cached database"                , 'p', '-', ""         , ""         , &myURG.cache              },
    /*---(spreadsheet)--------------------*/
-   {  '-' , "locs"           , "spreadsheet location parsing and use"  , 'p', '-', &myURG.locs               },
-   {  '-' , "cell"           , "spreadsheet cell creation and mtce"    , 'p', '-', &myURG.cell               },
+   {  '-' , "locs"           , "spreadsheet location parsing and use"  , 'p', '-', ""         , ""         , &myURG.locs               },
+   {  '-' , "cell"           , "spreadsheet cell creation and mtce"    , 'p', '-', ""         , ""         , &myURG.cell               },
    /*---(calculations)-------------------*/
-   {  '-' , "yrpn"           , "yRPN conversion infix to rpn"          , 'p', '-', &myURG.yrpn               },
-   {  '-' , "calc"           , "calculation building from rpn"         , 'p', '-', &myURG.calc               },
-   {  '-' , "exec"           , "calculation execution"                 , 'p', '-', &myURG.exec               },
-   {  '-' , "adjs"           , "small, config adjustments in measures" , 'p', '-', &myURG.adjs               },
+   {  '-' , "calc"           , "calculation building from rpn"         , 'p', '-', ""         , ""         , &myURG.calc               },
+   {  '-' , "exec"           , "calculation execution"                 , 'p', '-', ""         , ""         , &myURG.exec               },
+   {  '-' , "adjs"           , "small, config adjustments in measures" , 'p', '-', ""         , ""         , &myURG.adjs               },
    /*---(dependencies)-------------------*/
-   {  '-' , "deps"           , "dependency creation and maintenance"   , 'p', '-', &myURG.deps               },
+   {  '-' , "deps"           , "dependency creation and maintenance"   , 'p', '-', ""         , ""         , &myURG.deps               },
    /*---(visual)-------------------------*/
-   {  '-' , "visu"           , "visual selection of objects"           , 'p', '-', &myURG.visu               },
-   {  '-' , "ssel"           , "visual selection of text strings"      , 'p', '-', &myURG.ssel               },
+   {  '-' , "visu"           , "visual selection of objects"           , 'p', '-', ""         , ""         , &myURG.visu               },
+   {  '-' , "ssel"           , "visual selection of text strings"      , 'p', '-', ""         , ""         , &myURG.ssel               },
    /*---(yVIKEYS-searching)--------------*/
-   {  '-' , "mark"           , "yVIKEYS location/object marks"         , 'p', '-', &myURG.mark               },
-   {  '-' , "hint"           , "yVIKEYS location/object hinting"       , 'p', '-', &myURG.hint               },
-   {  '-' , "srch"           , "yVIKEYS location/object searching"     , 'p', '-', &myURG.srch               },
+   {  '-' , "mark"           , "yVIKEYS location/object marks"         , 'p', '-', ""         , ""         , &myURG.mark               },
+   {  '-' , "hint"           , "yVIKEYS location/object hinting"       , 'p', '-', ""         , ""         , &myURG.hint               },
+   {  '-' , "srch"           , "yVIKEYS location/object searching"     , 'p', '-', ""         , ""         , &myURG.srch               },
    /*---(yVIKEYS-handling)---------------*/
-   {  '-' , "map"            , "yVIKEYS screen mapping"                , 'l', 'v', &myURG.map                },
-   {  '-' , "mode"           , "yVIKEYS mode handling"                 , 'l', 'v', &myURG.mode               },
-   {  '-' , "keys"           , "yVIKEYS key handling"                  , 'l', 'v', &myURG.keys               },
-   {  '-' , "edit"           , "yVIKEYS source editing"                , 'l', 'v', &myURG.edit               },
-   {  '-' , "yvikeys_mode"   , "yVIKEYS vi-keys handling library"      , 'l', 'v', &myURG.yvikeys_mode       },
-   /*---(vi-keys libraries)--------------*/
-   {  '-' , "yvihub"         , "yVIHUB vi-keys coordination"           , 'l', 'v', &myURG.yvihub             },
-   {  'F' , "yfile"          , "yFILE  vi-keys file management"        , 'l', 'v', &myURG.yfile              },
-   {  '0' , "ymode"          , "yMODE  vi-keys mode processing"        , 'l', 'v', &myURG.ymode              },
-   {  'L' , "ykeys"          , "yKEYS  vi-keys keyboard handling"      , 'l', 'v', &myURG.ykeys              },
-   {  '@' , "ymacro"         , "yMACRO vi-keys script handling"        , 'l', 'v', &myURG.ymacro             },
-   {  'V' , "yview"          , "yVIEW  vi-keys layout manageent"       , 'l', 'v', &myURG.yview              },
-   {  ':' , "ycmd"           , "yCMD   vi-keys command processor"      , 'l', 'v', &myURG.ycmd               },
-   {  ':' , "ymark"          , "yMARK  vi-keys search and mark"        , 'l', 'v', &myURG.ycmd               },
-   {  'S' , "ysrc"           , "ySRC   vi-keys content handling"       , 'l', 'v', &myURG.ysrc               },
-   {  '-' , "ysrc_u"         , "ySRC   user/mode details"              , 'l', 'v', &myURG.ysrc_user          },
-   {  'M' , "ymap"           , "yMAP   vi-keys map mode handling"      , 'l', 'v', &myURG.ymap               },
-   {  '-' , "ymap_u"         , "yMAP   user/mode details"              , 'l', 'v', &myURG.ymap_user          },
-   {  '-' , "ymap_g"         , "yMAP   draw/refresh details"           , 'l', 'v', &myURG.ymap_graf          },
-   {  '-' , "ysort"          , "ySORT  vi-keys data ordering"          , 'l', 'v', &myURG.ysort              },
+   {  '-' , "map"            , "yVIKEYS screen mapping"                , 'l', 'v', ""         , ""         , &myURG.map                },
+   {  '-' , "mode"           , "yVIKEYS mode handling"                 , 'l', 'v', ""         , ""         , &myURG.mode               },
+   {  '-' , "keys"           , "yVIKEYS key handling"                  , 'l', 'v', ""         , ""         , &myURG.keys               },
+   {  '-' , "edit"           , "yVIKEYS source editing"                , 'l', 'v', ""         , ""         , &myURG.edit               },
+   {  '-' , "yvikeys_mode"   , "yVIKEYS vi-keys handling library"      , 'l', 'v', ""         , ""         , &myURG.yvikeys_mode       },
+   /*---(vi-keys special)----------------*/
+   {  'U' , "yvihub"         , "yVIHUB vi-keys coordination"           , 'l', 'v', "YVIHUB"   , ""         , &myURG.yvihub             },
+   /*---(vi-keys fundamental)------------*/
+   {  'O' , "ymode"          , "yMODE  vi-keys mode processing"        , 'l', 'v', "YMODE"    , "YMODE_M"  , &myURG.ymode              },
+   {  'K' , "ykeys"          , "yKEYS  vi-keys keyboard handling"      , 'l', 'v', "YKEYS"    , "YKEYS_M"  , &myURG.ykeys              },
+   {  'F' , "yfile"          , "yFILE  vi-keys file management"        , 'l', 'v', "YFILE"    , "YFILE_M"  , &myURG.yfile              },
+   {  'V' , "yview"          , "yVIEW  vi-keys layout manageent"       , 'l', 'v', "YVIEW"    , "YVIEW_M"  , &myURG.yview              },
+   /*---(vi-keys extended)---------------*/
+   {  'P' , "ymap"           , "yMAP   vi-keys map mode handling"      , 'l', 'v', "YMAP"     , "YMAP_M"   , &myURG.ymap               },
+   {  '-' , "ymap_u"         , "yMAP   user/mode details"              , 'l', 'v', "YMAP_U"   , ""         , &myURG.ymap_user          },
+   {  '-' , "ymap_g"         , "yMAP   draw/refresh details"           , 'l', 'v', "YMAP_G"   , ""         , &myURG.ymap_graf          },
+   {  'C' , "ycmd"           , "yCMD   vi-keys command processor"      , 'l', 'v', "YCMD"     , "YCMD_M"   , &myURG.ycmd               },
+   {  'B' , "ymacro"         , "yMACRO vi-keys script handling"        , 'l', 'v', "YMACRO"   , "YMACRO_M" , &myURG.ymacro             },
+   {  'S' , "ysrc"           , "ySRC   vi-keys content handling"       , 'l', 'v', "YSRC"     , "YSRC_M"   , &myURG.ysrc               },
+   {  '-' , "ysrc_u"         , "ySRC   user/mode details"              , 'l', 'v', "YSRC_U"   , ""         , &myURG.ysrc_user          },
+   {  'M' , "ymark"          , "yMARK  vi-keys search and mark"        , 'l', 'v', "YMARK"    , "YMARK_M"  , &myURG.ycmd               },
+   /*---(vi-keys graph)------------------*/
+   {  'G' , "ygod"           , "yGOD   3d viewing library"             , 'l', 'v', "YGOD"     , ""         , NULL                      },
+   {  'Y' , "yvicu"          , "yVICU  vi-keys ncurses support"        , 'l', 'v', "YVICU"    , ""         , NULL                      },
+   {  'Y' , "yviop"          , "yVIOP  vi-keys opengl support"         , 'l', 'v', "YVIOP"    , ""         , NULL                      },
    /*---(registers)----------------------*/
-   {  '-' , "regs"           , "copy and paste registers"              , 'p', '-', &myURG.regs               },
+   {  '-' , "regs"           , "copy and paste registers"              , 'p', '-', ""         , ""         , &myURG.regs               },
    /*---(libraries)----------------------*/
-   {  '-' , "ystr"           , "heatherly ySTR string library"         , 'l', 's', &myURG.ystr               },
-   {  '-' , "ydlst"          , "yDLST quad-double linked list lib"     , 'l', 's', &myURG.ydlst              },
-   {  '-' , "ysched"         , "ySCHED kernighan sched grammar"        , 'l', 's', &myURG.ysched             },
-   {  '-' , "yparse"         , "heatherly yPARSE parsing queue"        , 'l', 's', &myURG.yparse             },
-   {  '-' , "yexec"          , "yEXEC process dispatch and control"    , 'l', 's', &myURG.yexec              },
-   {  '-' , "ycalc"          , "yCALC calculation engine"              , 'l', 's', &myURG.ycalc              },
-   {  '-' , "yjobs"          , "yJOBS job execution and control"       , 'l', 's', &myURG.yjobs              },
-   {  '-' , "ysec"           , "ySEC system access logging"            , 'l', 's', &myURG.ysec               },
-   {  '-' , "ygolem"         , "heatherly yGOLEM robotics controller"  , 'l', 's', &myURG.ygolem             },
-   {  '-' , "yregex"         , "heatherly yREGEX library"              , 'l', 's', &myURG.yregex             },
-   {  '-' , "ykine"          , "yKINE kinematics main"                 , 'l', 'k', &myURG.ykine              },
-   {  '-' , "ykine_calc"     , "yKINE kinematics calculations"         , 'l', 'k', &myURG.ykine_calc         },
-   {  '-' , "ykine_tick"     , "yKINE kinematics exact timing/ticks"   , 'l', 'k', &myURG.ykine_tick         },
-   {  '-' , "ykine_data"     , "yKINE kinematics common data"          , 'l', 'k', &myURG.ykine_data         },
-   {  '-' , "ykine_scrp"     , "yKINE kinematics script interpretation", 'l', 'k', &myURG.ykine_scrp         },
-   {  '-' , "ykine_move"     , "yKINE kinematics move creation"        , 'l', 'k', &myURG.ykine_move         },
-   {  '-' , "ykine_exact"    , "yKINE kinematics loading of progress"  , 'l', 'k', &myURG.ykine_exact        },
-   {  '-' , "desk"           , "yX11 window management"                , 'l', 'v', &myURG.desk               },
-   {  '-' , "yxwin"          , "yX11 window management"                , 'l', 'v', &myURG.yxwin              },
-   {  '-' , "yvikeys"        , "yVIKEYS vi-keys handling library"      , 'l', 'v', &myURG.yvikeys            },
-   {  '-' , "yvikeys_keys"   , "yVIKEYS vi-keys handling library"      , 'l', 'v', &myURG.yvikeys_keys       },
-   {  '-' , "yvikeys_scale"  , "yVIKEYS vi-keys handling library"      , 'l', 'v', &myURG.yvikeys_scale      },
-   {  '-' , "yfont"          , "yFONT texture mapped font library"     , 'l', 'g', &myURG.yfont              },
-   {  '-' , "yfont_file"     , "yFONT file creation and access"        , 'l', 'g', &myURG.yfont_file         },
-   {  '-' , "yfont_calc"     , "yFONT layout and vertex calculation"   , 'l', 'g', &myURG.yfont_calc         },
-   {  '-' , "yfont_map"      , "yFONT texture mapping and access"      , 'l', 'g', &myURG.yfont_map          },
-   {  '-' , "ygltex"         , "yGLTEX opengl texture handling"        , 'l', 'g', &myURG.ygltex             },
-   {  '-' , "ycolor"         , "yGLTEX opengl color handling"          , 'l', 'g', &myURG.ycolor             },
-   {  '-' , "format"         , "hyleoroi formatting options"           , 'M', 'g', &myURG.format             },
-   {  '-' , "color"          , "hyleoroi color usage and setup"        , 'M', 'g', &myURG.color              },
+   {  'ý' , "ycalc"          , "yCALC calculation engine"              , 'l', 's', "YCALC"    , ""         , &myURG.ycalc              },
+   {  'ò' , "ycolor"         , "yGLTEX opengl color handling"          , 'l', 'g', "YCOLOR"   , ""         , &myURG.ycolor             },
+   {  'ë' , "ydlst"          , "yDLST quad-double linked list lib"     , 'l', 's', "YDLST"    , ""         , &myURG.ydlst              },
+   {  'ì' , "yexec"          , "yEXEC process dispatch and control"    , 'l', 's', "YEXEC"    , ""         , &myURG.yexec              },
+   {  'ü' , "yfont"          , "yFONT texture mapped font library"     , 'l', 'g', "YFONT"    , "YFONT_M"  , &myURG.yfont              },
+   {  '-' , "yfont_file"     , "yFONT file creation and access"        , 'l', 'g', ""         , ""         , &myURG.yfont_file         },
+   {  '-' , "yfont_calc"     , "yFONT layout and vertex calculation"   , 'l', 'g', ""         , ""         , &myURG.yfont_calc         },
+   {  '-' , "yfont_map"      , "yFONT texture mapping and access"      , 'l', 'g', ""         , ""         , &myURG.yfont_map          },
+   {  'ê' , "ygltex"         , "yGLTEX opengl texture handling"        , 'l', 'g', "YGLTEX"   , "YGLTEX_M" , &myURG.ygltex             },
+   {  'û' , "ygolem"         , "heatherly yGOLEM robotics controller"  , 'l', 's', "YGOLEM"   , ""         , &myURG.ygolem             },
+   {  'ö' , "yjobs"          , "yJOBS job execution and control"       , 'l', 's', "YJOBS"    , "YJOBS_M"  , &myURG.yjobs              },
+   {  'ñ' , "ykine"          , "yKINE kinematics main"                 , 'l', 'k', "YKINE"    , "YKINE_M"  , &myURG.ykine              },
+   {  '-' , "ykine_calc"     , "yKINE kinematics calculations"         , 'l', 'k', ""         , ""         , &myURG.ykine_calc         },
+   {  '-' , "ykine_tick"     , "yKINE kinematics exact timing/ticks"   , 'l', 'k', ""         , ""         , &myURG.ykine_tick         },
+   {  '-' , "ykine_data"     , "yKINE kinematics common data"          , 'l', 'k', ""         , ""         , &myURG.ykine_data         },
+   {  '-' , "ykine_scrp"     , "yKINE kinematics script interpretation", 'l', 'k', ""         , ""         , &myURG.ykine_scrp         },
+   {  '-' , "ykine_move"     , "yKINE kinematics move creation"        , 'l', 'k', ""         , ""         , &myURG.ykine_move         },
+   {  '-' , "ykine_exact"    , "yKINE kinematics loading of progress"  , 'l', 'k', ""         , ""         , &myURG.ykine_exact        },
+   {  '÷' , "yparse"         , "heatherly yPARSE parsing queue"        , 'l', 's', "YPARSE"   , ""         , &myURG.yparse             },
+   {  'ø' , "yregex"         , "heatherly yREGEX library"              , 'l', 's', "YREGEX"   , ""         , &myURG.yregex             },
+   {  'ô' , "yrpn"           , "yRPN conversion infix to rpn"          , 'p', '-', "YRPN"     , ""         , &myURG.yrpn               },
+   {  'ù' , "ysched"         , "ySCHED kernighan sched grammar"        , 'l', 's', "YSCHED"   , ""         , &myURG.ysched             },
+   {  'è' , "ysec"           , "ySEC system access logging"            , 'l', 's', "YSEC"     , ""         , &myURG.ysec               },
+   {  'ú' , "ysort"          , "ySORT  vi-keys data ordering"          , 'l', 'v', "YSORT"    , ""         , &myURG.ysort              },
+   {  'õ' , "ydesk"          , "yX11 window management"                , 'l', 'v', "YDESK"    , ""         , &myURG.desk               },
+   /*---(other)--------------------------*/
+   {  '-' , "yxwin"          , "yX11 window management"                , 'l', 'v', ""         , ""         , &myURG.yxwin              },
+   {  '-' , "yvikeys"        , "yVIKEYS vi-keys handling library"      , 'l', 'v', ""         , ""         , &myURG.yvikeys            },
+   {  '-' , "yvikeys_keys"   , "yVIKEYS vi-keys handling library"      , 'l', 'v', ""         , ""         , &myURG.yvikeys_keys       },
+   {  '-' , "yvikeys_scale"  , "yVIKEYS vi-keys handling library"      , 'l', 'v', ""         , ""         , &myURG.yvikeys_scale      },
+   {  '-' , "format"         , "hyleoroi formatting options"           , 'M', 'g', ""         , ""         , &myURG.format             },
+   {  '-' , "color"          , "hyleoroi color usage and setup"        , 'M', 'g', ""         , ""         , &myURG.color              },
    /*---(end-of-list)--------------------*/
-   {  '\0', "END-OF-LIST"    , "end of list"                           , ' ', ' ', NULL                           },
+   {  '\0', "END-OF-LIST"    , "end of list"                           , ' ', ' ', ""         , ""         , NULL                      },
 };
 
 
@@ -361,6 +370,73 @@ yurg__strings      (void)
    }
    /*---(complete)-----------------------*/
    return 0;
+}
+
+char
+yURG_by_debug      (cchar *a_name, char *r_abbr)
+{
+   /*---(locals)-----------+-----------+-*/
+   char        rce         = -10;
+   char        rc          =    0;
+   int         i           = 0;
+   int         x_len       = 0;
+   char        x_end       [LEN_TERSE] = "";
+   /*---(header)-------------------------*/
+   DEBUG_ARGS_M   yLOG_enter   (__FUNCTION__);
+   /*---(prepare)------------------------*/
+   if (r_abbr != NULL)  *r_abbr = '·';
+   /*---(defense)------------------------*/
+   DEBUG_ARGS_M   yLOG_point   ("a_name"    , a_name);
+   --rce;  if (a_name == NULL) {
+      DEBUG_ARGS_M   yLOG_exit    (__FUNCTION__);
+      return rce;
+   }
+   DEBUG_ARGS_M   yLOG_info    ("a_name"    , a_name);
+   x_len = strlen (a_name);
+   DEBUG_ARGS_M   yLOG_value   ("x_len"     , x_len);
+   --rce;  if (x_len <  7) {
+      DEBUG_ARGS_M   yLOG_note    ("a_name too short (< 3 chars)");
+      DEBUG_ARGS_M   yLOG_exit    (__FUNCTION__);
+      return rce;
+   }
+   --rce;  if (x_len > 15) {
+      DEBUG_ARGS_M   yLOG_note    ("a_name too long (> 15 chars)");
+      DEBUG_ARGS_M   yLOG_exit    (__FUNCTION__);
+      return rce;
+   }
+   --rce;  if (strncmp ("DEBUG_", a_name, 6) != 0) {
+      DEBUG_ARGS_M   yLOG_note    ("a_name does not start with DEBUG_");
+      DEBUG_ARGS_M   yLOG_exit    (__FUNCTION__);
+      return rce;
+   }
+   /*---(prepare)------------------------*/
+   strcpy (x_end, a_name + 6);
+   DEBUG_ARGS_M   yLOG_info    ("x_end"     , x_end);
+   /*---(find)---------------------------*/
+   for (i = 0; i < MAX_URGS; ++i) {
+      DEBUG_ARGS_M  yLOG_info    ("checking"  , yURG_info [i].full);
+      /*---(stop at end)-----------------*/
+      if (yURG_info [i].abbr  == '\0') {
+         DEBUG_ARGS_M   yLOG_note    ("hit end of table");
+         break;
+      }
+      /*---(filter)----------------------*/
+      if (yURG_info [i].base [0] == '\0')             continue;
+      if (yURG_info [i].base [0] != x_end [0])        continue;
+      if (yURG_info [i].base [1] != x_end [1])        continue;
+      /*---(check)-----------------------*/
+      if (strcmp (yURG_info [i].base, x_end) != 0 &&
+            strcmp (yURG_info [i].mas , x_end) != 0)    continue;
+      /*---(handle)----------------------*/
+      DEBUG_ARGS_M   yLOG_note    ("MATCH");
+      if (r_abbr != NULL)  *r_abbr = yURG_info [i].abbr;
+      DEBUG_ARGS_M   yLOG_exit    (__FUNCTION__);
+      return 1;
+   }
+   /*---(fall-out)-----------------------*/
+   --rce;
+   DEBUG_ARGS_M yLOG_exitr   (__FUNCTION__, rce);
+   return rce;
 }
 
 

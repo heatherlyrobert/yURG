@@ -132,17 +132,19 @@
 #define  YURG_WALK    'w'    /* walking major data structures                 */
 #define  YURG_DATA    'd'    /* pure data chewing, reviewing, gathering       */
 #define  YURG_TABLE   't'    /* data table input, update, and output          */
-/*---(vi-keys libs)---------*/
-#define  YURG_YCMD    'C'
-#define  YURG_YMARK   'M'
-#define  YURG_YFILE   'F'
-#define  YURG_YGOD    'G'
-#define  YURG_YKEYS   'K'
-#define  YURG_YMACRO  'B'
-#define  YURG_YMAP    'P'
+/*---(vi-keys fund)---------*/
 #define  YURG_YMODE   'O'
-#define  YURG_YSRC    'S'
+#define  YURG_YKEYS   'K'
+#define  YURG_YFILE   'F'
 #define  YURG_YVIEW   'V'
+/*---(vi-keys extend)-------*/
+#define  YURG_YMAP    'P'
+#define  YURG_YCMD    'C'
+#define  YURG_YMACRO  'B'
+#define  YURG_YSRC    'S'
+#define  YURG_YMARK   'M'
+/*---(vi-keys graph)--------*/
+#define  YURG_YGOD    'G'
 #define  YURG_YVICU   'Y'
 #define  YURG_YVIOP   'Y'
 /*---(other libs)-----------*/
@@ -552,6 +554,7 @@ char        yURG_list               (void);
 
 char        yURG_by_abbr            (cchar  a_abbr, cchar a_on);
 char        yURG_by_name            (cchar *a_name, cchar a_on);
+char        yURG_by_debug           (cchar *a_name, char *r_abbr);
 
 char        yURG_lognum             (void);
 

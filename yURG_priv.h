@@ -37,8 +37,8 @@
 
 #define     P_VERMAJOR  "1.--, production improvements"
 #define     P_VERMINOR  "1.0-, keep support broad and advancing"
-#define     P_VERNUM    "1.0k"
-#define     P_VERTXT    "update to yURG_peek for cursor to same line (´)"
+#define     P_VERNUM    "1.0l"
+#define     P_VERTXT    "added lookup to help polymnia avoid old/duplicate data"
 
 #define     P_PRIORITY  "direct, simple, brief, vigorous, and lucid (h.w. fowler)"
 #define     P_PRINCIPAL "[grow a set] and build your wings on the way down (r. bradbury)"
@@ -160,9 +160,11 @@ struct cYURG_INFO
    char        desc        [LEN_DESC ];     /* explanation                    */
    char        type;                        /* main type                      */
    char        sub;                         /* subtype                        */
+   char        base        [LEN_TERSE];     /* name for base                  */
+   char        mas         [LEN_TERSE];     /* name for mas                   */
    char       *point;                       /* pointer to normal              */
 };
-extern tYURG_INFO  yURG_info [MAX_URGS];
+extern const tYURG_INFO  yURG_info [MAX_URGS];
 
 
 extern char unit_answer [LEN_RECD];

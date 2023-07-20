@@ -433,4 +433,45 @@ SCRP          (BASE) verify urgent parsing                                     
 
 
 
+#23456789-12  123456789-123456789-123456789-12345  123456789-123456789-123456  123456789-123456789-123456789-123456789-123456789-123456789-123456789-123456789-123456789-123456789-  123456789-  123456789-123456789-123456789-123456789-123456789-123456789-123456789-123456789-123456789-123456789-  123456789-123456789- 
+#==(verb)===  ===========(description)===========  =====(function)===========  ========================(arguments)=================================================================  ==(test)==  ==========================(results)=================================================================  ========(var)======= 
+SCRP          (BASE) verify retrieving urgent table data                         0s   by_debug        yURG_by_debug                                                                ((01.---))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+
+   COND       prepare for run                                                    - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((01.001))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     prepare for testing                  yURG__testquiet                                                                                                                   i_equal     0                                                                                                    
+     local    create working variable              - - - - - - - - - - - - -   char  x_abbr = '-';                                                                                                                                                                                                        
+
+   COND       verify quick success                                               - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((01.002))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     call find                            yURG_by_debug               "DEBUG_ARGS"        , &x_abbr                                                                         i_equal     1                                                                                                    
+     echo     ...check count                       - - - - - - - - - - - - -   x_abbr                                                                                                i_equal     'a'                                                                                                  
+
+   COND       attempt with null                                                  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((01.002))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     call find                            yURG_by_debug               NULL                , &x_abbr                                                                         i_lesser    0                                                                                                    
+     echo     ...check count                       - - - - - - - - - - - - -   x_abbr                                                                                                i_equal     '·'                                                                                                  
+
+   COND       verify another                                                     - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((01.002))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     call find                            yURG_by_debug               "DEBUG_LOOP"        , &x_abbr                                                                         i_equal     1                                                                                                    
+     echo     ...check count                       - - - - - - - - - - - - -   x_abbr                                                                                                i_equal     'l'                                                                                                  
+
+   COND       attempt without prefix                                             - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((01.002))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     call find                            yURG_by_debug               "LOOP"              , &x_abbr                                                                         i_lesser    0                                                                                                    
+     echo     ...check count                       - - - - - - - - - - - - -   x_abbr                                                                                                i_equal     '·'                                                                                                  
+
+   COND       verify a mas version                                               - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((01.002))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     call find                            yURG_by_debug               "DEBUG_LOOP_M"      , &x_abbr                                                                         i_equal     1                                                                                                    
+     echo     ...check count                       - - - - - - - - - - - - -   x_abbr                                                                                                i_equal     'l'                                                                                                  
+
+   COND       attempt with extra characters                                      - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((01.002))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     call find                            yURG_by_debug               "DEBUG_LOOP_"       , &x_abbr                                                                         i_lesser    0                                                                                                    
+     echo     ...check count                       - - - - - - - - - - - - -   x_abbr                                                                                                i_equal     '·'                                                                                                  
+
+   COND       verify a vi-keys version                                           - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((01.002))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     call find                            yURG_by_debug               "DEBUG_YVICU"       , &x_abbr                                                                         i_equal     1                                                                                                    
+     echo     ...check count                       - - - - - - - - - - - - -   x_abbr                                                                                                i_equal     'Y'                                                                                                  
+
+   COND       end the test                                                       - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((03.010))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     prepare for testing                  yURG__testend                                                                                                                     i_equal     0                                                                                                    
+
+
+
 # end-of-file.  done, finito, completare, whimper [Ï´···
