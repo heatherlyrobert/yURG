@@ -708,6 +708,8 @@ yURG_by_name       (cchar *a_name, cchar a_on)
    return 0;
 }
 
+char  yURG_name (cchar *a_name, cchar a_on) { return yURG_by_name (a_name, a_on); }
+
 char       /*----: process the urgents/debugging -----------------------------*/
 yurg__wild         (cchar *a_string, cchar a_on)
 {

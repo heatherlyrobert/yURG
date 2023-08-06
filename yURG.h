@@ -556,6 +556,8 @@ char        yURG_by_abbr            (cchar  a_abbr, cchar a_on);
 char        yURG_by_name            (cchar *a_name, cchar a_on);
 char        yURG_by_debug           (cchar *a_name, char *r_abbr);
 
+char        yURG_name               (cchar *a_name, cchar a_on); /* DEPRICATED */
+
 char        yURG_lognum             (void);
 
 char        yURG_stage_check        (char a_stage);
