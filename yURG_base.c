@@ -228,6 +228,7 @@ const tYURG_INFO  yURG_info [MAX_URGS] = {
    {  'è' , "ysec"           , "ySEC system access logging"            , 'l', 's', "YSEC"     , ""         , &myURG.ysec               },
    {  'ú' , "ysort"          , "ySORT  vi-keys data ordering"          , 'l', 'v', "YSORT"    , ""         , &myURG.ysort              },
    {  'õ' , "ydesk"          , "yX11 window management"                , 'l', 'v', "YDESK"    , ""         , &myURG.desk               },
+   {  'ð' , "yascii"         , "yASCII font and art"                   , 'l', 's', ""         , ""         , &myURG.yascii             },
    /*---(other)--------------------------*/
    {  '-' , "yxwin"          , "yX11 window management"                , 'l', 'v', ""         , ""         , &myURG.yxwin              },
    {  '-' , "yvikeys"        , "yVIKEYS vi-keys handling library"      , 'l', 'v', ""         , ""         , &myURG.yvikeys            },

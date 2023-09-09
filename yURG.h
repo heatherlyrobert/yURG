@@ -313,6 +313,8 @@ struct cURG_DEBUG
    /*---(hyleoroi)-----------------------*/
    char        format;                 /* formatting options                  */
    char        color;                  /* color formatting options            */
+   /*---(ascii)--------------------------*/
+   char        yascii;                 /* yASCII font and art                 */
    /*---(done)---------------------------*/
 };
 extern    tURG_DEBUG      myURG;
@@ -535,6 +537,8 @@ extern    tURG_DEBUG      myURG;
 #define     DEBUG_FORMAT_M         yLOG_curr (myURG.cstage, '¢');  if (myURG.format             == 'Y')
 #define     DEBUG_COLOR            yLOG_curr (myURG.cstage, '¢');  if (myURG.color              != '-')
 #define     DEBUG_COLOR_M          yLOG_curr (myURG.cstage, '¢');  if (myURG.color              == 'Y')
+/*---(yascii)----------------------------*/
+#define     DEBUG_YASCII           yLOG_curr (myURG.cstage, '¢');  if (myURG.format             != '-')
 
 
 typedef     const char         cchar;
