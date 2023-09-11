@@ -538,7 +538,7 @@ extern    tURG_DEBUG      myURG;
 #define     DEBUG_COLOR            yLOG_curr (myURG.cstage, '¢');  if (myURG.color              != '-')
 #define     DEBUG_COLOR_M          yLOG_curr (myURG.cstage, '¢');  if (myURG.color              == 'Y')
 /*---(yascii)----------------------------*/
-#define     DEBUG_YASCII           yLOG_curr (myURG.cstage, '¢');  if (myURG.format             != '-')
+#define     DEBUG_YASCII           yLOG_curr (myURG.cstage, '¢');  if (myURG.yascii             != '-')
 
 
 typedef     const char         cchar;

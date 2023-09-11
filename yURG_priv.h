@@ -37,8 +37,8 @@
 
 #define     P_VERMAJOR  "1.--, production improvements"
 #define     P_VERMINOR  "1.0-, keep support broad and advancing"
-#define     P_VERNUM    "1.0n"
-#define     P_VERTXT    "added @@yascii for new library"
+#define     P_VERNUM    "1.0o"
+#define     P_VERTXT    "tweaking to get yASCII working"
 
 #define     P_PRIORITY  "direct, simple, brief, vigorous, and lucid (h.w. fowler)"
 #define     P_PRINCIPAL "[grow a set] and build your wings on the way down (r. bradbury)"
