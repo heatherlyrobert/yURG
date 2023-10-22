@@ -37,8 +37,8 @@
 
 #define     P_VERMAJOR  "1.--, production improvements"
 #define     P_VERMINOR  "1.0-, keep support broad and advancing"
-#define     P_VERNUM    "1.0o"
-#define     P_VERTXT    "tweaking to get yASCII working"
+#define     P_VERNUM    "1.0p"
+#define     P_VERTXT    "some auto-extra line in yURG_msg rather than in each program"
 
 #define     P_PRIORITY  "direct, simple, brief, vigorous, and lucid (h.w. fowler)"
 #define     P_PRINCIPAL "[grow a set] and build your wings on the way down (r. bradbury)"
@@ -119,8 +119,7 @@
 
 #include    <yLOG.h>         /* CUSTOM : heatherly program logging            */
 #include    "yURG.h"
-#include    <yCOLOR_solo.h>  /* CUSTOM : heatherly color constants            */
-
+#include    <yCOLOR_solo.h>
 
 
 /*===[[ ySTR CLIPPING ]]======================================================*/

@@ -472,9 +472,10 @@ yURG_msg                (cchar a_type, cchar *a_format, ...)
    if (s_mfile == NULL)  yURG_msg_std ();
    /*---(prefix)-------------------------*/
    switch (a_type) {
-   case '>' :  strcpy (x_pre, ""     );     break;
+   case '>' :  strcpy (x_pre, "\n"   );     break;
    case '-' :  strcpy (x_pre, "  -- ");     break;
    case '+' :  strcpy (x_pre, "    -- ");   break;
+   case '~' :  strcpy (x_pre, "\n"   );     break;
    }
    /*---(va_args)------------------------*/
    va_start   (x_args, a_format);
@@ -693,6 +694,26 @@ char*
 yURG_peek               (cchar *a_name, int n)
 {
    return yurg_peek (a_name, n, NULL);
+}
+
+char*
+yURG_peek_clear         (cchar *a_name, int n)
+{
+   int         l           =    0;
+   int         i           =    0;
+   yurg_peek (a_name, n, NULL);
+   l = strlen (s_peek);
+   for (i = 0; i < l; ++i) {
+      switch (s_peek [i]) {
+      case  10 :  s_peek [i] = '¦';  break;
+      case  13 :  s_peek [i] = '¦';  break;
+      case  27 :  s_peek [i] = '¥';  break;
+      case  29 :  s_peek [i] = '¨';  break;
+      case  31 :  s_peek [i] = '§';  break;
+      case  32 :  s_peek [i] = '²';  break;
+      }
+   }
+   return s_peek;
 }
 
 char 

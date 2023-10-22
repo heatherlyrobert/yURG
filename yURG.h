@@ -603,6 +603,7 @@ char        yURG_mkdir              (cchar *a_dir, cchar *a_own, cchar *a_grp, c
 char        yURG_rmdir              (cchar *a_dir);
 int         yURG_peek_count         (cchar *a_name);
 char*       yURG_peek               (cchar *a_name, int n);
+char*       yURG_peek_clear         (cchar *a_name, int n);
 char        yURG_peek_exists        (cchar *a_name);
 char*       yURG_peek_fill          (cchar *a_name, int n);
 
