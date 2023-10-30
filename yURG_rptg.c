@@ -472,6 +472,7 @@ yURG_msg                (cchar a_type, cchar *a_format, ...)
    if (s_mfile == NULL)  yURG_msg_std ();
    /*---(prefix)-------------------------*/
    switch (a_type) {
+   case ':' :  strcpy (x_pre, ""     );     break;
    case '>' :  strcpy (x_pre, "\n"   );     break;
    case '-' :  strcpy (x_pre, "  -- ");     break;
    case '+' :  strcpy (x_pre, "    -- ");   break;
