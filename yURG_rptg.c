@@ -742,6 +742,19 @@ yURG_peek_fill          (cchar *a_name, int n)
    return s_print;
 }
 
+char*
+yURG_peek_field         (cchar *a_name, int n)
+{
+   int         i           =    0;
+   int         l           =    0;
+   strcpy (s_print, yurg_peek (a_name, n, NULL));
+   l = strlen (s_print);
+   for (i = 0; i < l; ++i) {
+      if (s_print [i] == '')  s_print [i] = '§';
+   }
+   return s_print;
+}
+
 
 
 /*====================------------------------------------====================*/
