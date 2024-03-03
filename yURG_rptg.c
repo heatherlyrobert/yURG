@@ -467,6 +467,7 @@ yURG_msg                (cchar a_type, cchar *a_format, ...)
 {
    /*---(locals)-----------+-----+-----+-*/
    char        x_pre       [LEN_LABEL] = "";
+   char        x_suf       [LEN_LABEL] = "";
    va_list     x_args;
    /*---(check output)-------------------*/
    if (s_mfile == NULL)  yURG_msg_std ();
@@ -477,12 +478,15 @@ yURG_msg                (cchar a_type, cchar *a_format, ...)
    case '-' :  strcpy (x_pre, "  -- ");     break;
    case '+' :  strcpy (x_pre, "    -- ");   break;
    case '~' :  strcpy (x_pre, "\n"   );     break;
+   case 'C' :  strcpy (x_pre, BOLD_GRN "\n"   );
+               strcpy (x_suf, BOLD_OFF);
+               break;
    }
    /*---(va_args)------------------------*/
    va_start   (x_args, a_format);
    if (s_mlive == 'y') {
       vsnprintf  (s_print, LEN_FULL - 1, a_format, x_args);
-      fprintf    (s_mfile, "%s%s\n", x_pre, s_print);
+      fprintf    (s_mfile, "%s%s%s\n", x_pre, s_print, x_suf);
       fflush     (s_mfile);
    }
    va_end     (x_args);
@@ -753,6 +757,19 @@ yURG_peek_field         (cchar *a_name, int n)
       if (s_print [i] == '')  s_print [i] = '§';
    }
    return s_print;
+}
+
+char
+yURG_diff               (cchar *a_actual, cchar *a_expect)
+{
+   char       *x_diff      = "/tmp/yurg_diff.txt";
+   char        x_cmd       [LEN_RECD]  = "";
+   int         c           =    0;
+   sprintf (x_cmd, "diff %s %s > %s", a_actual, a_expect, x_diff);
+   system  (x_cmd);
+   c = yURG_peek_count (x_diff);
+   if (c > 0)  return 0;
+   return 1;
 }
 
 

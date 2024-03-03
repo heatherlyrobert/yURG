@@ -607,6 +607,7 @@ char*       yURG_peek_clear         (cchar *a_name, int n);
 char        yURG_peek_exists        (cchar *a_name);
 char*       yURG_peek_fill          (cchar *a_name, int n);
 char*       yURG_peek_field         (cchar *a_name, int n);
+char        yURG_diff               (cchar *a_actual, cchar *a_expect);
 
 
 #endif

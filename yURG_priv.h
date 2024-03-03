@@ -37,8 +37,8 @@
 
 #define     P_VERMAJOR  "1.--, production improvements"
 #define     P_VERMINOR  "1.0-, keep support broad and advancing"
-#define     P_VERNUM    "1.0r"
-#define     P_VERTXT    "added yURG_peek variation to just convert ascii-field to visible-field"
+#define     P_VERNUM    "1.0s"
+#define     P_VERTXT    "added yURG_diff to compare to ascii-txt files during testing"
 
 #define     P_PRIORITY  "direct, simple, brief, vigorous, and lucid (h.w. fowler)"
 #define     P_PRINCIPAL "[grow a set] and build your wings on the way down (r. bradbury)"
