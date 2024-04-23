@@ -4,6 +4,10 @@
 
 
 
+#include <ySTR_solo.h>
+
+
+
 #define        YURG_OFF        '-'
 #define        YURG_ON         'y'
 #define        YURG_MAS        'Y'
@@ -168,6 +172,7 @@
 
 
 typedef     unsigned char             uchar;
+typedef     unsigned int              uint;
 typedef     struct   cURG_DEBUG       tURG_DEBUG;
 /*===[[ DEBUGGING SETUP ]]====================================================*/
 /* this is my latest standard format, vars, and urgents                       */
@@ -566,27 +571,6 @@ char        yURG_lognum             (void);
 
 char        yURG_stage_check        (char a_stage);
 
-char        yURG_err_std            (void);
-char        yURG_err_tmp            (void);
-char        yURG_err_none           (void);
-char        yURG_err_custom         (char *a_name);
-char        yURG_err_live           (void);
-char        yURG_err_mute           (void);
-char        yURG_err                (cchar a_type, cchar *a_format, ...);
-char*       yURG_err_last           (void);
-char        yURG_err_clear          (void);
-char        yURG_err_purge          (void);
-
-char        yURG_msg_std            (void);
-char        yURG_msg_tmp            (void);
-char        yURG_msg_none           (void);
-char        yURG_msg_custom         (char *a_name);
-char        yURG_msg_live           (void);
-char        yURG_msg_mute           (void);
-char        yURG_msg                (cchar a_type, cchar *a_format, ...);
-char*       yURG_msg_last           (void);
-char        yURG_msg_clear          (void);
-char        yURG_msg_purge          (void);
 
 char        yURG_all_clear          (void);
 char        yURG_all_tmp            (void);
@@ -597,17 +581,86 @@ char        yURG_all_live           (void);
 char        yURG_all_tmplive        (void);
 char*       yURG_mute_status        (void);
 
-char        yURG_touch              (cchar *a_file, cchar *a_own, cchar *a_grp, cchar *a_perms);
-char        yURG_rm                 (cchar *a_file);
-char        yURG_mkdir              (cchar *a_dir, cchar *a_own, cchar *a_grp, cchar *a_perms);
-char        yURG_rmdir              (cchar *a_dir);
-int         yURG_peek_count         (cchar *a_name);
+
+
+/*===[[ koios_msg.c ]]========================================================*/
+/*········· ´······················ ´·········································*/
+/*---(file)-----------------*/
+char        yurg_msg__open          (char a_type, char a_name [LEN_FULL], char **f, char r_save [LEN_FULL]);
+char        yurg_msg_open           (char a_name [LEN_FULL]);
+char        yurg_msg__close         (char a_type, char **f, char r_save [LEN_FULL]);
+char        yurg_msg_close          (void);
+/*---(destination)----------*/
+char        yurg_msg__dest          (char a_name [LEN_FULL]);
+char        yURG_msg_std            (void);
+char        yURG_msg_tmp            (void);
+char        yURG_msg_none           (void);
+char        yURG_msg_custom         (char a_name [LEN_FULL]);
+/*---(live)-----------------*/
+char        yURG_msg_live           (void);
+char        yURG_msg_mute           (void);
+/*---(driver)---------------*/
+char        yURG_msg                (cchar a_type, cchar *a_format, ...);
+/*---(history)--------------*/
+char*       yURG_msg_last           (void);
+char        yURG_msg_clear          (void);
+char        yURG_msg_purge          (void);
+/*---(unittest)-------------*/
+char*       yurg_msg__unit          (char *a_question, int a_num);
+/*---(done)-----------------*/
+
+
+
+/*===[[ koios_err.c ]]========================================================*/
+/*········· ´······················ ´·········································*/
+/*---(file)-----------------*/
+char        yurg_err_open           (char a_name [LEN_FULL]);
+char        yurg_err_close          (void);
+/*---(destination)----------*/
+char        yurg_err__dest          (char a_name [LEN_FULL]);
+char        yURG_err_std            (void);
+char        yURG_err_tmp            (void);
+char        yURG_err_none           (void);
+char        yURG_err_custom         (char a_name [LEN_FULL]);
+/*---(live)-----------------*/
+char        yURG_err_live           (void);
+char        yURG_err_mute           (void);
+/*---(driver)---------------*/
+char        yURG_err                (cchar a_type, cchar *a_format, ...);
+/*---(history)--------------*/
+char*       yURG_err_last           (void);
+char        yURG_err_clear          (void);
+char        yURG_err_purge          (void);
+/*---(unittest)-------------*/
+char*       yurg_err__unit          (char *a_question, int a_num);
+/*---(done)-----------------*/
+
+
+
+/*===[[ koios_peek.c ]]=======================================================*/
+/*········· ´······················ ´·········································*/
+/*---(exist)----------------*/
+char        yURG_touchier           (char a_type, cchar a_name [LEN_PATH], cchar a_own [LEN_LABEL], cchar a_grp [LEN_LABEL], cchar a_perms [LEN_LABEL], int a_major, int a_minor, char a_link [LEN_PATH]);
+char        yURG_touch              (cchar a_name [LEN_PATH], cchar a_own [LEN_LABEL], cchar a_grp [LEN_LABEL], cchar a_perms [LEN_LABEL]);
+char        yURG_rm                 (cchar a_name [LEN_PATH]);
+char        yURG_mkdir              (cchar a_name [LEN_PATH], cchar a_own [LEN_LABEL], cchar a_grp [LEN_LABEL], cchar a_perms [LEN_LABEL]);
+char        yURG_rmdir              (cchar a_name [LEN_PATH]);
+/*---(checking)-------------*/
+char        yURG_detail             (cchar a_name [LEN_PATH], int *r_uid, char r_own [LEN_LABEL], int *r_gid, char r_grp [LEN_LABEL], int *r_perms, char r_pname [LEN_LABEL], char r_pdisp [LEN_TERSE], long *r_bytes, int *r_epoch, int *r_major, int *r_minor, char r_link [LEN_PATH]);
+char        yURG_exists             (cchar a_name [LEN_PATH]);
+/*---(file)-----------------*/
+char        yURG_lines              (cchar a_name [LEN_PATH]);
 char*       yURG_peek               (cchar *a_name, int n);
 char*       yURG_peek_clear         (cchar *a_name, int n);
 char        yURG_peek_exists        (cchar *a_name);
 char*       yURG_peek_fill          (cchar *a_name, int n);
 char*       yURG_peek_field         (cchar *a_name, int n);
+/*---(comparision)----------*/
 char        yURG_diff               (cchar *a_actual, cchar *a_expect);
+/*---(done)-----------------*/
+
+
+
 
 
 #endif

@@ -4,48 +4,57 @@
 
 
 
-/*===[[ BEG_HEADER ]]=========================================================*/
-/*345678901-12345678901-12345678901-12345678901-12345678901-12345678901-12345678901-12345678901-*/
-
 /*===[[ ONE_LINERS ]]=========================================================*/
-/*-------   --12345678  "123456789-123456789-123456789-123456789-123456789-123456789-"  */
-
+/*                      ´·········1·········2·········3·········4·········5·········6·········7*/
+/*--------- 12345678901 ´123456789-123456789-123456789-123456789-123456789-123456789-123456789-*/
+/*········· ··········· ´·····························´········································*/
 #define     P_FOCUS     "RS (run-time support)"
 #define     P_NICHE     "de (debugging/logging control)"
 #define     P_SUBJECT   "runtime debugging control"
 #define     P_PURPOSE   "simple, clean, incremental debugging and logging control"
-
+/*········· ··········· ´·····························´········································*/
 #define     P_NAMESAKE  "zelus-daimon (enforcer)"
+#define     P_PRONOUNCE ""
 #define     P_HERITAGE  "zeal, sibling of strength (kratos), force (bia), and victory (nike)"
+#define     P_BRIEFLY   ""
 #define     P_IMAGERY   "angel-like being, represents zeal and dedication, enforcer of zeus"
 #define     P_REASON    "daimon of zealousness, dedication, and enforcement"
-
+/*········· ··········· ´·····························´········································*/
 #define     P_ONELINE   P_NAMESAKE " " P_SUBJECT
-
+/*········· ··········· ´·····························´········································*/
+#define     P_HOMEDIR   "/home/system/yURG.urgent_processing"
 #define     P_BASENAME  "yURG"
 #define     P_FULLPATH  "/usr/local/lib64/libyURG.so"
-#define     P_SUFFIX    "n/a"
-#define     P_CONTENT   "n/a"
-
+#define     P_SUFFIX    "···"
+#define     P_CONTENT   "···"
+/*········· ··········· ´·····························´········································*/
 #define     P_SYSTEM    "gnu/linux   (powerful, ubiquitous, technical, and hackable)"
 #define     P_LANGUAGE  "ansi-c      (wicked, limitless, universal, and everlasting)"
+#define     P_COMPILER  "gcc 5.3.0"
 #define     P_CODESIZE  "small       (appoximately 1,000 slocl)"
-
+/*········· ··········· ´·····························´········································*/
 #define     P_AUTHOR    "heatherlyrobert"
 #define     P_CREATED   "2014-10"
-#define     P_DEPENDS   "none"
-
+/*········· ··········· ´·····························´········································*/
 #define     P_VERMAJOR  "1.--, production improvements"
-#define     P_VERMINOR  "1.0-, keep support broad and advancing"
-#define     P_VERNUM    "1.0s"
-#define     P_VERTXT    "added yURG_diff to compare to ascii-txt files during testing"
-
+#define     P_VERMINOR  "1.0-, restructure to improve"
+#define     P_VERNUM    "1.1a"
+#define     P_VERTXT    "improved msg and err functions (unit tested)"
+/*········· ··········· ´·····························´········································*/
 #define     P_PRIORITY  "direct, simple, brief, vigorous, and lucid (h.w. fowler)"
 #define     P_PRINCIPAL "[grow a set] and build your wings on the way down (r. bradbury)"
 #define     P_REMINDER  "there are many better options, but i *own* every byte of this one"
-
-/*-------   --12345678  "123456789-123456789-123456789-123456789-123456789-123456789-"  */
-/*===[[ END ONE_LINERS ]]=====================================================*/
+/*········· ··········· ´·····························´········································*/
+#define     P_DEPANSI   ""
+#define     P_DEPPOSIX  ""
+#define     P_DEPCORE   "ySTR"
+#define     P_DEPVIKEY  ""
+#define     P_DEPGRAPH  ""
+#define     P_DEPOTHER  "ySORT,yJOBS,yEXEC"
+#define     P_DEPSOLO   ""
+#define     P_DEPALIEN  ""
+/*········· ··········· ´·····························´········································*/
+/*--------- 12345678901 ´123456789-123456789-123456789-123456789-123456789-123456789-123456789-*/
 
 
 
@@ -116,6 +125,10 @@
 #include    <sys/stat.h>          /* fstat, umask                                */
 #include    <unistd.h>       /* stat(),crpyt()                      */
 #include    <sys/mount.h>    /* C_ANSI : mount                                */
+#include    <pwd.h>               /* getpwuid, getpwnam                       */
+#include    <grp.h>               /* getgruid, getgrnam                       */
+#include    <fcntl.h>             /* creat, open, fcntl                       */
+#include    <sys/sysmacros.h>
 
 #include    <yLOG.h>         /* CUSTOM : heatherly program logging            */
 #include    "yURG.h"
@@ -139,6 +152,8 @@
 
 
 typedef struct stat      tSTAT;
+typedef struct passwd    tPASSWD;
+typedef struct group     tGROUP;
 
 #define        MAX_URGS        500
 
