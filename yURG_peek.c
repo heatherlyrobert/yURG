@@ -3,6 +3,17 @@
 #include    "yURG_priv.h"
 
 
+#define     TYPE_BLOCK       'b'
+#define     TYPE_CHAR        'c'
+#define     TYPE_DIR         'd'
+#define     TYPE_HARD        'h'
+#define     TYPE_IPSOC       'i'
+#define     TYPE_PIPE        'p'
+#define     TYPE_REG         'r'
+#define     TYPE_SYM         's'
+#define     TYPE_NONE        '-'
+#define     TYPE_WTF         '?'
+
 
 static char  s_peek    [LEN_RECD] = "";
 static char  s_pprint  [LEN_RECD] = "";
@@ -51,16 +62,17 @@ const tPERM s_perms [MAX_PERM] = {
 
 
 /*====================------------------------------------====================*/
-/*===----                    files and directories                     ----===*/
+/*===----                      creating files                          ----===*/
 /*====================------------------------------------====================*/
-static void      o___FILE_______________o (void) {;}
+static void      o___CREATE_____________o (void) {;}
 
 char
 yURG_touchier           (char a_type, cchar a_name [LEN_PATH], cchar a_own [LEN_LABEL], cchar a_grp [LEN_LABEL], cchar a_perms [LEN_LABEL], int a_major, int a_minor, char a_link [LEN_PATH])
 {
+   /*---(locals)-----------+-----+-----+-*/
    char        rce         =  -10;
    char        rc          =    0;
-   char        x_type      =  '-';
+   char        x_type      = TYPE_NONE;
    FILE       *f           = NULL;
    tPASSWD    *x_owner     = NULL;
    tGROUP     *x_group     = NULL;
@@ -78,7 +90,7 @@ yURG_touchier           (char a_type, cchar a_name [LEN_PATH], cchar a_own [LEN_
    /*---(check on file)------------------*/
    x_type = yURG_exists (a_name);
    --rce;  if (x_type < 0)                       return rce;
-   --rce;  if (x_type > '-' && x_type != a_type) return rce;
+   --rce;  if (x_type > TYPE_NONE && x_type != a_type) return rce;
    /*---(pre-work ownership)-------------*/
    x_owner = getpwnam (a_own);
    --rce;  if (x_owner == NULL)                  return rce;
@@ -136,29 +148,33 @@ yURG_touchier           (char a_type, cchar a_name [LEN_PATH], cchar a_own [LEN_
    }
    else  return rce;
    /*---(create, if needed)--------------*/
-   --rce;  if (x_type == '-') {
+   --rce;  if (x_type == TYPE_NONE) {
       --rce;  switch (a_type) {
-      case 'b' :
+      case TYPE_BLOCK :
          rc = mknod   (a_name, S_IFBLK, makedev (a_major, a_minor));
          break;
-      case 'c' :
+      case TYPE_CHAR  :
          rc = mknod   (a_name, S_IFCHR, makedev (a_major, a_minor));
          break;
-      case 'd' : 
+      case TYPE_DIR   : 
          rc = mkdir   (a_name, 00000);
          break;
-      case 'r' : 
+      case TYPE_REG   : 
          f  = fopen   (a_name, "wt");
          if (f == NULL)  return rce;
          fflush (f);
          fclose (f);
          f == NULL;
          break;
-      case 'h' : 
+      case TYPE_HARD  : 
          rc = link    (a_link, a_name);
          break;
-      case 's' : 
+      case TYPE_SYM   : 
          rc = symlink (a_link, a_name);
+         break;
+      case TYPE_IPSOC :
+         break;
+      case TYPE_PIPE  :
          break;
       }
    }
@@ -169,65 +185,83 @@ yURG_touchier           (char a_type, cchar a_name [LEN_PATH], cchar a_own [LEN_
    rc = chmod (a_name, x_perms);
    --rce;  if (rc < 0)            return rce;
    /*---(verify)-------------------------*/
-   x_type = yURG_detail (a_name, &x_euid, NULL, &x_egid, NULL, &x_eperm, NULL, NULL, NULL, NULL, &x_emaj, &x_emin, x_link);
-   --rce;  if (x_type == '-')                      return '-';
+   x_type = yURG_detail (a_name, &x_euid, NULL, &x_egid, NULL, &x_eperm, NULL, NULL, NULL, NULL, &x_emaj, &x_emin, x_link, NULL, NULL, NULL);
+   --rce;  if (x_type == TYPE_NONE)                      return TYPE_NONE;
    --rce;  if (x_type <  0)                        return rce;
-   --rce;  if (x_type >  '-' && x_type != a_type)  return rce;
+   --rce;  if (x_type >  TYPE_NONE && x_type != a_type)  return rce;
    --rce;  if (x_uid   != x_euid)                  return rce;
    --rce;  if (x_gid   != x_egid)                  return rce;
-   --rce;  if (x_type != 's') {
+   --rce;  if (x_type != TYPE_SYM  ) {
       --rce;  if (x_perms != x_eperm)              return rce;
    }
    --rce;  if (strchr ("bc", x_type) != NULL) {
       if (a_major != x_emaj)                       return rce;
       if (a_minor != x_emin)                       return rce;
    }
-   --rce;  if (x_type == 's') {
+   --rce;  if (x_type == TYPE_SYM  ) {
       if (strcmp (a_link, x_link) != 0)            return rce;
    }
    /*---(complete)-----------------------*/
    return x_type;
 }
 
-char yURG_touch              (cchar a_name [LEN_PATH], cchar a_own [LEN_LABEL], cchar a_grp [LEN_LABEL], cchar a_perms [LEN_LABEL]) { return yURG_touchier ('r', a_name, a_own, a_grp, a_perms, 0, 0, ""); }
+char yURG_touch              (cchar a_name [LEN_PATH], cchar a_own [LEN_LABEL], cchar a_grp [LEN_LABEL], cchar a_perms [LEN_LABEL]) { return yURG_touchier (TYPE_REG  , a_name, a_own, a_grp, a_perms, 0, 0, ""); }
+char yURG_mkdir              (cchar a_name [LEN_PATH], cchar a_own [LEN_LABEL], cchar a_grp [LEN_LABEL], cchar a_perms [LEN_LABEL]) { return yURG_touchier (TYPE_DIR  , a_name, a_own, a_grp, a_perms, 0, 0, ""); }
+
+
+
+/*====================------------------------------------====================*/
+/*===----                      destroying files                        ----===*/
+/*====================------------------------------------====================*/
+static void      o___DESTROY____________o (void) {;}
 
 char
-yURG_rm                 (cchar a_name [LEN_PATH])
+yURG_removier           (char a_type, cchar a_name [LEN_PATH])
 {
+   /*---(locals)-----------+-----+-----+-*/
    char        rce         =  -10;
    char        rc          =    0;
+   char        x_type      =  TYPE_NONE;
    /*---(defense)------------------------*/
-   --rce;  if (a_name == NULL)                    return rce;
-   --rce;  if (strcmp (a_name, "") == 0)          return rce;
-   rc = unlink (a_name);
-   --rce;  if (rc != 0)                           return '-';
+   --rce;  if (a_name == NULL)                             return rce;
+   --rce;  if (strcmp (a_name, "") == 0)                   return rce;
+   /*---(check on file)------------------*/
+   x_type = yURG_exists (a_name);
+   --rce;  if (x_type < 0)                                 return rce;
+   --rce;  if (x_type > TYPE_NONE && x_type != a_type)     return rce;
+   /*---(create, if needed)--------------*/
+   --rce;  switch (a_type) {
+   case TYPE_BLOCK :
+      break;
+   case TYPE_CHAR  :
+      break;
+   case TYPE_DIR   : 
+      rc = rmdir   (a_name);
+      break;
+   case TYPE_REG   : case TYPE_HARD  : case TYPE_SYM   : 
+      rc = unlink (a_name);
+      break;
+   case TYPE_IPSOC :
+      break;
+   case TYPE_PIPE  :
+      break;
+   }
+   /*---(complete)-----------------------*/
    return yURG_exists (a_name);
 }
 
-char
-yURG_mkdir              (cchar a_name [LEN_PATH], cchar a_own [LEN_LABEL], cchar a_grp [LEN_LABEL], cchar a_perms [LEN_LABEL])
-{
-   char        x_cmd       [LEN_RECD]  = "";
-   sprintf (x_cmd, "mkdir %s       > /dev/null  2>&1", a_name);
-   system  (x_cmd);
-   sprintf (x_cmd, "chown %s:%s %s > /dev/null  2>&1", a_own  , a_grp  , a_name);
-   system  (x_cmd);
-   sprintf (x_cmd, "chmod %s %s    > /dev/null  2>&1", a_perms, a_name  );
-   system  (x_cmd);
-   return 0;
-}
+char yURG_rm            (cchar a_name [LEN_PATH]) { yURG_removier (TYPE_REG  , a_name); }
+char yURG_rmdir         (cchar a_name [LEN_PATH]) { yURG_removier (TYPE_DIR  , a_name); }
 
-char
-yURG_rmdir              (cchar a_name [LEN_PATH])
-{
-   char        x_cmd       [LEN_RECD];
-   sprintf (x_cmd, "rm    -fr %s   > /dev/null  2>&1", a_name);
-   system  (x_cmd);
-   return 0;
-}
+
+
+/*====================------------------------------------====================*/
+/*===----                      examining files                         ----===*/
+/*====================------------------------------------====================*/
+static void      o___EXAMINE____________o (void) {;}
 
 char 
-yURG_detail             (cchar a_name [LEN_PATH], int *r_uid, char r_own [LEN_LABEL], int *r_gid, char r_grp [LEN_LABEL], int *r_perms, char r_pname [LEN_LABEL], char r_pdisp [LEN_TERSE], long *r_bytes, int *r_epoch, int *r_major, int *r_minor, char r_link [LEN_PATH])
+yURG_detail             (cchar a_name [LEN_PATH], int *r_uid, char r_own [LEN_LABEL], int *r_gid, char r_grp [LEN_LABEL], int *r_perms, char r_pname [LEN_LABEL], char r_pdisp [LEN_TERSE], long *r_bytes, int *r_epoch, int *r_major, int *r_minor, char r_link [LEN_PATH], int *r_dev, int *r_inode, char r_hash [LEN_DESC])
 {
    /*---(locals)-----------+-----+-----+-*/
    char        rce         =  -10;
@@ -235,9 +269,16 @@ yURG_detail             (cchar a_name [LEN_PATH], int *r_uid, char r_own [LEN_LA
    tSTAT       s;
    tPASSWD    *x_owner     = NULL;
    tGROUP     *x_group     = NULL;
-   char        x_type      =  '-';
+   char        x_type      = TYPE_NONE;
    int         x_perms     =    0;
    int         i           =    0;
+   FILE       *f           = NULL;
+   SHA_CTX     ctx;
+   uchar       x_buf       [LEN_RECD]  = "";
+   uchar       x_hash      [LEN_DESC]  = "";
+   uchar       t           [LEN_SHORT] = "";
+   int         x_bytes     = 0;
+   int         x_total     = 0;
    /*---(default)------------------------*/
    if (r_uid   != NULL)  *r_uid   = -1;
    if (r_own   != NULL)  strcpy (r_own  , "");
@@ -251,23 +292,26 @@ yURG_detail             (cchar a_name [LEN_PATH], int *r_uid, char r_own [LEN_LA
    if (r_major != NULL)  *r_major = -1;
    if (r_minor != NULL)  *r_minor = -1;
    if (r_link  != NULL)  strcpy (r_link , "");
+   if (r_dev   != NULL)  *r_dev   = -1;
+   if (r_inode != NULL)  *r_inode = -1;
+   if (r_hash  != NULL)  strcpy (r_hash , "");
    /*---(defense)------------------------*/
    --rce;  if (a_name == NULL)            return rce;
    --rce;  if (strcmp (a_name, "") == 0)  return rce;
    /*---(check existance)----------------*/
    rc = lstat (a_name, &s);
-   if (rc < 0)   return '-';
+   if (rc < 0)   return TYPE_NONE;
    /*---(normal types)-------------------*/
-   if      (S_ISBLK  (s.st_mode))   x_type = 'b';
-   else if (S_ISCHR  (s.st_mode))   x_type = 'c';
-   else if (S_ISDIR  (s.st_mode))   x_type = 'd';
-   else if (S_ISREG  (s.st_mode))   x_type = 'r';
-   else if (S_ISSOCK (s.st_mode))   x_type = 'i';
-   else if (S_ISFIFO (s.st_mode))   x_type = 'p';
-   else if (S_ISLNK  (s.st_mode))   x_type = 's';
-   else                             x_type = '?';
+   if      (S_ISBLK  (s.st_mode))   x_type = TYPE_BLOCK;
+   else if (S_ISCHR  (s.st_mode))   x_type = TYPE_CHAR ;
+   else if (S_ISDIR  (s.st_mode))   x_type = TYPE_DIR  ;
+   else if (S_ISREG  (s.st_mode))   x_type = TYPE_REG  ;
+   else if (S_ISSOCK (s.st_mode))   x_type = TYPE_IPSOC;
+   else if (S_ISFIFO (s.st_mode))   x_type = TYPE_PIPE ;
+   else if (S_ISLNK  (s.st_mode))   x_type = TYPE_SYM  ;
+   else                             x_type = TYPE_WTF  ;
    /*---(check hard link)----------------*/
-   if (x_type == 'r' && s.st_nlink > 1) x_type = 'h';
+   if (x_type == TYPE_REG   && s.st_nlink > 1) x_type = TYPE_HARD ;
    /*---(ownership)----------------------*/
    if (r_uid != NULL || r_own != NULL) {
       x_owner = getpwuid (s.st_uid);
@@ -304,14 +348,49 @@ yURG_detail             (cchar a_name [LEN_PATH], int *r_uid, char r_own [LEN_LA
       if (r_minor != NULL)   *r_minor = minor (s.st_rdev);
    }
    /*---(symlink)------------------------*/
-   if (x_type == 's') {
-      if (r_link  != NULL)  readlink (a_name, r_link, LEN_PATH);
+   if (x_type == TYPE_SYM  ) {
+      if (r_link  != NULL) {
+         i = readlink (a_name, r_link, LEN_PATH);
+         r_link [i] = '\0';
+      }
+   }
+   /*---(device and inode)---------------*/
+   if (r_dev   != NULL)  *r_dev   = s.st_dev;
+   if (r_inode != NULL)  *r_inode = s.st_ino;
+   /*---(file hash)----------------------*/
+   if (x_type == TYPE_REG   && r_hash != NULL) {
+      /*---(prepare)---------------------*/
+      f = fopen (a_name, "rb");
+      --rce;  if (f == NULL)  return rce;
+      rc = SHA1_Init (&ctx);
+      --rce;  if (rc != 1)   return rce;
+      /*---(hash all)--------------------*/
+      while (1) {
+         x_bytes = fread (x_buf, 1, sizeof (x_buf), f);
+         --rce;  if (x_bytes <  0)  { fclose (f); return rce; }
+         x_total += x_bytes;
+         if (x_bytes == 0)  break;
+         rc = SHA1_Update (&ctx, x_buf, x_bytes);
+         --rce;  if (rc != 1)       { fclose (f); return rce; }
+      }
+      /*---(finalize hash)---------------*/
+      fclose (f);
+      rc = SHA1_Final (x_hash, &ctx);
+      /*> printf ("x_total = %d\n", x_total);                                         <*/
+      --rce;  if (rc != 1)  return rce;
+      strcpy (r_hash, "");
+      for (i = 0; i < 20; ++i) {
+         sprintf (t, "%02x", x_hash [i]);
+         strlcat (r_hash, t, LEN_DESC);
+      }
+      r_hash [40] = '\0';
+      /*---(done)------------------------*/
    }
    /*---(complete)-----------------------*/
    return x_type;
 }
 
-char yURG_exists  (cchar a_name [LEN_PATH]) { return yURG_detail (a_name, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL); }
+char yURG_exists  (cchar a_name [LEN_PATH]) { return yURG_detail (a_name, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL); }
 
 
 
@@ -321,124 +400,155 @@ char yURG_exists  (cchar a_name [LEN_PATH]) { return yURG_detail (a_name, NULL, 
 static void      o___CONTENT____________o (void) {;}
 
 char*
-yurg_peek               (cchar *a_name, int n, int *a_count)
+yURG_peekier            (char a_style, cchar a_name [LEN_PATH], int n, int *a_count)
 {
+   /*---(locals)-----------+-----+-----+-*/
    char        t           [LEN_RECD]  = "";
    FILE       *f           = NULL;
    int         c           =    0;
    int         x_len       =    0;
+   int         i           =    0;
    static int  x_last      =    0;
+   char        x_dir       =  '-';
+   int         x_curr      =    0;
+   /*---(default)------------------------*/
    if (a_count != NULL)  *a_count = -1;
+   /*---(defense)------------------------*/
    if (a_name == NULL)            return "(null name)";
    if (strcmp (a_name, "") == 0)  return "(empty name)";
+   /*---(prepare)------------------------*/
    if (a_count != NULL)  *a_count = 0;
-   strcpy (s_peek, "");
+   strcpy (s_peek, "(n/a)");
+   /*---(open file)----------------------*/
    f = fopen (a_name, "rt");
    if (f == NULL) {
       if (a_count != NULL)  *a_count = -1;
       return "(not found)";
    }
+   /*---(set target)---------------------*/
+   x_curr = x_last;
    switch (n) {
    case -1 :
       fclose (f);
       return "(found)";
       break;
-   case 'º' :
-      n = x_last = 0;
+   case YDLST_HEAD : case YDLST_DHEAD :
+      x_dir = n;
+      n = x_curr = 0;
       break;
-   case '»' :
-      n = x_last = 999;
+   case YDLST_PREV : case YDLST_DPREV :
+      x_dir = n;
+      if (x_curr > 0)  n = --x_curr;
+      else             n = x_curr = 0;
       break;
-   case '´' :
-      n = x_last;
+   case YDLST_CURR : case YDLST_DCURR :
+      x_dir = n;
+      n = x_curr;
       break;
-   case 'Ö' : case '·' :  /* · means default */
-      n = ++x_last;
+   case YDLST_NEXT : case YDLST_DNEXT : case '·' :  /* · means default */
+      x_dir = n;
+      n = ++x_curr;
       break;
-   case '×' :
-      n = --x_last;
+   case YDLST_TAIL : case YDLST_DTAIL :
+      x_dir = n;
+      n = x_curr = 999;
       break;
    default :
-      x_last = n;
+      x_curr = n;
       break;
    }
-   if (n < 0)  n = x_last = 0;
+   if (n < 0)  n = x_curr = 0;
+   /*---(walk file)----------------------*/
    while (1) {
       fgets (t, LEN_RECD, f);
       if (feof (f))  break;
-      if (c == x_last)    strcpy (s_peek, t);
-      if (x_last == 999)  strcpy (s_peek, t);
+      if (c == x_curr)     strcpy (s_peek, t);
+      if (x_curr == 999)   strcpy (s_peek, t);
       ++c;
    }
+   /*---(fix cursor)---------------------*/
+   if (x_dir == YDLST_TAIL)  x_curr = c - 1;
+   if (x_dir == YDLST_NEXT && strcmp (s_peek, "(n/a)") == 0)  x_curr = x_last;
+   x_last = x_curr;
+   /*---(close)--------------------------*/
+   fclose (f);
+   /*---(fix end)------------------------*/
    x_len = strlen (s_peek);
    if (x_len > 0 && s_peek [x_len - 1] == '\n')  s_peek [--x_len] = '\0';
-   fclose (f);
-   if (a_count != NULL)  *a_count = c;
-   return s_peek;
-}
-
-int
-yURG_peek_count         (cchar *a_name)
-{
-   int         c           =    0;
-   yurg_peek (a_name, 0, &c);
-   return c;
-}
-
-char*
-yURG_peek               (cchar *a_name, int n)
-{
-   return yurg_peek (a_name, n, NULL);
-}
-
-char*
-yURG_peek_clear         (cchar *a_name, int n)
-{
-   int         l           =    0;
-   int         i           =    0;
-   yurg_peek (a_name, n, NULL);
-   l = strlen (s_peek);
-   for (i = 0; i < l; ++i) {
-      switch (s_peek [i]) {
-      case  10 :  s_peek [i] = '¦';  break;
-      case  13 :  s_peek [i] = '¦';  break;
-      case  27 :  s_peek [i] = '¥';  break;
-      case  29 :  s_peek [i] = '¨';  break;
-      case  31 :  s_peek [i] = '§';  break;
-      case  32 :  s_peek [i] = '²';  break;
+   /*---(clean)--------------------------*/
+   if (strchr ("vf", a_style) != NULL) {
+      for (i = 0; i < x_len; ++i) {
+         switch (s_peek [i]) {
+         case  G_KEY_RETURN :  s_peek [i] = G_CHAR_RETURN;   break;
+         case  G_KEY_ENTER  :  s_peek [i] = G_CHAR_RETURN;   break;
+         case  G_KEY_ESCAPE :  s_peek [i] = G_CHAR_ESCAPE;   break;
+         case  G_KEY_GROUP  :  s_peek [i] = G_CHAR_GROUP;    break;
+         case  G_KEY_FIELD  :  s_peek [i] = G_CHAR_FIELD;    break;
+         case  G_KEY_TAB    :  s_peek [i] = G_CHAR_FALSE;    break;
+         }
+         if (a_style == 'v' && s_peek [i] == G_KEY_SPACE) s_peek [i] = G_CHAR_STORAGE;
       }
    }
+   /*---(save-back)----------------------*/
+   if (a_count != NULL)  *a_count = c;
+   /*---(complete)-----------------------*/
    return s_peek;
 }
 
-char*
-yURG_peek_fill          (cchar *a_name, int n)
-{
-   int         i           =    0;
-   int         l           =    0;
-   strcpy (s_pprint, yurg_peek (a_name, n, NULL));
-   l = strlen (s_pprint);
-   if (l == 0)  return "n/a";
-   for (i = 0; i < l; ++i) {
-      if (s_pprint [i] == ' ')   s_pprint [i] = '²';
-      if (s_pprint [i] == '')  s_pprint [i] = '§';
-      if (s_pprint [i] == '\t')  s_pprint [i] = 'Ú';
-   }
-   return s_pprint;
-}
+char* yURG_peek         (cchar a_name [LEN_PATH], int n) { return yURG_peekier ('-', a_name, n, NULL); }
+char* yURG_peek_vis     (cchar a_name [LEN_PATH], int n) { return yURG_peekier ('v', a_name, n, NULL); }
+char* yURG_peek_field   (cchar a_name [LEN_PATH], int n) { return yURG_peekier ('f', a_name, n, NULL); }
+int   yURG_lines        (cchar a_name [LEN_PATH])        { int c = 0; yURG_peekier ('-', a_name, 0, &c); return c; }
 
-char*
-yURG_peek_field         (cchar *a_name, int n)
-{
-   int         i           =    0;
-   int         l           =    0;
-   strcpy (s_pprint, yurg_peek (a_name, n, NULL));
-   l = strlen (s_pprint);
-   for (i = 0; i < l; ++i) {
-      if (s_pprint [i] == '')  s_pprint [i] = '§';
-   }
-   return s_pprint;
-}
+
+/*> char*                                                                             <* 
+ *> yURG_peek_clear         (cchar *a_name, int n)                                    <* 
+ *> {                                                                                 <* 
+ *>    int         l           =    0;                                                <* 
+ *>    int         i           =    0;                                                <* 
+ *>    yURG_peekier (a_name, n, NULL);                                                <* 
+ *>    l = strlen (s_peek);                                                           <* 
+ *>    for (i = 0; i < l; ++i) {                                                      <* 
+ *>       switch (s_peek [i]) {                                                       <* 
+ *>       case  G_KEY_RETURN :  s_peek [i] = G_CHAR_RETURN;   break;                  <* 
+ *>       case  G_KEY_ENTER  :  s_peek [i] = G_CHAR_RETURN;   break;                  <* 
+ *>       case  G_KEY_ESCAPE :  s_peek [i] = G_CHAR_ESCAPE;   break;                  <* 
+ *>       case  G_KEY_GROUP  :  s_peek [i] = G_CHAR_GROUP;    break;                  <* 
+ *>       case  G_KEY_FIELD  :  s_peek [i] = G_CHAR_FIELD;    break;                  <* 
+ *>       case  G_KEY_SPACE  :  s_peek [i] = G_CHAR_STORAGE;  break;                  <* 
+ *>       }                                                                           <* 
+ *>    }                                                                              <* 
+ *>    return s_peek;                                                                 <* 
+ *> }                                                                                 <*/
+
+/*> char*                                                                             <* 
+ *> yURG_peek_fill          (cchar *a_name, int n)                                    <* 
+ *> {                                                                                 <* 
+ *>    int         i           =    0;                                                <* 
+ *>    int         l           =    0;                                                <* 
+ *>    strcpy (s_pprint, yURG_peekier (a_name, n, NULL));                             <* 
+ *>    l = strlen (s_pprint);                                                         <* 
+ *>    if (l == 0)  return "n/a";                                                     <* 
+ *>    for (i = 0; i < l; ++i) {                                                      <* 
+ *>       if (s_pprint [i] == ' ')   s_pprint [i] = '²';                              <* 
+ *>       if (s_pprint [i] == '')  s_pprint [i] = '§';                               <* 
+ *>       if (s_pprint [i] == '\t')  s_pprint [i] = 'Ú';                              <* 
+ *>    }                                                                              <* 
+ *>    return s_pprint;                                                               <* 
+ *> }                                                                                 <*/
+
+/*> char*                                                                             <* 
+ *> yURG_peek_field         (cchar *a_name, int n)                                    <* 
+ *> {                                                                                 <* 
+ *>    int         i           =    0;                                                <* 
+ *>    int         l           =    0;                                                <* 
+ *>    strcpy (s_pprint, yURG_peekier (a_name, n, NULL));                             <* 
+ *>    l = strlen (s_pprint);                                                         <* 
+ *>    for (i = 0; i < l; ++i) {                                                      <* 
+ *>       if (s_pprint [i] == '')  s_pprint [i] = '§';                               <* 
+ *>    }                                                                              <* 
+ *>    return s_pprint;                                                               <* 
+ *> }                                                                                 <*/
 
 
 
@@ -463,7 +573,7 @@ yURG_diff               (cchar *a_actual, cchar *a_expect)
    system  (x_cmd);
    rc = yURG_exists (x_diff);
    --rce;  if (rc < 0 || rc == '-')  return rce;
-   c = yURG_peek_count (x_diff);
+   c = yURG_lines (x_diff);
    if (c > 0)  return 0;
    return 1;
 }

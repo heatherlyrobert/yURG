@@ -38,8 +38,8 @@
 /*········· ··········· ´·····························´········································*/
 #define     P_VERMAJOR  "1.--, production improvements"
 #define     P_VERMINOR  "1.0-, restructure to improve"
-#define     P_VERNUM    "1.1a"
-#define     P_VERTXT    "improved msg and err functions (unit tested)"
+#define     P_VERNUM    "1.1b"
+#define     P_VERTXT    "many updates to yURG_peek, yURG_touch, and yURG_rm"
 /*········· ··········· ´·····························´········································*/
 #define     P_PRIORITY  "direct, simple, brief, vigorous, and lucid (h.w. fowler)"
 #define     P_PRINCIPAL "[grow a set] and build your wings on the way down (r. bradbury)"
@@ -129,26 +129,12 @@
 #include    <grp.h>               /* getgruid, getgrnam                       */
 #include    <fcntl.h>             /* creat, open, fcntl                       */
 #include    <sys/sysmacros.h>
+#include    <openssl/sha.h>       /* openssl implementation of sha1           */
 
 #include    <yLOG.h>         /* CUSTOM : heatherly program logging            */
 #include    "yURG.h"
 #include    <yCOLOR_solo.h>
-
-
-/*===[[ ySTR CLIPPING ]]======================================================*/
-#define     LEN_HUGE        10000       /* special cases only                 */
-#define     LEN_RECD         2000       /* longer likely means hacker         */
-#define     LEN_PATH          300       /* large, but not crazy length        */
-#define     LEN_FULL          200       /* large string length                */
-#define     LEN_HUND          100       /* conservative field/arg length      */
-#define     LEN_LONG           75       /* long descrition                    */
-#define     LEN_DESC           50       /* no one reads long descriptions     */
-#define     LEN_TITLE          30       /* for organizing                     */
-#define     LEN_LABEL          20       /* names and labels                   */
-#define     LEN_USER           12       /* user names                         */
-#define     LEN_HEX            10       /* hex codes                          */
-#define     LEN_TERSE          10       /* terse string                       */
-#define     LEN_SHORT           5       /* for small needs                    */
+#include    <yDLST_solo.h>
 
 
 typedef struct stat      tSTAT;

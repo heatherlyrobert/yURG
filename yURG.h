@@ -579,7 +579,6 @@ char        yURG_all_mute           (void);
 char        yURG_all_off            (void);
 char        yURG_all_live           (void);
 char        yURG_all_tmplive        (void);
-char*       yURG_mute_status        (void);
 
 
 
@@ -646,15 +645,14 @@ char        yURG_rm                 (cchar a_name [LEN_PATH]);
 char        yURG_mkdir              (cchar a_name [LEN_PATH], cchar a_own [LEN_LABEL], cchar a_grp [LEN_LABEL], cchar a_perms [LEN_LABEL]);
 char        yURG_rmdir              (cchar a_name [LEN_PATH]);
 /*---(checking)-------------*/
-char        yURG_detail             (cchar a_name [LEN_PATH], int *r_uid, char r_own [LEN_LABEL], int *r_gid, char r_grp [LEN_LABEL], int *r_perms, char r_pname [LEN_LABEL], char r_pdisp [LEN_TERSE], long *r_bytes, int *r_epoch, int *r_major, int *r_minor, char r_link [LEN_PATH]);
+char        yURG_detail             (cchar a_name [LEN_PATH], int *r_uid, char r_own [LEN_LABEL], int *r_gid, char r_grp [LEN_LABEL], int *r_perms, char r_pname [LEN_LABEL], char r_pdisp [LEN_TERSE], long *r_bytes, int *r_epoch, int *r_major, int *r_minor, char r_link [LEN_PATH], int *r_dev, int *r_inode, char r_hash [LEN_DESC]);
 char        yURG_exists             (cchar a_name [LEN_PATH]);
 /*---(file)-----------------*/
-char        yURG_lines              (cchar a_name [LEN_PATH]);
-char*       yURG_peek               (cchar *a_name, int n);
-char*       yURG_peek_clear         (cchar *a_name, int n);
-char        yURG_peek_exists        (cchar *a_name);
-char*       yURG_peek_fill          (cchar *a_name, int n);
-char*       yURG_peek_field         (cchar *a_name, int n);
+char*       yURG_peekier            (char a_style, cchar a_name [LEN_PATH], int n, int *a_count);
+char*       yURG_peek               (cchar a_name [LEN_PATH], int n);
+char*       yURG_peek_vis           (cchar a_name [LEN_PATH], int n);
+char*       yURG_peek_field         (cchar a_name [LEN_PATH], int n);
+int         yURG_lines              (cchar a_name [LEN_PATH]);
 /*---(comparision)----------*/
 char        yURG_diff               (cchar *a_actual, cchar *a_expect);
 /*---(done)-----------------*/
