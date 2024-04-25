@@ -10,6 +10,9 @@ yurg__setlog            (cchar *a_name, cchar a_log)
    char        rc          =    0;
    if (myURG.loud != 'y')                                  return 0;
    switch (a_log) {
+   case YLOG_NULL       :
+      myURG.logger = yLOGS_begin (a_name, a_log, YLOG_QUIET);
+      break;
    case YLOG_SYS        : case YLOG_HIST       :
    case YLOG_STDOUT     : case YLOG_ROOT       :
    case YLOG_TMP        :
@@ -79,6 +82,7 @@ yURG_logger        (int a_argc, char *a_argv[])
       break;
    }
    x_len  = strlen (x_progname);
+   /*> printf ("x_log = %c\n", x_log);                                                <*/
    /*---(process)------------------------*/
    for (i = 1; i < a_argc; ++i) {
       /*---(prepare)---------------------*/
@@ -135,6 +139,7 @@ yURG_logger        (int a_argc, char *a_argv[])
    /*---(jump out if not needed)---------*/
    if (myURG.loud != 'y')   return 0;
    /*---(startup logging)----------------*/
+   /*> printf ("x_log = %c\n", x_log);                                                <*/
    rc = yurg__setlog (x_progname, x_log);
    if (myURG.logger < 0) {
       DEBUG_ARGS    yLOG_exitr   (__FUNCTION__, myURG.logger);

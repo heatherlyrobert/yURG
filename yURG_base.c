@@ -136,28 +136,6 @@ const tYURG_INFO  yURG_info [MAX_URGS] = {
    {  'd' , "data"           , "pure data chewing, reviewing, gather"  , 'u', 'p', "DATA"     , "DATA_M"   , &myURG.data               },
    /*---(critical)-----------------------*/
    {  'ÿ' , "ystr"           , "heatherly ySTR string library"         , 'l', 's', "YSTR"     , "YSTR_M"   , &myURG.ystr               },
-   /*---(gregg)--------------------------*/
-   {  '-' , "touch"          , "touch interface"                       , 'p', '-', ""         , ""         , &myURG.touch              },
-   {  '-' , "raw"            , "data point -- raw collection"          , 'p', '-', ""         , ""         , &myURG.raw                },
-   {  '-' , "simple"         , "data point -- simplification"          , 'p', '-', ""         , ""         , &myURG.simple             },
-   {  '-' , "avg"            , "data point -- averaging"               , 'p', '-', ""         , ""         , &myURG.average            },
-   {  '-' , "crit"           , "data point -- critical points"         , 'p', '-', ""         , ""         , &myURG.critical           },
-   {  '-' , "circ"           , "data point -- circle marking"          , 'p', '-', ""         , ""         , &myURG.circle             },
-   {  '-' , "curv"           , "data point -- curve marking"           , 'p', '-', ""         , ""         , &myURG.curve              },
-   {  '-' , "line"           , "data point -- line straightening"      , 'p', '-', ""         , ""         , &myURG.line               },
-   {  '-' , "match"          , "data point -- match processing"        , 'p', '-', ""         , ""         , &myURG.match              },
-   {  '-' , "dict"           , "dictionary processing"                 , 'p', '-', ""         , ""         , &myURG.dict               },
-   /*---(graph/helios)-------------------*/
-   {  '-' , "mass"           , "group of nodes"                        , 'p', '-', ""         , ""         , &myURG.mass               },
-   {  '-' , "node"           , "node or vertex"                        , 'p', '-', ""         , ""         , &myURG.node               },
-   {  '-' , "edge"           , "edge or connection"                    , 'p', '-', ""         , ""         , &myURG.edge               },
-   {  '-' , "stats"          , "statistics and grouping"               , 'p', '-', ""         , ""         , &myURG.stats              },
-   /*---(hermes)-------------------------*/
-   {  '-' , "dirs"           , "hermes location tracking"              , 'p', '-', ""         , ""         , &myURG.dirs               },
-   {  '-' , "pkgs"           , "hermes package tracking"               , 'p', '-', ""         , ""         , &myURG.pkgs               },
-   {  '-' , "cmds"           , "hermes command tracking"               , 'p', '-', ""         , ""         , &myURG.cmds               },
-   {  '-' , "gentoo"         , "hermes gentoo/portage access"          , 'p', '-', ""         , ""         , &myURG.gentoo             },
-   {  '-' , "cache"          , "hermes cached database"                , 'p', '-', ""         , ""         , &myURG.cache              },
    /*---(spreadsheet)--------------------*/
    {  '-' , "locs"           , "spreadsheet location parsing and use"  , 'p', '-', ""         , ""         , &myURG.locs               },
    {  '-' , "cell"           , "spreadsheet cell creation and mtce"    , 'p', '-', ""         , ""         , &myURG.cell               },
@@ -236,6 +214,28 @@ const tYURG_INFO  yURG_info [MAX_URGS] = {
    {  '-' , "yvikeys_scale"  , "yVIKEYS vi-keys handling library"      , 'l', 'v', ""         , ""         , &myURG.yvikeys_scale      },
    {  '-' , "format"         , "hyleoroi formatting options"           , 'M', 'g', ""         , ""         , &myURG.format             },
    {  '-' , "color"          , "hyleoroi color usage and setup"        , 'M', 'g', ""         , ""         , &myURG.color              },
+   /*---(gregg)--------------------------*/
+   {  '-' , "touch"          , "touch interface"                       , 'p', '-', ""         , ""         , &myURG.touch              },
+   {  '-' , "raw"            , "data point -- raw collection"          , 'p', '-', ""         , ""         , &myURG.raw                },
+   {  '-' , "simple"         , "data point -- simplification"          , 'p', '-', ""         , ""         , &myURG.simple             },
+   {  '-' , "avg"            , "data point -- averaging"               , 'p', '-', ""         , ""         , &myURG.average            },
+   {  '-' , "crit"           , "data point -- critical points"         , 'p', '-', ""         , ""         , &myURG.critical           },
+   {  '-' , "circ"           , "data point -- circle marking"          , 'p', '-', ""         , ""         , &myURG.circle             },
+   {  '-' , "curv"           , "data point -- curve marking"           , 'p', '-', ""         , ""         , &myURG.curve              },
+   {  '-' , "line"           , "data point -- line straightening"      , 'p', '-', ""         , ""         , &myURG.line               },
+   {  '-' , "match"          , "data point -- match processing"        , 'p', '-', ""         , ""         , &myURG.match              },
+   {  '-' , "dict"           , "dictionary processing"                 , 'p', '-', ""         , ""         , &myURG.dict               },
+   /*---(graph/helios)-------------------*/
+   {  '-' , "mass"           , "group of nodes"                        , 'p', '-', ""         , ""         , &myURG.mass               },
+   {  '-' , "node"           , "node or vertex"                        , 'p', '-', ""         , ""         , &myURG.node               },
+   {  '-' , "edge"           , "edge or connection"                    , 'p', '-', ""         , ""         , &myURG.edge               },
+   {  '-' , "stats"          , "statistics and grouping"               , 'p', '-', ""         , ""         , &myURG.stats              },
+   /*---(hermes)-------------------------*/
+   {  '-' , "dirs"           , "hermes location tracking"              , 'p', '-', ""         , ""         , &myURG.dirs               },
+   {  '-' , "pkgs"           , "hermes package tracking"               , 'p', '-', ""         , ""         , &myURG.pkgs               },
+   {  '-' , "cmds"           , "hermes command tracking"               , 'p', '-', ""         , ""         , &myURG.cmds               },
+   {  '-' , "gentoo"         , "hermes gentoo/portage access"          , 'p', '-', ""         , ""         , &myURG.gentoo             },
+   {  '-' , "cache"          , "hermes cached database"                , 'p', '-', ""         , ""         , &myURG.cache              },
    /*---(end-of-list)--------------------*/
    {  '\0', "END-OF-LIST"    , "end of list"                           , ' ', ' ', ""         , ""         , NULL                      },
 };
