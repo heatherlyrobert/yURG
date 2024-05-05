@@ -22,7 +22,7 @@ static char  s_pprint  [LEN_RECD] = "";
 #define     MAX_PERM         50
 typedef     struct cPERM    tPERM;
 struct cPERM {
-   char        name        [LEN_LABEL];
+   char        name        [LEN_TERSE];
    char        desc        [LEN_HUND];
    int         value;
    char        disp        [LEN_TERSE];
@@ -333,7 +333,7 @@ yURG_detail             (cchar a_name [LEN_PATH], int *r_uid, char r_own [LEN_LA
    if (r_pname != NULL || r_pdisp != NULL) {
       for (i = 0; i < MAX_PERM; ++i) {
          if (s_perms [i].value != x_perms)  continue;
-         if (r_pname != NULL)   strlcpy (r_pname, s_perms [i].name, LEN_LABEL);
+         if (r_pname != NULL)   strlcpy (r_pname, s_perms [i].name, LEN_TERSE);
          if (r_pdisp != NULL)   strlcpy (r_pdisp, s_perms [i].disp, LEN_TERSE);
          break;
       }
@@ -550,6 +550,188 @@ int   yURG_lines        (cchar a_name [LEN_PATH])        { int c = 0; yURG_peeki
  *>    return s_pprint;                                                               <* 
  *> }                                                                                 <*/
 
+
+
+/*====================------------------------------------====================*/
+/*===----                      file comparision                        ----===*/
+/*====================------------------------------------====================*/
+static void      o___HELPERS____________o (void) {;}
+
+char
+yURG_user_data          (char a_type, char b_name [LEN_LABEL], int *b_uid, int *r_gid, char r_dir [LEN_HUND], char r_shell [LEN_HUND])
+{
+   /*---(locals)-----------+-----+-----+-*/
+   char        rce         =  -10;
+   tPASSWD    *x_owner     = NULL;
+   /*---(default)------------------------*/
+   if (b_name  != NULL && a_type != 'n')  strcpy (b_name, "");
+   if (b_uid   != NULL && a_type != 'i')  *b_uid = -1;
+   if (r_gid   != NULL)                   *r_gid = -1;
+   if (r_dir   != NULL)                   strcpy (r_dir, "");
+   if (r_shell != NULL)                   strcpy (r_shell, "");
+   /*---(defense)------------------------*/
+   --rce;  if (a_type == '\0' || strchr ("ni", a_type) == NULL)                return rce;
+   --rce;  if (a_type == 'n' && (b_name == NULL || strcmp (b_name, "") == 0))  return rce;
+   --rce;  if (a_type == 'i' && (b_uid  == NULL || *b_uid < 0))                 return rce;
+   /*---(get owner record)---------------*/
+   if (a_type == 'n')    x_owner = getpwnam (b_name);
+   else                  x_owner = getpwuid (*b_uid);
+   --rce;  if (x_owner == NULL)                                                return rce;
+   /*---(save back)----------------------*/
+   if (a_type == 'i' && b_name  != NULL)  strlcpy (b_name , x_owner->pw_name , LEN_LABEL);
+   if (a_type == 'n' && b_uid   != NULL)  *b_uid = x_owner->pw_uid;
+   if (r_gid   != NULL)                   *r_gid = x_owner->pw_gid;
+   if (r_dir   != NULL)                   strlcpy (r_dir  , x_owner->pw_dir  , LEN_HUND);
+   if (r_shell != NULL)                   strlcpy (r_shell, x_owner->pw_shell, LEN_HUND);
+   /*---(complete)-----------------------*/
+   return 0;
+}
+
+char
+yURG_group_data         (char a_type, char b_name [LEN_LABEL], int *b_gid)
+{
+   /*---(locals)-----------+-----+-----+-*/
+   char        rce         =  -10;
+   tGROUP     *x_group     = NULL;
+   /*---(default)------------------------*/
+   if (b_name  != NULL && a_type != 'n')  strcpy (b_name, "");
+   if (b_gid   != NULL && a_type != 'i')  *b_gid = -1;
+   /*---(defense)------------------------*/
+   --rce;  if (a_type == '\0' || strchr ("ni", a_type) == NULL)                return rce;
+   --rce;  if (a_type == 'n' && (b_name == NULL || strcmp (b_name, "") == 0))  return rce;
+   --rce;  if (a_type == 'i' && (b_gid  == NULL || *b_gid < 0))                 return rce;
+   /*---(get owner record)---------------*/
+   if (a_type == 'n')    x_group = getgrnam (b_name);
+   else                  x_group = getgrgid (*b_gid);
+   --rce;  if (x_group == NULL)                                                return rce;
+   /*---(save back)----------------------*/
+   if (a_type == 'i' && b_name  != NULL)  strlcpy (b_name , x_group->gr_name , LEN_LABEL);
+   if (a_type == 'n' && b_gid   != NULL)  *b_gid = x_group->gr_gid;
+   /*---(complete)-----------------------*/
+   return 0;
+}
+
+char
+yURG_perms_data         (char a_type, char b_name [LEN_LABEL], int *b_perms, char b_disp [LEN_TERSE])
+{
+   /*---(locals)-----------+-----+-----+-*/
+   char        rce         =  -10;
+   int         i           =    0;
+   uint        x_perms     =   -1;
+   char        o           [LEN_TERSE] = "";
+   int         l           =    0;
+   /*---(default)------------------------*/
+   if (b_name  != NULL && a_type != 'n')  strcpy (b_name, "");
+   if (b_perms != NULL && a_type != 'i')  *b_perms = -1;
+   if (b_disp  != NULL && a_type != 'd')  strcpy (b_disp, "");
+   /*---(defense)------------------------*/
+   --rce;  if (a_type == '\0' || strchr ("nid", a_type) == NULL)               return rce;
+   --rce;  if (a_type == 'n' && (b_name  == NULL || strcmp (b_name, "") == 0)) return rce;
+   --rce;  if (a_type == 'i' && (b_perms == NULL || b_perms < 0))              return rce;
+   --rce;  if (a_type == 'd' && (b_disp  == NULL || strcmp (b_disp, "") == 0)) return rce;
+   /*---(find by name)-------------------*/
+   --rce;  if (a_type == 'n') {
+      for (i = 0; i < MAX_PERM; ++i) {
+         if (strcmp (s_perms [i].name, b_name) != 0)  continue;
+         if (b_perms != NULL)  *b_perms = s_perms [i].value;
+         if (b_disp  != NULL)  strlcpy (b_disp , s_perms [i].disp  , LEN_TERSE);
+         return 0;
+      }
+      return rce;
+   }
+   /*---(find by display)----------------*/
+   --rce;  if (a_type == 'd') {
+      for (i = 0; i < MAX_PERM; ++i) {
+         if (strcmp (s_perms [i].disp, b_disp) != 0)  continue;
+         if (b_name  != NULL)  strlcpy (b_name , s_perms [i].name  , LEN_TERSE);
+         if (b_perms != NULL)  *b_perms = s_perms [i].value;
+         return 0;
+      }
+      l = strlen (b_disp);
+      if (l == 9) {
+         x_perms = 0;
+         if      (b_disp  [0] == '-')  ;
+         else if (b_disp  [0] == 'r')  x_perms += 00400;
+         else                          return rce;
+         if      (b_disp  [1] == '-')  ;
+         else if (b_disp  [1] == 'w')  x_perms += 00200;
+         else                          return rce;
+         if      (b_disp  [2] == '-')  ;
+         else if (b_disp  [2] == 'x')  x_perms += 00100;
+         else if (b_disp  [2] == 's')  x_perms += 04100;
+         else if (b_disp  [2] == 'S')  x_perms += 04000;
+         else                          return rce;
+         if      (b_disp  [3] == '-')  ;
+         else if (b_disp  [3] == 'r')  x_perms += 00040;
+         else                          return rce;
+         if      (b_disp  [4] == '-')  ;
+         else if (b_disp  [4] == 'w')  x_perms += 00020;
+         else                          return rce;
+         if      (b_disp  [5] == '-')  ;
+         else if (b_disp  [5] == 'x')  x_perms += 00010;
+         else if (b_disp  [5] == 's')  x_perms += 02010;
+         else if (b_disp  [5] == 'S')  x_perms += 02000;
+         else                          return rce;
+         if      (b_disp  [6] == '-')  ;
+         else if (b_disp  [6] == 'r')  x_perms += 00004;
+         else                          return rce;
+         if      (b_disp  [7] == '-')  ;
+         else if (b_disp  [7] == 'w')  x_perms += 00002;
+         else                          return rce;
+         if      (b_disp  [8] == '-')  ;
+         else if (b_disp  [8] == 'x')  x_perms += 00001;
+         else if (b_disp  [8] == 't')  x_perms += 01001;
+         else if (b_disp  [8] == 'T')  x_perms += 01000;
+         else                          return rce;
+         if (b_name  != NULL)  strlcpy (b_name , "(n/a)", LEN_TERSE);
+         if (b_perms != NULL)  *b_perms = x_perms;
+         return 0;
+      }
+      return rce;
+   }
+   /*---(find by number)-----------------*/
+   --rce;  if (a_type == 'i') {
+      for (i = 0; i < MAX_PERM; ++i) {
+         if (s_perms [i].value != *b_perms)  continue;
+         if (b_name  != NULL)  strlcpy (b_name , s_perms [i].name  , LEN_TERSE);
+         if (b_disp  != NULL)  strlcpy (b_disp , s_perms [i].disp  , LEN_TERSE);
+         return 0;
+      }
+      if (b_name  != NULL)  strlcpy (b_name , "(n/a)", LEN_TERSE);
+      if (b_disp != NULL) {
+         sprintf (o, "%-5.5o", *b_perms);
+         strcpy  (b_disp, "");
+         for (i = 2; i <= 4; ++i) {
+            switch (o [i]) {
+            case '7'  :  strcat (b_disp, "rwx");  break;
+            case '6'  :  strcat (b_disp, "rw-");  break;
+            case '5'  :  strcat (b_disp, "r-x");  break;
+            case '4'  :  strcat (b_disp, "r--");  break;
+            case '3'  :  strcat (b_disp, "-wx");  break;
+            case '2'  :  strcat (b_disp, "-w-");  break;
+            case '1'  :  strcat (b_disp, "--x");  break;
+            case '0'  :  strcat (b_disp, "---");  break;
+            }
+         }
+         i = o [1] - '0';
+         if (i >= 4) {
+            if (b_disp [2] == 'x')  b_disp [2] = 's';
+            else                    b_disp [2] = 'S';
+         }
+         if (i > 0 && i != 4 && i % 2 == 0) {
+            if (b_disp [5] == 'x')  b_disp [5] = 's';
+            else                    b_disp [5] = 'S';
+         }
+         if (i % 2 == 1) {
+            if (b_disp [8] == 'x')  b_disp [8] = 't';
+            else                    b_disp [8] = 'T';
+         }
+      }
+      return 0;
+   }
+   /*---(complete)-----------------------*/
+   return 0;
+}
 
 
 /*====================------------------------------------====================*/

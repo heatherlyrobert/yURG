@@ -38,8 +38,8 @@
 /*········· ··········· ´·····························´········································*/
 #define     P_VERMAJOR  "1.--, production improvements"
 #define     P_VERMINOR  "1.0-, restructure to improve"
-#define     P_VERNUM    "1.1d"
-#define     P_VERTXT    "added yURG_solo.h and yURG_uver.h version of peek as yURG_upeek"
+#define     P_VERNUM    "1.1e"
+#define     P_VERTXT    "added yURG_user_data, yUSR_group_data, and yUSR_perms_data"
 /*········· ··········· ´·····························´········································*/
 #define     P_PRIORITY  "direct, simple, brief, vigorous, and lucid (h.w. fowler)"
 #define     P_PRINCIPAL "[grow a set] and build your wings on the way down (r. bradbury)"

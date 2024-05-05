@@ -653,6 +653,10 @@ char*       yURG_peek               (cchar a_name [LEN_PATH], int n);
 char*       yURG_peek_vis           (cchar a_name [LEN_PATH], int n);
 char*       yURG_peek_field         (cchar a_name [LEN_PATH], int n);
 int         yURG_lines              (cchar a_name [LEN_PATH]);
+/*---(helpers)--------------*/
+char        yURG_user_data          (char a_type, char b_name [LEN_LABEL], int *b_uid, int *r_gid, char r_dir [LEN_HUND], char r_shell [LEN_HUND]);
+char        yURG_group_data         (char a_type, char b_name [LEN_LABEL], int *b_gid);
+char        yURG_perms_data         (char a_type, char b_name [LEN_LABEL], int *b_perms, char b_disp [LEN_TERSE]);
 /*---(comparision)----------*/
 char        yURG_diff               (cchar *a_actual, cchar *a_expect);
 /*---(done)-----------------*/
