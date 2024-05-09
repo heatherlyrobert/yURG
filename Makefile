@@ -6,10 +6,11 @@
 # basename of executable, header, and all code files
 NAME_BASE  = yURG
 # additional standard and outside libraries
-LIB_STD    = -lcrypto -lssl
 LIB_STD    = -lcrypto
 # all heatherly libraries used, debug versions whenever available
 LIB_MINE   =
+# all heatherly libraries used only in unit tests
+LIB_MYUNIT = -lyENV_debug
 # directory for production code, no trailing slash
 INST_DIR   = 
 
