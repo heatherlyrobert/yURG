@@ -4,9 +4,6 @@
 
 
 
-static char  s_ename   [LEN_FULL] = "";
-static FILE *s_efile   = NULL;
-static char  s_elive   = 'y';
 static char  s_eprint  [LEN_RECD] = "";
 
 
@@ -16,8 +13,8 @@ static char  s_eprint  [LEN_RECD] = "";
 /*====================------------------------------------====================*/
 static void  o___FILE____________o () { return; }
 
-char yurg_err_open      (char a_name [LEN_FULL]) { return yurg_msg__open  ('e', a_name, &s_efile, s_ename); }
-char yurg_err_close     (void) { return yurg_msg__close ('e', &s_efile, s_ename); }
+char yurg_err_open      (char a_name [LEN_FULL]) { return yurg_msg__open  ('e', a_name, &(myURG_priv.efile), myURG_priv.ename); }
+char yurg_err_close     (void) { return yurg_msg__close ('e', &(myURG_priv.efile), myURG_priv.ename); }
 
 
 
@@ -50,8 +47,8 @@ char yURG_err_custom    (char a_name [LEN_FULL]) { return yurg_err__dest (a_name
 /*====================------------------------------------====================*/
 static void  o___MUTING__________o () { return; }
 
-char yURG_err_mute  (void) { s_elive = '-'; }
-char yURG_err_live  (void) { s_elive = 'y'; }
+char yURG_err_mute  (void) { myURG_priv.elive = '-'; return 1; }
+char yURG_err_live  (void) { myURG_priv.elive = 'y'; return 1; }
 
 
 
@@ -69,7 +66,7 @@ yURG_err                (cchar a_type, cchar *a_format, ...)
    char        x_label     [LEN_LABEL] = "";
    va_list     x_args;
    /*---(check output)-------------------*/
-   if (s_efile == NULL)  yURG_err_std ();
+   if (myURG_priv.efile == NULL)  yURG_err_std ();
    /*---(prefix)-------------------------*/
    strcpy (x_suf, BOLD_OFF);
    switch (a_type) {
@@ -83,12 +80,12 @@ yURG_err                (cchar a_type, cchar *a_format, ...)
    }
    /*---(va_args)------------------------*/
    va_start   (x_args, a_format);
-   if (s_elive == 'y' && s_efile != NULL) {
+   if (myURG_priv.elive == 'y' && myURG_priv.efile != NULL) {
       vsnprintf  (s_eprint, LEN_FULL - 1, a_format, x_args);
-      /*> if (s_efile == NULL)  fprintf (s_efile, "%s%s%s\n", x_label, s_eprint, x_suf);            <* 
-       *> else                  fprintf (s_efile, "%s%s%s%s\n", x_pre, x_label, s_eprint, x_suf);   <*/
-      fprintf (s_efile, "%s%s%s%s\n", x_pre, x_label, s_eprint, x_suf);
-      fflush     (s_efile);
+      /*> if (myURG_priv.efile == NULL)  fprintf (myURG_priv.efile, "%s%s%s¦", x_label, s_eprint, x_suf);            <* 
+       *> else                  fprintf (myURG_priv.efile, "%s%s%s%s¦", x_pre, x_label, s_eprint, x_suf);   <*/
+      fprintf (myURG_priv.efile, "%s%s%s%s\n", x_pre, x_label, s_eprint, x_suf);
+      fflush     (myURG_priv.efile);
    }
    va_end     (x_args);
    /*---(complete)-----------------------*/
@@ -130,10 +127,10 @@ yurg_err__unit          (char *a_question, int a_num)
    strncpy (unit_answer, "ERR unit         : unknown request", 100);
    /*---(string testing)-----------------*/
    if (strcmp (a_question, "result"    ) == 0) {
-      snprintf  (u, LEN_LABEL, "%p",         s_efile);
-      snprintf  (t, LEN_HUND, "å%-.30sæ"   , s_ename);
+      snprintf  (u, LEN_LABEL, "%p",         myURG_priv.efile);
+      snprintf  (t, LEN_HUND, "å%-.30sæ"   , myURG_priv.ename);
       snprintf  (s, LEN_HUND, "%2då%-.60sæ", strlen (s_eprint), s_eprint);
-      snprintf (unit_answer, LEN_RECD, "ERR result       : %-10.10s  %-32.32s  %c  %s", u, t, s_elive, s);
+      snprintf (unit_answer, LEN_RECD, "ERR result       : %-10.10s  %-32.32s  %c  %s", u, t, myURG_priv.elive, s);
    }
    /*---(complete)-----------------------*/
    return unit_answer;

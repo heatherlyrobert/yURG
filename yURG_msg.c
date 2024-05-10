@@ -4,9 +4,6 @@
 
 
 
-static char  s_mname   [LEN_FULL] = "";
-static FILE *s_mfile   = NULL;
-static char  s_mlive   = 'y';
 static char  s_mprint  [LEN_RECD] = "";
 
 
@@ -77,7 +74,7 @@ yurg_msg__open          (char a_type, char a_name [LEN_FULL], char **f, char r_s
    return 1;
 }
 
-char yurg_msg_open      (char a_name [LEN_FULL]) { return yurg_msg__open  ('m', a_name, &s_mfile, s_mname); }
+char yurg_msg_open      (char a_name [LEN_FULL]) { return yurg_msg__open  ('m', a_name, &(myURG_priv.mfile), myURG_priv.mname); }
 
 char
 yurg_msg__close         (char a_type, char **f, char r_save [LEN_FULL])
@@ -129,7 +126,7 @@ yurg_msg__close         (char a_type, char **f, char r_save [LEN_FULL])
    return 1;
 }
 
-char yurg_msg_close     (void) { return yurg_msg__close ('m', &s_mfile, s_mname); }
+char yurg_msg_close     (void) { return yurg_msg__close ('m', &(myURG_priv.mfile), myURG_priv.mname); }
 
 
 
@@ -162,8 +159,8 @@ char yURG_msg_custom    (char a_name [LEN_FULL]) { return yurg_msg__dest (a_name
 /*====================------------------------------------====================*/
 static void  o___MUTING__________o () { return; }
 
-char yURG_msg_mute  (void) { s_mlive = '-'; }
-char yURG_msg_live  (void) { s_mlive = 'y'; }
+char yURG_msg_mute  (void) { myURG_priv.mlive = '-'; return 1; }
+char yURG_msg_live  (void) { myURG_priv.mlive = 'y'; return 1; }
 
 
 
@@ -180,7 +177,7 @@ yURG_msg                (cchar a_type, cchar *a_format, ...)
    char        x_suf       [LEN_LABEL] = "";
    va_list     x_args;
    /*---(check output)-------------------*/
-   if (s_mfile == NULL)  yURG_msg_std ();
+   if (myURG_priv.mfile == NULL)  yURG_msg_std ();
    /*---(prefix)-------------------------*/
    switch (a_type) {
    case ':' :  strcpy (x_pre, ""     );     break;
@@ -209,82 +206,13 @@ yURG_msg                (cchar a_type, cchar *a_format, ...)
    }
    /*---(va_args)------------------------*/
    va_start   (x_args, a_format);
-   if (s_mlive == 'y' && s_mfile != NULL) {
+   if (myURG_priv.mlive == 'y' && myURG_priv.mfile != NULL) {
       vsnprintf  (s_mprint, LEN_FULL - 1, a_format, x_args);
-      fprintf    (s_mfile, "%s%s%s\n", x_pre, s_mprint, x_suf);
-      fflush     (s_mfile);
+      fprintf    (myURG_priv.mfile, "%s%s%s\n", x_pre, s_mprint, x_suf);
+      fflush     (myURG_priv.mfile);
    }
    va_end     (x_args);
    /*---(complete)-----------------------*/
-   return 0;
-}
-
-
-
-/*====================------------------------------------====================*/
-/*===----                     message and error                        ----===*/
-/*====================------------------------------------====================*/
-static void  o___ALL_____________o () { return; }
-
-char
-yURG_all_clear          (void)
-{
-   yURG_msg_clear ();
-   yURG_err_clear ();
-   return 0;
-}
-
-char
-yURG_all_tmp            (void)
-{
-   yURG_msg_tmp ();
-   yURG_msg_clear ();
-   yURG_err_tmp ();
-   yURG_err_clear ();
-   return 0;
-}
-
-char
-yURG_all_live           (void)
-{
-   yURG_msg_live ();
-   yURG_err_live ();
-   return 0;
-}
-
-char
-yURG_all_none           (void)
-{
-   yURG_msg_none ();
-   yURG_err_none ();
-   return 0;
-}
-
-char
-yURG_all_mute           (void)
-{
-   yURG_msg_mute ();
-   yURG_err_mute ();
-   return 0;
-}
-
-char
-yURG_all_off            (void)
-{
-   yURG_all_mute ();
-   yURG_all_none ();
-   return 0;
-}
-
-char
-yURG_all_tmplive        (void)
-{
-   yURG_msg_tmp   ();
-   yURG_msg_live  ();
-   yURG_msg_clear ();
-   yURG_err_tmp   ();
-   yURG_err_live  ();
-   yURG_err_clear ();
    return 0;
 }
 
@@ -323,10 +251,10 @@ yurg_msg__unit          (char *a_question, int a_num)
    strncpy (unit_answer, "MSG unit         : unknown request", 100);
    /*---(string testing)-----------------*/
    if (strcmp (a_question, "result"    ) == 0) {
-      snprintf  (u, LEN_LABEL, "%p",         s_mfile);
-      snprintf  (t, LEN_HUND, "å%-.30sæ"   , s_mname);
+      snprintf  (u, LEN_LABEL, "%p",         myURG_priv.mfile);
+      snprintf  (t, LEN_HUND, "å%-.30sæ"   , myURG_priv.mname);
       snprintf  (s, LEN_HUND, "%2då%-.60sæ", strlen (s_mprint), s_mprint);
-      snprintf (unit_answer, LEN_RECD, "MSG result       : %-10.10s  %-32.32s  %c  %s", u, t, s_mlive, s);
+      snprintf (unit_answer, LEN_RECD, "MSG result       : %-10.10s  %-32.32s  %c  %s", u, t, myURG_priv.mlive, s);
    }
    /*---(complete)-----------------------*/
    return unit_answer;

@@ -18,7 +18,7 @@ PREP          include the prototype headers                                    
 SCRP          (STAGE) verify setting of stages from command line                 yURG_urgs                                                                                             ((01.---))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
 
    COND       prepare for run                                                    - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((01.001))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
-     exec     prepare for testing                  yURG__testquiet                                                                                                                   i_equal     0                                                                                                    
+     exec     prepare for testing                  yURG__unit_quiet                                                                                                                  i_equal     0                                                                                                    
      local    create program name                  - - - - - - - - - - - - -   char *x_name              = "yURG_TEST_debug";                                                                                                                                                                             
      local    create program name                  - - - - - - - - - - - - -   char *x_short             = "yURG_TEST";                                                                                                                                                                                   
      local    create urgent list                   - - - - - - - - - - - - -   char *x_urgs   [20]       = { x_name,"@@args", "", "", "", "", "", "", "", "" };                                                                                                                                           
@@ -61,7 +61,7 @@ SCRP          (STAGE) verify setting of stages from command line               
      get      ... stage list                       yurg_stage__unit            "settings"  ,  0                                                                                      s_equal     STAGE settings   : [yyy yyyyy]                                                               
 
    COND       end the test                                                       - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((01.003))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
-     exec     prepare for testing                  yURG__testend                                                                                                                     i_equal     0                                                                                                    
+     exec     prepare for testing                  yURG__unit_end                                                                                                                    i_equal     0                                                                                                    
 
 
 
@@ -70,7 +70,7 @@ SCRP          (STAGE) verify setting of stages from command line               
 SCRP          (STAGE) verify setting of stages from command line                 yURG_urgs                                                                                             ((01.---))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
 
    COND       prepare for run                                                    - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((01.001))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
-     exec     prepare for testing                  yURG__testquiet                                                                                                                   i_equal     0                                                                                                    
+     exec     prepare for testing                  yURG__unit_quiet                                                                                                                  i_equal     0                                                                                                    
 
    COND       start with no stages                                               - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((01.002))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
      code     update the stages                    - - - - - - - - - - - - -   strcpy (myURG.stage, "--- -----");                                                                                                                                                                           
@@ -133,7 +133,7 @@ SCRP          (STAGE) verify setting of stages from command line               
      exec     ... check logging                    yLOGS_mute_check                                                                                                                  i_equal     0                                                                                                    
 
    COND       end the test                                                       - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((01.003))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
-     exec     prepare for testing                  yURG__testend                                                                                                                     i_equal     0                                                                                                    
+     exec     prepare for testing                  yURG__unit_end                                                                                                                    i_equal     0                                                                                                    
 
 
 

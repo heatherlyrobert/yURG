@@ -3,6 +3,7 @@
 #include    "yURG_priv.h"
 
 tURG_DEBUG      myURG;
+tYURG_priv      myURG_priv;
 
 /*
  *  standard a-z urgents are for a application, not libraries.
@@ -24,16 +25,16 @@ tURG_DEBUG      myURG;
  *
  */
 
-char        s_lower     [30] = "";
-char        s_upper     [30] = "";
+/*> char        s_lower     [30] = "";                                                <*/
+/*> char        s_upper     [30] = "";                                                <*/
 
-int         s_curr      = -1;
+/*> int         s_curr      = -1;                                                     <*/
 
-char        s_origs     [LEN_RECD];      /* original urgs from yURG_urgs   */
-int         s_norig     = 0;
-char        s_nows      [LEN_RECD];      /* current state of urgs          */
-int         s_nnow      = 0;
-int         s_ntry      = 0;
+/*> char        s_origs     [LEN_RECD];      /+ original urgs from yURG_urgs   +/     <*/
+/*> int         s_norig     = 0;                                                      <*/
+/*> char        s_nows      [LEN_RECD];      /+ current state of urgs          +/     <*/
+/*> int         s_nnow      = 0;                                                      <*/
+/*> int         s_ntry      = 0;                                                      <*/
 
 tYURG_TYPE  yURG_type [MAX_URGS] = {
    {   'h' , '-' , "help by categories"      },
@@ -82,13 +83,13 @@ tYURG_TYPE  yURG_type [MAX_URGS] = {
  *> /+> {  'y' , "trav"           , "data searching and traversal"          , 'u', 'p', &myURG.trav               },   <+/   <* 
  *> /+> {  'm' , "mems"           , "data registers, memory, saving"        , 'u', 'p', &myURG.mems               },   <+/   <*/
 
-char   g_stage  [ 30] = "························";
-char   g_urgs   [300] = "································································································································································································································································";
-
-char   g_lower  [ 30] = "··························";
-char   g_upper  [ 30] = "··························";
-char   g_greek  [ 30] = "························";
-char   g_number [ 30] = "··········";
+/*> char   g_stage  [ 30] = "························";                                                                                                                                                                                                                                           <* 
+ *> char   g_urgs   [300] = "································································································································································································································································";   <* 
+ *>                                                                                                                                                                                                                                                                                               <* 
+ *> char   g_lower  [ 30] = "··························";                                                                                                                                                                                                                                         <* 
+ *> char   g_upper  [ 30] = "··························";                                                                                                                                                                                                                                         <* 
+ *> char   g_greek  [ 30] = "························";                                                                                                                                                                                                                                           <* 
+ *> char   g_number [ 30] = "··········";                                                                                                                                                                                                                                                         <*/
 
 const tYURG_INFO  yURG_info [MAX_URGS] = {
    /* abbr   ---full----------  ---desc--------------------------------  typ  sub  ---base---   ---mas----   pointer------------------ */
@@ -240,39 +241,6 @@ const tYURG_INFO  yURG_info [MAX_URGS] = {
    {  '\0', "END-OF-LIST"    , "end of list"                           , ' ', ' ', ""         , ""         , NULL                      },
 };
 
-
-
-/*====================------------------------------------====================*/
-/*===----                        utility functions                     ----===*/
-/*====================------------------------------------====================*/
-static void      o___UTILITY_________________o (void) {;}
-
-char        yURG_ver     [500];
-
-char*      /* ---- : return library versioning information -------------------*/
-yURG_version       (void)
-{
-   char    t [20] = "";
-#if    __TINYC__ > 0
-   strncpy (t, "[tcc built  ]", 15);
-#elif  __GNUC__  > 0
-   strncpy (t, "[gnu gcc    ]", 15);
-#elif  __HEPH__  > 0
-   strncpy (t, "[hephaestus ]", 15);
-#else
-   strncpy (t, "[unknown    ]", 15);
-#endif
-   snprintf (yURG_ver, 100, "%s   %s : %s", t, P_VERNUM, P_VERTXT);
-   return yURG_ver;
-}
-
-char         /*--> return status of debug ----------------[ ------ [ ------ ]-*/
-yURG_debugmode     (void)
-{
-   if (myURG.logger < 0)   return '-';
-   return 'y';
-}
-
 char         /*--> count number of set urgents -----------[ ------ [ ------ ]-*/
 yurg__count        (void)
 {
@@ -297,8 +265,8 @@ yurg__count        (void)
 char         /*--> create a string of current ------------[ ------ [ ------ ]-*/
 yURG_orig          (char *a_orig)
 {
-   if (a_orig != NULL)  strncpy (a_orig, s_origs, LEN_RECD);
-   return s_norig;
+   if (a_orig != NULL)  strncpy (a_orig, myURG_priv.origs, LEN_RECD);
+   return myURG_priv.norig;
 }
 
 char         /*--> create a string of current ------------[ ------ [ ------ ]-*/
@@ -311,7 +279,7 @@ yURG_curr          (char *a_curr)
    char        t           [LEN_LABEL];
    char        x_join      = 0;
    /*---(list)---------------------------*/
-   strncpy (s_nows, "", LEN_RECD);
+   strncpy (myURG_priv.nows, "", LEN_RECD);
    for (i = 0; i < MAX_URGS; ++i) {
       /*---(stop at end)-----------------*/
       if (yURG_info [i].abbr     == '\0')     break;
@@ -323,23 +291,23 @@ yURG_curr          (char *a_curr)
       if (yURG_info [i].abbr != '-')  {
          if (*(yURG_info [i].point) == YURG_ON )  sprintf (t, "%c", yURG_info [i].abbr);
          else                                     sprintf (t, "%c", toupper (yURG_info [i].abbr));
-         if (!x_join)  strncat (s_nows, " @", LEN_RECD);
-         strncat (s_nows, t, LEN_RECD);
+         if (!x_join)  strncat (myURG_priv.nows, " @", LEN_RECD);
+         strncat (myURG_priv.nows, t, LEN_RECD);
          x_join = 1;
       } else {
-         strncat (s_nows, " @@", LEN_RECD);
+         strncat (myURG_priv.nows, " @@", LEN_RECD);
          strcpy (t, yURG_info [i].full);
          for (k = 0; k < strlen (t); ++k)  t [k] = toupper (t [k]);
-         if (*(yURG_info [i].point) == YURG_ON )  strncat (s_nows, yURG_info [i].full, LEN_RECD);
-         else                                     strncat (s_nows, t, LEN_RECD);
+         if (*(yURG_info [i].point) == YURG_ON )  strncat (myURG_priv.nows, yURG_info [i].full, LEN_RECD);
+         else                                     strncat (myURG_priv.nows, t, LEN_RECD);
          x_join = 0;
       }
       ++c;
    }
-   strncat (s_nows, " ", LEN_RECD);
+   strncat (myURG_priv.nows, " ", LEN_RECD);
    /*---(save)---------------------------*/
-   if (a_curr != NULL)  strncpy (a_curr, s_nows, LEN_RECD);
-   s_nnow = c;
+   if (a_curr != NULL)  strncpy (a_curr, myURG_priv.nows, LEN_RECD);
+   myURG_priv.nnow = c;
    /*---(complete)-----------------------*/
    return c;
 }
@@ -351,8 +319,8 @@ yurg__strings      (void)
    int         i           = 0;
    char        c           = ' ';
    /*---(initialize)---------------------*/
-   strncpy  (s_lower, "--------------------------", LEN_FULL);
-   strncpy  (s_upper, "--------------------------", LEN_FULL);
+   strncpy  (myURG_priv.lower, "--------------------------", LEN_FULL);
+   strncpy  (myURG_priv.upper, "--------------------------", LEN_FULL);
    /*---(list)---------------------------*/
    for (i = 0; i < MAX_URGS; ++i) {
       /*---(stop at end)-----------------*/
@@ -365,8 +333,8 @@ yurg__strings      (void)
       /*---(append)----------------------*/
       c = yURG_info [i].abbr;
       if (c >= 'a' && c <= 'z') {
-         s_lower [c - 'a'] = c;
-         if (*(yURG_info [i].point) == 'Y')  s_upper [c - 'a'] = toupper (c);
+         myURG_priv.lower [c - 'a'] = c;
+         if (*(yURG_info [i].point) == 'Y')  myURG_priv.upper [c - 'a'] = toupper (c);
       }
    }
    /*---(complete)-----------------------*/
@@ -445,7 +413,7 @@ yURG_by_debug      (cchar *a_name, char *r_abbr)
 /*====================------------------------------------====================*/
 /*===----                          normal                              ----===*/
 /*====================------------------------------------====================*/
-static void      o___NORMAL__________________o (void) {;}
+static void      o___NORMAL________o (void) {;}
 
 char
 yurg__flip         (int i, cchar a_lower, cchar a_on)
@@ -542,7 +510,7 @@ yURG_by_abbr       (cchar a_abbr, cchar a_on)
    DEBUG_ARGS_M   yLOG_enter   (__FUNCTION__);
    DEBUG_ARGS_M   yLOG_value   ("a_abbr"    , a_abbr);
    /*---(prepare)------------------------*/
-   s_curr = -1;
+   myURG_priv.curr = -1;
    /*---(defense)------------------------*/
    --rce;  if (a_abbr <=  32) {
       DEBUG_ARGS_M   yLOG_note    ("a_abbr is control character");
@@ -576,7 +544,7 @@ yURG_by_abbr       (cchar a_abbr, cchar a_on)
       }
       /*---(set)-------------------------*/
       ++x_count;
-      s_curr = i;
+      myURG_priv.curr = i;
       rc = yurg__flip (i, a_abbr == x_lower, a_on);
       if (rc < 0) {
          DEBUG_ARGS_M   yLOG_exitr   (__FUNCTION__, rc);
@@ -615,7 +583,7 @@ yURG_by_name       (cchar *a_name, cchar a_on)
    /*---(header)-------------------------*/
    DEBUG_ARGS_M   yLOG_enter   (__FUNCTION__);
    /*---(prepare)------------------------*/
-   s_curr = -1;
+   myURG_priv.curr = -1;
    /*---(defense)------------------------*/
    DEBUG_ARGS_M   yLOG_point   ("a_name"    , a_name);
    --rce;  if (a_name == NULL) {
@@ -679,7 +647,7 @@ yURG_by_name       (cchar *a_name, cchar a_on)
       }
       /*---(set)-------------------------*/
       ++x_count;
-      s_curr = i;
+      myURG_priv.curr = i;
       rc = yurg__flip (i, a_name [0] == x_lower [0], a_on);
       if (rc < 0) {
          DEBUG_ARGS_M yLOG_exit    (__FUNCTION__);
@@ -748,7 +716,9 @@ yurg__mass_one     (char *a_var, char a_set)
 char       /*----: process the urgents/debugging -----------------------------*/
 yurg_mass          (cchar a_set, cchar a_extra)
 {
-   int         i           = 0;
+   /*---(locals)-----------+-----+-----+-*/
+   int         i           =    0;
+   /*---(walk table)---------------------*/
    for (i = 0; i < MAX_URGS; ++i) {
       /*---(stop at end)-----------------*/
       if (yURG_info [i].abbr  == '\0')     break;
@@ -758,30 +728,27 @@ yurg_mass          (cchar a_set, cchar a_extra)
       if (yURG_info [i].type  == '-')      continue;
       /*---(everything)------------------*/
       if (a_extra == 'E' ) {
-         /*> *(yURG_info [i].point) = a_set;                                          <*/
          yurg__mass_one (yURG_info [i].point, a_set);
          continue;
       }
       /*---(universal)-------------------*/
       if (yURG_info [i].type  == 'u') {
-         /*> *(yURG_info [i].point) = a_set;                                          <*/
          yurg__mass_one (yURG_info [i].point, a_set);
          continue;
       }
       /*---(mas)-------------------------*/
       if (yURG_info [i].type  == '#' && a_extra == 'M' ) {
-         /*> *(yURG_info [i].point) = a_set;                                          <*/
          yurg__mass_one (yURG_info [i].point, a_set);
          continue;
       }
       /*---(specialty)-------------------*/
       if (yURG_info [i].type  == 's' && a_extra == 'y' ) {
-         /*> *(yURG_info [i].point) = a_set;                                          <*/
          yurg__mass_one (yURG_info [i].point, a_set);
          continue;
       }
       /*---(done)------------------------*/
    }
+   /*---(complete)-----------------------*/
    return 0;
 }
 
@@ -790,7 +757,7 @@ yurg_mass          (cchar a_set, cchar a_extra)
 /*====================------------------------------------====================*/
 /*===----                           drivers                            ----===*/
 /*====================------------------------------------====================*/
-static void      o___DRIVERS_________________o (void) {;}
+static void      o___DRIVERS_______o (void) {;}
 
 char       /*----: process the urgents/debugging -----------------------------*/
 yURG_urgs          (int a_argc, char *a_argv[])
@@ -806,11 +773,11 @@ yURG_urgs          (int a_argc, char *a_argv[])
    /*---(header)-------------------------*/
    DEBUG_ARGS   yLOG_enter   (__FUNCTION__);
    /*---(prepare)------------------------*/
-   s_ntry  = 0;
-   strncpy (s_origs, "", LEN_RECD);
-   s_norig = 0;
-   strncpy (s_nows , "", LEN_RECD);
-   s_nnow  = 0;
+   myURG_priv.ntry  = 0;
+   strncpy (myURG_priv.origs, "", LEN_RECD);
+   myURG_priv.norig = 0;
+   strncpy (myURG_priv.nows , "", LEN_RECD);
+   myURG_priv.nnow  = 0;
    myURG.mute = '-';
    yurg_stage_clear ();
    /*---(process)------------------------*/
@@ -821,10 +788,10 @@ yURG_urgs          (int a_argc, char *a_argv[])
       ++x_total;
       if (a[0] != '@')  continue;
       x_len  = strlen (a);
-      ++s_ntry;
+      ++myURG_priv.ntry;
       /*---(process)---------------------*/
       rc     =  0;
-      s_curr = -1;
+      myURG_priv.curr = -1;
       /*---(single abbrev)---------------*/
       if (a [0] == '@' && x_len == 2) {
          DEBUG_ARGS   yLOG_note    ("single abbreviated version");
@@ -857,98 +824,28 @@ yURG_urgs          (int a_argc, char *a_argv[])
       /*---(unknown)---------------------*/
       else {
          DEBUG_ARGS   yLOG_note    ("could not identify version");
-         ++s_ntry;
+         ++myURG_priv.ntry;
       }
       /*---(report)----------------------*/
       DEBUG_ARGS   yLOG_value   ("rc"        , rc);
       if (rc >= 0) {
-         ++s_norig;
-         strncat (s_origs, " ", LEN_RECD);
-         strncat (s_origs, a  , LEN_RECD);
+         ++myURG_priv.norig;
+         strncat (myURG_priv.origs, " ", LEN_RECD);
+         strncat (myURG_priv.origs, a  , LEN_RECD);
       }
       /*---(done)------------------------*/
    }
-   strncat (s_origs, " ", LEN_RECD);
-   DEBUG_ARGS   yLOG_value   ("s_ntry"    , s_ntry);
-   DEBUG_ARGS   yLOG_value   ("s_norig"   , s_norig);
-   DEBUG_ARGS   yLOG_info    ("s_origs"   , s_origs);
+   strncat (myURG_priv.origs, " ", LEN_RECD);
+   DEBUG_ARGS   yLOG_value   ("ntry"      , myURG_priv.ntry);
+   DEBUG_ARGS   yLOG_value   ("norig"     , myURG_priv.norig);
+   DEBUG_ARGS   yLOG_info    ("origs"     , myURG_priv.origs);
    yurg_stage_prep ();
    yURG_summ   ();
    /*---(complete)-----------------------*/
    DEBUG_ARGS   yLOG_exit    (__FUNCTION__);
-   return s_norig;
+   return myURG_priv.norig;
 }
 
 char yURG_lognum             (void) { return myURG.logger; }
-
-
-
-/*====================------------------------------------====================*/
-/*===----                    unit testing accessor                     ----===*/
-/*====================------------------------------------====================*/
-static void      o___UNITTEST________________o (void) {;}
-
-char          unit_answer [LEN_RECD];
-
-char*            /* [------] unit test accessor ------------------------------*/
-yURG__unit         (char *a_question, int a_num)
-{
-   char        t           [LEN_RECD];
-   int         c           = 0;
-   /*---(initialize)---------------------*/
-   strncpy (unit_answer, "yURG_unit, unknown request", 100);
-   /*---(string testing)-----------------*/
-   if      (strncmp(a_question, "lower"     , 20)  == 0) {
-      yurg__strings ();
-      snprintf (unit_answer, LEN_RECD, "yURG lower       : [%s]", s_lower);
-   } else if (strncmp(a_question, "upper"     , 20)  == 0) {
-      yurg__strings ();
-      snprintf (unit_answer, LEN_RECD, "yURG upper       : [%s]", s_upper);
-   } else if (strncmp(a_question, "count"     , 20)  == 0) {
-      c = yurg__count ();
-      snprintf (unit_answer, LEN_RECD, "yURG count       : %d"  , c);
-   } else if (strncmp(a_question, "curr"      , 20)  == 0) {
-      if (s_curr < 0) {
-         snprintf (unit_answer, LEN_RECD, "yURG curr   (%2d) : %c %s"  , s_curr, '-', "n/a");
-      } else {
-         snprintf (unit_answer, LEN_RECD, "yURG curr   (%2d) : %c %s"  , s_curr, yURG_info [s_curr].abbr, yURG_info [s_curr].full);
-      }
-   } else if (strncmp(a_question, "orig"      , 20)  == 0) {
-      c = yURG_orig (t);
-      snprintf (unit_answer, LEN_RECD, "yURG orig   (%2d) : [%s]"  , c, t);
-   } else if (strncmp(a_question, "now"       , 20)  == 0) {
-      c = yURG_curr (t);
-      snprintf (unit_answer, LEN_RECD, "yURG now    (%2d) : [%s]"  , c, t);
-   }
-   /*---(complete)-----------------------*/
-   return unit_answer;
-}
-
-
-
-char       /*----: set up programgents/debugging -----------------------------*/
-yURG__testquiet     (void)
-{
-   char       *x_args [2]  = { "yURG_unit","@@quiet" };
-   s_curr = -1;   
-   yURG_logger (2, x_args);
-   return 0;
-}
-
-char       /*----: set up programgents/debugging -----------------------------*/
-yURG__testloud      (void)
-{
-   char       *x_args [2]  = { "yURG_unit","@@kitchen" };
-   s_curr = -1;   
-   yURG_logger (2, x_args);
-   return 0;
-}
-
-char       /*----: set up program urgents/debugging --------------------------*/
-yURG__testend       (void)
-{
-   DEBUG_ARGS   yLOGS_end     ();
-   return 0;
-}
 
 /*===[[ END ]]================================================================*/

@@ -17,14 +17,14 @@ PREP          include the prototype headers                                    
 SCRP    [··]  (MSG) verify openning and closing files                            0s   file            yURG_msg_open, yURG_msg_close                                                ((01.---))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
 
    COND       prepare for run                                                    - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((01.001))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
-     exec     prepare for testing                  yURG__testquiet                                                                                                                   i_equal     0                                                                                                    
+     exec     prepare for testing                  yURG__unit_quiet                                                                                                                  i_equal     0                                                                                                    
      local    create working variable              - - - - - - - - - - - - -   char       *x_name      = "/tmp/yurg_testing.txt";                                                                                                                                                                         
 
    COND       check default setting                                              - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((01.002))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
-     get      ... console setting                  yurg_msg__unit              "result"    ,  0                                                                                      s_equal     MSG result       : (nil)       åæ                                y   0åæ                                                           
+     get      ... console setting                  yurg_msg__unit              "result"    ,  0                                                                                      s_equal     MSG result       : ¬¬¬¬¬¬¬¬¬¬  åstdoutæ                          y   0åæ                                                           
 
-   COND       attempt to close when nothing open                                 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((01.003))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
-     exec     call close                           yurg_msg_close                                                                                                                    i_lesser    0                                                                                                    
+   COND       verify closing with stdout open                                    - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((01.003))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     exec     call close                           yurg_msg_close                                                                                                                    i_equal     1                                                                                                    
      get      ... console setting                  yurg_msg__unit              "result"    ,  0                                                                                      s_equal     MSG result       : (nil)       åæ                                y   0åæ                                                           
 
    COND       verify openning a specific file                                    - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((01.003))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
@@ -60,7 +60,7 @@ SCRP    [··]  (MSG) verify openning and closing files                          
      get      ... console setting                  yurg_msg__unit              "result"    ,  0                                                                                      s_equal     MSG result       : (nil)       åæ                                y   0åæ                                                           
 
    COND       end the test                                                       - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((03.010))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
-     exec     wrap up testing                      yURG__testend                                                                                                                     i_equal     0                                                                                                    
+     exec     wrap up testing                      yURG__unit_end                                                                                                                    i_equal     0                                                                                                    
 
 
 
@@ -69,7 +69,7 @@ SCRP    [··]  (MSG) verify openning and closing files                          
 SCRP    [··]  (MSG) verify changing message file                                 0s   dest            yURG_msg_none, yURG_msg_std, yURG_msg_tmp, yURG_msg_custom                   ((01.---))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
 
    COND       prepare for run                                                    - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((01.001))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
-     exec     prepare for testing                  yURG__testquiet                                                                                                                   i_equal     0                                                                                                    
+     exec     prepare for testing                  yURG__unit_quiet                                                                                                                  i_equal     0                                                                                                    
      exec     clear the errors                     yurg_rptg__test_clear                                                                                                             i_equal     0                                                                                                    
      local    create working variable              - - - - - - - - - - - - -   char       *x_argA [2]  = { "yURG_unit"    , "@@stdout"  };                                                                                                                                                                
      local    create working variable              - - - - - - - - - - - - -   char       *x_argB [2]  = { "yURG_unit"    , "@@tmpout"  };                                                                                                                                                                
@@ -78,7 +78,7 @@ SCRP    [··]  (MSG) verify changing message file                               
      local    create working variable              - - - - - - - - - - - - -   char       *x_argE [3]  = { "yURG_unit"    , "@@console" , "/console.txt"       };                                                                                                                                         
 
    COND       check default setting                                              - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((01.002))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
-     get      ... console setting                  yurg_msg__unit              "result"    ,  0                                                                                      s_equal     MSG result       : (nil)       åæ                                y   0åæ                                                           
+     get      ... console setting                  yurg_msg__unit              "result"    ,  0                                                                                      s_equal     MSG result       : ¬¬¬¬¬¬¬¬¬¬  åstdoutæ                          y   0åæ                                                           
 
    COND       change to bitbucket                                                - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((01.003))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
      exec     switch                               yURG_msg_none                                                                                                                     i_equal     1                                                                                                    
@@ -121,7 +121,7 @@ SCRP    [··]  (MSG) verify changing message file                               
      get      ... console setting                  yurg_msg__unit              "result"    ,  0                                                                                      s_equal     MSG result       : ¬¬¬¬¬¬¬¬¬¬  åstdoutæ                          y   0åæ                                                           
 
    COND       end the test                                                       - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((01.013))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
-     exec     wrap up testing                      yURG__testend                                                                                                                     i_equal     0                                                                                                    
+     exec     wrap up testing                      yURG__unit_end                                                                                                                    i_equal     0                                                                                                    
 
 
 
@@ -130,7 +130,7 @@ SCRP    [··]  (MSG) verify changing message file                               
 SCRP    [··]  (MSG) verify writing literal messages                               0s  literal         yURG_msg, yURG_msg_last, yURG_msg_clear                                      ((02.---))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
 
    COND       prepare for run                                                    - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((02.001))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
-     exec     prepare for testing                  yURG__testquiet                                                                                                                   i_equal     0                                                                                                    
+     exec     prepare for testing                  yURG__unit_quiet                                                                                                                  i_equal     0                                                                                                    
      exec     clear the messages                   yurg_rptg__test_clear                                                                                                             i_equal     0                                                                                                    
      local    create working variable              - - - - - - - - - - - - -   char        x_recd   [LEN_RECD] = "";                                                                                                                                                                                      
 
@@ -202,7 +202,7 @@ SCRP    [··]  (MSG) verify writing literal messages                            
 
    COND       end the test                                                       - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((02.012))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
      exec     remove msg file                      yURG_msg_purge                                                                                                                    i_equal     0                                                                                                    
-     exec     wrap up testing                      yURG__testend                                                                                                                     i_equal     0                                                                                                    
+     exec     wrap up testing                      yURG__unit_end                                                                                                                    i_equal     0                                                                                                    
 
 
 
@@ -211,7 +211,7 @@ SCRP    [··]  (MSG) verify writing literal messages                            
 SCRP    [··]  (MSG) verify writing colorized confirmations                        0s  confirm         yURG_msg, yURG_msg_last, yURG_msg_clear                                      ((02.---))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
 
    COND       prepare for run                                                    - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((02.001))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
-     exec     prepare for testing                  yURG__testquiet                                                                                                                   i_equal     0                                                                                                    
+     exec     prepare for testing                  yURG__unit_quiet                                                                                                                  i_equal     0                                                                                                    
      exec     clear the messages                   yurg_rptg__test_clear                                                                                                             i_equal     0                                                                                                    
      local    create working variable              - - - - - - - - - - - - -   char        x_recd   [LEN_RECD] = "";                                                                                                                                                                                      
 
@@ -278,7 +278,7 @@ SCRP    [··]  (MSG) verify writing colorized confirmations                     
 
    COND       end the test                                                       - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((02.012))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
      exec     remove msg file                      yURG_msg_purge                                                                                                                    i_equal     0                                                                                                    
-     exec     wrap up testing                      yURG__testend                                                                                                                     i_equal     0                                                                                                    
+     exec     wrap up testing                      yURG__unit_end                                                                                                                    i_equal     0                                                                                                    
 
 
 
@@ -287,7 +287,7 @@ SCRP    [··]  (MSG) verify writing colorized confirmations                     
 SCRP    [··]  (MSG) verify writing variable messages                              0s  variable        yURG_msg, yURG_msg_last, yURG_msg_clear                                      ((02.---))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
 
    COND       prepare for run                                                    - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((02.001))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
-     exec     prepare for testing                  yURG__testquiet                                                                                                                   i_equal     0                                                                                                    
+     exec     prepare for testing                  yURG__unit_quiet                                                                                                                  i_equal     0                                                                                                    
      exec     clear the messages                   yurg_rptg__test_clear                                                                                                             i_equal     0                                                                                                    
 
    COND       change to tmp console file                                         - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((02.002))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
@@ -312,7 +312,7 @@ SCRP    [··]  (MSG) verify writing variable messages                           
 
    COND       end the test                                                       - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((02.012))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
      exec     remove msg file                      yURG_msg_purge                                                                                                                    i_equal     0                                                                                                    
-     exec     wrap up testing                      yURG__testend                                                                                                                     i_equal     0                                                                                                    
+     exec     wrap up testing                      yURG__unit_end                                                                                                                    i_equal     0                                                                                                    
 
 
 
@@ -321,7 +321,7 @@ SCRP    [··]  (MSG) verify writing variable messages                           
 SCRP    [··]  (MSG) verify message muting                                        0s  muting          yURG_msg_mute, yURG_msg_live                                                 ((03.---))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
 
    COND       prepare for run                                                    - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((03.001))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
-     exec     prepare for testing                  yURG__testquiet                                                                                                                   i_equal     0                                                                                                    
+     exec     prepare for testing                  yURG__unit_quiet                                                                                                                  i_equal     0                                                                                                    
      exec     clear the errors                     yurg_rptg__test_clear                                                                                                             i_equal     0                                                                                                    
      local    create working variable              - - - - - - - - - - - - -   char        x_recd   [LEN_RECD] = "";                                                                                                                                                                                      
 
@@ -372,7 +372,7 @@ SCRP    [··]  (MSG) verify message muting                                      
      exec     remove msg file                      yURG_msg_purge                                                                                                                    i_equal     0                                                                                                    
 
    COND       end the test                                                       - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((03.010))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
-     exec     wrap up testing                      yURG__testend                                                                                                                     i_equal     0                                                                                                    
+     exec     wrap up testing                      yURG__unit_end                                                                                                                    i_equal     0                                                                                                    
 
 
 

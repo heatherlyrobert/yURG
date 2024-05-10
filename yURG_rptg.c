@@ -4,13 +4,7 @@
 
 
 
-static char  s_ename   [LEN_FULL] = "stderr";
-static FILE *s_efile   = NULL;
-static char  s_elive   = 'y';
 
-static char  s_mname   [LEN_FULL] = "stdout";
-static FILE *s_mfile   = NULL;
-static char  s_mlive   = 'y';
 
 static char  s_print   [LEN_RECD] = "";
 static char  s_perror  [LEN_FULL] = "";
@@ -242,11 +236,11 @@ char
 yurg_rptg__test_clear   (void)
 {
    yURG_err_clear ();
-   strcpy (s_ename, "stderr");
-   s_efile  = stderr;
+   strcpy (myURG_priv.ename, "stderr");
+   myURG_priv.efile  = stderr;
    yURG_msg_clear ();
-   strcpy (s_mname, "stdout");
-   s_mfile  = stdout;
+   strcpy (myURG_priv.mname, "stdout");
+   myURG_priv.mfile  = stdout;
    strcpy (s_print, "");
    return 0;
 }
@@ -260,12 +254,12 @@ yurg_rptg__unit         (char *a_question, int a_num)
    strncpy (unit_answer, "RPTG unit        : unknown request", 100);
    /*---(string testing)-----------------*/
    if      (strcmp (a_question, "error"     ) == 0) {
-      snprintf  (t, LEN_HUND, "å%-.15sæ"   , s_ename);
+      snprintf  (t, LEN_HUND, "å%-.15sæ"   , myURG_priv.ename);
       snprintf  (s, LEN_HUND, "%2då%-.60sæ", strlen (s_perror), s_perror);
       snprintf (unit_answer, LEN_RECD, "RPTG error       : %-17.17s  %s", t, s);
    }
    else if (strcmp (a_question, "console"   ) == 0) {
-      snprintf  (t, LEN_HUND, "å%-.15sæ"   , s_mname);
+      snprintf  (t, LEN_HUND, "å%-.15sæ"   , myURG_priv.mname);
       snprintf  (s, LEN_HUND, "%2då%-.60sæ", strlen (s_print), s_print);
       snprintf (unit_answer, LEN_RECD, "RPTG console     : %-17.17s  %s", t, s);
    }

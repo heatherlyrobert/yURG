@@ -38,8 +38,8 @@
 /*········· ··········· ´·····························´········································*/
 #define     P_VERMAJOR  "1.--, production improvements"
 #define     P_VERMINOR  "1.0-, restructure to improve"
-#define     P_VERNUM    "1.1f"
-#define     P_VERTXT    "migrated peek and data functions to yENV"
+#define     P_VERNUM    "1.1g"
+#define     P_VERTXT    "back to clean unit testing"
 /*········· ··········· ´·····························´········································*/
 #define     P_PRIORITY  "direct, simple, brief, vigorous, and lucid (h.w. fowler)"
 #define     P_PRINCIPAL "[grow a set] and build your wings on the way down (r. bradbury)"
@@ -141,6 +141,32 @@ typedef struct stat      tSTAT;
 typedef struct passwd    tPASSWD;
 typedef struct group     tGROUP;
 
+
+
+typedef struct cYURG_priv  tYURG_priv;
+struct cYURG_priv {
+   /*---(urgents)-----------*/
+   char        lower     [LEN_TITLE];
+   char        upper     [LEN_TITLE];
+   int         curr;
+   char        origs     [LEN_RECD];      /* original urgs from yURG_urgs   */
+   int         norig;
+   char        nows      [LEN_RECD];      /* current state of urgs          */
+   int         nnow;
+   int         ntry;
+   /*---(messages)----------*/
+   char        mlive;
+   char        mname     [LEN_FULL];
+   FILE       *mfile;
+   /*---(errors)------------*/
+   char        elive;
+   char        ename     [LEN_FULL];
+   FILE       *efile;
+   /*---(done)--------------*/
+};
+extern tYURG_priv  myURG_priv;
+
+
 #define        MAX_URGS        500
 
 typedef   struct  cYURG_TYPE   tYURG_TYPE;
@@ -177,11 +203,6 @@ char        yurg__flip              (int i, cchar a_lower, cchar a_on);
 char        yurg__multi             (cchar *a_string, cchar a_on);
 char        yurg__wild              (cchar *a_string, cchar a_on);
 
-char*       yURG__unit              (char *a_question, int a_num);
-char        yURG__testquiet         (void);
-char        yURG__testloud          (void);
-char        yURG__testend           (void);
-
 char        yurg_category           (cchar *a_prog, cchar a_type);
 char        yurg_urgents            (cchar *a_prog);
 
@@ -191,5 +212,18 @@ char*       yurg_stage__unit        (char *a_question, int a_num);
 
 char        yurg_rptg__test_clear   (void);
 char*       yurg_rptg__unit         (char *a_question, int a_num);
+
+
+
+
+/*===[[ yURG_test.c ]]========================================================*/
+/*········· ´······················ ´·········································*/
+char*       yURG__unit              (char *a_question, int a_num);
+char        yURG__unit_quiet        (void);
+char        yURG__unit_load         (void);
+char        yURG__unit_end          (void);
+/*---(done)-----------------*/
+
+
 
 #endif

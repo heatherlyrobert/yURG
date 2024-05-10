@@ -17,7 +17,7 @@ PREP          include the prototype headers                                    
 SCRP    [1a]  (ERR) verify changing error destination                            0s   dest            yURG_err_none, yURG_err_std, yURG_err_tmp, yURG_err_custom                   ((01.---))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
 
    COND       prepare for run                                                    - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((01.001))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
-     exec     prepare for testing                  yURG__testquiet                                                                                                                   i_equal     0                                                                                                    
+     exec     prepare for testing                  yURG__unit_quiet                                                                                                                  i_equal     0                                                                                                    
      exec     clear the errors                     yurg_rptg__test_clear                                                                                                             i_equal     0                                                                                                    
      local    create working variable              - - - - - - - - - - - - -   char       *x_argA [2]  = { "yURG_unit"    , "@@stderr"  };                                                                                                                                                                
      local    create working variable              - - - - - - - - - - - - -   char       *x_argB [2]  = { "yURG_unit"    , "@@tmperr"  };                                                                                                                                                                
@@ -26,7 +26,7 @@ SCRP    [1a]  (ERR) verify changing error destination                          
      local    create working variable              - - - - - - - - - - - - -   char       *x_argE [3]  = { "yURG_unit"    , "@@errors"  , "/error.txt"         };                                                                                                                                         
 
    COND       check default setting                                              - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((01.002))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
-     get      ... error setting                    yurg_err__unit              "result"    ,  0                                                                                      s_equal     ERR result       : (nil)       åæ                                y   0åæ                             
+     get      ... error setting                    yurg_err__unit              "result"    ,  0                                                                                      s_equal     ERR result       : ¬¬¬¬¬¬¬¬¬¬  åstderræ                          y   0åæ                             
 
    COND       change to bitbucket                                                - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((01.003))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
      exec     switch                               yURG_err_none                                                                                                                     i_equal     1                                                                                                    
@@ -69,7 +69,7 @@ SCRP    [1a]  (ERR) verify changing error destination                          
      get      ... error setting                    yurg_err__unit              "result"    ,  0                                                                                      s_equal     ERR result       : ¬¬¬¬¬¬¬¬¬¬  åstderræ                          y   0åæ                             
 
    COND       end the test                                                       - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((01.013))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
-     exec     prepare for testing                  yURG__testend                                                                                                                     i_equal     0                                                                                                    
+     exec     prepare for testing                  yURG__unit_end                                                                                                                    i_equal     0                                                                                                    
 
 
 
@@ -78,9 +78,12 @@ SCRP    [1a]  (ERR) verify changing error destination                          
 SCRP    [1b]  (ERR) verify writing to errors                                     0s  literal         yURG_err, yURG_err_last, yURG_err_clear                                      ((02.---))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
 
    COND       prepare for run                                                    - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((02.001))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
-     exec     prepare for testing                  yURG__testquiet                                                                                                                   i_equal     0                                                                                                    
+     exec     prepare for testing                  yURG__unit_quiet                                                                                                                  i_equal     0                                                                                                    
      exec     clear the errors                     yurg_rptg__test_clear                                                                                                             i_equal     0                                                                                                    
      local    create working variable              - - - - - - - - - - - - -   char        x_recd   [LEN_RECD] = "";                                                                                                                                                                                      
+
+   COND       check default setting                                              - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((01.002))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
+     get      ... error setting                    yurg_err__unit              "result"    ,  0                                                                                      s_equal     ERR result       : ¬¬¬¬¬¬¬¬¬¬  åstderræ                          y   0åæ                             
 
    COND       change to tmp error file                                           - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((02.002))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
      exec     switch                               yURG_err_tmp                                                                                                                      i_equal     1                                                                                                    
@@ -148,7 +151,7 @@ SCRP    [1b]  (ERR) verify writing to errors                                   
 
    COND       end the test                                                       - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((02.016))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
      exec     remove err file                      yURG_err_purge                                                                                                                    i_equal     0                                                                                                    
-     exec     prepare for testing                  yURG__testend                                                                                                                     i_equal     0                                                                                                    
+     exec     prepare for testing                  yURG__unit_end                                                                                                                    i_equal     0                                                                                                    
 
 
 
@@ -157,7 +160,7 @@ SCRP    [1b]  (ERR) verify writing to errors                                   
 SCRP    [1c]  (ERR) verify writing to errors                                     0s  variable        yURG_err, yURG_err_last, yURG_err_clear                                      ((02.---))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
 
    COND       prepare for run                                                    - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((02.001))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
-     exec     prepare for testing                  yURG__testquiet                                                                                                                   i_equal     0                                                                                                    
+     exec     prepare for testing                  yURG__unit_quiet                                                                                                                  i_equal     0                                                                                                    
      exec     clear the errors                     yurg_rptg__test_clear                                                                                                             i_equal     0                                                                                                    
      local    create working variable              - - - - - - - - - - - - -   char        x_recd   [LEN_RECD] = "";                                                                                                                                                                                      
 
@@ -198,7 +201,7 @@ SCRP    [1c]  (ERR) verify writing to errors                                   
      exec     remove msg file                      yURG_msg_purge                                                                                                                    i_equal     0                                                                                                    
 
    COND       end the test                                                       - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((02.016))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
-     exec     prepare for testing                  yURG__testend                                                                                                                     i_equal     0                                                                                                    
+     exec     prepare for testing                  yURG__unit_end                                                                                                                    i_equal     0                                                                                                    
 
 
 
@@ -207,7 +210,7 @@ SCRP    [1c]  (ERR) verify writing to errors                                   
 SCRP    [1d]  (ERR) verify error muting                                          0s  mute            yURG_err_mute, yURG_err_live                                                 ((03.---))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
 
    COND       prepare for run                                                    - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((03.001))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
-     exec     prepare for testing                  yURG__testquiet                                                                                                                   i_equal     0                                                                                                    
+     exec     prepare for testing                  yURG__unit_quiet                                                                                                                  i_equal     0                                                                                                    
      exec     clear the errors                     yurg_rptg__test_clear                                                                                                             i_equal     0                                                                                                    
      local    create working variable              - - - - - - - - - - - - -   char        x_recd   [LEN_RECD] = "";                                                                                                                                                                                      
 
@@ -253,7 +256,7 @@ SCRP    [1d]  (ERR) verify error muting                                        
 
    COND       end the test                                                       - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -   ((03.010))  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  
      exec     remove err file                      yURG_err_purge                                                                                                                    i_equal     0                                                                                                    
-     exec     prepare for testing                  yURG__testend                                                                                                                     i_equal     0                                                                                                    
+     exec     prepare for testing                  yURG__unit_end                                                                                                                    i_equal     0                                                                                                    
 
 
 

@@ -50,11 +50,22 @@ yURG_logger        (int a_argc, char *a_argv[])
    char        x_args      = '-';
    char        x_prog      = '-';
    char        x_verb      = '-';
+   /*---(messages)-----------------------*/
+   myURG_priv.mlive = 'y';
+   strcpy (myURG_priv.mname, "stdout");
+   myURG_priv.mfile = stdout;
+   /*---(errors)-------------------------*/
+   myURG_priv.elive = 'y';
+   strcpy (myURG_priv.ename, "stderr");
+   myURG_priv.efile = stderr;
    /*---(default urgents)----------------*/
+   myURG.cstage   = '·';
+   yLOGS_curr (myURG.cstage, '·');
    myURG.logger   =  -1;
    myURG.loud     = '-';
    myURG.use      = '-';
    yurg_mass    ('-', 'E');   /* turn everything off */
+   /*---(get basename)-------------------*/
    p = strrchr (a_argv [0], '/');
    if (p == NULL)  strncpy (x_progname, a_argv [0], LEN_FULL);
    else            strncpy (x_progname, p + 1     , LEN_FULL);
@@ -167,3 +178,20 @@ yurg_log__unit_find     (cchar *a_name, cchar a_log)
 {
 
 }
+
+char
+yURG_check              (uchar a_urg, uchar a_mas, char *a_flag, char *a_alt)
+{
+   /*> printf ("yURGS_check %c %c\n", a_urg, a_mas);                                  <*/
+   yLOGS_curr (myURG.cstage, a_urg);
+   if (a_mas == '-')  a_mas = 'y';
+   if (a_mas == 'y' && *a_flag != '-')  return 1;
+   if (a_mas == 'Y' && *a_flag == 'Y')  return 1;
+   if (a_alt != NULL) {
+      if (a_mas == 'y' && *a_alt  != '-')  return 1;
+      if (a_mas == 'Y' && *a_alt  == 'Y')  return 1;
+   }
+   return 0;
+}
+
+
