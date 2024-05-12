@@ -84,6 +84,12 @@ yURG__unit         (char *a_question, int a_num)
 char*
 yURG_mute_status        (void)
 {
+   char        s           [LEN_DESC]  = "";
+   char        t           [LEN_DESC]  = "";
+   sprintf (s, "%c %-10.10p å%-.20sæ", myURG_priv.mlive, myURG_priv.mfile, myURG_priv.mname);
+   sprintf (t, "%c %-10.10p å%-.20sæ", myURG_priv.elive, myURG_priv.efile, myURG_priv.ename);
+   sprintf (unit_answer, "msg %-35.35s, err %s");
+   return unit_answer;
 }
 
 

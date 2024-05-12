@@ -537,8 +537,8 @@ extern    tURG_DEBUG      myURG;
 #define     DEBUG_ARGS             if (yURG_check ('a' , '-', &(myURG.args),        NULL))
 #define     DEBUG_ARGS_M           if (yURG_check ('a' , 'Y', &(myURG.args),        NULL))
 /*---(input/output)-----------*/
-#define     DEBUG_FILE             if (yURG_check ('f' , '-', &(myURG.inpt), &(myURG.outp))
-#define     DEBUG_FILE_M           if (yURG_check ('f' , 'Y', &(myURG.inpt), &(myURG.outp))
+#define     DEBUG_FILE             if (yURG_check ('f' , '-', &(myURG.inpt), &(myURG.outp)))
+#define     DEBUG_FILE_M           if (yURG_check ('f' , 'Y', &(myURG.inpt), &(myURG.outp)))
 #define     DEBUG_INPT             if (yURG_check ('i' , '-', &(myURG.inpt),        NULL))
 #define     DEBUG_INPT_M           if (yURG_check ('i' , 'Y', &(myURG.inpt),        NULL))
 #define     DEBUG_OUTP             if (yURG_check ('o' , '-', &(myURG.outp),        NULL))
@@ -755,6 +755,7 @@ typedef     const char         cchar;
 /*········· ´······················ ´·········································*/
 char*       yURG_version            (void);
 char        yURG_debugmode          (void);
+char*       yURG_mute_status        (void);
 /*---(done)-----------------*/
 
 

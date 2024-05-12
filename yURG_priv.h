@@ -38,8 +38,8 @@
 /*········· ··········· ´·····························´········································*/
 #define     P_VERMAJOR  "1.--, production improvements"
 #define     P_VERMINOR  "1.0-, restructure to improve"
-#define     P_VERNUM    "1.1g"
-#define     P_VERTXT    "back to clean unit testing"
+#define     P_VERNUM    "1.1h"
+#define     P_VERTXT    "couple small fixes while testing in other programs"
 /*········· ··········· ´·····························´········································*/
 #define     P_PRIORITY  "direct, simple, brief, vigorous, and lucid (h.w. fowler)"
 #define     P_PRINCIPAL "[grow a set] and build your wings on the way down (r. bradbury)"
