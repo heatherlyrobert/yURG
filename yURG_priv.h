@@ -38,8 +38,8 @@
 /*········· ··········· ´·····························´········································*/
 #define     P_VERMAJOR  "1.--, production improvements"
 #define     P_VERMINOR  "1.1-, tuning"
-#define     P_VERNUM    "1.1h"
-#define     P_VERTXT    "explicit move from yENV to yENV_uver in unit testing"
+#define     P_VERNUM    "1.1i"
+#define     P_VERTXT    "major overhaul"
 /*········· ··········· ´·····························´········································*/
 #define     P_PRIORITY  "direct, simple, brief, vigorous, and lucid (h.w. fowler)"
 #define     P_PRINCIPAL "[grow a set] and build your wings on the way down (r. bradbury)"
@@ -146,22 +146,26 @@ typedef struct group     tGROUP;
 typedef struct cYURG_priv  tYURG_priv;
 struct cYURG_priv {
    /*---(urgents)-----------*/
-   char        lower     [LEN_TITLE];
-   char        upper     [LEN_TITLE];
+   char        lower       [LEN_TITLE];
+   char        upper       [LEN_TITLE];
    int         curr;
-   char        origs     [LEN_RECD];      /* original urgs from yURG_urgs   */
+   char        origs       [LEN_RECD];      /* original urgs from yURG_urgs   */
    int         norig;
-   char        nows      [LEN_RECD];      /* current state of urgs          */
+   char        nows        [LEN_RECD];      /* current state of urgs          */
    int         nnow;
    int         ntry;
    /*---(messages)----------*/
    char        mlive;
-   char        mname     [LEN_FULL];
+   char        mname       [LEN_FULL];
    FILE       *mfile;
+   char        mlive_save;
+   char        mname_save  [LEN_FULL];
    /*---(errors)------------*/
    char        elive;
-   char        ename     [LEN_FULL];
+   char        ename       [LEN_FULL];
    FILE       *efile;
+   char        elive_save;
+   char        ename_save  [LEN_FULL];
    /*---(done)--------------*/
 };
 extern tYURG_priv  myURG_priv;

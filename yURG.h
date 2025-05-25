@@ -7,7 +7,6 @@
 #include <ySTR_solo.h>
 
 
-
 #define        YURG_OFF        '-'
 #define        YURG_ON         'y'
 #define        YURG_MAS        'Y'
@@ -131,6 +130,7 @@
 #define  YURG_YVICU   'Y'
 #define  YURG_YVIOP   'Y'
 /*---(other libs)-----------*/
+#define  YURG_YENV    'ý'
 #define  YURG_YCALC   'ý'
 #define  YURG_YCOLOR  'ò'
 #define  YURG_YDLST   'ë'
@@ -256,6 +256,7 @@ struct cURG_DEBUG
    char        dtree;          /* displays the dependency tree and exits      */
    /*---(safe-strings)-------------------*/
    char        ystr;                   /* ySTR string library                 */
+   char        yenv;                   /* ySTR system library                 */
    char        ydlst;                  /* yDLST quad-double linked list       */
    char        ysched;                 /* ySCHED kernighan sched grammar      */
    char        yexec;                  /* yEXEC process dispatch and control  */
@@ -655,6 +656,8 @@ extern    tURG_DEBUG      myURG;
 /*---(ySTR)------------------------------*/
 #define     DEBUG_YSTR             if (yURG_check ('¢' , '-', &(myURG.ystr),        NULL))
 #define     DEBUG_YSTR_M           if (yURG_check ('¢' , 'Y', &(myURG.ystr),        NULL))
+#define     DEBUG_YENV             if (yURG_check ('¢' , '-', &(myURG.yenv),        NULL))
+#define     DEBUG_YENV_M           if (yURG_check ('¢' , 'Y', &(myURG.yenv),        NULL))
 #define     DEBUG_YDLST            if (yURG_check ('ë' , '-', &(myURG.ydlst),       NULL))
 #define     DEBUG_YDLST_M          if (yURG_check ('ë' , 'Y', &(myURG.ydlst),       NULL))
 #define     DEBUG_YSCHED           if (yURG_check ('¢' , '-', &(myURG.ysched),      NULL))
@@ -805,7 +808,7 @@ char        yURG_stage_check        (char a_stage);
 /*===[[ yURG_msg.c ]]=========================================================*/
 /*········· ´······················ ´·········································*/
 /*---(file)-----------------*/
-char        yurg_msg__open          (char a_type, char a_name [LEN_FULL], char **f, char r_save [LEN_FULL]);
+char        yurg_msg__open          (char a_type, char a_append, char a_name [LEN_FULL], char **f, char r_save [LEN_FULL]);
 char        yurg_msg_open           (char a_name [LEN_FULL]);
 char        yurg_msg__close         (char a_type, char **f, char r_save [LEN_FULL]);
 char        yurg_msg_close          (void);
@@ -815,6 +818,7 @@ char        yURG_msg_std            (void);
 char        yURG_msg_tmp            (void);
 char        yURG_msg_none           (void);
 char        yURG_msg_custom         (char a_name [LEN_FULL]);
+char        yURG_msg_atmp           (void);
 /*---(live)-----------------*/
 char        yURG_msg_live           (void);
 char        yURG_msg_mute           (void);
@@ -866,6 +870,8 @@ char        yURG_all_mute           (void);
 char        yURG_all_off            (void);
 char        yURG_all_live           (void);
 char        yURG_all_tmplive        (void);
+char        yURG_all_push           (void);
+char        yURG_all_pop            (void);
 /*---(done)-----------------*/
 
 

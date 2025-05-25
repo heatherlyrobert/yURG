@@ -137,6 +137,7 @@ const tYURG_INFO  yURG_info [MAX_URGS] = {
    {  'd' , "data"           , "pure data chewing, reviewing, gather"  , 'u', 'p', "DATA"     , "DATA_M"   , &myURG.data               },
    /*---(critical)-----------------------*/
    {  'ÿ' , "ystr"           , "heatherly ySTR string library"         , 'l', 's', "YSTR"     , "YSTR_M"   , &myURG.ystr               },
+   {  '-' , "yenv"           , "heatherly yENV system library"         , 'l', 's', "YENV"     , "YENV_M"   , &myURG.yenv               },
    /*---(spreadsheet)--------------------*/
    {  '-' , "locs"           , "spreadsheet location parsing and use"  , 'p', '-', ""         , ""         , &myURG.locs               },
    {  '-' , "cell"           , "spreadsheet cell creation and mtce"    , 'p', '-', ""         , ""         , &myURG.cell               },

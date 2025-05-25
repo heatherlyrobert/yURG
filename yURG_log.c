@@ -50,7 +50,9 @@ yURG_logger        (int a_argc, char *a_argv[])
    char        x_args      = '-';
    char        x_prog      = '-';
    char        x_verb      = '-';
+   char        x_dest      = '-';
    /*---(messages)-----------------------*/
+   x_dest = yURG_msg_where ();
    myURG_priv.mlive = 'y';
    strcpy (myURG_priv.mname, "stdout");
    myURG_priv.mfile = stdout;
@@ -60,7 +62,7 @@ yURG_logger        (int a_argc, char *a_argv[])
    myURG_priv.efile = stderr;
    /*---(default urgents)----------------*/
    myURG.cstage   = '·';
-   yLOGS_curr (myURG.cstage, '·');
+   yLOG_curr (myURG.cstage, '·');
    myURG.logger   =  -1;
    myURG.loud     = '-';
    myURG.use      = '-';
@@ -142,7 +144,18 @@ yURG_logger        (int a_argc, char *a_argv[])
       else if (strcmp (a, "@@noout"      ) == 0)  yURG_msg_none ();
       else if (strcmp (a, "@@tmpout"     ) == 0)  yURG_msg_tmp  ();
       else if (strcmp (a, "@@console"    ) == 0)  TWOARG yURG_msg_custom (a_argv [i]);
+      /*---(both)------------------------*/
+      else if (strcmp (a, "@@alltmp"     ) == 0)  {
+         if (x_dest == 't') strcpy (myURG_priv.mname, YURG_MSG);
+         yURG_msg_atmp  ();
+         yURG_msg_live  ();
+         yURG_msg_clear ();
+         yURG_err_tmp   ();
+         yURG_err_live  ();
+         yURG_err_clear ();
+      }
       /*> else if (strcmp (a, "@@help"       ) == 0) { yURG_help (x_basename); exit (0); }   <*/
+      /*---(done)------------------------*/
    }
    /*---(hande verbose flag)-------------*/
    if      (x_verb == 'v')    myURG.view = YURG_ON;
@@ -183,7 +196,7 @@ char
 yURG_check              (uchar a_urg, uchar a_mas, char *a_flag, char *a_alt)
 {
    /*> printf ("yURGS_check %c %c\n", a_urg, a_mas);                                  <*/
-   yLOGS_curr (myURG.cstage, a_urg);
+   yLOG_curr (myURG.cstage, a_urg);
    if (a_mas == '-')  a_mas = 'y';
    if (a_mas == 'y' && *a_flag != '-')  return 1;
    if (a_mas == 'Y' && *a_flag == 'Y')  return 1;

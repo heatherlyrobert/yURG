@@ -13,7 +13,7 @@ static char  s_eprint  [LEN_RECD] = "";
 /*====================------------------------------------====================*/
 static void  o___FILE____________o () { return; }
 
-char yurg_err_open      (char a_name [LEN_FULL]) { return yurg_msg__open  ('e', a_name, &(myURG_priv.efile), myURG_priv.ename); }
+char yurg_err_open      (char a_name [LEN_FULL]) { return yurg_msg__open  ('e', '-', a_name, &(myURG_priv.efile), myURG_priv.ename); }
 char yurg_err_close     (void) { return yurg_msg__close ('e', &(myURG_priv.efile), myURG_priv.ename); }
 
 
