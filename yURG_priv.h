@@ -38,8 +38,8 @@
 /*········· ··········· ´·····························´········································*/
 #define     P_VERMAJOR  "1.--, production improvements"
 #define     P_VERMINOR  "1.1-, tuning"
-#define     P_VERNUM    "1.1i"
-#define     P_VERTXT    "major overhaul"
+#define     P_VERNUM    "1.1j"
+#define     P_VERTXT    "added DEBUG_HFIX urgent"
 /*········· ··········· ´·····························´········································*/
 #define     P_PRIORITY  "direct, simple, brief, vigorous, and lucid (h.w. fowler)"
 #define     P_PRINCIPAL "[grow a set] and build your wings on the way down (r. bradbury)"

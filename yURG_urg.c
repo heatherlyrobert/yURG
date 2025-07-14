@@ -138,6 +138,7 @@ const tYURG_INFO  yURG_info [MAX_URGS] = {
    /*---(critical)-----------------------*/
    {  'ÿ' , "ystr"           , "heatherly ySTR string library"         , 'l', 's', "YSTR"     , "YSTR_M"   , &myURG.ystr               },
    {  '-' , "yenv"           , "heatherly yENV system library"         , 'l', 's', "YENV"     , "YENV_M"   , &myURG.yenv               },
+   {  'å' , "yscore"         , "heatherly ySCORE transaction scoring"  , 'l', 's', "YSCORE"   , "YSCORE_M" , &myURG.yscore             },
    /*---(spreadsheet)--------------------*/
    {  '-' , "locs"           , "spreadsheet location parsing and use"  , 'p', '-', ""         , ""         , &myURG.locs               },
    {  '-' , "cell"           , "spreadsheet cell creation and mtce"    , 'p', '-', ""         , ""         , &myURG.cell               },
@@ -238,6 +239,8 @@ const tYURG_INFO  yURG_info [MAX_URGS] = {
    {  '-' , "cmds"           , "hermes command tracking"               , 'p', '-', ""         , ""         , &myURG.cmds               },
    {  '-' , "gentoo"         , "hermes gentoo/portage access"          , 'p', '-', ""         , ""         , &myURG.gentoo             },
    {  '-' , "cache"          , "hermes cached database"                , 'p', '-', ""         , ""         , &myURG.cache              },
+   /*---(tools)--------------------------*/
+   {  '-' , "hfix"           , "VIM/IDE tool HFIX"                     , 'p', '-', ""         , ""         , &myURG.hfix               },
    /*---(end-of-list)--------------------*/
    {  '\0', "END-OF-LIST"    , "end of list"                           , ' ', ' ', ""         , ""         , NULL                      },
 };

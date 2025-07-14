@@ -131,6 +131,7 @@
 #define  YURG_YVIOP   'Y'
 /*---(other libs)-----------*/
 #define  YURG_YENV    'ý'
+#define  YURG_YSCORE  'å'
 #define  YURG_YCALC   'ý'
 #define  YURG_YCOLOR  'ò'
 #define  YURG_YDLST   'ë'
@@ -148,7 +149,7 @@
 #define  YURG_YSORT   'ú'
 #define  YURG_YDESK   'õ'    /* x-windows, w-windows, etc.                    */
 
-
+#
 
 typedef     unsigned char             uchar;
 typedef     unsigned int              uint;
@@ -257,6 +258,7 @@ struct cURG_DEBUG
    /*---(safe-strings)-------------------*/
    char        ystr;                   /* ySTR string library                 */
    char        yenv;                   /* ySTR system library                 */
+   char        yscore;                 /* ySCORE transaction scoring          */
    char        ydlst;                  /* yDLST quad-double linked list       */
    char        ysched;                 /* ySCHED kernighan sched grammar      */
    char        yexec;                  /* yEXEC process dispatch and control  */
@@ -300,6 +302,8 @@ struct cURG_DEBUG
    char        color;                  /* color formatting options            */
    /*---(ascii)--------------------------*/
    char        yascii;                 /* yASCII font and art                 */
+   /*---(tools)--------------------------*/
+   char        hfix;                   /* VIM/IDE tool HFIX                   */
    /*---(done)---------------------------*/
 };
 extern    tURG_DEBUG      myURG;
@@ -527,7 +531,7 @@ extern    tURG_DEBUG      myURG;
 
 /*---(silent)-----------------*/
 #define     NOT_DEBUG              if (myURG.use     == '-')
-#define     DEBUG_ANY              yLOGS_curr (myURG.cstage, '¢');
+#define     DEBUG_ANY              if (myURG.prog    != '-')
 #define     DEBUG_UNIT             if (myURG.prog    != '-')
 /*---(overall)----------------*/
 #define     DEBUG_VIEW             if (yURG_check ('v' , '-', &(myURG.view),        NULL))
@@ -658,6 +662,8 @@ extern    tURG_DEBUG      myURG;
 #define     DEBUG_YSTR_M           if (yURG_check ('¢' , 'Y', &(myURG.ystr),        NULL))
 #define     DEBUG_YENV             if (yURG_check ('¢' , '-', &(myURG.yenv),        NULL))
 #define     DEBUG_YENV_M           if (yURG_check ('¢' , 'Y', &(myURG.yenv),        NULL))
+#define     DEBUG_YSCORE           if (yURG_check ('¢' , '-', &(myURG.yscore),      NULL))
+#define     DEBUG_YSCORE_M         if (yURG_check ('¢' , 'Y', &(myURG.yscore),      NULL))
 #define     DEBUG_YDLST            if (yURG_check ('ë' , '-', &(myURG.ydlst),       NULL))
 #define     DEBUG_YDLST_M          if (yURG_check ('ë' , 'Y', &(myURG.ydlst),       NULL))
 #define     DEBUG_YSCHED           if (yURG_check ('¢' , '-', &(myURG.ysched),      NULL))
@@ -748,6 +754,10 @@ extern    tURG_DEBUG      myURG;
 #define     DEBUG_COLOR_M          if (yURG_check ('¢' , 'Y', &(myURG.color),       NULL))
 /*---(yascii)----------------------------*/
 #define     DEBUG_YASCII           if (yURG_check ('¢' , '-', &(myURG.yascii),      NULL))
+#define     DEBUG_COLOR            if (yURG_check ('¢' , '-', &(myURG.color),       NULL))
+/*---(tools)-----------------------------*/
+#define     DEBUG_HFIX             if (yURG_check ('¢' , '-', &(myURG.hfix),        NULL))
+#define     DEBUG_HFIX_M           if (yURG_check ('¢' , 'Y', &(myURG.hfix),        NULL))
 
 
 typedef     const char         cchar;
