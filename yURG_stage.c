@@ -20,12 +20,15 @@ yurg_stage_prep         (void)
    DEBUG_ARGS   yLOG_enter   (__FUNCTION__);
    DEBUG_ARGS   yLOG_info    ("stage beg" , myURG.stage);
    if (strcmp (myURG.stage, "--- -----") == 0) {
+      DEBUG_ARGS   yLOG_note    ("turn all on");
       strncpy (myURG.stage, "yyy yyyyy", LEN_LABEL);
+      DEBUG_ARGS   yLOG_info    ("update"    , myURG.stage);
       DEBUG_ARGS   yLOG_exit    (__FUNCTION__);
       return 0;
    }
    DEBUG_ARGS   yLOG_info    ("stage mid" , myURG.stage);
    if (myURG.stage [YURG_MID] == 'y') {
+      DEBUG_ARGS   yLOG_note    ("turn on all mids");
       myURG.stage [YURG_ONE] = 'y';
       myURG.stage [YURG_TWO] = 'y';
       myURG.stage [YURG_THR] = 'y';
