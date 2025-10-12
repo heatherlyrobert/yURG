@@ -38,8 +38,8 @@
 /*········· ··········· ´·····························´········································*/
 #define     P_VERMAJOR  "1.--, production improvements"
 #define     P_VERMINOR  "1.1-, tuning"
-#define     P_VERNUM    "1.1k"
-#define     P_VERTXT    "unit testing needed updates for new koios updates (local, etc.)"
+#define     P_VERNUM    "1.1l"
+#define     P_VERTXT    "updated a little for much better yURG_err/yURG_msg debugging in unit tests"
 /*········· ··········· ´·····························´········································*/
 #define     P_PRIORITY  "direct, simple, brief, vigorous, and lucid (h.w. fowler)"
 #define     P_PRINCIPAL "[grow a set] and build your wings on the way down (r. bradbury)"

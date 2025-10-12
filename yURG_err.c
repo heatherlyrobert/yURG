@@ -59,17 +59,31 @@ static void  o___DRIVER__________o () { return; }
 
 char
 yURG_err                (cchar a_type, cchar *a_format, ...)
-{
+{  /*---(design notes)-------------------*/
+   /*
+    *  Wwÿ  are warnings  (report and keep going)
+    *  Ffü  are fatals    (stop running)
+    *  :    is a blank line for spacing purporses
+    *
+    */
    /*---(locals)-----------+-----+-----+-*/
+   char        rce         =  -10;
    char        x_pre       [LEN_LABEL] = "";
    char        x_suf       [LEN_LABEL] = "";
    char        x_label     [LEN_LABEL] = "";
    va_list     x_args;
    /*---(check output)-------------------*/
    if (myURG_priv.efile == NULL)  yURG_err_std ();
+   /*---(defense)------------------------*/
+   --rce;  if (a_format == NULL)  {
+      sprintf (s_eprint, "INTERNAL, yURG_err called with null format string");
+      fprintf (myURG_priv.efile, "%s%s%s\n", BOLD_ERR, s_eprint, BOLD_OFF);
+      fflush  (myURG_priv.efile);
+      return rce;
+   }
    /*---(prefix)-------------------------*/
    strcpy (x_suf, BOLD_OFF);
-   switch (a_type) {
+   --rce;  switch (a_type) {
    case 'W' :  strcpy (x_pre, BOLD_YEL "");            strcpy (x_label, "warning, ");   break;
    case 'F' :  strcpy (x_pre, BOLD_ERR "");            strcpy (x_label, "FATAL, "  );   break;
    case 'w' :  strcpy (x_pre, "  " BOLD_YEL "** ");    strcpy (x_label, "warning, ");   break;
@@ -77,19 +91,24 @@ yURG_err                (cchar a_type, cchar *a_format, ...)
    case 'ÿ' :  strcpy (x_pre, "    " BOLD_YEL "** ");  strcpy (x_label, "warning, ");   break;
    case 'ü' :  strcpy (x_pre, "    " BOLD_ERR "** ");  strcpy (x_label, "FATAL, "  );   break;
    case ':' :  strcpy (x_suf, ""); break;
+   default  :  sprintf (s_eprint, "INTERNAL, yURG_err called with bad type (%3d) vs åWwÿFfü:æ", (uchar) a_type);
+               fprintf (myURG_priv.efile, "%s%s%s\n", BOLD_ERR, s_eprint, BOLD_OFF);
+               fflush  (myURG_priv.efile);
+               return rce;
    }
+   /*---(quick-out)----------------------*/
+   /*> DEBUGGING printf ("%c/%3d %-30.30s  %p\n", myURG_priv.elive, myURG_priv.elive, myURG_priv.ename, myURG_priv.efile);   <*/
+   if (myURG_priv.elive != 'y')   return 0;
+   if (myURG_priv.efile == NULL)  return 0;
    /*---(va_args)------------------------*/
    va_start   (x_args, a_format);
-   if (myURG_priv.elive == 'y' && myURG_priv.efile != NULL) {
-      vsnprintf  (s_eprint, LEN_FULL - 1, a_format, x_args);
-      /*> if (myURG_priv.efile == NULL)  fprintf (myURG_priv.efile, "%s%s%s¦", x_label, s_eprint, x_suf);            <* 
-       *> else                  fprintf (myURG_priv.efile, "%s%s%s%s¦", x_pre, x_label, s_eprint, x_suf);   <*/
-      fprintf (myURG_priv.efile, "%s%s%s%s\n", x_pre, x_label, s_eprint, x_suf);
-      fflush     (myURG_priv.efile);
-   }
+   vsnprintf  (s_eprint, LEN_FULL - 1, a_format, x_args);
+   fprintf (myURG_priv.efile, "%s%s%s%s\n", x_pre, x_label, s_eprint, x_suf);
+   /*> DEBUGGING printf  ("%s%s\n", x_label, s_eprint);                                         <*/
+   fflush     (myURG_priv.efile);
    va_end     (x_args);
    /*---(complete)-----------------------*/
-   return 0;
+   return 1;
 }
 
 

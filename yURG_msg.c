@@ -205,11 +205,19 @@ char
 yURG_msg                (cchar a_type, cchar *a_format, ...)
 {
    /*---(locals)-----------+-----+-----+-*/
+   char        rce         =  -10;
    char        x_pre       [LEN_LABEL] = "";
    char        x_suf       [LEN_LABEL] = "";
    va_list     x_args;
    /*---(check output)-------------------*/
    if (myURG_priv.mfile == NULL)  yURG_msg_std ();
+   /*---(defense)------------------------*/
+   --rce;  if (a_format == NULL)  {
+      sprintf (s_mprint, "INTERNAL, yURG_msg called with null format string");
+      fprintf (myURG_priv.mfile, "%s%s%s\n", BOLD_ERR, s_mprint, BOLD_OFF);
+      fflush  (myURG_priv.mfile);
+      return rce;
+   }
    /*---(prefix)-------------------------*/
    switch (a_type) {
    case ':' :  strcpy (x_pre, ""     );     break;
@@ -241,17 +249,24 @@ yURG_msg                (cchar a_type, cchar *a_format, ...)
    case '2' :  strcpy (x_pre, "    " BOLD_YEL "¡¡ FIXING !!, ");
                strcpy (x_suf, BOLD_OFF);
                break;
+   default  :  sprintf (s_mprint, "INTERNAL, yURG_msg called with bad type (%3d) vs å:>-+~pPwWfF12æ", (uchar) a_type);
+               fprintf (myURG_priv.mfile, "%s%s%s\n", BOLD_ERR, s_mprint, BOLD_OFF);
+               fflush  (myURG_priv.mfile);
+               return rce;
    }
+   /*---(quick-out)----------------------*/
+   /*> DEBUGGING printf ("%c/%3d %-30.30s  %p\n", myURG_priv.mlive, myURG_priv.mlive, myURG_priv.mname, myURG_priv.mfile);   <*/
+   if (myURG_priv.mlive != 'y')   return 0;
+   if (myURG_priv.mfile == NULL)  return 0;
    /*---(va_args)------------------------*/
    va_start   (x_args, a_format);
-   if (myURG_priv.mlive == 'y' && myURG_priv.mfile != NULL) {
-      vsnprintf  (s_mprint, LEN_FULL - 1, a_format, x_args);
-      fprintf    (myURG_priv.mfile, "%s%s%s\n", x_pre, s_mprint, x_suf);
-      fflush     (myURG_priv.mfile);
-   }
+   vsnprintf  (s_mprint, LEN_FULL - 1, a_format, x_args);
+   fprintf    (myURG_priv.mfile, "%s%s%s\n", x_pre, s_mprint, x_suf);
+   /*> DEBUGGING printf  ("%s%s\n", x_label, s_mprint);                                         <*/
+   fflush     (myURG_priv.mfile);
    va_end     (x_args);
    /*---(complete)-----------------------*/
-   return 0;
+   return 1;
 }
 
 
