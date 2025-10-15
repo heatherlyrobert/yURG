@@ -220,6 +220,7 @@ yURG_msg                (cchar a_type, cchar *a_format, ...)
    }
    /*---(prefix)-------------------------*/
    switch (a_type) {
+   case ' ' :  strcpy (x_pre, ""     );     break;
    case ':' :  strcpy (x_pre, ""     );     break;
    case '>' :  strcpy (x_pre, "\n"   );     break;
    case '-' :  strcpy (x_pre, "  -- ");     break;
@@ -249,7 +250,7 @@ yURG_msg                (cchar a_type, cchar *a_format, ...)
    case '2' :  strcpy (x_pre, "    " BOLD_YEL "¡¡ FIXING !!, ");
                strcpy (x_suf, BOLD_OFF);
                break;
-   default  :  sprintf (s_mprint, "INTERNAL, yURG_msg called with bad type (%3d) vs å:>-+~pPwWfF12æ", (uchar) a_type);
+   default  :  sprintf (s_mprint, "INTERNAL, yURG_msg called with bad type (%3d) vs å :>-+~pPwWfF12æ", (uchar) a_type);
                fprintf (myURG_priv.mfile, "%s%s%s\n", BOLD_ERR, s_mprint, BOLD_OFF);
                fflush  (myURG_priv.mfile);
                return rce;
