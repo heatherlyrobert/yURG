@@ -3,6 +3,37 @@
 #include    "yURG_priv.h"
 
 
+
+/*===[[ GNU GENERAL PUBLIC LICENSE (GPL) ]]===================================*/
+/*´´·········1·········2·········3·········4·········5·········6·········7·········8  */
+
+#define  P_COPYRIGHT   \
+   "copyright (c) 2014 robert.s.heatherly at balsashrike at gmail dot com"
+
+#define  P_LICENSE     \
+   "the only place you could have gotten this code is my github, my website,¦"   \
+   "or illegal sharing. given that, you should be aware that this is GPL licensed."
+
+#define  P_COPYLEFT    \
+   "the GPL COPYLEFT REQUIREMENT means any modifications or derivative works¦"   \
+   "must be released under the same GPL license, i.e, must be free and open."
+
+#define  P_INCLUDE     \
+   "the GPL DOCUMENTATION REQUIREMENT means that you must include the original¦" \
+   "copyright notice and the full licence text with any resulting anything."
+
+#define  P_AS_IS       \
+   "the GPL NO WARRANTY CLAUSE means the software is provided without any¦"      \
+   "warranty and the author cannot be held liable for damages."
+
+#define  P_THEFT    \
+   "if you knowingly violate the spirit of these ideas, i suspect you might¦"    \
+   "find any number of freedom-minded hackers may take it quite personally ;)"
+
+/*´´·········1·········2·········3·········4·········5·········6·········7·········8  */
+/*===[[ GNU GENERAL PUBLIC LICENSE (GPL) ]]===================================*/
+
+
 char
 yurg__setlog            (cchar *a_name, cchar a_log)
 {
@@ -96,6 +127,8 @@ yURG_logger        (int a_argc, char *a_argv[])
    }
    x_len  = strlen (x_progname);
    /*> printf ("x_log = %c\n", x_log);                                                <*/
+   /*---(MUTE)---------------------------*/
+   yURG_all_mute ();
    /*---(process)------------------------*/
    for (i = 1; i < a_argc; ++i) {
       /*---(prepare)---------------------*/
@@ -135,15 +168,15 @@ yURG_logger        (int a_argc, char *a_argv[])
       else if (strcmp (a, "@@program"    ) == 0) { yurg_category  (x_basename, 'p'); exit (0); }
       else if (strcmp (a, "@@library"    ) == 0) { yurg_category  (x_basename, 'l'); exit (0); }
       /*---(stderr)----------------------*/
-      else if (strcmp (a, "@@stderr"     ) == 0)  yURG_err_std  ();
-      else if (strcmp (a, "@@noerror"    ) == 0)  yURG_err_none ();
-      else if (strcmp (a, "@@tmperr"     ) == 0)  yURG_err_tmp  ();
-      else if (strcmp (a, "@@errors"     ) == 0)  TWOARG yURG_err_custom (a_argv [i]);
+      else if (strcmp (a, "@@stderr"     ) == 0) { yURG_err_std  (); yURG_err_live  (); }
+      else if (strcmp (a, "@@noerror"    ) == 0) { yURG_err_none (); yURG_err_mute  (); }
+      else if (strcmp (a, "@@tmperr"     ) == 0) { yURG_err_tmp  (); yURG_err_live  (); }
+      else if (strcmp (a, "@@errors"     ) == 0) { TWOARG yURG_err_custom (a_argv [i]); yURG_err_live  (); }
       /*---(stdout)----------------------*/
-      else if (strcmp (a, "@@stdout"     ) == 0)  yURG_msg_std  ();
-      else if (strcmp (a, "@@noout"      ) == 0)  yURG_msg_none ();
-      else if (strcmp (a, "@@tmpout"     ) == 0)  yURG_msg_tmp  ();
-      else if (strcmp (a, "@@console"    ) == 0)  TWOARG yURG_msg_custom (a_argv [i]);
+      else if (strcmp (a, "@@stdout"     ) == 0) { yURG_msg_std  (); yURG_msg_live  (); }
+      else if (strcmp (a, "@@noout"      ) == 0) { yURG_msg_none (); yURG_msg_mute  (); }
+      else if (strcmp (a, "@@tmpout"     ) == 0) { yURG_msg_tmp  (); yURG_msg_live  (); }
+      else if (strcmp (a, "@@console"    ) == 0) { TWOARG yURG_msg_custom (a_argv [i]); yURG_msg_live  (); }
       /*---(both)------------------------*/
       else if (strcmp (a, "@@alltmp"     ) == 0)  {
          if (x_dest == 't') strcpy (myURG_priv.mname, YURG_MSG);

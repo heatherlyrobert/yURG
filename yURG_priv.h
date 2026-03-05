@@ -4,6 +4,37 @@
 
 
 
+/*===[[ GNU GENERAL PUBLIC LICENSE (GPL) ]]===================================*/
+/*´´·········1·········2·········3·········4·········5·········6·········7·········8  */
+
+#define  P_COPYRIGHT   \
+   "copyright (c) 2014 robert.s.heatherly at balsashrike at gmail dot com"
+
+#define  P_LICENSE     \
+   "the only place you could have gotten this code is my github, my website,¦"   \
+   "or illegal sharing. given that, you should be aware that this is GPL licensed."
+
+#define  P_COPYLEFT    \
+   "the GPL COPYLEFT REQUIREMENT means any modifications or derivative works¦"   \
+   "must be released under the same GPL license, i.e, must be free and open."
+
+#define  P_INCLUDE     \
+   "the GPL DOCUMENTATION REQUIREMENT means that you must include the original¦" \
+   "copyright notice and the full licence text with any resulting anything."
+
+#define  P_AS_IS       \
+   "the GPL NO WARRANTY CLAUSE means the software is provided without any¦"      \
+   "warranty and the author cannot be held liable for damages."
+
+#define  P_THEFT    \
+   "if you knowingly violate the spirit of these ideas, i suspect you might¦"    \
+   "find any number of freedom-minded hackers may take it quite personally ;)"
+
+/*´´·········1·········2·········3·········4·········5·········6·········7·········8  */
+/*===[[ GNU GENERAL PUBLIC LICENSE (GPL) ]]===================================*/
+
+
+
 /*===[[ ONE_LINERS ]]=========================================================*/
 /*                      ´·········1·········2·········3·········4·········5·········6·········7*/
 /*--------- 12345678901 ´123456789-123456789-123456789-123456789-123456789-123456789-123456789-*/
@@ -37,21 +68,21 @@
 #define     P_CREATED   "2014-10"
 /*········· ··········· ´·····························´········································*/
 #define     P_VERMAJOR  "1.--, production improvements"
-#define     P_VERMINOR  "1.1-, tuning"
-#define     P_VERNUM    "1.1m"
-#define     P_VERTXT    "tiny: added ' ' to yURG_msg type to support older programs"
+#define     P_VERMINOR  "1.2-, catch-up with production use"
+#define     P_VERNUM    "1.2a"
+#define     P_VERTXT    "minor modifications to unit testing to fully check out"
 /*········· ··········· ´·····························´········································*/
 #define     P_PRIORITY  "direct, simple, brief, vigorous, and lucid (h.w. fowler)"
 #define     P_PRINCIPAL "[grow a set] and build your wings on the way down (r. bradbury)"
 #define     P_REMINDER  "there are many better options, but i *own* every byte of this one"
 /*········· ··········· ´·····························´········································*/
-#define     P_DEPANSI   ""
-#define     P_DEPPOSIX  ""
-#define     P_DEPCORE   "ySTR"
+#define     P_DEPANSI   "stdio,string,stdlib,stdarg,unistd"
+#define     P_DEPPOSIX  "ctype,sys/stat,pwd,grp,fcntl,sys/sysmacros,openssl/sha"
+#define     P_DEPCORE   ""
 #define     P_DEPVIKEY  ""
 #define     P_DEPGRAPH  ""
-#define     P_DEPOTHER  "ySORT,yJOBS,yEXEC"
-#define     P_DEPSOLO   ""
+#define     P_DEPOTHER  ""
+#define     P_DEPSOLO   "ySTR_solo,yCOLOR_solo,yDLST_solo"
 #define     P_DEPALIEN  ""
 /*········· ··········· ´·····························´········································*/
 /*--------- 12345678901 ´123456789-123456789-123456789-123456789-123456789-123456789-123456789-*/
@@ -219,14 +250,12 @@ char*       yurg_rptg__unit         (char *a_question, int a_num);
 
 
 
-
 /*===[[ yURG_test.c ]]========================================================*/
 /*········· ´······················ ´·········································*/
 char*       yURG__unit              (char *a_question, int a_num);
-char        yURG__unit_quiet        (void);
-char        yURG__unit_load         (void);
-char        yURG__unit_end          (void);
-/*---(done)-----------------*/
+/*········· ´······················ ´·········································*/
+
+
 
 
 
